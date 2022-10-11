@@ -378,8 +378,8 @@
     "selectStatus": "Select Status",
     "selectLabel": "Press enter to select",
     "selectedLabel": "Selected",
-    "deselectLabel": "Press enter to remove"
-
+    "deselectLabel": "Press enter to remove",
+    "sendToPharmacist": "Send to Pharmacist"
   },
   "noData": "No Data To Show",
   "cantJoinCall": "Not allowed to join call",

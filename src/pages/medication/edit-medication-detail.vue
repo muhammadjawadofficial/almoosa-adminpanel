@@ -96,8 +96,8 @@
                   class="
                     appointment-detail--value
                     mt-3
-                    w-25
                     custom-login-input-groups
+                    select-box
                   "
                 >
                   <multiselect
@@ -126,6 +126,14 @@
             </div>
           </b-card-body>
         </b-card>
+        <div class="appointment--action-buttons">
+          <button class="btn btn-secondary" @click="sendToPharma">
+            {{ $t("admin.update") }}
+          </button>
+          <button class="btn btn-secondary" @click="sendToPharma">
+            {{ $t("admin.sendToPharmacist") }}
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -149,6 +157,11 @@ export default {
     if (!this.getSelectedMedication) {
       this.navigateTo(this.backRoute);
     }
+  },
+  methods: {
+    sendToPharma() {
+      console.log("send to pharma");
+    },
   },
 };
 </script>
@@ -222,6 +235,10 @@ export default {
 .custom-login-input-groups {
   .multiselect {
     font-size: 1.25rem;
+  }
+  &.select-box {
+    width: 25%;
+    min-width: 200px;
   }
 }
 </style>
