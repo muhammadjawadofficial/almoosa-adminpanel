@@ -1,0 +1,144 @@
+{
+    "data": [
+        {
+            "titleEn": "Dashboard",
+            "titleAr": "لوحة القيادة",
+            "icon": "dashboard-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "path": "/dashboard"
+        },
+        {
+            "titleEn": "Appointments",
+            "titleAr": "جزء اليوم",
+            "icon": "clipboard-svg",
+            "type": "sub",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "children": [
+                {
+                    "titleEn": "View Appointments",
+                    "titleAr": "أدويتي",
+                    "type": "link",
+                    "path": "/appointment/view"
+                },
+                {
+                    "titleEn": "Appointment History",
+                    "titleAr": "أدويتي",
+                    "type": "link",
+                    "path": "/appointment/history"
+                },
+                {
+                    "titleEn": "Appointment Instructions",
+                    "titleAr": "أدويتي",
+                    "type": "link",
+                    "path": "/appointment/instructions"
+                }
+            ]
+        },
+        {
+            "titleEn": "Users",
+            "titleAr": "جزء اليوم",
+            "icon": "user-fill-svg",
+            "type": "sub",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "children": [
+                {
+                    "titleEn": "Patient Management",
+                    "titleAr": "أدويتي",
+                    "type": "link",
+                    "path": "/users/patient"
+                },
+                {
+                    "titleEn": "Physician Management",
+                    "titleAr": "أدويتي",
+                    "type": "link",
+                    "path": "/users/physician"
+                },
+                {
+                    "titleEn": "Staff Management",
+                    "titleAr": "أدويتي",
+                    "type": "link",
+                    "path": "/users/staff"
+                }
+            ]
+        },
+        {
+            "titleEn": "Promotions",
+            "titleAr": "جزء اليوم",
+            "icon": "bell-fill-svg",
+            "type": "sub",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "children": [
+                {
+                    "titleEn": "Promo Groups",
+                    "titleAr": "أدويتي",
+                    "type": "sub",
+                    "badgeType": "primary",
+                    "badgeValue": "",
+                    "active": false,
+                    "disabled": false,
+                    "children": [
+                        {
+                            "titleEn": "List",
+                            "titleAr": "أدويتي",
+                            "type": "link",
+                            "path": "/promotions/groups/list"
+                        },
+                        {
+                            "titleEn": "Create",
+                            "titleAr": "أدويتي",
+                            "type": "link",
+                            "path": "/promotions/groups/create"
+                        }
+                    ]
+                },
+                {
+                    "titleEn": "Promo Codes",
+                    "titleAr": "أدويتي",
+                    "type": "sub",
+                    "badgeType": "primary",
+                    "badgeValue": "",
+                    "active": false,
+                    "disabled": false,
+                    "children": [
+                        {
+                            "titleEn": "List",
+                            "titleAr": "أدويتي",
+                            "type": "link",
+                            "path": "/promotions/list"
+                        },
+                        {
+                            "titleEn": "Create",
+                            "titleAr": "أدويتي",
+                            "type": "link",
+                            "path": "/promotions/create"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "titleEn": "Medications",
+            "titleAr": "لوحة القيادة",
+            "icon": "dashboard-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "path": "/all-medication"
+        }
+    ]
+}
