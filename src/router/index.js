@@ -39,6 +39,11 @@ import myMedicationDetails from '../pages/medication/medication-detail'
 import allMedications from '../pages/medication/all-medications'
 import editMedicationDetails from '../pages/medication/edit-medication-detail'
 
+import healthEducationModule from '../pages/health-education'
+import healthEducationList from '../pages/health-education/health-education-list'
+import healthEducationDetails from '../pages/health-education/health-education-details'
+import healthEducationEdit from '../pages/health-education/health-education-edit'
+
 import UsersModule from '../pages/users'
 import PatientList from '../pages/users/patient-list'
 import PhysicianList from '../pages/users/physician-list'
@@ -88,6 +93,28 @@ const routes = [
         meta: {
           title: 'Medication Details | Almoosa Specialist Hospital',
         }
+      },
+      {
+        path: 'health-education',
+        component: healthEducationModule,
+        children: [
+          {
+            path: 'edit',
+            name: 'Health Education Edit',
+            component: healthEducationEdit,
+            meta: {
+              title: 'Health Education Edit | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: 'list',
+            name: 'Health Education List',
+            component: healthEducationList,
+            meta: {
+              title: 'Health Education List | Almoosa Specialist Hospital',
+            },
+          }
+        ]
       },
       {
         path: 'appointment',

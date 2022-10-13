@@ -58,4 +58,9 @@ export const apiPath = {
         specialities: getApiObject("get", "specialities"),
         uploadId: getApiObject("post", "mediafiles/upload"),
     },
+
+    healthEducation: {
+        fetch: getApiObject("get", "health-education"),
+        details: (id) => getApiObject("get", "health-education/" + id),
+    }
 };

@@ -139,6 +139,30 @@
             "active": false,
             "disabled": false,
             "path": "/all-medication"
+        },
+        {
+            "titleEn": "Health Education",
+            "titleAr": "أدويتي",
+            "type": "sub",
+            "icon": "dashboard-svg",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "children": [
+                {
+                    "titleEn": "List",
+                    "titleAr": "أدويتي",
+                    "type": "link",
+                    "path": "/health-education/list"
+                },
+                {
+                    "titleEn": "Create",
+                    "titleAr": "أدويتي",
+                    "type": "link",
+                    "path": "/health-education/edit"
+                }
+            ]
         }
     ]
 }
