@@ -77,10 +77,6 @@ export default {
   beforeRouteEnter(to, from, next) {
     next((v) => {
       v.backLink = from.name || "";
-      if (v.backLink)
-        if (!v.backLink.includes("Patient"))
-          v.appointmentId = v.getSelectedAppointment.id;
-        else v.appointmentId = v.getSelectedTimeline.id;
       return true;
     });
   },
@@ -89,14 +85,25 @@ export default {
     ...mapGetters("appointment", ["getSelectedAppointment"]),
   },
   mounted() {
+    if (!this.getSelectedAppointment && !this.getSelectedTimeline) {
+      this.pushBack();
+      return;
+    }
+    if (this.backLink)
+      this.appointmentId = this.backLink.includes("Patient")
+        ? this.getSelectedTimeline.id
+        : this.getSelectedAppointment.id;
     if (!this.appointmentId) {
-      if (this.backLink) this.navigateTo(this.backLink);
-      else this.navigateBack();
+      this.pushBack();
       return;
     }
     this.fetchTimelineDetails();
   },
   methods: {
+    pushBack() {
+      if (this.backLink) this.navigateTo(this.backLink);
+      else this.navigateBack();
+    },
     fetchTimelineDetails() {
       this.setLoadingState(true);
       timelineService.fetchTimelineDetails(this.appointmentId).then(

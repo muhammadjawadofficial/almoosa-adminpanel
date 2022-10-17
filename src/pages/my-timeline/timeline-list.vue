@@ -85,6 +85,10 @@ export default {
     };
   },
   mounted() {
+    if (!this.getSelectedUser) {
+      this.navigateTo("Patient Details");
+      return;
+    }
     this.fetchTimelines();
   },
   computed: {
