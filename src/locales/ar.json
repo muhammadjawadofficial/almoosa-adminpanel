@@ -298,6 +298,19 @@
     "cancelled" : "ألغيت",
     "success": "مكتمل"
   },
+  "servicesPackages": {
+    "title": "الخدمات والحزم",
+    "details": "حزمة من التفاصيل",
+    "viewDetails": "عرض التفاصيل",
+    "searchPlaceholder": "خدمة البحث",
+    "packageTitle": "عنوان الحزمة",
+    "price": "سعر",
+    "description": "وصف",
+    "serviceDetails": "تفاصيل الخدمة",
+    "bookPackage": "حزمة الكتاب",
+    "packageList": "قائمة العبوة",
+    "bookedPackages": "الحزم المحجوزة"
+  },
   "admin": {
     "searchPatientMrn": "ابحث عن المريض بالاسم / رقم السجل الطبي",
     "date": "تاريخ",
@@ -372,7 +385,21 @@
     "selectStatus": "حدد الحالة",
     "selectLabel": "اضغط على دخل لتحديد",
     "selectedLabel": "المحدد",
-    "deselectLabel": "اضغط على دخل للإزالة"
+    "deselectLabel": "اضغط على دخل للإزالة",
+    "sendToPharmacist": "أرسل إلى الصيدلي",
+    "services": "خدمات",
+    "noOfServices": "عدد الخدمات",
+    "price": "سعر",
+    "createdAt": "أنشئت في",
+    "serviceName": "اسم الخدمة",
+    "serviceDescription": "وصف الخدمة",
+    "uploadThumbnail": "تحميل الصورة المصغرة",
+    "remove": "إزالة",
+    "addPackage": "أضف الحزمة",
+    "createPackage": "إنشاء الحزمة",
+    "editPackage": "تحرير الحزمة",
+    "packageCreateSuccessMessage": "تم إنشاء حزمة جديدة بنجاح",
+    "photo": "صورة"
   },
   "noData": "لا توجد بيانات لإظهارها",
   "cantJoinCall": "غير مسموح له بالانضمام إلى المكالمة",

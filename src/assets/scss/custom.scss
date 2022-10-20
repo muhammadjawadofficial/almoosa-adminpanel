@@ -951,6 +951,45 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         }
     }
 }
+.package-information {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    .thumbnail-picture {
+        width: calc(min(100%, 30rem));
+        height: 20rem;
+        margin-inline-end: 1rem;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    .package-info-section {
+        .title {
+            color: $black;
+            font-size: 1.5rem;
+        }
+        .value {
+            color: $primary-color;
+            font-size: 2.5rem;
+        }
+    }
+}
+.upload-text {
+    text-align: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    font-size: 1.25rem;
+    &.center {
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        height: fit-content;
+    }
+}
 .doctor-details-container {
     padding-bottom: 3rem;
     .doctor-details {

@@ -44,6 +44,11 @@ import healthEducationList from '../pages/health-education/health-education-list
 import healthEducationDetails from '../pages/health-education/health-education-details'
 import healthEducationEdit from '../pages/health-education/health-education-edit'
 
+import servicesPackagesModule from '../pages/services-packages'
+import servicesPackagesList from '../pages/services-packages/services-packages-list'
+import servicesPackagesDetails from '../pages/services-packages/services-packages-details'
+import servicesPackagesForm from '../pages/services-packages/services-packages-form'
+
 import UsersModule from '../pages/users'
 import PatientList from '../pages/users/patient-list'
 import PhysicianList from '../pages/users/physician-list'
@@ -114,6 +119,44 @@ const routes = [
               title: 'Health Education List | Almoosa Specialist Hospital',
             },
           }
+        ]
+      },
+      {
+        path: 'services-packages',
+        component: servicesPackagesModule,
+        children: [
+          {
+            path: "create",
+            name: 'Services Packages Create',
+            component: servicesPackagesForm,
+            meta: {
+              title: 'Services Packages Create | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "list/edit",
+            name: 'Services Packages Edit',
+            component: servicesPackagesForm,
+            meta: {
+              title: 'Services Packages Edit | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "list",
+            name: 'Services Packages List',
+            component: servicesPackagesList,
+            meta: {
+              title: 'Services Packages List | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "list/details",
+            name: 'Services Packages Details',
+            component: servicesPackagesDetails,
+            meta: {
+              title: 'Services Packages Details | Almoosa Specialist Hospital',
+            },
+          },
         ]
       },
       {
@@ -329,7 +372,6 @@ const routes = [
                   title: 'Timeline Details | Almoosa Specialist Hospital',
                 },
               },
-
               {
                 path: 'medication',
                 component: myMedicationModule,

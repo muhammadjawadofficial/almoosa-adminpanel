@@ -67,4 +67,10 @@ export const apiPath = {
     timeline: {
         details: (id) => getApiObject("get", "timelines?appointment_id=" + id),
     },
+
+    servicesPackages: {
+        fetch: getApiObject("get", "packages"),
+        details: (id) => getApiObject("get", "health-education/" + id),
+        add: getApiObject("post", "packages"),
+    },
 };

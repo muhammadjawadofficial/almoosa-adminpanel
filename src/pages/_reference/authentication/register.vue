@@ -457,10 +457,4 @@ export default {
 .sign-up-link {
   text-align: right;
 }
-.upload-text {
-  text-align: center;
-  position: absolute;
-  left: 0;
-  right: 0;
-}
 </style>

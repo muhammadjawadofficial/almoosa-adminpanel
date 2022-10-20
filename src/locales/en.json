@@ -304,6 +304,19 @@
     "cancelled": "Cancelled",
     "success": "Completed"
   },
+  "servicesPackages": {
+    "title": "Services and Packages",
+    "details": "Package Details",
+    "viewDetails": "View Details",
+    "searchPlaceholder": "Search Service",
+    "packageTitle": "Package Title",
+    "price": "Price",
+    "description": "Description",
+    "serviceDetails": "Service Details",
+    "bookPackage": "Book Package",
+    "packageList": "Package List",
+    "bookedPackages": "Booked Packages"
+  },
   "admin": {
     "searchPatientMrn": "Search Patient by Name / MRN",
     "date": "Date",
@@ -379,7 +392,20 @@
     "selectLabel": "Press enter to select",
     "selectedLabel": "Selected",
     "deselectLabel": "Press enter to remove",
-    "sendToPharmacist": "Send to Pharmacist"
+    "sendToPharmacist": "Send to Pharmacist",
+    "services": "Services",
+    "noOfServices": "No. of Services",
+    "price": "Price",
+    "createdAt": "Created At",
+    "serviceName": "Service Name",
+    "serviceDescription": "Service Description",
+    "uploadThumbnail": "Upload Thumbnail",
+    "remove": "Remove",
+    "addPackage": "Add Package",
+    "createPackage": "Create Package",
+    "editPackage": "Edit Package",
+    "packageCreateSuccessMessage": "A new Package has been created successfully",
+    "photo": "Photo"
   },
   "noData": "No Data To Show",
   "cantJoinCall": "Not allowed to join call",

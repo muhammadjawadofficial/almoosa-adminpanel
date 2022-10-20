@@ -132,7 +132,7 @@
         {
             "titleEn": "Medications",
             "titleAr": "لوحة القيادة",
-            "icon": "dashboard-svg",
+            "icon": "health-shield-svg",
             "type": "link",
             "badgeType": "primary",
             "badgeValue": "",
@@ -144,7 +144,7 @@
             "titleEn": "Health Education",
             "titleAr": "أدويتي",
             "type": "sub",
-            "icon": "dashboard-svg",
+            "icon": "atom-svg",
             "badgeType": "primary",
             "badgeValue": "",
             "active": false,
@@ -161,6 +161,30 @@
                     "titleAr": "أدويتي",
                     "type": "link",
                     "path": "/health-education/edit"
+                }
+            ]
+        },
+        {
+            "titleEn": "Services & Packages",
+            "titleAr": "أدويتي",
+            "type": "sub",
+            "icon": "briefcase-svg",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "children": [
+                {
+                    "titleEn": "List",
+                    "titleAr": "أدويتي",
+                    "type": "link",
+                    "path": "/services-packages/list"
+                },
+                {
+                    "titleEn": "Create",
+                    "titleAr": "أدويتي",
+                    "type": "link",
+                    "path": "/services-packages/create"
                 }
             ]
         }
