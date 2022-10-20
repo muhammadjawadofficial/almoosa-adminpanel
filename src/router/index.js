@@ -49,6 +49,9 @@ import servicesPackagesList from '../pages/services-packages/services-packages-l
 import servicesPackagesDetails from '../pages/services-packages/services-packages-details'
 import servicesPackagesForm from '../pages/services-packages/services-packages-form'
 
+import FamilyMembersList from '../pages/family-members/family-members-list'
+import FamilyMembersProfile from '../pages/family-members/family-members-profile'
+
 import UsersModule from '../pages/users'
 import PatientList from '../pages/users/patient-list'
 import PhysicianList from '../pages/users/physician-list'
@@ -305,6 +308,22 @@ const routes = [
                 },
               },
               {
+                path: "family",
+                name: 'Patient Family Members',
+                component: FamilyMembersList,
+                meta: {
+                  title: 'Patient Family Members | Almoosa Specialist Hospital',
+                },
+              },
+              {
+                path: "family/profile",
+                name: 'Patient Family Member Profile',
+                component: FamilyMembersProfile,
+                meta: {
+                  title: 'Patient Family Member Profile | Almoosa Specialist Hospital',
+                },
+              },
+              {
                 path: "insurance",
                 name: 'Patient Medical Insurance',
                 component: insuranceMyMedical,
@@ -500,6 +519,29 @@ const routes = [
           },
         ]
       },
+      {
+        path: 'family-members',
+        component: RouterViewModule,
+        children: [
+          { path: '', name: "Family Members", redirect: { name: 'Family Members List' } },
+          {
+            path: "list",
+            name: 'Family Members List',
+            component: FamilyMembersList,
+            meta: {
+              title: 'Family Members List | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "profile",
+            name: 'Family Members Profile',
+            component: FamilyMembersProfile,
+            meta: {
+              title: 'Family Members Profile | Almoosa Specialist Hospital',
+            },
+          },
+        ]
+      }
     ]
   },
   {

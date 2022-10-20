@@ -51,7 +51,7 @@
 
           <b-card no-body class="transparent mb-2">
             <b-card-header header-tag="header" class="p-1 accordion-tab">
-              <b-button block>
+              <b-button block @click="navigateFamilyMembers()">
                 <div>Care For Family</div>
                 <div class="icon"></div>
               </b-button>
@@ -120,6 +120,9 @@ export default {
   methods: {
     navigateTimeline() {
       this.navigateTo("Patient Timeline List");
+    },
+    navigateFamilyMembers() {
+      this.navigateTo("Patient Family Members");
     },
     navigateLabReports() {
       this.navigateTo("Patient Lab Sessions");

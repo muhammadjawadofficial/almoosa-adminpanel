@@ -47,6 +47,7 @@ import pillBgSvg from './pill-bg-svg.vue'
 import atomFillSvg from './atom-fill-svg.vue'
 import briefcaseFillSvg from './briefcase-fill-svg.vue'
 import pillFillSvg from './pill-fill-svg.vue'
+import familyFillSvg from './family-fill.vue'
 
 Vue.component('new-badge-svg', newBadgeSvg)
 Vue.component('username-svg', usernameSvg)
@@ -95,3 +96,4 @@ Vue.component('pill-bg-svg', pillBgSvg)
 Vue.component('atom-fill-svg', atomFillSvg)
 Vue.component('briefcase-fill-svg', briefcaseFillSvg)
 Vue.component('pill-fill-svg', pillFillSvg)
+Vue.component('family-fill-svg', familyFillSvg)

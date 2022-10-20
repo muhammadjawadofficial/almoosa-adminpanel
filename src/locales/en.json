@@ -409,7 +409,8 @@
     "packageDeleteConfirm": "Are you sure you want to delete this package?",
     "delete": "Delete",
     "packageDeleteSuccess": "Package has been deleted successfully",
-    "patientDetails": "Patient Details"
+    "patientDetails": "Patient Details",
+    "patientFamilyMembers": "Patient Family Members"
   },
   "noData": "No Data To Show",
   "cantJoinCall": "Not allowed to join call",

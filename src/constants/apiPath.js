@@ -73,4 +73,9 @@ export const apiPath = {
         details: (id) => getApiObject("get", "health-education/" + id),
         add: getApiObject("post", "packages"),
     },
+
+    familyMembers: {
+        fetch: (id) => getApiObject("get", "users?guardian_id=" + id),
+        add: getApiObject("post", "family-members/add"),
+    }
 };
