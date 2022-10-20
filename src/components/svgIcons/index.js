@@ -44,6 +44,9 @@ import labBgSvg from './lab-bg-svg.vue'
 import bellBgSvg from './bell-bg-svg.vue'
 import shieldBgSvg from './shield-bg-svg.vue'
 import pillBgSvg from './pill-bg-svg.vue'
+import atomFillSvg from './atom-fill-svg.vue'
+import briefcaseFillSvg from './briefcase-fill-svg.vue'
+import pillFillSvg from './pill-fill-svg.vue'
 
 Vue.component('new-badge-svg', newBadgeSvg)
 Vue.component('username-svg', usernameSvg)
@@ -89,3 +92,6 @@ Vue.component('lab-bg-svg', labBgSvg)
 Vue.component('bell-bg-svg', bellBgSvg)
 Vue.component('shield-bg-svg', shieldBgSvg)
 Vue.component('pill-bg-svg', pillBgSvg)
+Vue.component('atom-fill-svg', atomFillSvg)
+Vue.component('briefcase-fill-svg', briefcaseFillSvg)
+Vue.component('pill-fill-svg', pillFillSvg)

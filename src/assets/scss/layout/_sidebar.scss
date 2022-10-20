@@ -1729,6 +1729,9 @@
                 padding: 0 0.625em;
                 position: relative;
 
+                .svg-icon-stroke-bg {
+                  stroke: $tertiary-color;
+                }
                 &.active {
                   .sidebar-link {
                     .according-menu {
@@ -1751,10 +1754,6 @@
                       }
                       .svg-icon-fill {
                         fill: $tertiary-color;
-                      }
-                      .svg-icon-stroke,
-                      .svg-icon-stroke-bg {
-                        stroke: $tertiary-color;
                       }
 
                       svg,
