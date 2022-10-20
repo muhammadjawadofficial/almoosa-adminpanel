@@ -4,7 +4,7 @@
     v-if="details"
   >
     <back-navigation
-      :title="$t('admin.appointmentHistory')"
+      :title="$t('admin.patientDetails')"
       backLink="Patient List"
     />
     <div class="row">
