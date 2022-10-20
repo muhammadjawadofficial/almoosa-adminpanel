@@ -399,7 +399,10 @@
     "createPackage": "إنشاء الحزمة",
     "editPackage": "تحرير الحزمة",
     "packageCreateSuccessMessage": "تم إنشاء حزمة جديدة بنجاح",
-    "photo": "صورة"
+    "photo": "صورة",
+    "packageDeleteConfirm": "هل أنت متأكد أنك تريد حذف هذه الحزمة؟",
+    "delete": "حذف",
+    "packageDeleteSuccess": "تم حذف الحزمة بنجاح"
   },
   "noData": "لا توجد بيانات لإظهارها",
   "cantJoinCall": "غير مسموح له بالانضمام إلى المكالمة",

@@ -405,7 +405,10 @@
     "createPackage": "Create Package",
     "editPackage": "Edit Package",
     "packageCreateSuccessMessage": "A new Package has been created successfully",
-    "photo": "Photo"
+    "photo": "Photo",
+    "packageDeleteConfirm": "Are you sure you want to delete this package?",
+    "delete": "Delete",
+    "packageDeleteSuccess": "Package has been deleted successfully"
   },
   "noData": "No Data To Show",
   "cantJoinCall": "Not allowed to join call",

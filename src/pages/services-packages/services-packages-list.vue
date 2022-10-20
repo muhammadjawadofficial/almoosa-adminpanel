@@ -81,7 +81,11 @@
               type="edit"
               @click.stop="editPackage(data.item)"
             ></feather>
-            <feather class="pointer" type="trash"></feather>
+            <feather
+              class="pointer"
+              type="trash"
+              @click.stop="deletePackage(data.item)"
+            ></feather>
           </div>
         </template>
         <template v-else-if="data.field.key == 'photo'">
@@ -156,6 +160,23 @@ export default {
     editPackage(e) {
       this.setSelectedPackage(e);
       this.navigateTo("Services Packages Edit");
+    },
+    deletePackage(e) {
+      this.confirmIconModal(
+        this.$t("areYouSure"),
+        this.$t("admin.packageDeleteConfirm"),
+        "m-check",
+        this.$t("admin.delete")
+      ).then((res) => {
+        if (res.value) {
+          this.setLoadingState(true);
+          this.successIconModal(
+            this.$t("changesDone"),
+            this.$t("admin.packageDeleteSuccess")
+          );
+          this.setLoadingState(false);
+        }
+      });
     },
     dateChange(val) {
       this.fromDate = val[0];
