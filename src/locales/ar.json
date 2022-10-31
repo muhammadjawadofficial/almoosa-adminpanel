@@ -403,7 +403,11 @@
     "packageDeleteConfirm": "هل أنت متأكد أنك تريد حذف هذه الحزمة؟",
     "delete": "حذف",
     "packageDeleteSuccess": "تم حذف الحزمة بنجاح",
-    "patientDetails": "تفاصيل المريض"
+    "patientDetails": "تفاصيل المريض",
+    "patientFamilyMembers": "أفراد أسرة المريض",
+    "medicationRefillDeleteConfirm": "هل أنت متأكد أنك تريد حذف هذا الطلب؟",
+    "medicationRefillDeleteSuccess": "تم حذف الطلب بنجاح",
+    "medicationRefillUpdateSuccess": "تم تحديث الطلب بنجاح"
   },
   "noData": "لا توجد بيانات لإظهارها",
   "cantJoinCall": "غير مسموح له بالانضمام إلى المكالمة",

@@ -121,13 +121,19 @@
                       </div>
                     </template>
                   </multiselect>
+                  <div
+                    class="custom-state-invalid icon"
+                    :class="{
+                      'is-invalid': selectedStatusState == false,
+                    }"
+                  ></div>
                 </div>
               </div>
             </div>
           </b-card-body>
         </b-card>
         <div class="appointment--action-buttons">
-          <button class="btn btn-secondary" @click="sendToPharma">
+          <button class="btn btn-secondary" @click="updateMedicationRefill">
             {{ $t("admin.update") }}
           </button>
           <button class="btn btn-secondary" @click="sendToPharma">
@@ -141,11 +147,13 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { medicationService } from "../../services";
 export default {
   data() {
     return {
       backRoute: "",
       selectedStatus: null,
+      selectedStatusState: null,
       statuses: ["pending", "approved", "rejected"],
     };
   },
@@ -157,10 +165,34 @@ export default {
     if (!this.getSelectedMedication) {
       this.navigateTo(this.backRoute);
     }
+    this.selectedStatus = this.getSelectedMedication.status;
   },
   methods: {
     sendToPharma() {
       console.log("send to pharma");
+    },
+    updateMedicationRefill() {
+      this.selectedStatusState = !!this.selectedStatus;
+      if (!this.selectedStatusState) return;
+      this.setLoadingState(true);
+      medicationService
+        .updateMedicationRefill(this.getSelectedMedication.id, {
+          status: this.selectedStatus,
+        })
+        .then(
+          (response) => {
+            if (response.data.status) {
+              this.successToast(this.$t('admin.medicationRefillUpdateSuccess'))
+            } else {
+              this.failureToast(response.data.messsage);
+            }
+            this.setLoadingState(false);
+          },
+          () => {
+            this.setLoadingState(false);
+            this.failureToast();
+          }
+        );
     },
   },
 };

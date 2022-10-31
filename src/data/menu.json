@@ -130,7 +130,7 @@
             ]
         },
         {
-            "titleEn": "Medications",
+            "titleEn": "Medications Refills",
             "titleAr": "لوحة القيادة",
             "icon": "pill-fill-svg",
             "type": "link",
@@ -138,7 +138,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/all-medication"
+            "path": "/medication-refills"
         },
         {
             "titleEn": "Health Education",

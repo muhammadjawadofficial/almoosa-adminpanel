@@ -97,7 +97,6 @@ export default {
         (response) => {
           if (response.data.status) {
             let data = response.data.data;
-            console.log(data);
             userService.storeLoginInfo(data.user, data.access_token);
             this.setUserInfo(data.user);
             this.navigateTo("default");

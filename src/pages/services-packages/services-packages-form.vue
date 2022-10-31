@@ -104,7 +104,7 @@
             <button class="btn btn-primary" @click="editPackage">
               {{ $t("admin.editPackage") }}
             </button>
-            <button class="btn btn-tertiary" @click="navigateBack()">
+            <button class="btn btn-tertiary" @click="navigateTo('Services Packages List')">
               {{ $t("back") }}
             </button>
           </template>
@@ -188,6 +188,7 @@ export default {
           }),
         ];
         if (this.getSelectedPackage.thumbnail) {
+          this.packageForm.thumbnail_id = this.getSelectedPackage.thumbnail_id;
           let image = this.getSelectedPackage.thumbnail;
           let file = {
             size: +image.size,
@@ -198,7 +199,6 @@ export default {
             file,
             this.getImageUrl(this.getSelectedPackage.thumbnail)
           );
-          console.log(this.packageForm);
           this.fileToUpload = [file];
         }
       } else {
@@ -304,7 +304,43 @@ export default {
         }
       );
     },
-    editPackage() {},
+    editPackage() {
+      this.formSubmitted = true;
+      if (!this.validateForm()) {
+        return;
+      }
+      let parsedDetails = {};
+      this.packageForm.service_details.forEach((item) => {
+        if (item.key != "" && item.value != "")
+          parsedDetails[item.key] = item.value;
+      });
+      let newPackage = {
+        title: this.packageForm.title,
+        price: this.packageForm.price,
+        description: this.packageForm.description,
+        thumbnail_id: this.packageForm.thumbnail_id,
+        service_details: JSON.stringify(parsedDetails),
+      };
+      this.setLoadingState(true);
+      servicesPackagesService
+        .updatePackage(this.getSelectedPackage.id, newPackage)
+        .then(
+          (response) => {
+            if (response.data.status) {
+              this.formSubmitted = false;
+              this.successToast(this.$t("admin.packageCreateSuccessMessage"));
+            } else {
+              this.failureToast(response.data.message);
+            }
+            this.setLoadingState(false);
+          },
+          (error) => {
+            console.error(error);
+            this.failureToast(error.response.data.message);
+            this.setLoadingState(false);
+          }
+        );
+    },
     itemSelected(item) {
       this.selectedItem = item;
     },

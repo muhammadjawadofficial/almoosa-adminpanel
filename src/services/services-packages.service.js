@@ -4,7 +4,9 @@ import { apiPath } from "../constants/apiPath";
 export const servicesPackagesService = {
     fetchPackages,
     fetchPackageDetails,
-    addNewPackage
+    addNewPackage,
+    updatePackage,
+    deletePackage
 }
 
 function fetchPackages() {
@@ -24,5 +26,18 @@ function addNewPackage(data) {
         method: apiPath.servicesPackages.add.method,
         url: apiPath.servicesPackages.add.url,
         data
+    })
+}
+function updatePackage(id, data) {
+    return axios({
+        method: apiPath.servicesPackages.update(id).method,
+        url: apiPath.servicesPackages.update(id).url,
+        data
+    })
+}
+function deletePackage(id) {
+    return axios({
+        method: apiPath.servicesPackages.delete(id).method,
+        url: apiPath.servicesPackages.delete(id).url,
     })
 }

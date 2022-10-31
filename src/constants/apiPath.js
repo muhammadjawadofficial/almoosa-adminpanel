@@ -41,6 +41,9 @@ export const apiPath = {
     medication: {
         getMedications: (id) => getApiObject("get", "medications?appointment_id=" + id),
         getCurrentMedications: (query) => getApiObject("get", "medications/current" + (query || '')),
+        getMedicationRefills: (query) => getApiObject("get", "medication-refills" + (query || '')),
+        updateMedicationRefill: (id) => getApiObject("patch", "medication-refills/" + id),
+        deleteMedicationRefill: (id) => getApiObject("delete", "medication-refills/" + id),
     },
 
     reports: {
@@ -72,10 +75,13 @@ export const apiPath = {
         fetch: getApiObject("get", "packages"),
         details: (id) => getApiObject("get", "health-education/" + id),
         add: getApiObject("post", "packages"),
+        update: (id) => getApiObject("patch", "packages/" + id),
+        delete: (id) => getApiObject("delete", "packages/" + id),
     },
 
     familyMembers: {
         fetch: (id) => getApiObject("get", "users?guardian_id=" + id),
+        fetchAll: (query) => getApiObject("get", "all-family-members" + (query || '')),
         add: getApiObject("post", "family-members/add"),
     }
 };

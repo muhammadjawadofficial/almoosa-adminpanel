@@ -161,7 +161,7 @@ export default {
       this.setSelectedPackage(e);
       this.navigateTo("Services Packages Edit");
     },
-    deletePackage(e) {
+    deletePackage(item) {
       this.confirmIconModal(
         this.$t("areYouSure"),
         this.$t("admin.packageDeleteConfirm"),
@@ -170,11 +170,28 @@ export default {
       ).then((res) => {
         if (res.value) {
           this.setLoadingState(true);
-          this.successIconModal(
-            this.$t("changesDone"),
-            this.$t("admin.packageDeleteSuccess")
+          this.setLoadingState(true);
+          servicesPackagesService.deletePackage(item.id).then(
+            (response) => {
+              if (response.data.status) {
+                this.items = [...this.items.filter((x) => x.id != item.id)];
+                this.totalRows = this.items.length;
+                this.successIconModal(
+                  this.$t("changesDone"),
+                  this.$t("admin.packageDeleteSuccess")
+                );
+              } else {
+                this.failureToast(response.data.messsage);
+              }
+              this.appointmentStatus = null;
+              this.setLoadingState(false);
+            },
+            () => {
+              this.appointmentStatus = null;
+              this.setLoadingState(false);
+              this.failureToast();
+            }
           );
-          this.setLoadingState(false);
         }
       });
     },

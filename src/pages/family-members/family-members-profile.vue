@@ -527,7 +527,7 @@
                   <div
                     class="custom-state-invalid icon"
                     :class="{
-                      'is-invalid': doctorState.specialityState == false,
+                      'is-invalid': userStatusState == false,
                     }"
                   ></div>
                 </div>
@@ -582,6 +582,7 @@ export default {
       phoneNumber: "",
       phoneNumberState: null,
       userStatus: null,
+      userStatusState: null,
       doctor: {
         clinics: [],
         speciality: {},
@@ -890,7 +891,11 @@ export default {
       }
     },
     updateUserStatus() {
-      console.log("es");
+      this.userStatusState = !!this.userStatus;
+      if (!this.userStatusState) {
+        return;
+      }
+      this.updateProfileInfo({ status: this.userStatus });
     },
     updateProfileInfo(data) {
       this.setLoadingState(true);

@@ -36,7 +36,7 @@ import myMedicationModule from '../pages/medication'
 import myMedicationSessions from '../pages/medication/medication-session-list'
 import myMedicationList from '../pages/medication/medication-list'
 import myMedicationDetails from '../pages/medication/medication-detail'
-import allMedications from '../pages/medication/all-medications'
+import medicationRefills from '../pages/medication/medication-refills'
 import editMedicationDetails from '../pages/medication/edit-medication-detail'
 
 import healthEducationModule from '../pages/health-education'
@@ -87,15 +87,15 @@ const routes = [
         }
       },
       {
-        path: 'all-medication',
+        path: 'medication-refills',
         name: 'All Medication',
-        component: allMedications,
+        component: medicationRefills,
         meta: {
           title: 'Medications | Almoosa Specialist Hospital',
         }
       },
       {
-        path: 'all-medication/details',
+        path: 'medication-refills/details',
         name: 'All Medication Details',
         component: editMedicationDetails,
         meta: {

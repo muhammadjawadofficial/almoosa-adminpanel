@@ -157,7 +157,7 @@ export default {
     },
     fetchAllFamilyMembers() {
       this.setLoadingState(true);
-      userService.getUsers("?role_id=3").then(
+      familyMemberService.fetchAllFamilyMembers("?status=unverified").then(
         (response) => {
           if (response.data.status) {
             this.parseData(response.data.data.items);

@@ -66,7 +66,6 @@
       :current-page="currentPage"
       :per-page="5"
       class="ash-data-table clickable"
-      @row-clicked="rowClicked"
     >
       <template #head()="data">{{ $t("admin." + data.label) }} </template>
 
@@ -76,7 +75,16 @@
         </template>
         <template v-else-if="data.field.key == 'action'">
           <div class="action-buttons">
-            <feather class="pointer" type="edit"></feather>
+            <feather
+              class="pointer"
+              type="edit"
+              @click.stop="rowClicked(data.item)"
+            ></feather>
+            <feather
+              class="pointer"
+              type="trash"
+              @click.stop="deleteMedicationRefill(data.item)"
+            ></feather>
           </div>
         </template>
         <template v-else-if="data.field.key == 'patient_name'">
@@ -124,6 +132,7 @@ export default {
           label: "refillRequest",
           sortable: true,
         },
+        { key: "action", label: "action", sortable: true },
       ],
       items: [],
       showDatePicker: true,
@@ -160,16 +169,17 @@ export default {
       this.items = [];
       data.forEach((x) => {
         this.items.push({
-          medicationRefillRequested: x.medication_refills.length
-            ? x.medication_refills[0].status
-            : "notRequested",
+          medicationRefillRequested: x.status,
+          title: x.medication.title,
+          variation: x.medication.variation,
+          description: x.medication.description,
           ...x,
         });
       });
     },
     fetchAppointments(type) {
       this.setLoadingState(true);
-      medicationService.getCurrentMedications().then(
+      medicationService.getMedicationRefills().then(
         (response) => {
           if (response.data.status) {
             this.parseData(response.data.data.items);
@@ -187,6 +197,39 @@ export default {
           this.failureToast();
         }
       );
+    },
+    deleteMedicationRefill(item) {
+      this.confirmIconModal(
+        this.$t("areYouSure"),
+        this.$t("admin.medicationRefillDeleteConfirm"),
+        "m-check",
+        this.$t("admin.delete")
+      ).then((res) => {
+        if (res.value) {
+          this.setLoadingState(true);
+          medicationService.deleteMedicationRefill(item.id).then(
+            (response) => {
+              if (response.data.status) {
+                this.items = [...this.items.filter((x) => x.id != item.id)];
+                this.totalRows = this.items.length;
+                this.successIconModal(
+                  this.$t("changesDone"),
+                  this.$t("admin.medicationRefillDeleteSuccess")
+                );
+              } else {
+                this.failureToast(response.data.messsage);
+              }
+              this.appointmentStatus = null;
+              this.setLoadingState(false);
+            },
+            () => {
+              this.appointmentStatus = null;
+              this.setLoadingState(false);
+              this.failureToast();
+            }
+          );
+        }
+      });
     },
   },
 };
