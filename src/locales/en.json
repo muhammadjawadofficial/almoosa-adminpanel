@@ -413,7 +413,12 @@
     "patientFamilyMembers": "Patient Family Members",
     "medicationRefillDeleteConfirm": "Are you sure you want to delete this request?",
     "medicationRefillDeleteSuccess": "Request has been deleted successfully",
-    "medicationRefillUpdateSuccess": "Request has been updated successfully"
+    "medicationRefillUpdateSuccess": "Request has been updated successfully",
+    "shortTitle":"Short Title",
+    "shortText": "Short Text",
+    "longTitle": "Long Title",
+    "longText": "Long Text",
+    "uploadBanner": "Upload Banner"
   },
   "noData": "No Data To Show",
   "cantJoinCall": "Not allowed to join call",

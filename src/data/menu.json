@@ -160,7 +160,7 @@
                     "titleEn": "Create",
                     "titleAr": "أدويتي",
                     "type": "link",
-                    "path": "/health-education/edit"
+                    "path": "/health-education/create"
                 }
             ]
         },

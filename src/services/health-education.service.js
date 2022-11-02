@@ -3,7 +3,8 @@ import { apiPath } from "../constants/apiPath";
 
 export const healthEducationService = {
     fetchHealthEducations,
-    fetchHealthEducationsDetails
+    fetchHealthEducationsDetails,
+    addHealthEducationArticle
 }
 
 function fetchHealthEducations() {
@@ -16,5 +17,12 @@ function fetchHealthEducationsDetails(id) {
     return axios({
         method: apiPath.healthEducation.details(id).method,
         url: apiPath.healthEducation.details(id).url,
+    })
+}
+function addHealthEducationArticle(data) {
+    return axios({
+        method: apiPath.healthEducation.save.method,
+        url: apiPath.healthEducation.save.url,
+        data
     })
 }

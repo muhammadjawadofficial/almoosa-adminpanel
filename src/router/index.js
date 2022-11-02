@@ -115,6 +115,14 @@ const routes = [
             },
           },
           {
+            path: 'create',
+            name: 'Health Education Create',
+            component: healthEducationEdit,
+            meta: {
+              title: 'Health Education Create | Almoosa Specialist Hospital',
+            },
+          },
+          {
             path: 'list',
             name: 'Health Education List',
             component: healthEducationList,

@@ -663,6 +663,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         }
     }
 }
+.ql-toolbar {
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+}
+.ql-container {
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+}
 .promotions-details-conatiner {
     .button-group {
         margin-top: 3.75rem;
@@ -978,7 +986,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
 }
 .upload-text {
-    text-align: center;
+    text-align: center !important;
     position: absolute;
     left: 0;
     right: 0;

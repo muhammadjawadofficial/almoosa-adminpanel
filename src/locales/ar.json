@@ -407,7 +407,12 @@
     "patientFamilyMembers": "أفراد أسرة المريض",
     "medicationRefillDeleteConfirm": "هل أنت متأكد أنك تريد حذف هذا الطلب؟",
     "medicationRefillDeleteSuccess": "تم حذف الطلب بنجاح",
-    "medicationRefillUpdateSuccess": "تم تحديث الطلب بنجاح"
+    "medicationRefillUpdateSuccess": "تم تحديث الطلب بنجاح",
+    "shortTitle":"عنوان قصير",
+    "shortText": "نص قصير",
+    "longTitle": "عنوان طويل",
+    "longText": "نص طويل",
+    "uploadBanner": "تحميل لافتة"
   },
   "noData": "لا توجد بيانات لإظهارها",
   "cantJoinCall": "غير مسموح له بالانضمام إلى المكالمة",

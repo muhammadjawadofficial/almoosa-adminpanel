@@ -65,6 +65,7 @@ export const apiPath = {
     healthEducation: {
         fetch: getApiObject("get", "health-education"),
         details: (id) => getApiObject("get", "health-education/" + id),
+        save: getApiObject("post", "health-education"),
     },
 
     timeline: {
