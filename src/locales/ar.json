@@ -412,7 +412,8 @@
     "shortText": "نص قصير",
     "longTitle": "عنوان طويل",
     "longText": "نص طويل",
-    "uploadBanner": "تحميل لافتة"
+    "uploadBanner": "تحميل لافتة",
+    "rating": "تصنيف"
   },
   "noData": "لا توجد بيانات لإظهارها",
   "cantJoinCall": "غير مسموح له بالانضمام إلى المكالمة",

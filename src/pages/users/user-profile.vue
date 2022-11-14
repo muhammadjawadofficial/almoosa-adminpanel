@@ -131,6 +131,50 @@
                       </div>
                     </div>
                   </template>
+                  <template v-else>
+                    <div
+                      class="
+                        doctor-details-card-header-right-info-section-detail
+                        with-icon
+                      "
+                    >
+                      <div class="icon">
+                        <img
+                          src="../../assets/images/star-points.svg"
+                          alt="star-img"
+                        />
+                      </div>
+                      <div class="content">
+                        <div class="title">
+                          {{ $t("admin.rating") }}: 
+                          {{ getSelectedUser.rating || 0 }}/5
+                        </div>
+                        <div class="value mt-2">
+                          <div class="rating-container disable-hover">
+                            <div class="fa fa-star star"></div>
+                            <div class="fa fa-star star"></div>
+                            <div class="fa fa-star star"></div>
+                            <div class="fa fa-star star"></div>
+                            <div class="fa fa-star star"></div>
+                            <div
+                              class="rating-filled"
+                              :style="
+                                'width: ' +
+                                (getSelectedUser.rating / 5) * 100 +
+                                '%'
+                              "
+                            >
+                              <div class="fa fa-star star active"></div>
+                              <div class="fa fa-star star active"></div>
+                              <div class="fa fa-star star active"></div>
+                              <div class="fa fa-star star active"></div>
+                              <div class="fa fa-star star active"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
                 </div>
               </div>
             </div>
@@ -556,11 +600,20 @@ export default {
       clinics: [],
       specialities: [],
       isEditingAllowed: false,
+      backRoute: "",
     };
   },
   mounted() {
+    let routeName = this.$route.name.toLowerCase();
+    if (routeName.includes("patient")) {
+      this.backRoute = "Patient Details";
+    } else if (routeName.includes("physician")) {
+      this.backRoute = "Physician List";
+    } else {
+      this.backRoute = "default";
+    }
     if (!this.getSelectedUser) {
-      this.navigateTo("Patient List");
+      this.navigateTo(this.backRoute);
       return;
     }
     if (process.env.NODE_ENV !== "Production") {
@@ -871,7 +924,7 @@ export default {
       if (this.isEditing) {
         this.resetData();
       } else {
-        this.navigateTo("Patient Details");
+        this.navigateTo(this.backRoute);
       }
     },
   },
@@ -928,6 +981,20 @@ export default {
     label {
       bottom: 0;
     }
+  }
+}
+.rating-container {
+  .star {
+    width: 1.5rem;
+    height: 1.5rem;
+    min-width: 1.5rem;
+    font-size: 1.5rem;
+  }
+  .rating-filled {
+    position: absolute;
+    display: flex;
+    overflow: hidden;
+    left: 0;
   }
 }
 </style>

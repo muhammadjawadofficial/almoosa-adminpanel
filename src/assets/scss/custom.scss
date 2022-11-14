@@ -1064,7 +1064,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                         &-section {
                             display: flex;
                             flex-wrap: wrap;
-                            gap: 1rem;
+                            gap: 1.5rem;
                             margin-top: 1rem;
                             &-detail {
                                 border-left: 0.313rem solid $primary-color;
@@ -1733,32 +1733,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             .swal2-validation-message {
                 margin-block-start: 1rem;
             }
-            .rating-container {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: fit-content;
-                margin: auto;
-                .star {
-                    width: 2rem;
-                    height: 2rem;
-                    font-size: 1.25rem;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    cursor: pointer;
-                    color: #d8d8d8;
-                }
-                &:hover .star {
-                    color: $primary-color;
-                }
-                .star:hover ~ .star {
-                    color: #d8d8d8;
-                }
-                .star.active {
-                    color: $primary-color;
-                }
-            }
         }
         .swal2-image {
             position: absolute;
@@ -1780,6 +1754,36 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                 padding-block: 0.6em;
             }
         }
+    }
+}
+.rating-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    margin: auto;
+    position: relative;
+    .star {
+        width: 2rem;
+        height: 2rem;
+        min-width: 2rem;
+        font-size: 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #d8d8d8;
+    }
+    &:not(.disable-hover) {
+        &:hover .star {
+            color: $primary-color;
+        }
+        .star:hover ~ .star {
+            color: #d8d8d8;
+        }
+    }
+    .star.active {
+        color: $primary-color;
     }
 }
 .page-body-container {

@@ -448,12 +448,26 @@ const routes = [
             ]
           },
           {
-            path: "physician",
-            name: 'Physician List',
-            component: PhysicianList,
-            meta: {
-              title: 'Physician List | Almoosa Specialist Hospital',
-            },
+            path: 'physician',
+            component: RouterViewModule,
+            children: [
+              {
+                path: "",
+                name: 'Physician List',
+                component: PhysicianList,
+                meta: {
+                  title: 'Physician List | Almoosa Specialist Hospital',
+                },
+              },
+              {
+                path: "profile",
+                name: 'Physician Profile',
+                component: UserProfile,
+                meta: {
+                  title: 'Physician Profile | Almoosa Specialist Hospital',
+                },
+              },
+            ]
           },
           {
             path: "staff",

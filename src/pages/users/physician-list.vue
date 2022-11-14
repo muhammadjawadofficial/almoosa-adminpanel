@@ -93,7 +93,7 @@ export default {
     ...mapActions("user", ["setSelectedUser"]),
     rowClicked(e) {
       this.setSelectedUser(e);
-      this.navigateTo("Patient Details");
+      this.navigateTo("Physician Profile");
     },
     parseData(data) {
       this.items = [];
