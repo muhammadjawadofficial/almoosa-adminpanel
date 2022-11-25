@@ -9,7 +9,7 @@ export default function setup() {
             config.headers.Authorization = `Bearer ${token}`;
         }
         if (process.env.NODE_ENV !== "production") {
-            config['bypass-tunnel-reminder'] = true
+            config.headers['bypass-tunnel-reminder'] = true
         }
         return config;
     }, function (err) {

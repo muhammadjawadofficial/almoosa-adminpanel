@@ -66,6 +66,8 @@ import promotionsGroupsCreate from '../pages/promotions/promo-groups-form'
 import promotionsDetails from '../pages/promotions/promotions-details'
 import promotionsForm from '../pages/promotions/promotions-form'
 
+import TransactionsList from '../pages/transactions/transactions-list'
+
 import { userService } from '../services';
 
 // component
@@ -560,6 +562,21 @@ const routes = [
             component: FamilyMembersProfile,
             meta: {
               title: 'Family Members Profile | Almoosa Specialist Hospital',
+            },
+          },
+        ]
+      },
+      {
+        path: 'transactions',
+        component: RouterViewModule,
+        children: [
+          { path: '', name: "Transactions", redirect: { name: 'Transactions List' } },
+          {
+            path: "list",
+            name: 'Transactions List',
+            component: TransactionsList,
+            meta: {
+              title: 'Transactions List | Almoosa Specialist Hospital',
             },
           },
         ]

@@ -84,5 +84,9 @@ export const apiPath = {
         fetch: (id) => getApiObject("get", "users?guardian_id=" + id),
         fetchAll: (query) => getApiObject("get", "all-family-members" + (query || '')),
         add: getApiObject("post", "family-members/add"),
+    },
+
+    transactions: {
+        fetchAll: getApiObject("get", "users?role_id=4"),
     }
 };

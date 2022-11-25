@@ -13,7 +13,7 @@
         },
         {
             "titleEn": "Appointments",
-            "titleAr": "جزء اليوم",
+            "titleAr": "المواعيد",
             "icon": "clipboard-svg",
             "type": "sub",
             "badgeType": "primary",
@@ -23,19 +23,19 @@
             "children": [
                 {
                     "titleEn": "View Appointments",
-                    "titleAr": "أدويتي",
+                    "titleAr": "مشاهدة المواعيد",
                     "type": "link",
                     "path": "/appointment/view"
                 },
                 {
                     "titleEn": "Appointment History",
-                    "titleAr": "أدويتي",
+                    "titleAr": "تاريخ التعيين",
                     "type": "link",
                     "path": "/appointment/history"
                 },
                 {
                     "titleEn": "Appointment Instructions",
-                    "titleAr": "أدويتي",
+                    "titleAr": "تعليمات الموعد",
                     "type": "link",
                     "path": "/appointment/instructions"
                 }
@@ -43,7 +43,7 @@
         },
         {
             "titleEn": "Users",
-            "titleAr": "جزء اليوم",
+            "titleAr": "المستخدمون",
             "icon": "user-fill-svg",
             "type": "sub",
             "badgeType": "primary",
@@ -53,19 +53,19 @@
             "children": [
                 {
                     "titleEn": "Patient Management",
-                    "titleAr": "أدويتي",
+                    "titleAr": "التعامل مع المرضى",
                     "type": "link",
                     "path": "/users/patient"
                 },
                 {
                     "titleEn": "Physician Management",
-                    "titleAr": "أدويتي",
+                    "titleAr": "إدارة الطبيب",
                     "type": "link",
                     "path": "/users/physician"
                 },
                 {
                     "titleEn": "Staff Management",
-                    "titleAr": "أدويتي",
+                    "titleAr": "إدارة الموظفين",
                     "type": "link",
                     "path": "/users/staff"
                 }
@@ -73,7 +73,7 @@
         },
         {
             "titleEn": "Promotions",
-            "titleAr": "جزء اليوم",
+            "titleAr": "الترقيات",
             "icon": "bell-fill-svg",
             "type": "sub",
             "badgeType": "primary",
@@ -83,7 +83,7 @@
             "children": [
                 {
                     "titleEn": "Promo Groups",
-                    "titleAr": "أدويتي",
+                    "titleAr": "مجموعات ترويجية",
                     "type": "sub",
                     "badgeType": "primary",
                     "badgeValue": "",
@@ -92,13 +92,13 @@
                     "children": [
                         {
                             "titleEn": "List",
-                            "titleAr": "أدويتي",
+                            "titleAr": "قائمة",
                             "type": "link",
                             "path": "/promotions/groups/list"
                         },
                         {
                             "titleEn": "Create",
-                            "titleAr": "أدويتي",
+                            "titleAr": "خلق",
                             "type": "link",
                             "path": "/promotions/groups/create"
                         }
@@ -106,7 +106,7 @@
                 },
                 {
                     "titleEn": "Promo Codes",
-                    "titleAr": "أدويتي",
+                    "titleAr": "الرموز الترويجية",
                     "type": "sub",
                     "badgeType": "primary",
                     "badgeValue": "",
@@ -115,13 +115,13 @@
                     "children": [
                         {
                             "titleEn": "List",
-                            "titleAr": "أدويتي",
+                            "titleAr": "قائمة",
                             "type": "link",
                             "path": "/promotions/list"
                         },
                         {
                             "titleEn": "Create",
-                            "titleAr": "أدويتي",
+                            "titleAr": "خلق",
                             "type": "link",
                             "path": "/promotions/create"
                         }
@@ -131,7 +131,7 @@
         },
         {
             "titleEn": "Medications Refills",
-            "titleAr": "لوحة القيادة",
+            "titleAr": "عبوات الأدوية",
             "icon": "pill-fill-svg",
             "type": "link",
             "badgeType": "primary",
@@ -142,7 +142,7 @@
         },
         {
             "titleEn": "Health Education",
-            "titleAr": "أدويتي",
+            "titleAr": "التثقيف الصحي",
             "type": "sub",
             "icon": "atom-fill-svg",
             "badgeType": "primary",
@@ -152,13 +152,13 @@
             "children": [
                 {
                     "titleEn": "List",
-                    "titleAr": "أدويتي",
+                    "titleAr": "قائمة",
                     "type": "link",
                     "path": "/health-education/list"
                 },
                 {
                     "titleEn": "Create",
-                    "titleAr": "أدويتي",
+                    "titleAr": "خلق",
                     "type": "link",
                     "path": "/health-education/create"
                 }
@@ -166,7 +166,7 @@
         },
         {
             "titleEn": "Services & Packages",
-            "titleAr": "أدويتي",
+            "titleAr": "الخدمات والحزم",
             "type": "sub",
             "icon": "briefcase-fill-svg",
             "badgeType": "primary",
@@ -176,13 +176,13 @@
             "children": [
                 {
                     "titleEn": "List",
-                    "titleAr": "أدويتي",
+                    "titleAr": "قائمة",
                     "type": "link",
                     "path": "/services-packages/list"
                 },
                 {
                     "titleEn": "Create",
-                    "titleAr": "أدويتي",
+                    "titleAr": "خلق",
                     "type": "link",
                     "path": "/services-packages/create"
                 }
@@ -190,7 +190,7 @@
         },
         {
             "titleEn": "Family Members",
-            "titleAr": "لوحة القيادة",
+            "titleAr": "أفراد الأسرة",
             "icon": "family-fill-svg",
             "type": "link",
             "badgeType": "primary",
@@ -198,6 +198,17 @@
             "active": false,
             "disabled": false,
             "path": "/family-members"
+        },
+        {
+            "titleEn": "Transactions",
+            "titleAr": "المعاملات",
+            "icon": "cash-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "path": "/transactions"
         }
     ]
 }
