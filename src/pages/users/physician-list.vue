@@ -6,7 +6,7 @@
       </div>
       <div class="search-input">
         <b-form-input
-          :placeholder="$t('admin.searchPatientMrn')"
+          :placeholder="$t('admin.searchPhysician')"
           id="type-search"
           type="search"
           v-model="searchQuery"
@@ -71,9 +71,8 @@ export default {
       getPerPageSelection: 5,
       tablefields: [
         { key: "id", label: "id", sortable: true },
-        { key: "patient_name", label: "patientName", sortable: true },
+        { key: "patient_name", label: "physicianName", sortable: true },
         { key: "mrn", label: "mrn", sortable: true },
-        { key: "roleName", label: "role", sortable: true },
         { key: "email", label: "email", sortable: true },
         { key: "phone", label: "phoneNumber", sortable: true },
         { key: "status", label: "status", sortable: true },
@@ -106,7 +105,6 @@ export default {
             (x.family_name ? " " + x.family_name : ""),
           patient_photo: x.photo,
           mrn: x.mrn_number || "N/A",
-          roleName: x.role.title || "N/A",
           email: x.email_address || "N/A",
           phone: x.phone_number || "N/A",
           status: x.status || "N/A",

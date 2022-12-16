@@ -11,6 +11,7 @@
   box-shadow: $card-box-shadow;
   &.transparent {
     box-shadow: none !important;
+    background-color: transparent;
   }
   &.ash-card {
     border-radius: 0.875rem 0px 0.875rem 0.875rem;

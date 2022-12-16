@@ -139,7 +139,6 @@ export default {
         { key: "mrn", label: "mrn", sortable: true },
         { key: "datetime", label: "dateTime", sortable: true },
         { key: "doctor_name", label: "consultingDoctor", sortable: true },
-        { key: "doctor_id", label: "doctorId", sortable: true },
         { key: "type", label: "appointmentType" },
       ],
       items: [],
@@ -187,7 +186,7 @@ export default {
               (x.patient.family_name ? " " + x.patient.family_name : "")
             : "N/A",
           patient_photo: x.patient && x.patient.photo,
-          mrn: x.mrn_number || "N/A",
+          mrn: x.patient.mrn_number || "N/A",
           datetime:
             this.formatLongDayDateFromDate(x.booked_date) +
             " / " +
@@ -201,7 +200,6 @@ export default {
               (x.doctor.middle_name ? " " + x.doctor.middle_name : "") +
               (x.doctor.family_name ? " " + x.doctor.family_name : "")
             : "N/A",
-          doctor_id: x.doctor_id,
           type: x.type,
           raw: x,
         });

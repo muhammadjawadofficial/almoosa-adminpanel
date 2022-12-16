@@ -19,7 +19,7 @@
           <multiselect
             v-model="selectedPromotionUsers"
             :options="promoGroups"
-            :placeholder="$t('admin.promoGroup')"
+            :placeholder="$t('admin.addMember')"
             multiple
             track-by="id"
             label="name"
@@ -303,8 +303,10 @@ export default {
   & :deep &__tags {
     display: flex;
     align-items: center;
-    font-size: 1rem !important;
     line-height: 1em !important;
+  }
+  & :deep &__tag {
+    font-size: 1rem !important;
   }
 }
 </style>
