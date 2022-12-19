@@ -200,7 +200,7 @@
             </div>
             <div class="profile-info-card">
               <div class="profile-info-card-logo">
-                <img src="../../assets/images/heart-vitals.svg" alt="" />
+                <img src="../../assets/images/active-problems.svg" alt="" />
               </div>
               <div class="profile-info-card-detail">
                 <div class="profile-info-card-detail-title">
@@ -243,7 +243,7 @@
             </div>
             <div class="profile-info-card">
               <div class="profile-info-card-logo">
-                <img src="../../assets/images/heart-vitals.svg" alt="" />
+                <img src="../../assets/images/clinical-warning.svg" alt="" />
               </div>
               <div class="profile-info-card-detail">
                 <div class="profile-info-card-detail-title">
@@ -255,7 +255,7 @@
             </div>
             <div class="profile-info-card">
               <div class="profile-info-card-logo">
-                <img src="../../assets/images/home.svg" alt="" />
+                <img src="../../assets/images/MRN.svg" alt="" />
               </div>
               <div class="profile-info-card-detail">
                 <div class="profile-info-card-detail-title">
