@@ -38,15 +38,7 @@
                 </div>
                 <div class="doctor-details-card-header-right-info-user">
                   <div class="user-id">
-                    {{
-                      getSelectedUser.mrn_number
-                        ? getSelectedUser.mrn_number
-                        : getSelectedUser.saudi_id
-                        ? getSelectedUser.saudi_id
-                        : getSelectedUser.iqama
-                        ? getSelectedUser.iqama
-                        : getSelectedUser.id
-                    }}
+                    {{ getSelectedUser.mrn_number || "N/A" }}
                   </div>
                   <template v-if="getSelectedUser.nationality">
                     <div class="nationality">
@@ -78,13 +70,7 @@
                   >
                     <div class="title">{{ $t("profile.idNumber") }}</div>
                     <div class="value">
-                      {{
-                        getSelectedUser.saudi_id
-                          ? getSelectedUser.saudi_id
-                          : getSelectedUser.iqama
-                          ? getSelectedUser.iqama
-                          : getSelectedUser.id
-                      }}
+                      {{ getSelectedUser.saudi_id || getSelectedUser.iqama }}
                     </div>
                   </div>
                   <template v-if="getSelectedUser.allergy">
@@ -146,7 +132,7 @@
                       </div>
                       <div class="content">
                         <div class="title">
-                          {{ $t("admin.rating") }}: 
+                          {{ $t("admin.rating") }}:
                           {{ getSelectedUser.rating || 0 }}/5
                         </div>
                         <div class="value mt-2">
@@ -266,6 +252,35 @@
                 <div class="profile-info-card-detail-value">Not Added Yet</div>
               </div>
               <div class="profile-info-card-option"></div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/home.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("admin.mrn") }}
+                </div>
+                <div
+                  class="profile-info-card-detail-value"
+                  :class="{ inactive: !isEditing && !isEditingMRN }"
+                >
+                  <b-form-input
+                    v-model="mrnNumber"
+                    :state="mrnNumberState"
+                    :placeholder="$t('admin.enterMRN')"
+                    :disabled="!isEditing && !isEditingMRN"
+                    :formatter="numberOnly"
+                  ></b-form-input>
+                </div>
+              </div>
+              <div class="profile-info-card-option">
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing || isEditingMRN"
+                />
+              </div>
             </div>
           </div>
           <div class="profile-info" v-else>
@@ -549,11 +564,24 @@
                 }}
               </button>
               <button
+                class="btn btn-secondary"
+                @click="editMRN"
+                v-if="isMrnEditingAllowed"
+              >
+                {{
+                  isEditingMRN ? $t("profile.updateMRN") : $t("profile.editMRN")
+                }}
+              </button>
+              <button
                 class="btn"
-                :class="isEditingAllowed ? 'btn-tertiary' : 'btn-secondary'"
+                :class="
+                  isEditingAllowed || isMrnEditingAllowed
+                    ? 'btn-tertiary'
+                    : 'btn-secondary'
+                "
                 @click="cancelEditing"
               >
-                {{ isEditing ? $t("cancel") : $t("back") }}
+                {{ isEditing || isEditingMRN ? $t("cancel") : $t("back") }}
               </button>
             </div>
           </div>
@@ -571,10 +599,13 @@ export default {
     return {
       user: null,
       isEditing: false,
+      isEditingMRN: false,
       address: "",
       addressState: null,
       phoneNumber: "",
       phoneNumberState: null,
+      mrnNumber: "",
+      mrnNumberState: null,
       doctor: {
         clinics: [],
         speciality: {},
@@ -600,6 +631,7 @@ export default {
       clinics: [],
       specialities: [],
       isEditingAllowed: false,
+      isMrnEditingAllowed: false,
       backRoute: "",
     };
   },
@@ -618,6 +650,9 @@ export default {
     }
     if (process.env.NODE_ENV !== "Production") {
       this.isEditingAllowed = !!localStorage.getItem("editProfile");
+    }
+    if(!this.isSelectedUserDoctor){
+      this.isMrnEditingAllowed = true;
     }
     this.initializeData();
     this.checkDropdownValues();
@@ -789,10 +824,12 @@ export default {
       } else {
         this.address = this.getSelectedUser.location;
         this.phoneNumber = this.getSelectedUser.phone_number;
-        this.addressState = null;
+        this.mrnNumber = this.getSelectedUser.mrn_number;
         this.phoneNumberState = null;
+        this.mrnNumberState = null;
       }
       this.isEditing = false;
+      this.isEditingMRN = false;
     },
     validateForm() {
       if (this.isSelectedUserDoctor) {
@@ -820,6 +857,10 @@ export default {
         this.phoneNumberState = this.validPhoneNumber;
         return this.addressState && this.phoneNumberState;
       }
+    },
+    validateMrn() {
+      this.mrnNumberState = this.mrnNumber != "" && !!this.mrnNumber;
+      return this.mrnNumberState;
     },
     editProfile() {
       if (this.isEditing) {
@@ -877,6 +918,19 @@ export default {
         this.isEditing = true;
       }
     },
+    editMRN() {
+      if (this.isEditingMRN) {
+        if (!this.validateMrn()) {
+          return;
+        }
+        let updateUserObj = {
+          mrn_number: this.mrnNumber,
+        };
+        this.updateProfileInfo(updateUserObj);
+      } else {
+        this.isEditingMRN = true;
+      }
+    },
     updateProfileInfo(data) {
       this.setLoadingState(true);
       userService.updateProfile(this.getSelectedUser.id, data).then(
@@ -892,7 +946,7 @@ export default {
         },
         (error) => {
           this.setLoadingState(false);
-          this.failureToast();
+          this.failureToast(error.response.data && error.response.data.message);
           console.error(error);
         }
       );
@@ -921,7 +975,7 @@ export default {
       );
     },
     cancelEditing() {
-      if (this.isEditing) {
+      if (this.isEditing || this.isEditingMRN) {
         this.resetData();
       } else {
         this.navigateTo(this.backRoute);

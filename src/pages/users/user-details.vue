@@ -25,7 +25,7 @@
               <template v-else> N/A </template>
             </div>
             <div class="user-number text-muted">
-              {{ $t("admin.mrn") }} - {{ details.mrn }}
+              {{ $t("admin.mrn") }} - {{ details.mrn_number || "N/A" }}
             </div>
             <button
               class="btn btn-primary user-profile"
