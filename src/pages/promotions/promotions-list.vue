@@ -110,7 +110,10 @@ export default {
       this.navigateTo("Promotions Edit");
     },
     deletePromotion(promotion) {
-      this.confirmIconModal().then((res) => {
+      this.confirmIconModal(
+        this.$t("areYouSure"),
+        this.$t("admin.promoCodeDeleteConfirm")
+      ).then((res) => {
         if (res.value) {
           this.setLoadingState(true);
           promotionService.deletePromotion(promotion.id).then(

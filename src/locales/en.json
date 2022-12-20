@@ -389,6 +389,8 @@
     "promoGroupAdded": "Promo Group Created",
     "promotionUpdated": "Promotion Updated",
     "promoGroupUpdated": "Promo Group Updated",
+    "promoGroupDeleteConfirm": "Are you sure you want to delete this promo group?",
+    "promoCodeDeleteConfirm": "Are you sure you want to delete this promo code?",
     "noOfUsers": "No. Of Users",
     "variation": "Variation",
     "description": "Description",

@@ -102,7 +102,10 @@ export default {
       this.navigateTo("Edit Promotion Group");
     },
     deletePromotions(promoGroup) {
-      this.confirmIconModal().then((res) => {
+      this.confirmIconModal(
+        this.$t("areYouSure"),
+        this.$t("admin.promoGroupDeleteConfirm")
+      ).then((res) => {
         if (res.value) {
           this.setLoadingState(true);
           promotionService.deletePromoGroup(promoGroup.id).then(

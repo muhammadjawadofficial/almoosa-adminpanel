@@ -382,6 +382,8 @@
     "promotionAdded": "تم إنشاء الترويج",
     "promoGroupAdded": "تم إنشاء مجموعة الترويج",
     "promotionUpdated": "تم تحديث الترويج",
+    "promoGroupDeleteConfirm": "هل أنت متأكد من أنك تريد حذف مجموعة الترويج؟",
+    "promoCodeDeleteConfirm": "هل أنت متأكد من أنك تريد حذف رمز الترويج؟",
     "promoGroupUpdated": "تم تحديث مجموعة الترويج",
     "noOfUsers": "عدد المستخدمين",
     "variation": "تفاوت",
