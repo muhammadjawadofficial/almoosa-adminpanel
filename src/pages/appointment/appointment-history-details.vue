@@ -15,7 +15,7 @@
         <div class="user-name">
           {{ details.patient_name }}
         </div>
-        <div class="user-speciality">
+        <div class="user-speciality" v-if="details.raw.doctor.speciality">
           {{ details.raw.doctor.speciality.title }}
           {{ $t("admin.patient") }}
         </div>

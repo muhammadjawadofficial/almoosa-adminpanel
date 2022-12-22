@@ -18,13 +18,6 @@
               {{ details.patient_name }}
             </div>
             <div class="user-speciality">
-              <template v-if="details.speciality">
-                {{ details.speciality.title }}
-                {{ $t("admin.patient") }}
-              </template>
-              <template v-else> N/A </template>
-            </div>
-            <div class="user-number text-muted">
               {{ $t("admin.mrn") }} - {{ details.mrn_number || "N/A" }}
             </div>
             <button

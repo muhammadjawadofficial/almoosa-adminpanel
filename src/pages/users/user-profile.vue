@@ -40,14 +40,6 @@
                   <div class="user-id">
                     {{ getSelectedUser.mrn_number || "N/A" }}
                   </div>
-                  <template v-if="getSelectedUser.nationality">
-                    <div class="nationality">
-                      {{
-                        getSelectedUser.nationality.nationality ||
-                        getSelectedUser.nationality
-                      }}
-                    </div>
-                  </template>
                 </div>
                 <div class="doctor-details-card-header-right-info-section">
                   <template v-if="getSelectedUser.nationality">
@@ -65,23 +57,27 @@
                       </div>
                     </div>
                   </template>
-                  <div
-                    class="doctor-details-card-header-right-info-section-detail"
-                  >
-                    <div class="title">{{ $t("profile.idNumber") }}</div>
-                    <div class="value">
-                      {{ getSelectedUser.saudi_id || getSelectedUser.iqama }}
-                    </div>
-                  </div>
-                  <template v-if="getSelectedUser.allergy">
+                  <template v-if="getSelectedUser.saudi_id">
                     <div
                       class="
                         doctor-details-card-header-right-info-section-detail
                       "
                     >
-                      <div class="title">{{ $t("profile.nationality") }}</div>
+                      <div class="title">{{ $t("saudi_id") }}</div>
                       <div class="value">
-                        {{ getSelectedUser.allergy.name }}
+                        {{ getSelectedUser.saudi_id }}
+                      </div>
+                    </div>
+                  </template>
+                  <template v-if="getSelectedUser.iqama">
+                    <div
+                      class="
+                        doctor-details-card-header-right-info-section-detail
+                      "
+                    >
+                      <div class="title">{{ $t("iqama") }}</div>
+                      <div class="value">
+                        {{ getSelectedUser.iqama }}
                       </div>
                     </div>
                   </template>
@@ -268,7 +264,11 @@
                   <b-form-input
                     v-model="mrnNumber"
                     :state="mrnNumberState"
-                    :placeholder="$t('admin.enterMRN')"
+                    :placeholder="
+                      !isEditing && !isEditingMRN && !mrnNumber
+                        ? 'N/A'
+                        : $t('admin.enterMRN')
+                    "
                     :disabled="!isEditing && !isEditingMRN"
                     :formatter="numberOnly"
                   ></b-form-input>
@@ -651,7 +651,7 @@ export default {
     if (process.env.NODE_ENV !== "Production") {
       this.isEditingAllowed = !!localStorage.getItem("editProfile");
     }
-    if(!this.isSelectedUserDoctor){
+    if (!this.isSelectedUserDoctor) {
       this.isMrnEditingAllowed = true;
     }
     this.initializeData();
