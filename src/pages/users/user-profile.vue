@@ -282,6 +282,55 @@
                 />
               </div>
             </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/heart-vitals-bg.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("admin.status") }}
+                </div>
+                <div
+                  class="profile-info-card-detail-value"
+                  :class="{ inactive: !isEditing && !isEditingMRN }"
+                >
+                  <multiselect
+                    v-model="userStatus"
+                    :options="userStatusOptions"
+                    :placeholder="$t('admin.selectStatus')"
+                    :selectLabel="$t('admin.selectLabel')"
+                    :selectedLabel="$t('admin.selectedLabel')"
+                    :deselectLabel="$t('admin.deselectLabel')"
+                    :disabled="!isEditing && !isEditingMRN"
+                  >
+                    <template slot="singleLabel" slot-scope="props">
+                      <div class="multiselect__with-icon">
+                        {{ $t("admin." + props.option) }}
+                      </div>
+                    </template>
+                    <template slot="option" slot-scope="props">
+                      <div class="option__desc">
+                        <span class="option__title">
+                          {{ $t("admin." + props.option) }}
+                        </span>
+                      </div>
+                    </template>
+                  </multiselect>
+                  <div
+                    class="custom-state-invalid icon"
+                    :class="{
+                      'is-invalid': userStatusState == false,
+                    }"
+                  ></div>
+                </div>
+              </div>
+              <div
+                v-if="isEditing || isEditingMRN"
+                class="profile-info-card-option"
+              >
+                <img src="../../assets/images/pencil.svg" alt="" />
+              </div>
+            </div>
           </div>
           <div class="profile-info" v-else>
             <div class="profile-info-card">
@@ -606,6 +655,9 @@ export default {
       phoneNumberState: null,
       mrnNumber: "",
       mrnNumberState: null,
+      userStatus: null,
+      userStatusState: null,
+      userStatusOptions: ["verified", "unverified", "blocked"],
       doctor: {
         clinics: [],
         speciality: {},
@@ -825,8 +877,10 @@ export default {
         this.address = this.getSelectedUser.location;
         this.phoneNumber = this.getSelectedUser.phone_number;
         this.mrnNumber = this.getSelectedUser.mrn_number;
+        this.userStatus = this.getSelectedUser.status;
         this.phoneNumberState = null;
         this.mrnNumberState = null;
+        this.userStatusState = null;
       }
       this.isEditing = false;
       this.isEditingMRN = false;
@@ -860,7 +914,8 @@ export default {
     },
     validateMrn() {
       this.mrnNumberState = this.mrnNumber != "" && !!this.mrnNumber;
-      return this.mrnNumberState;
+      this.userStatusState = this.userStatus != "" && !!this.userStatus;
+      return this.mrnNumberState && this.userStatusState;
     },
     editProfile() {
       if (this.isEditing) {
@@ -925,6 +980,7 @@ export default {
         }
         let updateUserObj = {
           mrn_number: this.mrnNumber,
+          status: this.userStatus,
         };
         this.updateProfileInfo(updateUserObj);
       } else {
