@@ -114,7 +114,7 @@ export default {
     },
     fetchUsers() {
       this.setLoadingState(true);
-      userService.getUsers("?role_id=3").then(
+      userService.getUsers("?role_id=3&sort=id").then(
         (response) => {
           if (response.data.status) {
             this.parseData(response.data.data.items);

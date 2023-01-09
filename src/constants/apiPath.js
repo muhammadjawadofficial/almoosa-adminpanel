@@ -1,7 +1,8 @@
-let basePath = process.env.VUE_APP_API_BASE_URL + "api/v1/";
-
-let getApiObject = (method, url, pre = basePath) => {
-    return { method, url: pre + url };
+let getApiObject = (method, url, version = "v1", pre = null) => {
+    let versionKey = version.toUpperCase();
+    let envKey = 'VUE_APP_API_' + versionKey + '_BASE_URL';
+    let baseUrl = pre || process.env[envKey];
+    return { method, url: baseUrl + "api/" + version + "/" + url };
 }
 
 export const apiPath = {
