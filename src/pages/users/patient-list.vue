@@ -16,6 +16,7 @@
     </div>
 
     <b-table
+      class="ash-data-table clickable"
       show-empty
       stacked="md"
       borderless
@@ -23,8 +24,10 @@
       :fields="tablefields"
       :current-page="currentPage"
       :per-page="5"
-      class="ash-data-table clickable"
+      :sort-by.sync="sortBy"
+      :sort-desc.sync="sortDesc"
       @row-clicked="rowClicked"
+      @sort-changed="sortUsers"
     >
       <template #head()="data">{{ $t("admin." + data.label) }} </template>
 
@@ -37,7 +40,7 @@
             <feather class="pointer" type="edit"></feather>
           </div>
         </template>
-        <template v-else-if="data.field.key == 'patient_name'">
+        <template v-else-if="data.field.key == 'patientName'">
           <div class="user-name-with-image">
             <div class="image">
               <img :src="getImageUrl(data.item.patient_photo)" alt="user" />
@@ -45,7 +48,7 @@
             <span class="text">{{ data.value }}</span>
           </div>
         </template>
-        <template v-else>{{ data.value }}</template>
+        <template v-else>{{ data.value || "N/A" }}</template>
       </template>
     </b-table>
     <b-pagination
@@ -65,16 +68,18 @@ import { userService } from "../../services";
 export default {
   data() {
     return {
+      sortBy: "id",
+      sortDesc: false,
       searchQuery: "",
       totalRows: 1,
       currentPage: 1,
       getPerPageSelection: 5,
       tablefields: [
         { key: "id", label: "id", sortable: true },
-        { key: "patient_name", label: "patientName", sortable: true },
-        { key: "mrn", label: "mrn", sortable: true },
-        { key: "email", label: "email", sortable: true },
-        { key: "phone", label: "phoneNumber", sortable: true },
+        { key: "patientName", label: "patientName" },
+        { key: "mrn_number", label: "mrn", sortable: true },
+        { key: "email", label: "email" },
+        { key: "phoneNumber", label: "phoneNumber" },
         { key: "status", label: "status", sortable: true },
       ],
       items: [],
@@ -95,26 +100,35 @@ export default {
       this.navigateTo("Patient Details");
     },
     parseData(data) {
-      this.items = [];
       data.forEach((x) => {
         this.items.push({
-          id: x.id,
-          patient_name:
-            x.first_name +
-            (x.middle_name ? " " + x.middle_name : "") +
-            (x.family_name ? " " + x.family_name : ""),
-          patient_photo: x.photo,
-          mrn: x.mrn_number || "N/A",
-          email: x.email_address || "N/A",
-          phone: x.phone_number || "N/A",
-          status: x.status || "N/A",
           ...x,
+          id: x.id,
+          patientName: this.getFullName(x),
+          patient_photo: x.photo,
+          mrn_number: x.mrn_number,
+          email: x.email_address,
+          phoneNumber: x.phone_number,
+          status: x.status,
         });
       });
     },
+    sortUsers(filter) {
+      if (!filter.sortBy) {
+        return;
+      }
+      this.sortDesc = filter.sortDesc;
+      this.sortBy = filter.sortBy;
+      this.fetchUsers();
+    },
     fetchUsers() {
+      this.items = [];
       this.setLoadingState(true);
-      userService.getUsers("?role_id=3&sort=id").then(
+      let query = "";
+      if (this.sortBy) {
+        query = "?sort=" + (this.sortDesc ? "-" : "") + this.sortBy;
+      }
+      userService.getUsers("?role_id=3" + query).then(
         (response) => {
           if (response.data.status) {
             this.parseData(response.data.data.items);

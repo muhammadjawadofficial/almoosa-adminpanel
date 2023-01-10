@@ -609,7 +609,7 @@ const routes = [
 
 const router = new Router({
   routes,
-  base: '/ashadmin/',
+  base: '/',
   linkActiveClass: "active",
   linkExactActiveClass: "",
   mode: 'history',

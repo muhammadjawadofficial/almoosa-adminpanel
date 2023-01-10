@@ -24,13 +24,7 @@
               />
               <span class="w500">
                 {{ $t("header.marhaba") }}
-                {{
-                  getUserInfo.first_name +
-                  (getUserInfo.middle_name
-                    ? " " + getUserInfo.middle_name
-                    : "") +
-                  (getUserInfo.family_name ? " " + getUserInfo.family_name : "")
-                }}</span
+                {{ getFullName(getUserInfo) }}</span
               >
             </div>
             <img
@@ -51,7 +45,7 @@
               <hr />
               <a class="" @click="toggle_stickybar">
                 <span class="profile-dropdown-menu-icon">
-                  <dashboard-svg/>
+                  <dashboard-svg />
                 </span>
                 <span>{{
                   !isSideBarSticky

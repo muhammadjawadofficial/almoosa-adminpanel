@@ -45,8 +45,8 @@ export default {
             }
             return "/profile.png";
         },
-        getLocaleKey: function (key, wordCase = "camel") {
-            let postKey = this.$i18n.locale == "ar" ? "Ar" : "En";
+        getLocaleKey: function (key, wordCase = "lower", enLocale = "", arLocale = "_ar") {
+            let postKey = this.$i18n.locale == "ar" ? arLocale : enLocale;
             if (wordCase == "upper") {
                 postKey = postKey.toUpperCase();
             } else if (wordCase == "lower") {
@@ -436,23 +436,47 @@ export default {
             return strNum;
         },
         isAllowedToCall(date, start, end) {
-            let minutes = 1000 * 60;
-
+            /**
+             * @param date: date in string format
+             * @param start: start time in string format with format hh:mm:ss
+             * @param end: end time in string format with format hh:mm:ss
+             * @returns boolean
+             */
             let startTime = start.split(":");
             let endTime = end.split(":");
 
-            let now = new Date().getTime();
-            let bookDate = new Date(date);
-            let bookDateWithStartTime = bookDate.setHours(startTime[0], startTime[1]);
-            let bookDateWithEndTime = bookDate.setHours(endTime[0], endTime[1]);
+            let now = this.moment().utc();
+            let bookDate = this.moment(date).utc().startOf('day')
 
-            let bookDateWithStartTimeMili = new Date(bookDateWithStartTime).getTime();
-            let bookDateWithEndTimeMili = new Date(bookDateWithEndTime).getTime();
+            let bookDateWithStartTime = this.moment(bookDate).add(startTime[0], 'hours').add(startTime[1], 'minutes');
+            let bookDateWithEndTime = this.moment(bookDate).add(endTime[0], 'hours').add(endTime[1], 'minutes');
 
-            let allowedStartLimit = bookDateWithStartTimeMili - (15 * minutes);
-            let allowedEndLimit = bookDateWithEndTimeMili;
+            let allowedStartLimit = bookDateWithStartTime.add(-15, 'minutes');
+            let allowedEndLimit = bookDateWithEndTime;
 
-            return now > allowedStartLimit && now < allowedEndLimit;
-        }
+            if (now.isBefore(allowedStartLimit)) {
+                this.failureToast(this.$t("cantJoinCallEarly"));
+                return false;
+            } else if (now.isAfter(allowedEndLimit)) {
+                this.failureToast(this.$t("cantJoinCallLate"));
+                return false;
+            } else {
+                return true;
+            }
+        },
+        getFullName(user) {
+            if (!user) {
+                return 'N/A'
+            }
+            let parseName = (name) => name ? name + " " : "";
+            let fullName = parseName(user[this.getLocaleKey('first_name')]) + parseName(user[this.getLocaleKey('middle_name')]) + parseName(user[this.getLocaleKey('family_name')]);
+            if (!fullName) {
+                fullName = parseName(user.first_name) + parseName(user.middle_name) + parseName(user.family_name)
+            }
+            if (fullName && user.role_id == 4) {
+                fullName = this.$t('dr') + " " + fullName.trim();
+            }
+            return fullName || 'N/A';
+        },
     },
 }

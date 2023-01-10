@@ -1,7 +1,7 @@
 module.exports = {
     baseUrl: "/",
-    publicPath: "/ashadmin/",
-    outputDir: "dist/ashadmin",
+    publicPath: "/",
+    outputDir: "dist",
     devServer: {
         disableHostCheck: true
     }

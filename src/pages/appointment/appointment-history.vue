@@ -180,11 +180,7 @@ export default {
       data.forEach((x) => {
         this.items.push({
           id: x.id,
-          patient_name: x.patient
-            ? x.patient.first_name +
-              (x.patient.middle_name ? " " + x.patient.middle_name : "") +
-              (x.patient.family_name ? " " + x.patient.family_name : "")
-            : "N/A",
+          patient_name: this.getFullName(x),
           patient_photo: x.patient && x.patient.photo,
           mrn: x.patient.mrn_number || "N/A",
           datetime:
@@ -195,11 +191,7 @@ export default {
             ) +
             " - " +
             this.translateNumber(this.removeSecondsFromTimeString(x.end_time)),
-          doctor_name: x.doctor
-            ? x.doctor.first_name +
-              (x.doctor.middle_name ? " " + x.doctor.middle_name : "") +
-              (x.doctor.family_name ? " " + x.doctor.family_name : "")
-            : "N/A",
+          doctor_name: this.getFullName(x.doctor),
           type: x.type,
           raw: x,
         });

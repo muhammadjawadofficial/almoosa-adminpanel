@@ -1,8 +1,8 @@
 {
     "data": [
         {
-            "titleEn": "Dashboard",
-            "titleAr": "لوحة القيادة",
+            "title": "Dashboard",
+            "title_ar": "الرئيسة",
             "icon": "dashboard-svg",
             "type": "link",
             "badgeType": "primary",
@@ -12,8 +12,8 @@
             "path": "/dashboard"
         },
         {
-            "titleEn": "Appointments",
-            "titleAr": "المواعيد",
+            "title": "Appointments",
+            "title_ar": "المواعيد",
             "icon": "clipboard-svg",
             "type": "sub",
             "badgeType": "primary",
@@ -22,28 +22,28 @@
             "disabled": false,
             "children": [
                 {
-                    "titleEn": "View Appointments",
-                    "titleAr": "مشاهدة المواعيد",
+                    "title": "View Appointments",
+                    "title_ar": "مشاهدة المواعيد",
                     "type": "link",
                     "path": "/appointment/view"
                 },
                 {
-                    "titleEn": "Appointment History",
-                    "titleAr": "تاريخ التعيين",
+                    "title": "Appointment History",
+                    "title_ar": "تاريخ التعيين",
                     "type": "link",
                     "path": "/appointment/history"
                 },
                 {
-                    "titleEn": "Appointment Instructions",
-                    "titleAr": "تعليمات الموعد",
+                    "title": "Appointment Instructions",
+                    "title_ar": "تعليمات الموعد",
                     "type": "link",
                     "path": "/appointment/instructions"
                 }
             ]
         },
         {
-            "titleEn": "Users",
-            "titleAr": "المستخدمون",
+            "title": "Users",
+            "title_ar": "المستخدمون",
             "icon": "user-fill-svg",
             "type": "sub",
             "badgeType": "primary",
@@ -52,28 +52,28 @@
             "disabled": false,
             "children": [
                 {
-                    "titleEn": "Patient Management",
-                    "titleAr": "التعامل مع المرضى",
+                    "title": "Patient Management",
+                    "title_ar": "التعامل مع المرضى",
                     "type": "link",
                     "path": "/users/patient"
                 },
                 {
-                    "titleEn": "Physician Management",
-                    "titleAr": "إدارة الطبيب",
+                    "title": "Physician Management",
+                    "title_ar": "إدارة الطبيب",
                     "type": "link",
                     "path": "/users/physician"
                 },
                 {
-                    "titleEn": "Staff Management",
-                    "titleAr": "إدارة الموظفين",
+                    "title": "Staff Management",
+                    "title_ar": "إدارة الموظفين",
                     "type": "link",
                     "path": "/users/staff"
                 }
             ]
         },
         {
-            "titleEn": "Promotions",
-            "titleAr": "الترقيات",
+            "title": "Promotions",
+            "title_ar": "الترقيات",
             "icon": "bell-fill-svg",
             "type": "sub",
             "badgeType": "primary",
@@ -82,8 +82,8 @@
             "disabled": false,
             "children": [
                 {
-                    "titleEn": "Promo Groups",
-                    "titleAr": "مجموعات ترويجية",
+                    "title": "Promo Groups",
+                    "title_ar": "مجموعات ترويجية",
                     "type": "sub",
                     "badgeType": "primary",
                     "badgeValue": "",
@@ -91,22 +91,22 @@
                     "disabled": false,
                     "children": [
                         {
-                            "titleEn": "List",
-                            "titleAr": "قائمة",
+                            "title": "List",
+                            "title_ar": "قائمة",
                             "type": "link",
                             "path": "/promotions/groups/list"
                         },
                         {
-                            "titleEn": "Create",
-                            "titleAr": "خلق",
+                            "title": "Create",
+                            "title_ar": "خلق",
                             "type": "link",
                             "path": "/promotions/groups/create"
                         }
                     ]
                 },
                 {
-                    "titleEn": "Promo Codes",
-                    "titleAr": "الرموز الترويجية",
+                    "title": "Promo Codes",
+                    "title_ar": "الرموز الترويجية",
                     "type": "sub",
                     "badgeType": "primary",
                     "badgeValue": "",
@@ -114,14 +114,14 @@
                     "disabled": false,
                     "children": [
                         {
-                            "titleEn": "List",
-                            "titleAr": "قائمة",
+                            "title": "List",
+                            "title_ar": "قائمة",
                             "type": "link",
                             "path": "/promotions/list"
                         },
                         {
-                            "titleEn": "Create",
-                            "titleAr": "خلق",
+                            "title": "Create",
+                            "title_ar": "خلق",
                             "type": "link",
                             "path": "/promotions/create"
                         }
@@ -130,8 +130,8 @@
             ]
         },
         {
-            "titleEn": "Medications Refills",
-            "titleAr": "عبوات الأدوية",
+            "title": "Medications Refills",
+            "title_ar": "عبوات الأدوية",
             "icon": "pill-fill-svg",
             "type": "link",
             "badgeType": "primary",
@@ -141,8 +141,8 @@
             "path": "/medication-refills"
         },
         {
-            "titleEn": "Health Education",
-            "titleAr": "التثقيف الصحي",
+            "title": "Health Education",
+            "title_ar": "التثقيف الصحي",
             "type": "sub",
             "icon": "atom-fill-svg",
             "badgeType": "primary",
@@ -151,22 +151,22 @@
             "disabled": false,
             "children": [
                 {
-                    "titleEn": "List",
-                    "titleAr": "قائمة",
+                    "title": "List",
+                    "title_ar": "قائمة",
                     "type": "link",
                     "path": "/health-education/list"
                 },
                 {
-                    "titleEn": "Create",
-                    "titleAr": "خلق",
+                    "title": "Create",
+                    "title_ar": "خلق",
                     "type": "link",
                     "path": "/health-education/create"
                 }
             ]
         },
         {
-            "titleEn": "Services & Packages",
-            "titleAr": "الخدمات والحزم",
+            "title": "Services & Packages",
+            "title_ar": "الخدمات والحزم",
             "type": "sub",
             "icon": "briefcase-fill-svg",
             "badgeType": "primary",
@@ -175,22 +175,22 @@
             "disabled": false,
             "children": [
                 {
-                    "titleEn": "List",
-                    "titleAr": "قائمة",
+                    "title": "List",
+                    "title_ar": "قائمة",
                     "type": "link",
                     "path": "/services-packages/list"
                 },
                 {
-                    "titleEn": "Create",
-                    "titleAr": "خلق",
+                    "title": "Create",
+                    "title_ar": "خلق",
                     "type": "link",
                     "path": "/services-packages/create"
                 }
             ]
         },
         {
-            "titleEn": "Family Members",
-            "titleAr": "أفراد الأسرة",
+            "title": "Family Members",
+            "title_ar": "أفراد الأسرة",
             "icon": "family-fill-svg",
             "type": "link",
             "badgeType": "primary",
@@ -200,8 +200,8 @@
             "path": "/family-members"
         },
         {
-            "titleEn": "Transactions",
-            "titleAr": "المعاملات",
+            "title": "Transactions",
+            "title_ar": "المعاملات",
             "icon": "cash-svg",
             "type": "link",
             "badgeType": "primary",

@@ -59,7 +59,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="loading" v-if="!getApprovedInsurances">
+                <div class="loading no-data" v-if="!getApprovedInsurances">
                   {{ $t("loading") }}
                 </div>
                 <div class="no-data" v-else-if="!getApprovedInsurances.length">
@@ -103,7 +103,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="loading" v-if="insuranceList == null">
+                <div class="loading no-data" v-if="insuranceList == null">
                   {{ $t("loading") }}
                 </div>
                 <div class="no-data" v-else-if="!insuranceList.length">

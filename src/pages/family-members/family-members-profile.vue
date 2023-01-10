@@ -28,13 +28,7 @@
             <div class="doctor-details-card-header-right">
               <div class="doctor-details-card-header-right-info">
                 <div class="doctor-details-card-header-right-info-name">
-                  {{
-                    getSelectedFamilyMember.first_name +
-                    (getSelectedFamilyMember.middle_name
-                      ? " " + getSelectedFamilyMember.middle_name + " "
-                      : " ") +
-                    getSelectedFamilyMember.family_name
-                  }}
+                  {{ getFullName(getSelectedFamilyMember) }}
                 </div>
                 <div class="doctor-details-card-header-right-info-user">
                   <div class="user-id">

@@ -115,10 +115,7 @@ export default {
       data.forEach((x) => {
         this.items.push({
           id: x.id,
-          patient_name:
-            x.first_name +
-            (x.middle_name ? " " + x.middle_name : "") +
-            (x.family_name ? " " + x.family_name : ""),
+          patient_name: this.getFullName(x),
           patient_photo: x.patient && x.patient.photo,
           mrn: x.mrn_number || "N/A",
           email: x.email_address || "N/A",

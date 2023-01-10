@@ -28,13 +28,7 @@
             <div class="doctor-details-card-header-right">
               <div class="doctor-details-card-header-right-info">
                 <div class="doctor-details-card-header-right-info-name">
-                  {{
-                    getSelectedUser.first_name +
-                    (getSelectedUser.middle_name
-                      ? " " + getSelectedUser.middle_name + " "
-                      : " ") +
-                    getSelectedUser.family_name
-                  }}
+                  {{ getFullName(getSelectedUser) }}
                 </div>
                 <div class="doctor-details-card-header-right-info-user">
                   <div class="user-id">
@@ -618,7 +612,9 @@
                 v-if="isMrnEditingAllowed"
               >
                 {{
-                  isEditingMRN ? $t("profile.updateMRN") : $t("profile.editMRN")
+                  isEditingMRN
+                    ? $t("profile.updateProfile")
+                    : $t("profile.editProfile")
                 }}
               </button>
               <button
@@ -749,77 +745,47 @@ export default {
     },
     checkDropdownValues() {
       this.setLoadingState(true);
-      authService.getNationalities().then(
-        (res) => {
-          if (res.data.status) {
-            let data = res.data.data;
+      Promise.all([
+        authService.getNationalities(),
+        authService.getClinics(),
+        authService.getSpecialities(),
+      ])
+        .then((res) => {
+          let nationalities = res[0];
+          let clinics = res[1];
+          let specialities = res[2];
+          if (nationalities.data.status) {
+            let data = nationalities.data.data;
             if (data) {
               this.nationalities = data.items;
             }
           } else {
-            this.failureToast(res.data.message);
+            this.failureToast(nationalities.data.message);
           }
-          this.setLoadingState(false);
-        },
-        (err) => {
-          console.error(err);
-          this.failureToast();
-          this.setLoadingState(false);
-        }
-      );
-      this.setLoadingState(true);
-      authService.getDepartments().then(
-        (res) => {
-          if (res.data.status) {
-            let data = res.data.data;
+          if (clinics.data.status) {
+            let data = clinics.data.data;
             if (data) {
-              this.departments = data.items;
+              this.clinics = data.items;
             }
           } else {
-            this.failureToast(res.data.message);
+            this.failureToast(clinics.data.message);
           }
-          this.setLoadingState(false);
-        },
-        (err) => {
-          console.error(err);
-          this.failureToast();
-          this.setLoadingState(false);
-        }
-      );
-      this.setLoadingState(true);
-      authService.getClinics().then(
-        (res) => {
-          let response = res.data;
-          if (response.status) {
-            this.clinics = response.data.items;
+          if (specialities.data.status) {
+            let data = specialities.data.data;
+            if (data) {
+              this.specialities = data.items;
+            }
           } else {
-            this.failureToast(response.message);
+            this.failureToast(specialities.data.message);
           }
-          this.setLoadingState(false);
-        },
-        (err) => {
-          console.error(err);
+        })
+        .catch(() => {
           this.failureToast();
+        })
+        .finally(() => {
           this.setLoadingState(false);
-        }
-      );
-      this.setLoadingState(true);
-      authService.getSpecialities().then(
-        (res) => {
-          let response = res.data;
-          if (response.status) {
-            this.specialities = res.data.data.items;
-          } else {
-            this.failureToast(response.message);
-          }
-          this.setLoadingState(false);
-        },
-        (err) => {
-          console.error(err);
-          this.failureToast();
-          this.setLoadingState(false);
-        }
-      );
+          this.getProfileData();
+        });
     },
     formatNumber(number, input) {
       if (
@@ -831,12 +797,16 @@ export default {
       return number;
     },
     initializeData() {
-      this.getProfileData();
       this.resetData();
     },
     getProfileData() {
+      if (this.getSelectedUser.role_id == 4 || !this.getSelectedUser.mrn_number)
+        this.getDoctorProfile();
+      else this.getLoggedInUserData();
+    },
+    getDoctorProfile() {
       this.setLoadingState(true);
-      userService.getUsers("?id=" + this.getSelectedUser.id).then(
+      userService.getDoctorProfile(this.getSelectedUser.id).then(
         (res) => {
           if (res.data.status) {
             this.updateSelectedUser(res.data.data.items[0]);
@@ -852,6 +822,32 @@ export default {
           console.error(error);
         }
       );
+    },
+    getLoggedInUserData() {
+      this.setLoadingState(true);
+      userService
+        .getProfile(
+          this.getSelectedUser.role_id == 4 ? "doctor" : "patient",
+          this.getSelectedUser.role_id == 4
+            ? this.getSelectedUser.id
+            : this.getSelectedUser.mrn_number
+        )
+        .then(
+          (res) => {
+            if (res.data.status) {
+              this.updateSelectedUser(res.data.data);
+              this.resetData();
+            } else {
+              this.failureToast(res.data.message);
+            }
+            this.setLoadingState(false);
+          },
+          (error) => {
+            this.setLoadingState(false);
+            this.failureToast();
+            console.error(error);
+          }
+        );
     },
     resetData() {
       if (this.isSelectedUserDoctor) {

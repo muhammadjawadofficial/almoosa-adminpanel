@@ -20,6 +20,7 @@ export const userService = {
     downloadFile,
     updateProfile,
     getProfile,
+    getDoctorProfile,
     getUsers
 };
 
@@ -112,10 +113,16 @@ function updateProfile(userId, profile) {
         data: profile
     })
 }
-function getProfile(profile) {
+function getProfile(profile, mrn) {
     return axios({
-        method: apiPath.user.getProfile(profile).method,
-        url: apiPath.user.getProfile(profile).url,
+        method: apiPath.user.getProfile(profile, mrn).method,
+        url: apiPath.user.getProfile(profile, mrn).url,
+    })
+}
+function getDoctorProfile(id) {
+    return axios({
+        method: apiPath.user.getDoctorProfile(id).method,
+        url: apiPath.user.getDoctorProfile(id).url,
     })
 }
 function getUsers(query) {

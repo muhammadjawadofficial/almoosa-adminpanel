@@ -4,27 +4,27 @@
     <div class="row">
       <div class="col-lg-6">
         <div class="accordion mt-4" role="tablist" v-if="parsedDetails">
-          <b-card no-body class="transparent mb-2" v-if="parsedDetails.heading">
+          <b-card no-body class="transparent mb-2" v-if="department && token">
             <b-card-header header-tag="header" class="p-1" role="tab">
               <b-button block variant="primary">
-                <div>
+                <div v-if="department">
                   <img src="../../assets/images/heart-beat.svg" alt="heart" />
                   {{ $t("appointmentDetail.medicalType") }}:
-                  {{ parsedDetails.heading["Medical Type"] }}
+                  {{ department }}
                 </div>
-                <div class="info">
+                <div class="info" v-if="token">
                   <img src="../../assets/images/hashtag.svg" alt="heart" />
                   {{ $t("appointmentDetail.token") }}:
-                  {{ parsedDetails.heading["Token"] }}
+                  {{ token }}
                 </div>
               </b-button>
             </b-card-header>
           </b-card>
-          <template v-if="parsedDetails.sections">
+          <template v-if="sections">
             <b-card
               no-body
               class="transparent mb-2"
-              v-for="(section, index) in parsedDetails.sections"
+              v-for="(section, index) in sections"
               :key="'section-' + index"
             >
               <b-card-header
@@ -43,12 +43,34 @@
                 role="tabpanel"
               >
                 <b-card-body>
-                  <b-card-text>
-                    <div class="heading">{{ section.key }}</div>
-                    <div class="description">
-                      {{ section.value }}
-                    </div>
-                  </b-card-text>
+                  <template v-if="section.value.length">
+                    <b-card-text
+                      v-for="(subSections, sindex) in section.value"
+                      :key="'sub-' + sindex"
+                    >
+                      <div
+                        v-for="(subSection, index) in subSections"
+                        :key="'value-' + index + subSection"
+                      >
+                        <div class="heading">{{ subSection.key }}</div>
+                        <div class="description">
+                          {{
+                            subSection.key &&
+                            subSection.key.toLowerCase().includes("date")
+                              ? getLongDateAndTimeFromDate(subSection.value)
+                              : subSection.value
+                          }}
+                        </div>
+                      </div>
+                    </b-card-text>
+                  </template>
+                  <template v-else>
+                    <b-card-text>
+                      <div class="description">
+                        {{ $t("noData") }}
+                      </div>
+                    </b-card-text>
+                  </template>
                 </b-card-body>
               </b-collapse>
             </b-card>
@@ -71,7 +93,11 @@ export default {
       backLink: null,
       timelineDetails: null,
       parsedDetails: null,
+      sections: null,
       appointmentId: null,
+      mrn_number: null,
+      department: null,
+      token: null,
     };
   },
   beforeRouteEnter(to, from, next) {
@@ -83,6 +109,7 @@ export default {
   computed: {
     ...mapGetters("myTimeline", ["getSelectedTimeline"]),
     ...mapGetters("appointment", ["getSelectedAppointment"]),
+    ...mapGetters("user", ["getSelectedUser"]),
   },
   mounted() {
     if (!this.getSelectedAppointment && !this.getSelectedTimeline) {
@@ -90,9 +117,17 @@ export default {
       return;
     }
     if (this.backLink)
-      this.appointmentId = this.backLink.includes("Patient")
-        ? this.getSelectedTimeline.id
-        : this.getSelectedAppointment.id;
+      if (this.backLink.includes("Patient")) {
+        this.appointmentId = this.getSelectedTimeline.id;
+        this.mrn_number = this.getSelectedUser.mrn_number;
+        this.department = this.getSelectedTimeline.department;
+        this.token = this.getSelectedTimeline.visit_no;
+      } else {
+        this.appointmentId = this.getSelectedAppointment.id;
+        this.mrn_number = this.getSelectedAppointment.raw.patient_id;
+        this.department = this.getSelectedAppointment.raw.department;
+        this.token = this.getSelectedAppointment.raw.visit_no;
+      }
     if (!this.appointmentId) {
       this.pushBack();
       return;
@@ -106,29 +141,60 @@ export default {
     },
     fetchTimelineDetails() {
       this.setLoadingState(true);
-      timelineService.fetchTimelineDetails(this.appointmentId).then(
-        (response) => {
-          if (response.data.status) {
-            let data = response.data.data.items[0];
-            this.timelineDetails = data;
-            if (data) {
-              let topHeading = data.sections[0];
-              let bottomSections = data.sections[1].data;
-              this.parsedDetails = {
-                heading: topHeading,
-                sections: bottomSections,
-              };
+      timelineService
+        .fetchTimelineDetails(this.mrn_number, this.appointmentId)
+        .then(
+          (response) => {
+            if (response.data.status) {
+              let data = response.data.data.items;
+              this.timelineDetails = data;
+              if (data) {
+                let sections = [];
+                let topHeading = "hello";
+                let bottomSections = [];
+
+                data.forEach((item) => {
+                  let section = {
+                    title: item.title,
+                    value: [],
+                  };
+                  if (item.data.length) {
+                    let sectionDataItemKeys = Object.keys(item.data[0]);
+                    item.data.forEach((dataItem) => {
+                      let subSection = [];
+                      sectionDataItemKeys.forEach((key) => {
+                        subSection.push({
+                          key: key.replaceAll("_", " "),
+                          value: dataItem[key],
+                        });
+                      });
+                      section.value.push(subSection);
+                    });
+                  }
+                  sections.push(section);
+                });
+                this.sections = sections;
+                // let parsedTopHeading = Object.keys(topHeading).map((x) => {
+                //   return {
+                //     key: x,
+                //     value: topHeading[x],
+                //   };
+                // });
+                this.parsedDetails = {
+                  heading: topHeading,
+                  sections: bottomSections,
+                };
+              }
+            } else {
+              this.failureToast(response.data.messsage);
             }
-          } else {
-            this.failureToast(response.data.messsage);
+            this.setLoadingState(false);
+          },
+          () => {
+            this.setLoadingState(false);
+            this.failureToast();
           }
-          this.setLoadingState(false);
-        },
-        () => {
-          this.setLoadingState(false);
-          this.failureToast();
-        }
-      );
+        );
     },
   },
 };
@@ -189,18 +255,18 @@ export default {
       }
     }
     .card-body {
-      padding-block: 1.25rem 2rem;
+      padding-block: 1rem;
       padding-inline: 1rem;
       .card-text {
         .heading {
-          font-size: 1.25rem;
+          font-size: 1rem;
           color: var(--theme-default);
         }
         .description {
           font-size: 1rem;
           color: black;
           line-height: 1.2em;
-          margin-top: 0.5em;
+          margin-bottom: 0.5em;
         }
       }
     }

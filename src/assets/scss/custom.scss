@@ -1164,7 +1164,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                             position: absolute;
                             top: -1rem;
                             right: 0.25rem;
-                            background-image: url(/ashadmin/img/check.65426710.svg);
+                            background-image: url(/img/check.65426710.svg);
                             background-repeat: no-repeat;
                             background-position: center;
                             background-size: contain;
@@ -2236,12 +2236,24 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .search {
     &-box {
-        position: absolute;
-        top: 4.5rem;
-        right: 0;
         display: flex;
         align-items: center;
         gap: 0.5rem;
+        position: absolute;
+        top: 2.5rem;
+        right: 0;
+        &.top-padding {
+            top: 4.5rem;
+            &-3 {
+                top: 3rem;
+            }
+            &-2 {
+                top: 2rem;
+            }
+        }
+        &.top-no-padding {
+            top: 0;
+        }
         &.full-width {
             position: relative;
             inset: unset;

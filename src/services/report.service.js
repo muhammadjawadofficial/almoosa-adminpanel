@@ -4,7 +4,8 @@ import { apiPath } from "../constants/apiPath";
 export const reportService = {
     getAppointmentsWithReports,
     fetchLabReports,
-    fetchRadiologyReports
+    fetchRadiologyReports,
+    getReportsWithAppointments
 }
 
 function getAppointmentsWithReports(id, type) {
@@ -24,5 +25,12 @@ function fetchRadiologyReports(id) {
     return axios({
         method: apiPath.reports.appointment(id, 'radiology').method,
         url: apiPath.reports.appointment(id, 'radiology').url,
+    })
+}
+
+function getReportsWithAppointments(id) {
+    return axios({
+        method: apiPath.reports.reportsWithAppointments(id).method,
+        url: apiPath.reports.reportsWithAppointments(id).url,
     })
 }

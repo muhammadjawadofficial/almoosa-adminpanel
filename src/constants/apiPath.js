@@ -40,7 +40,6 @@ export const apiPath = {
     },
 
     medication: {
-        getMedications: (id) => getApiObject("get", "medications?appointment_id=" + id),
         getCurrentMedications: (query) => getApiObject("get", "medications/current" + (query || '')),
         getMedicationRefills: (query) => getApiObject("get", "medication-refills" + (query || '')),
         updateMedicationRefill: (id) => getApiObject("patch", "medication-refills/" + id),
@@ -48,13 +47,17 @@ export const apiPath = {
     },
 
     reports: {
-        appointmentWithReports: (id, type) => getApiObject("get", "appointments/reports?patient_id=" + id + "&type=" + type),
+        getAppointmentMedication: (id) => getApiObject("get", "appointments/with-medications?mrn_number=" + id, "v2"),
+        getMedications: (id) => getApiObject("get", "medications?appointment_id=" + id + "&is_active=2  ", "v2"),
+        appointmentWithReports: (id) => getApiObject("get", "appointments/reports?mrn_number=" + id, "v2"),
         appointment: (id, type) => getApiObject("get", "reports?appointment_id=" + id + "&type=" + type),
+        reportsWithAppointments: (id) => getApiObject("get", "reports?appointment_id=" + id, "v2"),
     },
 
     user: {
         updateProfile: (id) => getApiObject("patch", "users/" + id),
-        getProfile: (profile) => getApiObject("get", "auth/" + profile + "/profile"),
+        getProfile: (profile, mrn) => getApiObject("get", "auth/" + profile + "/profile?mrn_number=" + mrn, (profile == 'doctor' ? 'v1' : "v2")),
+        getDoctorProfile: (id) => getApiObject("get", "users?id=" + id),
         fetchUsers: (query) => getApiObject("get", "users" + query),
         getNationalities: getApiObject("get", "nationalities"),
         getDepartments: getApiObject("get", "departments"),
@@ -70,7 +73,8 @@ export const apiPath = {
     },
 
     timeline: {
-        details: (id) => getApiObject("get", "timelines?appointment_id=" + id),
+        sessions: (id) => getApiObject("get", "timelines?mrn_number=" + id, "v2"),
+        details: (mrn, id) => getApiObject("get", "timelines/details?mrn_number=" + mrn + "&id=" + id, "v2"),
     },
 
     servicesPackages: {

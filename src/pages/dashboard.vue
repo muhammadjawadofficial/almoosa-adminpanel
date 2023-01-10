@@ -100,13 +100,7 @@
                     </div>
                     <div class="appointment-details">
                       <div class="doctor-name">
-                        {{
-                          appointment.patient.first_name +
-                          (appointment.patient.middle_name
-                            ? " " + appointment.patient.middle_name + " "
-                            : " ") +
-                          appointment.patient.family_name
-                        }}
+                        {{ getFullName(appointment) }}
                       </div>
                       <div class="appointment-status">
                         <div class="appointment-time-span">
@@ -130,7 +124,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="loading" v-if="appointmentStatus == 'loading'">
+                <div class="loading no-data" v-if="appointmentStatus == 'loading'">
                   {{ $t("loading") }}
                 </div>
                 <div class="no-data" v-else-if="!todayAppointments.length">

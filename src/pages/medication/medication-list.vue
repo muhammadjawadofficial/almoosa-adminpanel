@@ -9,7 +9,7 @@
       no-body
       class="ash-card card-top-navigation transparent"
     >
-      <b-card-body class="mt-5 py-0 px-3" style="--numberOfTabs: 2">
+      <b-card-body class="mt-5 p-0" style="--numberOfTabs: 2">
         <b-tabs pills slot="header" class="tabbed-card">
           <b-tab :title="$t('myMedication.currentMedication')">
             <div
@@ -18,7 +18,7 @@
                 noData: !presentMedicationList || !presentMedicationList.length,
               }"
             >
-              <div class="loading" v-if="presentMedicationList == null">
+              <div class="loading no-data" v-if="presentMedicationList == null">
                 {{ $t("loading") }}
               </div>
               <div class="no-data" v-else-if="!presentMedicationList.length">
@@ -39,7 +39,10 @@
                     </div>
                     <div class="appointment-details">
                       <div class="doctor-name">
-                        {{ medication.title + " " + medication.variation }}
+                        {{
+                          (medication.title ? medication.title + " " : "") +
+                          medication.variation
+                        }}
                       </div>
                       <div class="doctor-speciality">
                         {{ medication.description }}
@@ -69,6 +72,12 @@
                           }}
                         </div>
                       </div>
+                      <span
+                        class="btn start-call-button w200"
+                        @click.stop="setReminder(medication)"
+                      >
+                        {{ $t("myMedication.setReminder") }}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -82,7 +91,7 @@
                 noData: !pastMedicationList || !pastMedicationList.length,
               }"
             >
-              <div class="loading" v-if="pastMedicationList == null">
+              <div class="loading no-data" v-if="pastMedicationList == null">
                 {{ $t("loading") }}
               </div>
               <div class="no-data" v-else-if="!pastMedicationList.length">
@@ -100,7 +109,10 @@
                     </div>
                     <div class="appointment-details">
                       <div class="doctor-name">
-                        {{ medication.title + " " + medication.variation }}
+                        {{
+                          (medication.title ? medication.title + " " : "") +
+                          medication.variation
+                        }}
                       </div>
                       <div class="doctor-speciality">
                         {{ medication.description }}
@@ -199,22 +211,25 @@ export default {
     },
     fetchTimelines() {
       this.setLoadingState(true);
-      medicationService.getMedications(this.getSelectedAppointment.id).then(
-        (response) => {
-          if (response.data.status) {
-            let data = response.data.data.items;
-            this.medicationList = [...data];
-            this.filterMedications();
-          } else {
-            this.failureToast(response.data.messsage);
+      medicationService
+        .getMedications(this.getSelectedMedicationSession.id)
+        .then(
+          (response) => {
+            if (response.data.status) {
+              let data = response.data.data.items;
+              this.medicationList = [...data];
+              this.filterMedications();
+            } else {
+              this.failureToast(response.data.messsage);
+            }
+            this.setLoadingState(false);
+          },
+          () => {
+            this.setLoadingState(false);
+            this.failureToast();
+            this.medicationList = [];
           }
-          this.setLoadingState(false);
-        },
-        () => {
-          this.setLoadingState(false);
-          this.failureToast();
-        }
-      );
+        );
     },
     filterMedications() {
       this.presentMedicationList = [];

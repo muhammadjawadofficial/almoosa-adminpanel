@@ -102,10 +102,7 @@ export default {
         this.selectedPromotionUsers = [
           ...this.getSelectedPromotionGroup.users.map((x) => {
             return {
-              name:
-                x.first_name +
-                (x.middle_name ? " " + x.middle_name + " " : " ") +
-                x.family_name,
+              name: this.getFullName(x),
               ...x,
             };
           }),
@@ -123,10 +120,7 @@ export default {
             this.promoGroups = [
               ...res.data.data.items.map((x) => {
                 return {
-                  name:
-                    x.first_name +
-                    (x.middle_name ? " " + x.middle_name + " " : " ") +
-                    x.family_name,
+                  name: this.getFullName(x),
                   ...x,
                 };
               }),

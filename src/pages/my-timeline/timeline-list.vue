@@ -14,7 +14,7 @@
           class="appointment-list"
           :class="{ noData: !timelineList || !timelineList.length }"
         >
-          <div class="loading" v-if="timelineList == null">
+          <div class="loading no-data" v-if="timelineList == null">
             {{ $t("loading") }}
           </div>
           <div class="no-data" v-else-if="!timelineList.length">
@@ -23,44 +23,57 @@
           <template v-else>
             <div
               class="appointment-list-item"
-              v-for="timeline in timelineList"
-              :key="'upcoming-appointment-id' + timeline.id"
+              v-for="(timeline, index) in timelineList"
+              :key="'upcoming-appointment-id' + index + timeline.id"
             >
               <div class="appointment-time">
                 <div class="appointment-time-day">
-                  {{ getDate(timeline.booked_date) }}
+                  {{ getDate(timeline.start_date) }}
                 </div>
                 <div class="appointment-time-time">
-                  {{ removeSecondsFromTimeString(timeline.start_time) }}
+                  {{
+                    timeline.start_time
+                      ? getTimeFromDate(timeline.start_time, true)
+                      : ""
+                  }}
                 </div>
               </div>
               <div class="appointment-card default">
                 <div class="doctor-avatar">
-                  <img :src="getImageUrl(timeline.doctor.photo)" alt="" />
+                  <img
+                    :src="getImageUrl(timeline.doctor && timeline.doctor.photo)"
+                    alt=""
+                  />
                 </div>
                 <div class="appointment-details">
                   <div class="doctor-name">
-                    {{ $t("bookAppointment." + timeline.type) }}
-                    {{ $t("myTimeline.appointmentSession") }}
+                    {{
+                      timeline.episode_status
+                        ? timeline.episode_status +
+                          " " +
+                          $t("myTimeline.appointmentSession")
+                        : "N/A"
+                    }}
                   </div>
                   <div class="doctor-speciality">
-                    {{
-                      timeline.doctor.first_name +
-                      (timeline.doctor.middle_name
-                        ? " " + timeline.doctor.middle_name + " "
-                        : " ") +
-                      timeline.doctor.family_name
-                    }}
+                    {{ timeline.doctor_name }}
                   </div>
                   <div class="appointment-status">
                     <div class="appointment-time-span">
-                      {{ removeSecondsFromTimeString(timeline.start_time) }}
-                      -
-                      {{ removeSecondsFromTimeString(timeline.end_time) }}
+                      {{
+                        timeline.start_time
+                          ? getTimeFromDate(timeline.start_time, true) + " - "
+                          : ""
+                      }}
+                      {{
+                        timeline.end_time
+                          ? getTimeFromDate(timeline.end_time, true)
+                          : ""
+                      }}
                     </div>
                   </div>
                   <button
-                    class="btn start-call-button status-color"
+                    class="btn start-call-button"
                     @click="viewDetails(timeline)"
                   >
                     {{ $t("myTimeline.viewDetails") }}
@@ -77,7 +90,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { medicationService } from "../../services";
+import { timelineService } from "../../services";
 export default {
   data() {
     return {
@@ -85,10 +98,6 @@ export default {
     };
   },
   mounted() {
-    if (!this.getSelectedUser) {
-      this.navigateTo("Patient Details");
-      return;
-    }
     this.fetchTimelines();
   },
   computed: {
@@ -98,26 +107,30 @@ export default {
     ...mapActions("myTimeline", ["setSelectedTimeline"]),
     fetchTimelines() {
       this.setLoadingState(true);
-      medicationService.getAppointmentHistory(this.getSelectedUser.id).then(
-        (response) => {
-          if (response.data.status) {
-            let data = response.data.data.items;
-            this.timelineList = [...data];
-            this.filteredDoctors = [...data];
-          } else {
-            this.failureToast(response.data.messsage);
+      timelineService
+        .fetchTimelineSessions(this.getSelectedUser.mrn_number)
+        .then(
+          (response) => {
+            if (response.data.status) {
+              let data = response.data.data.items;
+              this.timelineList = [...data];
+              this.filteredDoctors = [...data];
+            } else {
+              this.failureToast(response.data.messsage);
+            }
+            this.setLoadingState(false);
+          },
+          () => {
+            this.timelineList = [];
+            this.filteredDoctors = [];
+            this.setLoadingState(false);
+            this.failureToast();
           }
-          this.setLoadingState(false);
-        },
-        () => {
-          this.setLoadingState(false);
-          this.failureToast();
-        }
-      );
+        );
     },
     viewDetails(appointment) {
       this.setSelectedTimeline(appointment);
-      this.navigateTo("Patient Timeline Details");
+      this.navigateTo("My Timeline Details");
     },
   },
 };

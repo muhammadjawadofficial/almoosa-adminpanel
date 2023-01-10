@@ -178,12 +178,7 @@ export default {
       data.forEach((x) => {
         this.items.push({
           id: x.id,
-          patient_name:
-            x.patient.first_name +
-            (x.patient.middle_name ? " " + x.patient.middle_name : "") +
-            (x.patient.family_name ? " " + x.patient.family_name : ""),
-          patient_photo: x.patient.photo,
-          mrn: x.patient.mrn_number || "N/A",
+          patient_name: this.getFullName(x.patient),
           datetime:
             this.formatLongDayDateFromDate(x.booked_date) +
             " / " +
@@ -192,10 +187,7 @@ export default {
             ) +
             " - " +
             this.translateNumber(this.removeSecondsFromTimeString(x.end_time)),
-          doctor_name:
-            x.doctor.first_name +
-            (x.doctor.middle_name ? " " + x.doctor.middle_name : "") +
-            (x.doctor.family_name ? " " + x.doctor.family_name : ""),
+          doctor_name: this.getFullName(x.doctor),
           status: x.status,
         });
       });
