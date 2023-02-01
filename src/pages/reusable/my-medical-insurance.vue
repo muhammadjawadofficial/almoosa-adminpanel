@@ -169,8 +169,10 @@ export default {
           this.setLoadingState(false);
         },
         (error) => {
-          console.error(error);
-          this.failureToast();
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response.data && error.response.data.message
+            );
           this.setLoadingState(false);
         }
       );

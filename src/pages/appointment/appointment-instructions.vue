@@ -92,10 +92,13 @@ export default {
           this.appointmentStatus = null;
           this.setLoadingState(false);
         },
-        () => {
+        (error) => {
           this.appointmentStatus = null;
           this.setLoadingState(false);
-          this.failureToast();
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response.data && error.response.data.messsage
+            );
         }
       );
     },
@@ -111,10 +114,13 @@ export default {
           this.appointmentStatus = null;
           this.setLoadingState(false);
         },
-        () => {
+        (error) => {
           this.appointmentStatus = null;
           this.setLoadingState(false);
-          this.failureToast();
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response.data && error.response.data.messsage
+            );
         }
       );
     },

@@ -95,7 +95,6 @@ export default {
   },
   watch: {
     $route(route) {
-      this.setLoadingState(false);
       this.menuItems.filter((items) => {
         if (items.path === route.path)
           this.$store.dispatch("menu/setActiveRoute", items);

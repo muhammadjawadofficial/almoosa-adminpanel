@@ -60,7 +60,7 @@
             </b-card-header>
           </b-card>
 
-          <b-card no-body class="transparent mb-2">
+          <b-card no-body class="transparent mb-2" v-if="false">
             <b-card-header header-tag="header" class="p-1 accordion-tab">
               <b-button block @click="navigateLabReports()">
                 <div>Lab Reports</div>
@@ -69,7 +69,7 @@
             </b-card-header>
           </b-card>
 
-          <b-card no-body class="transparent mb-2">
+          <b-card no-body class="transparent mb-2" v-if="false">
             <b-card-header header-tag="header" class="p-1 accordion-tab">
               <b-button block @click="navigateRadiologyReports()">
                 <div>Radiology Reports</div>
@@ -78,7 +78,7 @@
             </b-card-header>
           </b-card>
 
-          <b-card no-body class="transparent mb-2">
+          <b-card no-body class="transparent mb-2" v-if="false">
             <b-card-header header-tag="header" class="p-1 accordion-tab">
               <b-button block @click="navigateMedications()">
                 <div>Medications</div>

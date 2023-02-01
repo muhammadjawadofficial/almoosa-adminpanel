@@ -10,21 +10,23 @@
           id="type-search"
           type="search"
           v-model="searchQuery"
-          debounce="500"
+          debounce="1000"
         ></b-form-input>
       </div>
     </div>
 
     <b-table
+      class="ash-data-table clickable"
       show-empty
       stacked="md"
       borderless
       :items="items"
       :fields="tablefields"
-      :current-page="currentPage"
       :per-page="5"
-      class="ash-data-table clickable"
+      :sort-by.sync="sortBy"
+      :sort-desc.sync="sortDesc"
       @row-clicked="rowClicked"
+      @sort-changed="sortUsers"
     >
       <template #head()="data">{{ $t("admin." + data.label) }} </template>
 
@@ -37,7 +39,7 @@
             <feather class="pointer" type="edit"></feather>
           </div>
         </template>
-        <template v-else-if="data.field.key == 'patient_name'">
+        <template v-else-if="data.field.key == 'physicianName'">
           <div class="user-name-with-image">
             <div class="image">
               <img :src="getImageUrl(data.item.patient_photo)" alt="user" />
@@ -45,7 +47,7 @@
             <span class="text">{{ data.value }}</span>
           </div>
         </template>
-        <template v-else>{{ data.value }}</template>
+        <template v-else>{{ data.value || "N/A" }}</template>
       </template>
     </b-table>
     <b-pagination
@@ -53,6 +55,7 @@
       :total-rows="totalRows"
       :per-page="getPerPageSelection"
       class="my-0 justify-content-end"
+      @change="fetchUsers"
       v-if="getPerPageSelection"
     ></b-pagination>
     <b-pagination v-else class="my-0"> </b-pagination>
@@ -60,22 +63,23 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 import { userService } from "../../services";
 export default {
   data() {
     return {
+      sortBy: "id",
+      sortDesc: false,
       searchQuery: "",
       totalRows: 1,
       currentPage: 1,
       getPerPageSelection: 5,
       tablefields: [
         { key: "id", label: "id", sortable: true },
-        { key: "patient_name", label: "physicianName", sortable: true },
-        { key: "mrn", label: "mrn", sortable: true },
-        { key: "email", label: "email", sortable: true },
-        { key: "phone", label: "phoneNumber", sortable: true },
-        { key: "status", label: "status", sortable: true },
+        { key: "physicianName", label: "physicianName" },
+        { key: "gender", label: "gender", sortable: true },
+        { key: "email", label: "email" },
+        { key: "phoneNumber", label: "phoneNumber" },
       ],
       items: [],
     };
@@ -84,7 +88,7 @@ export default {
     this.fetchUsers();
   },
   watch: {
-    searchQuery(query) {
+    searchQuery() {
       this.fetchUsers();
     },
   },
@@ -98,35 +102,60 @@ export default {
       this.items = [];
       data.forEach((x) => {
         this.items.push({
-          id: x.id,
-          patient_name: this.getFullName(x),
-          patient_photo: x.photo,
-          mrn: x.mrn_number || "N/A",
-          email: x.email_address || "N/A",
-          phone: x.phone_number || "N/A",
-          status: x.status || "N/A",
           ...x,
+          id: x.row_number,
+          physicianName: this.getFullName(x),
+          patient_photo: x.photo,
+          mrn_number: x.mrn_number,
+          email: x.email_address,
+          phoneNumber: x.phone_number,
+          status: x.status,
         });
       });
     },
-    fetchUsers() {
+    sortUsers(filter) {
+      this.sortDesc = filter.sortDesc;
+      this.sortBy = filter.sortBy;
+      this.fetchUsers();
+    },
+    fetchUsers(pageNumber = 1) {
+      this.items = [];
       this.setLoadingState(true);
-      userService.getUsers("?role_id=4").then(
+      let query = "";
+      if (this.sortBy) {
+        query = "&sort_by=" + this.sortBy;
+      }
+      if (this.sortDesc !== null) {
+        query += "&sort_direction=" + (this.sortDesc ? "DESC" : "ASC");
+      }
+      if (this.getPerPageSelection) {
+        query += "&per_page=" + this.getPerPageSelection;
+      }
+      if (pageNumber) {
+        query += "&page_number=" + pageNumber;
+      }
+      if (this.searchQuery) {
+        query += "&name=" + this.searchQuery;
+      }
+      userService.getDoctors("?role=DOCTOR" + query).then(
         (response) => {
           if (response.data.status) {
             this.parseData(response.data.data.items);
-            this.currentPage = 1;
-            this.totalRows = this.items.length;
+            this.currentPage = pageNumber;
+            this.totalRows = this.items[0].total_records;
           } else {
             this.failureToast(response.data.messsage);
           }
           this.appointmentStatus = null;
           this.setLoadingState(false);
         },
-        () => {
+        (error) => {
           this.appointmentStatus = null;
           this.setLoadingState(false);
-          this.failureToast();
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response.data && error.response.data.message
+            );
         }
       );
     },

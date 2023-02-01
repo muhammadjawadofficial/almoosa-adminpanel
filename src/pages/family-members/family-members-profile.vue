@@ -651,9 +651,11 @@ export default {
           }
           this.setLoadingState(false);
         },
-        (err) => {
-          console.error(err);
-          this.failureToast();
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response.data && error.response.data.message
+            );
           this.setLoadingState(false);
         }
       );
@@ -672,9 +674,11 @@ export default {
           }
           this.setLoadingState(false);
         },
-        (err) => {
-          console.error(err);
-          this.failureToast();
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response.data && error.response.data.message
+            );
           this.setLoadingState(false);
         }
       );
@@ -691,9 +695,11 @@ export default {
           }
           this.setLoadingState(false);
         },
-        (err) => {
-          console.error(err);
-          this.failureToast();
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response.data && error.response.data.message
+            );
           this.setLoadingState(false);
         }
       );
@@ -708,9 +714,11 @@ export default {
           }
           this.setLoadingState(false);
         },
-        (err) => {
-          console.error(err);
-          this.failureToast();
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response.data && error.response.data.message
+            );
           this.setLoadingState(false);
         }
       );
@@ -725,9 +733,11 @@ export default {
           }
           this.setLoadingState(false);
         },
-        (err) => {
-          console.error(err);
-          this.failureToast();
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response.data && error.response.data.message
+            );
           this.setLoadingState(false);
         }
       );
@@ -759,8 +769,10 @@ export default {
         },
         (error) => {
           this.setLoadingState(false);
-          this.failureToast();
-          console.error(error);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response.data && error.response.data.message
+            );
         }
       );
     },
@@ -906,8 +918,10 @@ export default {
         },
         (error) => {
           this.setLoadingState(false);
-          this.failureToast();
-          console.error(error);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response.data && error.response.data.message
+            );
         }
       );
     },
@@ -929,8 +943,10 @@ export default {
         },
         (error) => {
           this.setLoadingState(false);
-          this.failureToast();
-          console.error(error);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response.data && error.response.data.message
+            );
         }
       );
     },

@@ -13,6 +13,7 @@ export const apiPath = {
 
     appointment: {
         view: (type) => getApiObject("get", "appointments?type=" + type),
+        all: (query) => getApiObject("get", "admin/appointments" + query, "v2"),
         fetchInstructions: getApiObject("get", "system-settings?title=TELE_INSTRUCTIONS"),
         updateInstructions: (id) => getApiObject("patch", "system-settings/" + id),
         fetchUpcomingAppointments: getApiObject("get", "appointments/upcoming"),
@@ -59,6 +60,8 @@ export const apiPath = {
         getProfile: (profile, mrn) => getApiObject("get", "auth/" + profile + "/profile?mrn_number=" + mrn, (profile == 'doctor' ? 'v1' : "v2")),
         getDoctorProfile: (id) => getApiObject("get", "users?id=" + id),
         fetchUsers: (query) => getApiObject("get", "users" + query),
+        fetchPatients: (query) => getApiObject("get", "admin/patients" + query, "v2"),
+        fetchDoctors: (query) => getApiObject("get", "admin/doctors" + query, "v2"),
         getNationalities: getApiObject("get", "nationalities"),
         getDepartments: getApiObject("get", "departments"),
         clinics: getApiObject("get", "clinics"),

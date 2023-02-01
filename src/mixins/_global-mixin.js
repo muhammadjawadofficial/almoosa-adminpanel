@@ -1,5 +1,6 @@
 import { mapGetters } from 'vuex';
 import { appointmentService, userService } from '../services';
+import { axios } from '../services/axios';
 
 export default {
     data() {
@@ -187,8 +188,8 @@ export default {
                                 }
                                 this.setLoadingState(false);
                             },
-                            (err) => {
-                                this.failureToast(err.response && err.response.data.message);
+                            (error) => {
+                                if (!this.isAPIAborted(error)) this.failureToast(error.response && error.response.data.message);
                                 this.setLoadingState(false);
                             }
                         );
@@ -477,6 +478,9 @@ export default {
                 fullName = this.$t('dr') + " " + fullName.trim();
             }
             return fullName || 'N/A';
+        },
+        isAPIAborted(error) {
+            return axios.isCancel(error)
         },
     },
 }

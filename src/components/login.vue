@@ -106,7 +106,7 @@ export default {
           this.setLoadingState(false);
         },
         (error) => {
-          if (!this.isAPIAborted(error)) this.failureToast(error.response.data && error.response.data.message);
+          if (!this.isAPIAborted(error)) this.failureToast(error.response && error.response.data.message);
           this.setLoadingState(false);
         }
       );

@@ -621,6 +621,9 @@
     "longTitle": "Long Title",
     "longText": "Long Text",
     "uploadBanner": "Upload Banner",
-    "rating": "Rating"
+    "rating": "Rating",
+    "gender": "Gender",
+    "registered": "Registered",
+    "newRequest": "New Request"
   }
 }

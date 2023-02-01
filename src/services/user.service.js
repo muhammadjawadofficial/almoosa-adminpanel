@@ -21,7 +21,9 @@ export const userService = {
     updateProfile,
     getProfile,
     getDoctorProfile,
-    getUsers
+    getUsers,
+    getPatients,
+    getDoctors
 };
 
 import axios from "axios";
@@ -129,5 +131,17 @@ function getUsers(query) {
     return axios({
         method: apiPath.user.fetchUsers(query || '').method,
         url: apiPath.user.fetchUsers(query || '').url,
+    })
+}
+function getPatients(query) {
+    return axios({
+        method: apiPath.user.fetchPatients(query || '').method,
+        url: apiPath.user.fetchPatients(query || '').url,
+    })
+}
+function getDoctors(query) {
+    return axios({
+        method: apiPath.user.fetchDoctors(query || '').method,
+        url: apiPath.user.fetchDoctors(query || '').url,
     })
 }

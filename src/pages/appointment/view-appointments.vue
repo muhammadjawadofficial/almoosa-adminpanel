@@ -48,7 +48,7 @@
             </div>
             <date-picker
               :append-to-body="false"
-              format="DD-MM-YYYY"
+              format="YYYY-MM-DD"
               v-model="dateRange"
               :popup-style="{ top: 'calc(100% - 5px)', left: 0, right: 0 }"
               popup-class="hideSecondCalendar"
@@ -78,9 +78,9 @@
       borderless
       :items="items"
       :fields="tablefields"
-      :current-page="currentPage"
       :per-page="5"
       class="ash-data-table"
+      @sort-changed="sortAppointments"
     >
       <template #head()="data">{{ $t("admin." + data.label) }} </template>
 
@@ -121,6 +121,7 @@
       :per-page="getPerPageSelection"
       class="my-0 justify-content-end"
       v-if="getPerPageSelection"
+      @change="fetchAppointments"
     ></b-pagination>
     <b-pagination v-else class="my-0"> </b-pagination>
   </div>
@@ -151,10 +152,19 @@ export default {
       showDatePicker: true,
       showCalendar: false,
       locale: "",
+      sortBy: "",
+      sortDesc: null,
     };
   },
   mounted() {
-    this.fetchAppointments(this.activeTab);
+    let now = new Date();
+    this.toDate = this.dateFormatter(now, "YYYY-MM-DD");
+    this.fromDate = this.dateFormatter(
+      now.setFullYear(now.getFullYear() - 1),
+      "YYYY-MM-DD"
+    );
+    this.dateRange = [this.fromDate, this.toDate];
+    this.fetchAppointments();
   },
   watch: {
     searchDoctorQuery(query) {
@@ -171,7 +181,7 @@ export default {
       this.fetchAppointments();
     },
     changeTab(type) {
-      this.fetchAppointments(type);
+      this.fetchAppointments(1, type);
     },
     parseData(data) {
       this.items = [];
@@ -182,35 +192,78 @@ export default {
           datetime:
             this.formatLongDayDateFromDate(x.booked_date) +
             " / " +
-            this.translateNumber(
-              this.removeSecondsFromTimeString(x.start_time)
-            ) +
+            this.translateNumber(this.getTimeFromDate(x.start_time, true)) +
             " - " +
-            this.translateNumber(this.removeSecondsFromTimeString(x.end_time)),
+            this.translateNumber(this.getTimeFromDate(x.end_time, true)),
           doctor_name: this.getFullName(x.doctor),
           status: x.status,
+          mrn: x.patient.id,
         });
       });
     },
-    fetchAppointments(type) {
+    sortAppointments(filter) {
+      this.sortDesc = filter.sortDesc;
+      this.sortBy = filter.sortBy;
+      this.fetchAppointments();
+    },
+    fetchAppointments(pageNumber = 1, type) {
+      let fetchType = type;
+      if (!fetchType) {
+        fetchType = this.activeTab;
+      }
       this.setLoadingState(true);
-      appointmentService.fetchAppointments(type).then(
+      let query = "";
+      if (fetchType) {
+        query += "?type=" + fetchType.toUpperCase();
+      }
+      if (this.sortBy) {
+        query += "&sort_by=" + this.sortBy;
+      }
+      if (this.sortDesc !== null) {
+        query += "&sort_direction=" + (this.sortDesc ? "DESC" : "ASC");
+      }
+      if (this.getPerPageSelection) {
+        query += "&per_page=" + this.getPerPageSelection;
+      }
+      if (pageNumber) {
+        query += "&page_number=" + pageNumber;
+      }
+      if (this.searchDoctorQuery) {
+        if (isNaN(this.searchDoctorQuery))
+          query += "&name=" + this.searchDoctorQuery;
+        else query += "&mr_number=" + this.searchDoctorQuery;
+      }
+      if (this.fromDate) {
+        query += "&start_date=" + this.fromDate;
+      }
+      if (this.toDate) {
+        query += "&end_date=" + this.toDate;
+      }
+      appointmentService.fetchAllAppointments(query).then(
         (response) => {
           if (response.data.status) {
-            if (type) this.activeTab = type;
+            if (fetchType) this.activeTab = fetchType;
             this.parseData(response.data.data.items);
-            this.currentPage = 1;
-            this.totalRows = this.items.length;
+            this.currentPage = pageNumber;
+            const tempRecord = response.data.data.items[0];
+            if (tempRecord) {
+              this.totalRows = tempRecord.total_records;
+            } else {
+              this.totalRows = 0;
+            }
           } else {
             this.failureToast(response.data.messsage);
           }
           this.appointmentStatus = null;
           this.setLoadingState(false);
         },
-        () => {
+        (error) => {
           this.appointmentStatus = null;
           this.setLoadingState(false);
-          this.failureToast();
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response.data && error.response.data.messsage
+            );
         }
       );
     },

@@ -615,6 +615,9 @@
     "longTitle": "عنوان طويل",
     "longText": "نص طويل",
     "uploadBanner": "تحميل لافتة",
-    "rating": "تصنيف"
+    "rating": "تصنيف",
+    "gender": "جنس",
+    "registered": "مسجل",
+    "newRequest": "طلب جديد"
   }
 }

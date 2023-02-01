@@ -29,7 +29,9 @@
           class="appointment-list"
           :class="{ noData: !reports || !reports.length }"
         >
-          <div class="loading no-data" v-if="reports == null">{{ $t("loading") }}</div>
+          <div class="loading no-data" v-if="reports == null">
+            {{ $t("loading") }}
+          </div>
           <div class="no-data" v-else-if="!reports.length">
             {{ $t("noData") }}
           </div>
@@ -123,10 +125,13 @@ export default {
           this.appointmentStatus = null;
           this.setLoadingState(false);
         },
-        () => {
+        (error) => {
           this.appointmentStatus = null;
           this.setLoadingState(false);
-          this.failureToast();
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response.data && error.response.data.message
+            );
         }
       );
     },

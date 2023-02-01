@@ -1,21 +1,7 @@
 <template>
-  <div class="doctor-list-container page-body-container standard-width">
-    <div class="search-box full-width mb-5">
-      <div class="search-icon">
-        <i class="fa fa-search" aria-hidden="true"></i>
-      </div>
-      <div class="search-input">
-        <b-form-input
-          :placeholder="$t('admin.searchPatientMrn')"
-          id="type-search"
-          type="search"
-          v-model="searchQuery"
-          debounce="500"
-        ></b-form-input>
-      </div>
-    </div>
-
+  <div class="doctor-list-container standard-width">
     <b-table
+      class="ash-data-table clickable"
       show-empty
       stacked="md"
       borderless
@@ -23,7 +9,10 @@
       :fields="tablefields"
       :current-page="currentPage"
       :per-page="5"
-      class="ash-data-table"
+      :sort-by="sortBy"
+      :sort-desc="sortDesc"
+      @row-clicked="rowClicked"
+      @sort-changed="sortUsers"
     >
       <template #head()="data">{{ $t("admin." + data.label) }} </template>
 
@@ -36,7 +25,7 @@
             <feather class="pointer" type="edit"></feather>
           </div>
         </template>
-        <template v-else-if="data.field.key == 'patient_name'">
+        <template v-else-if="data.field.key == 'patientName'">
           <div class="user-name-with-image">
             <div class="image">
               <img :src="getImageUrl(data.item.patient_photo)" alt="user" />
@@ -44,7 +33,7 @@
             <span class="text">{{ data.value }}</span>
           </div>
         </template>
-        <template v-else>{{ data.value }}</template>
+        <template v-else>{{ data.value || "N/A" }}</template>
       </template>
     </b-table>
     <b-pagination
@@ -59,22 +48,29 @@
 </template>
 
 <script>
-import { transactionsService } from "../../services";
+import { mapActions } from "vuex";
+import { userService } from "../../services";
 export default {
+  props: {
+    searchQuery: {
+      type: String,
+      default: "",
+    },
+  },
   data() {
     return {
-      searchQuery: "",
+      sortBy: "id",
+      sortDesc: false,
       totalRows: 1,
       currentPage: 1,
       getPerPageSelection: 5,
       tablefields: [
         { key: "id", label: "id", sortable: true },
-        { key: "patient_name", label: "patientName", sortable: true },
-        { key: "mrn", label: "mrn", sortable: true },
-        { key: "roleName", label: "role", sortable: true },
-        { key: "email", label: "email", sortable: true },
-        { key: "phone", label: "phoneNumber", sortable: true },
-        { key: "status", label: "status", sortable: true },
+        { key: "patientName", label: "patientName" },
+        { key: "mrn_number", label: "mrn", sortable: true },
+        { key: "email", label: "email" },
+        { key: "phoneNumber", label: "phoneNumber" },
+        { key: "status", label: "status" },
       ],
       items: [],
     };
@@ -88,25 +84,38 @@ export default {
     },
   },
   methods: {
+    ...mapActions("user", ["setSelectedUser"]),
+    rowClicked(e) {
+      this.setSelectedUser(e);
+      this.navigateTo("Patient Profile");
+    },
     parseData(data) {
-      this.items = [];
       data.forEach((x) => {
         this.items.push({
-          id: x.id,
-          patient_name: this.getFullName(x),
-          patient_photo: x.photo,
-          mrn: x.mrn_number || "N/A",
-          roleName: x.role.title || "N/A",
-          email: x.email_address || "N/A",
-          phone: x.phone_number || "N/A",
-          status: x.status || "N/A",
           ...x,
+          id: x.id,
+          patientName: this.getFullName(x),
+          patient_photo: x.photo,
+          mrn_number: x.mrn_number,
+          email: x.email_address,
+          phoneNumber: x.phone_number,
+          status: x.status,
         });
       });
     },
+    sortUsers(filter) {
+      this.sortDesc = filter.sortDesc;
+      this.sortBy = filter.sortBy;
+      this.fetchUsers();
+    },
     fetchUsers() {
+      this.items = [];
       this.setLoadingState(true);
-      transactionsService.fetchTransactionList().then(
+      let query = "";
+      if (this.sortBy) {
+        query = "&sort=" + (this.sortDesc ? "-" : "") + this.sortBy;
+      }
+      userService.getUsers("?status=unverified" + query).then(
         (response) => {
           if (response.data.status) {
             this.parseData(response.data.data.items);

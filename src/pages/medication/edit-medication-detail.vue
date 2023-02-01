@@ -182,15 +182,18 @@ export default {
         .then(
           (response) => {
             if (response.data.status) {
-              this.successToast(this.$t('admin.medicationRefillUpdateSuccess'))
+              this.successToast(this.$t("admin.medicationRefillUpdateSuccess"));
             } else {
               this.failureToast(response.data.messsage);
             }
             this.setLoadingState(false);
           },
-          () => {
+          (error) => {
             this.setLoadingState(false);
-            this.failureToast();
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response.data && error.response.data.message
+              );
           }
         );
     },

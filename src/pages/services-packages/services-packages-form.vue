@@ -104,7 +104,10 @@
             <button class="btn btn-primary" @click="editPackage">
               {{ $t("admin.editPackage") }}
             </button>
-            <button class="btn btn-tertiary" @click="navigateTo('Services Packages List')">
+            <button
+              class="btn btn-tertiary"
+              @click="navigateTo('Services Packages List')"
+            >
               {{ $t("back") }}
             </button>
           </template>
@@ -245,9 +248,11 @@ export default {
           }
           this.setLoadingState(false);
         },
-        (err) => {
-          console.error(err);
-          this.failureToast();
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response.data && error.response.data.message
+            );
           this.setLoadingState(false);
         }
       );
@@ -298,8 +303,10 @@ export default {
           this.setLoadingState(false);
         },
         (error) => {
-          console.error(error);
-          this.failureToast(error.response.data.message);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response.data && error.response.data.message
+            );
           this.setLoadingState(false);
         }
       );
@@ -335,8 +342,10 @@ export default {
             this.setLoadingState(false);
           },
           (error) => {
-            console.error(error);
-            this.failureToast(error.response.data.message);
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response.data && error.response.data.message
+              );
             this.setLoadingState(false);
           }
         );

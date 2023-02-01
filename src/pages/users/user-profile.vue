@@ -685,8 +685,11 @@ export default {
   },
   mounted() {
     let routeName = this.$route.name.toLowerCase();
+    let routeTab = this.$route.params.tab;
     if (routeName.includes("patient")) {
-      this.backRoute = "Patient Details";
+      if (routeTab.toLowerCase().includes("request"))
+        this.backRoute = "Patient List";
+      else this.backRoute = "Patient Details";
     } else if (routeName.includes("physician")) {
       this.backRoute = "Physician List";
     } else {
@@ -713,7 +716,7 @@ export default {
       return !!(result && result.length);
     },
     isSelectedUserDoctor() {
-      return this.getSelectedUser.role_id == 4;
+      return this.$route.name.toLowerCase().includes("physician");
     },
   },
   methods: {
@@ -736,9 +739,11 @@ export default {
           }
           this.setLoadingState(false);
         },
-        (err) => {
-          console.error(err);
-          this.failureToast();
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response.data && error.response.data.message
+            );
           this.setLoadingState(false);
         }
       );
@@ -779,12 +784,15 @@ export default {
             this.failureToast(specialities.data.message);
           }
         })
-        .catch(() => {
-          this.failureToast();
+        .catch((error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response.data && error.response.data.message
+            );
         })
         .finally(() => {
           this.setLoadingState(false);
-          this.getProfileData();
+          if (!this.isSelectedUserDoctor) this.getProfileData();
         });
     },
     formatNumber(number, input) {
@@ -818,8 +826,10 @@ export default {
         },
         (error) => {
           this.setLoadingState(false);
-          this.failureToast();
-          console.error(error);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response.data && error.response.data.message
+            );
         }
       );
     },
@@ -844,8 +854,10 @@ export default {
           },
           (error) => {
             this.setLoadingState(false);
-            this.failureToast();
-            console.error(error);
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response.data && error.response.data.message
+              );
           }
         );
     },
@@ -998,8 +1010,10 @@ export default {
         },
         (error) => {
           this.setLoadingState(false);
-          this.failureToast(error.response.data && error.response.data.message);
-          console.error(error);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response.data && error.response.data.message
+            );
         }
       );
     },
@@ -1021,8 +1035,10 @@ export default {
         },
         (error) => {
           this.setLoadingState(false);
-          this.failureToast();
-          console.error(error);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response.data && error.response.data.message
+            );
         }
       );
     },

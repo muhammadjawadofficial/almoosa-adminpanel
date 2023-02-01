@@ -1,11 +1,12 @@
-import * as axios from "axios";
+import { axios } from "./axios";
 import { apiPath } from "../constants/apiPath";
 
 export const appointmentService = {
     fetchAppointments,
     fetchAppointmentInstructions,
     updateAppointmentInstructions,
-    fetchAppointmentHistory
+    fetchAppointmentHistory,
+    fetchAllAppointments
 }
 
 
@@ -13,6 +14,12 @@ function fetchAppointments(type) {
     return axios({
         method: apiPath.appointment.view(type).method,
         url: apiPath.appointment.view(type).url,
+    })
+}
+function fetchAllAppointments(query) {
+    return axios({
+        method: apiPath.appointment.all(query).method,
+        url: apiPath.appointment.all(query).url,
     })
 }
 function fetchAppointmentInstructions() {

@@ -54,6 +54,7 @@ import FamilyMembersProfile from '../pages/family-members/family-members-profile
 
 import UsersModule from '../pages/users'
 import PatientList from '../pages/users/patient-list'
+import PatientRequestList from '../pages/users/patient-request-list'
 import PhysicianList from '../pages/users/physician-list'
 import StaffList from '../pages/users/staff-list'
 import UserDetails from '../pages/users/user-details'
@@ -309,13 +310,37 @@ const routes = [
             path: 'patient',
             component: RouterViewModule,
             children: [
+              { path: '', name: "Patient", redirect: { name: 'Patient List', params: { tab: 'registered' } } },
               {
-                path: "",
-                name: 'Patient List',
-                component: PatientList,
-                meta: {
-                  title: 'Patient List | Almoosa Specialist Hospital',
-                },
+                path: ":tab",
+                name: 'Patient List Tabs',
+                component: RouterViewModule,
+                children: [
+                  {
+                    path: "",
+                    name: 'Patient List',
+                    component: PatientList,
+                    meta: {
+                      title: 'Patient List | Almoosa Specialist Hospital',
+                    },
+                  },
+                  {
+                    path: "details",
+                    name: 'Patient Details',
+                    component: UserDetails,
+                    meta: {
+                      title: 'Patient Details | Almoosa Specialist Hospital',
+                    },
+                  },
+                  {
+                    path: "profile",
+                    name: 'Patient Profile',
+                    component: UserProfile,
+                    meta: {
+                      title: 'Patient Profile | Almoosa Specialist Hospital',
+                    },
+                  },
+                ]
               },
               {
                 path: "family",
@@ -430,22 +455,6 @@ const routes = [
                     },
                   },
                 ]
-              },
-              {
-                path: "details",
-                name: 'Patient Details',
-                component: UserDetails,
-                meta: {
-                  title: 'Patient Details | Almoosa Specialist Hospital',
-                },
-              },
-              {
-                path: "profile",
-                name: 'Patient Profile',
-                component: UserProfile,
-                meta: {
-                  title: 'Patient Profile | Almoosa Specialist Hospital',
-                },
               },
             ]
           },
@@ -618,7 +627,10 @@ const router = new Router({
   }
 });
 
+import { resetCancellation } from '../services/axios';
+
 router.beforeEach((to, from, next) => {
+  resetCancellation();
   if (to.meta.title)
     document.title = to.meta.title;
   if (to.meta.public || to.path === '/callback' || userService.isAuthenticatedUser()) {

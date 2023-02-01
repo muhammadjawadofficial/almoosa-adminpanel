@@ -116,9 +116,12 @@ export default {
           }
           this.setLoadingState(false);
         },
-        (err) => {
+        (error) => {
           console.error(err);
-          this.failureToast();
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response.data && error.response.data.message
+            );
           this.setLoadingState(false);
         }
       );
@@ -155,8 +158,10 @@ export default {
           this.setLoadingState(false);
         },
         (error) => {
-          console.error(error);
-          this.failureToast(error.response.data.message);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response.data && error.response.data.message
+            );
           this.setLoadingState(false);
         }
       );
