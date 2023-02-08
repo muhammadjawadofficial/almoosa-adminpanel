@@ -136,7 +136,7 @@
                               class="rating-filled"
                               :style="
                                 'width: ' +
-                                (getSelectedUser.rating / 5) * 100 +
+                                ((getSelectedUser.rating || 0) / 5) * 100 +
                                 '%'
                               "
                             >
@@ -406,72 +406,6 @@
             </div>
             <div class="profile-info-card">
               <div class="profile-info-card-logo">
-                <img src="../../assets/images/strethoscope-bg.svg" alt="" />
-              </div>
-              <div class="profile-info-card-detail">
-                <div class="profile-info-card-detail-title">
-                  {{ $t("profile.department") }}
-                </div>
-                <div
-                  class="profile-info-card-detail-value"
-                  :class="{ inactive: !isEditing }"
-                >
-                  <multiselect
-                    :disabled="!isEditing"
-                    v-model="doctor.department"
-                    :options="departments"
-                    :placeholder="
-                      $t('profile.select') + ' ' + $t('profile.department')
-                    "
-                    track-by="id"
-                    label="name"
-                  ></multiselect>
-                  <div
-                    class="custom-state-invalid icon"
-                    :class="{
-                      'is-invalid': doctorState.departmentState == false,
-                    }"
-                  ></div>
-                </div>
-              </div>
-              <div class="profile-info-card-option">
-                <img
-                  src="../../assets/images/pencil.svg"
-                  alt=""
-                  v-if="isEditing"
-                />
-              </div>
-            </div>
-            <div class="profile-info-card">
-              <div class="profile-info-card-logo">
-                <img src="../../assets/images/user-id-bg.svg" alt="" />
-              </div>
-              <div class="profile-info-card-detail">
-                <div class="profile-info-card-detail-title">
-                  {{ $t("profile.degree") }}
-                </div>
-                <div
-                  class="profile-info-card-detail-value"
-                  :class="{ inactive: !isEditing }"
-                >
-                  <b-form-input
-                    v-model="doctor.degree"
-                    :state="doctorState.degreeState"
-                    :placeholder="$t('profile.degree')"
-                    :disabled="!isEditing"
-                  ></b-form-input>
-                </div>
-              </div>
-              <div class="profile-info-card-option">
-                <img
-                  src="../../assets/images/pencil.svg"
-                  alt=""
-                  v-if="isEditing"
-                />
-              </div>
-            </div>
-            <div class="profile-info-card">
-              <div class="profile-info-card-logo">
                 <img src="../../assets/images/doctor-bg.svg" alt="" />
               </div>
               <div class="profile-info-card-detail">
@@ -657,8 +591,6 @@ export default {
       doctor: {
         clinics: [],
         speciality: {},
-        department: {},
-        degree: "",
         expertise: "",
         nationality: {},
         languages: "",
@@ -667,15 +599,12 @@ export default {
       doctorState: {
         clinicsState: null,
         specialityState: null,
-        departmentState: null,
-        degreeState: null,
         expertiseState: null,
         nationalityState: null,
         languagesState: null,
         consultingState: null,
       },
       nationalities: [],
-      departments: [],
       clinics: [],
       specialities: [],
       isEditingAllowed: false,
@@ -684,6 +613,9 @@ export default {
     };
   },
   mounted() {
+    if (process.env.NODE_ENV !== "Production") {
+      this.isEditingAllowed = !!localStorage.getItem("editProfile");
+    }
     let routeName = this.$route.name.toLowerCase();
     let routeTab = this.$route.params.tab;
     if (routeName.includes("patient")) {
@@ -692,15 +624,13 @@ export default {
       else this.backRoute = "Patient Details";
     } else if (routeName.includes("physician")) {
       this.backRoute = "Physician List";
+      this.isEditingAllowed = true;
     } else {
       this.backRoute = "default";
     }
     if (!this.getSelectedUser) {
       this.navigateTo(this.backRoute);
       return;
-    }
-    if (process.env.NODE_ENV !== "Production") {
-      this.isEditingAllowed = !!localStorage.getItem("editProfile");
     }
     if (!this.isSelectedUserDoctor) {
       this.isMrnEditingAllowed = true;
@@ -792,7 +722,7 @@ export default {
         })
         .finally(() => {
           this.setLoadingState(false);
-          if (!this.isSelectedUserDoctor) this.getProfileData();
+          this.getProfileData();
         });
     },
     formatNumber(number, input) {
@@ -865,8 +795,6 @@ export default {
       if (this.isSelectedUserDoctor) {
         this.doctor.clinics = this.getSelectedUser.clinics || [];
         this.doctor.speciality = this.getSelectedUser.speciality;
-        this.doctor.department = this.getSelectedUser.department;
-        this.doctor.degree = this.getSelectedUser.degree;
         this.doctor.nationality = this.getSelectedUser.nationality;
         this.doctor.expertise = this.getSelectedUser.expertise;
         this.doctor.languages = this.getSelectedUser.languages;
@@ -874,8 +802,6 @@ export default {
         this.doctorState = {
           clinicsState: null,
           specialityState: null,
-          departmentState: null,
-          degreeState: null,
           expertiseState: null,
           nationalityState: null,
           languagesState: null,
@@ -901,10 +827,6 @@ export default {
           !!this.doctor.clinics;
         this.doctorState.specialityState =
           this.doctor.speciality != {} && !!this.doctor.speciality;
-        this.doctorState.departmentState =
-          this.doctor.department != {} && !!this.doctor.department;
-        this.doctorState.degreeState =
-          this.doctor.degree != "" && !!this.doctor.degree;
         this.doctorState.expertiseState =
           this.doctor.expertise != "" && !!this.doctor.expertise;
         this.doctorState.nationalityState =
@@ -927,14 +849,17 @@ export default {
     },
     editProfile() {
       if (this.isEditing) {
+        console.log(this.validateForm(), "validate");
         if (!this.validateForm()) {
           return;
         }
         let updateUserObj = {};
         if (this.isSelectedUserDoctor) {
           if (
+            this.getSelectedUser.clinics &&
+            this.doctor.clinics &&
             this.getSelectedUser.clinics.map((x) => x.id).join(",") !==
-            this.doctor.clinics.map((x) => x.id).join(",")
+              this.doctor.clinics.map((x) => x.id).join(",")
           ) {
             updateUserObj.clinics = this.doctor.clinics.map((x) => x.id);
           }
@@ -943,15 +868,6 @@ export default {
             this.getSelectedUser.speciality.id !== this.doctor.speciality.id
           ) {
             updateUserObj.speciality_id = this.doctor.speciality.id;
-          }
-          if (
-            !this.getSelectedUser.department ||
-            this.getSelectedUser.department !== this.doctor.department
-          ) {
-            updateUserObj.department_id = this.doctor.department.id;
-          }
-          if (this.getSelectedUser.degree !== this.doctor.degree) {
-            updateUserObj.degree = this.doctor.degree;
           }
           if (this.getSelectedUser.expertise !== this.doctor.expertise) {
             updateUserObj.expertise = this.doctor.expertise;

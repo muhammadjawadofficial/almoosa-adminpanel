@@ -5,7 +5,7 @@
       show-empty
       stacked="md"
       borderless
-      :items="items"
+      :items="filteredItems"
       :fields="tablefields"
       :current-page="currentPage"
       :per-page="5"
@@ -73,6 +73,7 @@ export default {
         { key: "status", label: "status" },
       ],
       items: [],
+      filteredItems: [],
     };
   },
   mounted() {
@@ -80,7 +81,16 @@ export default {
   },
   watch: {
     searchQuery(query) {
-      this.fetchUsers();
+      this.filteredItems = [
+        ...this.items.filter((item) => {
+          return (
+            item.patientName.toLowerCase().includes(query.toLowerCase()) ||
+            (item.mrn_number &&
+              item.mrn_number.toLowerCase().includes(query.toLowerCase()))
+          );
+        }),
+      ];
+      this.totalRows = this.filteredItems.length;
     },
   },
   methods: {
@@ -102,11 +112,11 @@ export default {
           status: x.status,
         });
       });
+      this.filteredItems = [...this.items];
     },
     sortUsers(filter) {
       this.sortDesc = filter.sortDesc;
       this.sortBy = filter.sortBy;
-      this.fetchUsers();
     },
     fetchUsers() {
       this.items = [];
@@ -120,7 +130,7 @@ export default {
           if (response.data.status) {
             this.parseData(response.data.data.items);
             this.currentPage = 1;
-            this.totalRows = this.items.length;
+            this.totalRows = this.filteredItems.length;
           } else {
             this.failureToast(response.data.messsage);
           }

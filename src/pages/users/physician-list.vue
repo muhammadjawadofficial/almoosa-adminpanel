@@ -79,7 +79,7 @@ export default {
         { key: "physicianName", label: "physicianName" },
         { key: "gender", label: "gender", sortable: true },
         { key: "email", label: "email" },
-        { key: "phoneNumber", label: "phoneNumber" },
+        { key: "phone_number", label: "phoneNumber" },
       ],
       items: [],
     };
@@ -103,10 +103,9 @@ export default {
       data.forEach((x) => {
         this.items.push({
           ...x,
-          id: x.row_number,
+          id: x.id,
           physicianName: this.getFullName(x),
           patient_photo: x.photo,
-          mrn_number: x.mrn_number,
           email: x.email_address,
           phoneNumber: x.phone_number,
           status: x.status,
@@ -122,27 +121,22 @@ export default {
       this.items = [];
       this.setLoadingState(true);
       let query = "";
+      query += "&query=" + this.searchQuery;
       if (this.sortBy) {
-        query = "&sort_by=" + this.sortBy;
-      }
-      if (this.sortDesc !== null) {
-        query += "&sort_direction=" + (this.sortDesc ? "DESC" : "ASC");
+        query += "&sort=" + (this.sortDesc ? "-" : "") + this.sortBy;
       }
       if (this.getPerPageSelection) {
-        query += "&per_page=" + this.getPerPageSelection;
+        query += "&limit=" + this.getPerPageSelection;
       }
       if (pageNumber) {
-        query += "&page_number=" + pageNumber;
+        query += "&page=" + pageNumber;
       }
-      if (this.searchQuery) {
-        query += "&name=" + this.searchQuery;
-      }
-      userService.getDoctors("?role=DOCTOR" + query).then(
+      userService.getUsers("/search?role_id=4" + query).then(
         (response) => {
           if (response.data.status) {
             this.parseData(response.data.data.items);
             this.currentPage = pageNumber;
-            this.totalRows = this.items[0].total_records;
+            this.totalRows = response.data.data.total_records;
           } else {
             this.failureToast(response.data.messsage);
           }
