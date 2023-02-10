@@ -341,119 +341,119 @@ const routes = [
                       title: 'Patient Profile | Almoosa Specialist Hospital',
                     },
                   },
-                ]
-              },
-              {
-                path: "family",
-                name: 'Patient Family Members',
-                component: FamilyMembersList,
-                meta: {
-                  title: 'Patient Family Members | Almoosa Specialist Hospital',
-                },
-              },
-              {
-                path: "family/profile",
-                name: 'Patient Family Member Profile',
-                component: FamilyMembersProfile,
-                meta: {
-                  title: 'Patient Family Member Profile | Almoosa Specialist Hospital',
-                },
-              },
-              {
-                path: "insurance",
-                name: 'Patient Medical Insurance',
-                component: insuranceMyMedical,
-                meta: {
-                  title: 'Medical Insurance | Almoosa Specialist Hospital',
-                },
-              },
-              {
-                path: 'lab',
-                component: RouterViewModule,
-                children: [
                   {
-                    path: "sessions",
-                    name: 'Patient Lab Sessions',
-                    component: labWorksSessions,
+                    path: "family",
+                    name: 'Patient Family Members',
+                    component: FamilyMembersList,
                     meta: {
-                      title: 'Lab Sessions | Almoosa Specialist Hospital',
+                      title: 'Patient Family Members | Almoosa Specialist Hospital',
                     },
                   },
                   {
-                    path: "reports",
-                    name: 'Patient Lab Reports',
-                    component: labWorksReports,
+                    path: "family/profile",
+                    name: 'Patient Family Member Profile',
+                    component: FamilyMembersProfile,
                     meta: {
-                      title: 'Lab Reports | Almoosa Specialist Hospital',
-                    },
-                  },
-                ]
-              },
-              {
-                path: 'radiology',
-                component: RouterViewModule,
-                children: [
-                  {
-                    path: "sessions",
-                    name: 'Patient Radiology Sessions',
-                    component: radiologyReportSessions,
-                    meta: {
-                      title: 'Radiology Sessions | Almoosa Specialist Hospital',
+                      title: 'Patient Family Member Profile | Almoosa Specialist Hospital',
                     },
                   },
                   {
-                    path: "reports",
-                    name: 'Patient Radiology Reports',
-                    component: radiologyReportReports,
+                    path: "insurance",
+                    name: 'Patient Medical Insurance',
+                    component: insuranceMyMedical,
                     meta: {
-                      title: 'Radiology Reports | Almoosa Specialist Hospital',
-                    },
-                  },
-                ]
-              },
-              {
-                path: "timeline",
-                name: 'Patient Timeline List',
-                component: myTimelineList,
-                meta: {
-                  title: 'Timeline List | Almoosa Specialist Hospital',
-                },
-              },
-              {
-                path: "timeline/details",
-                name: 'Patient Timeline Details',
-                component: myTimelineDetails,
-                meta: {
-                  title: 'Timeline Details | Almoosa Specialist Hospital',
-                },
-              },
-              {
-                path: 'medication',
-                component: myMedicationModule,
-                children: [
-                  {
-                    path: "sessions",
-                    name: 'Patient Medication Session',
-                    component: myMedicationSessions,
-                    meta: {
-                      title: 'My Medications | Almoosa Specialist Hospital',
+                      title: 'Medical Insurance | Almoosa Specialist Hospital',
                     },
                   },
                   {
-                    path: "list",
-                    name: 'Patient Medication List',
-                    component: myMedicationList,
+                    path: 'lab',
+                    component: RouterViewModule,
+                    children: [
+                      {
+                        path: "sessions",
+                        name: 'Patient Lab Sessions',
+                        component: labWorksSessions,
+                        meta: {
+                          title: 'Lab Sessions | Almoosa Specialist Hospital',
+                        },
+                      },
+                      {
+                        path: "reports",
+                        name: 'Patient Lab Reports',
+                        component: labWorksReports,
+                        meta: {
+                          title: 'Lab Reports | Almoosa Specialist Hospital',
+                        },
+                      },
+                    ]
+                  },
+                  {
+                    path: 'radiology',
+                    component: RouterViewModule,
+                    children: [
+                      {
+                        path: "sessions",
+                        name: 'Patient Radiology Sessions',
+                        component: radiologyReportSessions,
+                        meta: {
+                          title: 'Radiology Sessions | Almoosa Specialist Hospital',
+                        },
+                      },
+                      {
+                        path: "reports",
+                        name: 'Patient Radiology Reports',
+                        component: radiologyReportReports,
+                        meta: {
+                          title: 'Radiology Reports | Almoosa Specialist Hospital',
+                        },
+                      },
+                    ]
+                  },
+                  {
+                    path: "timeline",
+                    name: 'Patient Timeline List',
+                    component: myTimelineList,
                     meta: {
-                      title: 'My Medications | Almoosa Specialist Hospital',
+                      title: 'Timeline List | Almoosa Specialist Hospital',
                     },
                   },
                   {
-                    path: "details",
-                    name: 'Patient Medication Details',
-                    component: myMedicationDetails,
+                    path: "timeline/details",
+                    name: 'Patient Timeline Details',
+                    component: myTimelineDetails,
                     meta: {
-                      title: 'My Medication Details | Almoosa Specialist Hospital',
+                      title: 'Timeline Details | Almoosa Specialist Hospital',
                     },
+                  },
+                  {
+                    path: 'medication',
+                    component: myMedicationModule,
+                    children: [
+                      {
+                        path: "sessions",
+                        name: 'Patient Medication Session',
+                        component: myMedicationSessions,
+                        meta: {
+                          title: 'My Medications | Almoosa Specialist Hospital',
+                        },
+                      },
+                      {
+                        path: "list",
+                        name: 'Patient Medication List',
+                        component: myMedicationList,
+                        meta: {
+                          title: 'My Medications | Almoosa Specialist Hospital',
+                        },
+                      },
+                      {
+                        path: "details",
+                        name: 'Patient Medication Details',
+                        component: myMedicationDetails,
+                        meta: {
+                          title: 'My Medication Details | Almoosa Specialist Hospital',
+                        },
+                      },
+                    ]
                   },
                 ]
               },

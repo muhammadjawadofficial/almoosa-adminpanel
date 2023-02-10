@@ -135,7 +135,7 @@ export default {
     },
     viewDetails(appointment) {
       this.setSelectedTimeline(appointment);
-      this.navigateTo("My Timeline Details");
+      this.navigateTo("Patient Timeline Details");
     },
   },
 };
