@@ -654,7 +654,9 @@ export default {
         (error) => {
           if (!this.isAPIAborted(error))
             this.failureToast(
-              error.response.data && error.response.data.message
+              error.response &&
+                error.response.data &&
+                error.response.data.message
             );
           this.setLoadingState(false);
         }
@@ -677,7 +679,9 @@ export default {
         (error) => {
           if (!this.isAPIAborted(error))
             this.failureToast(
-              error.response.data && error.response.data.message
+              error.response &&
+                error.response.data &&
+                error.response.data.message
             );
           this.setLoadingState(false);
         }
@@ -698,7 +702,9 @@ export default {
         (error) => {
           if (!this.isAPIAborted(error))
             this.failureToast(
-              error.response.data && error.response.data.message
+              error.response &&
+                error.response.data &&
+                error.response.data.message
             );
           this.setLoadingState(false);
         }
@@ -717,7 +723,9 @@ export default {
         (error) => {
           if (!this.isAPIAborted(error))
             this.failureToast(
-              error.response.data && error.response.data.message
+              error.response &&
+                error.response.data &&
+                error.response.data.message
             );
           this.setLoadingState(false);
         }
@@ -736,7 +744,9 @@ export default {
         (error) => {
           if (!this.isAPIAborted(error))
             this.failureToast(
-              error.response.data && error.response.data.message
+              error.response &&
+                error.response.data &&
+                error.response.data.message
             );
           this.setLoadingState(false);
         }
@@ -771,7 +781,9 @@ export default {
           this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
-              error.response.data && error.response.data.message
+              error.response &&
+                error.response.data &&
+                error.response.data.message
             );
         }
       );
@@ -920,7 +932,9 @@ export default {
           this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
-              error.response.data && error.response.data.message
+              error.response &&
+                error.response.data &&
+                error.response.data.message
             );
         }
       );
@@ -945,7 +959,9 @@ export default {
           this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
-              error.response.data && error.response.data.message
+              error.response &&
+                error.response.data &&
+                error.response.data.message
             );
         }
       );

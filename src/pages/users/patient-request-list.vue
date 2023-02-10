@@ -125,7 +125,7 @@ export default {
       if (this.sortBy) {
         query = "&sort=" + (this.sortDesc ? "-" : "") + this.sortBy;
       }
-      userService.getUsers("?status=unverified" + query).then(
+      userService.getUsers("?status=unverified&role_id=3" + query).then(
         (response) => {
           if (response.data.status) {
             this.parseData(response.data.data.items);
@@ -142,7 +142,9 @@ export default {
           this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
-              error.response.data && error.response.data.message
+              error.response &&
+                error.response.data &&
+                error.response.data.message
             );
         }
       );

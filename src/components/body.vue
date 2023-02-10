@@ -43,7 +43,7 @@ import Header from "./header";
 import Sidebar from "./sidebar.vue";
 import Footer from "./footer";
 import TapTop from "./taptop";
-import { userService } from "../services";
+import { rolesPermissionsService, userService } from "../services";
 
 export default {
   name: "mainpage",
@@ -137,12 +137,33 @@ export default {
     this.$store.dispatch("menu/setNavLinkActive", { path: this.$route.path });
     let userInfo = userService.currentUser();
     this.setUserInfo(userInfo);
-    if (!userInfo.is_privacy_agreed) {
-      this.navigateTo("Terms and Condition");
-    }
+    this.fetchPermissions(userInfo.role_id);
   },
   methods: {
-    ...mapActions("user", ["setUserInfo"]),
+    ...mapActions("user", ["setUserInfo", "setUserPermissions"]),
+    fetchPermissions(roleId) {
+      if (!roleId) {
+        return;
+      }
+      this.setLoadingState(true);
+      rolesPermissionsService
+        .fetchRoleDetails(roleId)
+        .then((response) => {
+          if (response.data.status) {
+            this.setUserPermissions(
+              response.data.data.items.map((x) => x.permission.title)
+            );
+          } else {
+            this.failureToast(response.data.message);
+          }
+          this.setLoadingState(false);
+        })
+        .catch((error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(error.response && error.response.data.message);
+          this.setLoadingState(false);
+        });
+    },
     setLayoutObject() {
       if (
         (window.innerWidth < 991 &&

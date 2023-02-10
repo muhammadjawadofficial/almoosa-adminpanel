@@ -589,6 +589,7 @@
     "selectedLabel": "المحدد",
     "deselectLabel": "اضغط على دخل للإزالة",
     "sendToPharmacist": "أرسل إلى الصيدلي",
+    "sentToPharmacist": "أرسلت إلى الصيدلي",
     "services": "خدمات",
     "noOfServices": "عدد الخدمات",
     "price": "سعر",
@@ -618,6 +619,7 @@
     "rating": "تصنيف",
     "gender": "جنس",
     "registered": "مسجل",
-    "newRequest": "طلب جديد"
+    "newRequest": "طلب جديد",
+    "searchRole": "بحث في الدور"
   }
 }

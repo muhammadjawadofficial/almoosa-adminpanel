@@ -20,6 +20,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
+            "permission": "Appointments",
             "children": [
                 {
                     "title": "View Appointments",
@@ -80,6 +81,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
+            "permission": "Promotions and Loyalty Points",
             "children": [
                 {
                     "title": "Promo Groups",
@@ -138,6 +140,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
+            "permission": "Medications",
             "path": "/medication-refills"
         },
         {
@@ -149,6 +152,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
+            "permission": "Health Education",
             "children": [
                 {
                     "title": "List",
@@ -173,6 +177,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
+            "permission": "Services & Packages",
             "children": [
                 {
                     "title": "List",
@@ -197,6 +202,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
+            "permission": "Family Members",
             "path": "/family-members"
         },
         {
@@ -209,6 +215,19 @@
             "active": false,
             "disabled": false,
             "path": "/transactions"
+        },
+        {
+            "title": "Roles & Permissions",
+            "title_ar": "الأدوار والأذونات",
+            "icon": "shield-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "permission": "Roles & Permissions",
+            "super": true,
+            "path": "/roles-permissions"
         }
     ]
 }

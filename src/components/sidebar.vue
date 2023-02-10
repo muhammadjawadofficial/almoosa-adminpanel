@@ -338,7 +338,15 @@ export default {
   },
   computed: {
     ...mapState({
-      menuItems: (state) => state.menu.data.filter((x) => !x.disabled),
+      menuItems: (state) =>
+        state.menu.data.filter((x) => {
+          return (
+            !x.disabled &&
+            (!x.permission ||
+              state.user.userPermissions.includes(x.permission) ||
+              state.user.userInfo.role_id == 1)
+          );
+        }),
       layout: (state) => state.layout.layout,
       sidebar: (state) => state.layout.sidebarType,
     }),

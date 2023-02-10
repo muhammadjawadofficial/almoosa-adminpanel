@@ -58,6 +58,7 @@
               :open="showCalendar"
               :lang="getCurrentLang()"
               @input="dateChange"
+              :disabled-date="disabledBeforeTodayAndAfterAWeek"
             >
               <template #icon-calendar>
                 <img
@@ -158,9 +159,9 @@ export default {
   },
   mounted() {
     let now = new Date();
-    this.toDate = this.dateFormatter(now, "YYYY-MM-DD");
-    this.fromDate = this.dateFormatter(
-      now.setFullYear(now.getFullYear() - 1),
+    this.fromDate = this.dateFormatter(now, "YYYY-MM-DD");
+    this.toDate = this.dateFormatter(
+      now.setFullYear(now.getFullYear() + 1),
       "YYYY-MM-DD"
     );
     this.dateRange = [this.fromDate, this.toDate];
@@ -171,7 +172,18 @@ export default {
       this.fetchAppointments();
     },
   },
+  computed: {
+    disabledDate() {
+      console.log("date", date, currentVal);
+    },
+  },
   methods: {
+    disabledBeforeTodayAndAfterAWeek(date) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      return date < today;
+    },
     dateChange(val) {
       this.fromDate = val[0];
       this.toDate = val[1];
@@ -262,7 +274,9 @@ export default {
           this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
-              error.response.data && error.response.data.messsage
+              error.response &&
+                error.response.data &&
+                error.response.data.messsage
             );
         }
       );

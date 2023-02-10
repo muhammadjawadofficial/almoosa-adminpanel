@@ -99,6 +99,7 @@
                     custom-login-input-groups
                     select-box
                   "
+                  v-if="this.getSelectedMedication.status != 'approved'"
                 >
                   <multiselect
                     v-model="selectedStatus"
@@ -128,11 +129,17 @@
                     }"
                   ></div>
                 </div>
+                <div class="appointment-detail--value mt-3" v-else>
+                  {{ $t("admin.sentToPharmacist") }}
+                </div>
               </div>
             </div>
           </b-card-body>
         </b-card>
-        <div class="appointment--action-buttons">
+        <div
+          class="appointment--action-buttons"
+          v-if="this.getSelectedMedication.status != 'approved'"
+        >
           <button class="btn btn-secondary" @click="updateMedicationRefill">
             {{ $t("admin.update") }}
           </button>
@@ -154,7 +161,7 @@ export default {
       backRoute: "",
       selectedStatus: null,
       selectedStatusState: null,
-      statuses: ["pending", "approved", "rejected"],
+      statuses: ["pending", "rejected"],
     };
   },
   computed: {
@@ -169,19 +176,20 @@ export default {
   },
   methods: {
     sendToPharma() {
-      console.log("send to pharma");
+      this.updateMedicationRefill("approved");
     },
-    updateMedicationRefill() {
+    updateMedicationRefill(status = null) {
       this.selectedStatusState = !!this.selectedStatus;
       if (!this.selectedStatusState) return;
       this.setLoadingState(true);
       medicationService
         .updateMedicationRefill(this.getSelectedMedication.id, {
-          status: this.selectedStatus,
+          status: status || this.selectedStatus,
         })
         .then(
           (response) => {
             if (response.data.status) {
+              this.getSelectedMedication.status = status || this.selectedStatus;
               this.successToast(this.$t("admin.medicationRefillUpdateSuccess"));
             } else {
               this.failureToast(response.data.messsage);
@@ -192,7 +200,9 @@ export default {
             this.setLoadingState(false);
             if (!this.isAPIAborted(error))
               this.failureToast(
-                error.response.data && error.response.data.message
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
               );
           }
         );

@@ -66,7 +66,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { familyMemberService, userService } from "../../services";
+import { familyMemberService } from "../../services";
 export default {
   data() {
     return {
@@ -149,7 +149,9 @@ export default {
           console.error(error);
           if (!this.isAPIAborted(error))
             this.failureToast(
-              error.response.data && error.response.data.message
+              error.response &&
+                error.response.data &&
+                error.response.data.message
             );
           this.setLoadingState(false);
         }
@@ -172,7 +174,12 @@ export default {
         (error) => {
           this.appointmentStatus = null;
           this.setLoadingState(false);
-          if (!this.isAPIAborted(error)) this.failureToast(error.response.data && error.response.data.message);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
         }
       );
     },

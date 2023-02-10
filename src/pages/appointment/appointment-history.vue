@@ -9,7 +9,7 @@
           :placeholder="$t('admin.searchPatientMrn')"
           id="type-search"
           type="search"
-          v-model="searchQuery"
+          v-model="searchDoctorQuery"
           debounce="500"
         ></b-form-input>
       </div>
@@ -18,19 +18,17 @@
       <div class="toggle-options">
         <div
           class="toggle-options--single"
-          :class="{ active: activeTab == 'book' }"
-          @click="changeTab('book')"
+          :class="{ active: activeTab == 'onsite' }"
+          @click="changeTab('onsite')"
         >
-          {{ $t("admin.booked") }}
-          {{ $t("admin.appointments") }}
+          {{ $t("admin.onsite") }}
         </div>
         <div
           class="toggle-options--single"
-          :class="{ active: activeTab == 'upcoming' }"
-          @click="changeTab('upcoming')"
+          :class="{ active: activeTab == 'online' }"
+          @click="changeTab('online')"
         >
-          {{ $t("admin.upcoming") }}
-          {{ $t("admin.appointments") }}
+          {{ $t("admin.online") }}
         </div>
       </div>
       <div class="filters-dropdown">
@@ -50,7 +48,7 @@
             </div>
             <date-picker
               :append-to-body="false"
-              format="DD-MM-YYYY"
+              format="YYYY-MM-DD"
               v-model="dateRange"
               :popup-style="{ top: 'calc(100% - 5px)', left: 0, right: 0 }"
               popup-class="hideSecondCalendar"
@@ -60,6 +58,7 @@
               :open="showCalendar"
               :lang="getCurrentLang()"
               @input="dateChange"
+              :disabled-date="disabledBeforeTodayAndAfterAWeek"
             >
               <template #icon-calendar>
                 <img
@@ -80,17 +79,26 @@
       borderless
       :items="items"
       :fields="tablefields"
-      :current-page="currentPage"
       :per-page="5"
       class="ash-data-table"
-      :class="{ clickable: isBookedAppointment }"
-      @row-clicked="rowClicked"
+      @sort-changed="sortAppointments"
     >
       <template #head()="data">{{ $t("admin." + data.label) }} </template>
 
       <template #cell()="data">
-        <template v-if="data.field.key == 'type'">
-          {{ $t("admin." + data.value) }}
+        <template v-if="data.field.key == 'status'">
+          <div
+            class="badge"
+            :class="
+              data.value == 'confirmed'
+                ? 'bg-primary'
+                : data.value == 'cancelled'
+                ? 'bg-danger'
+                : 'bg-warning'
+            "
+          >
+            {{ data.value | capitalize }}
+          </div>
         </template>
         <template v-else-if="data.field.key == 'action'">
           <div class="action-buttons">
@@ -114,19 +122,19 @@
       :per-page="getPerPageSelection"
       class="my-0 justify-content-end"
       v-if="getPerPageSelection"
+      @change="fetchAppointments"
     ></b-pagination>
     <b-pagination v-else class="my-0"> </b-pagination>
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
 import { appointmentService } from "../../services";
 export default {
   data() {
     return {
-      searchQuery: "",
-      activeTab: "book",
+      searchDoctorQuery: "",
+      activeTab: "onsite",
       totalRows: 1,
       currentPage: 1,
       getPerPageSelection: 5,
@@ -139,30 +147,41 @@ export default {
         { key: "mrn", label: "mrn", sortable: true },
         { key: "datetime", label: "dateTime", sortable: true },
         { key: "doctor_name", label: "consultingDoctor", sortable: true },
-        { key: "type", label: "appointmentType" },
+        { key: "status", label: "status" },
       ],
       items: [],
       showDatePicker: true,
       showCalendar: false,
       locale: "",
-      isBookedAppointment: false,
+      sortBy: "",
+      sortDesc: null,
     };
   },
   mounted() {
-    this.fetchAppointments(this.activeTab);
-    this.isBookedAppointment = this.activeTab == "book";
+    let now = new Date();
+    this.fromDate = this.dateFormatter(
+      now.setFullYear(now.getFullYear() - 1),
+      "YYYY-MM-DD"
+    );
+    now = new Date();
+    this.toDate = this.dateFormatter(
+      now.setDate(now.getDate() - 1),
+      "YYYY-MM-DD"
+    );
+    this.dateRange = [this.fromDate, this.toDate];
+    this.fetchAppointments();
   },
   watch: {
-    searchQuery(query) {
+    searchDoctorQuery(query) {
       this.fetchAppointments();
     },
   },
   methods: {
-    ...mapActions("appointment", ["setSelectedAppointment"]),
-    rowClicked(e) {
-      if (!this.isBookedAppointment) return;
-      this.setSelectedAppointment(e);
-      this.navigateTo("Appointment History Details");
+    disabledBeforeTodayAndAfterAWeek(date) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      return today <= date;
     },
     dateChange(val) {
       this.fromDate = val[0];
@@ -173,42 +192,76 @@ export default {
       this.fetchAppointments();
     },
     changeTab(type) {
-      this.fetchAppointments(type);
+      this.fetchAppointments(1, type);
     },
     parseData(data) {
       this.items = [];
       data.forEach((x) => {
         this.items.push({
           id: x.id,
-          patient_name: this.getFullName(x),
-          patient_photo: x.patient && x.patient.photo,
-          mrn: x.patient.mrn_number || "N/A",
+          patient_name: this.getFullName(x.patient),
           datetime:
             this.formatLongDayDateFromDate(x.booked_date) +
             " / " +
-            this.translateNumber(
-              this.removeSecondsFromTimeString(x.start_time)
-            ) +
+            this.translateNumber(this.getTimeFromDate(x.start_time, true)) +
             " - " +
-            this.translateNumber(this.removeSecondsFromTimeString(x.end_time)),
+            this.translateNumber(this.getTimeFromDate(x.end_time, true)),
           doctor_name: this.getFullName(x.doctor),
-          type: x.type,
-          raw: x,
+          status: x.status,
+          mrn: x.patient.id,
         });
       });
     },
-    fetchAppointments(type) {
+    sortAppointments(filter) {
+      this.sortDesc = filter.sortDesc;
+      this.sortBy = filter.sortBy;
+      this.fetchAppointments();
+    },
+    fetchAppointments(pageNumber = 1, type) {
+      let fetchType = type;
+      if (!fetchType) {
+        fetchType = this.activeTab;
+      }
       this.setLoadingState(true);
-      appointmentService.fetchAppointmentHistory(type).then(
+      let query = "?";
+      if (fetchType) {
+        query += "&type=" + fetchType.toUpperCase();
+      }
+      if (this.sortBy) {
+        query += "&sort_by=" + this.sortBy;
+      }
+      if (this.sortDesc !== null) {
+        query += "&sort_direction=" + (this.sortDesc ? "DESC" : "ASC");
+      }
+      if (this.getPerPageSelection) {
+        query += "&per_page=" + this.getPerPageSelection;
+      }
+      if (pageNumber) {
+        query += "&page_number=" + pageNumber;
+      }
+      if (this.searchDoctorQuery) {
+        if (isNaN(this.searchDoctorQuery))
+          query += "&name=" + this.searchDoctorQuery;
+        else query += "&mr_number=" + this.searchDoctorQuery;
+      }
+      if (this.fromDate) {
+        query += "&start_date=" + this.fromDate;
+      }
+      if (this.toDate) {
+        query += "&end_date=" + this.toDate;
+      }
+      appointmentService.fetchAllAppointments(query).then(
         (response) => {
           if (response.data.status) {
+            if (fetchType) this.activeTab = fetchType;
             this.parseData(response.data.data.items);
-            if (type) {
-              this.activeTab = type;
-              this.isBookedAppointment = this.activeTab == "book";
+            this.currentPage = pageNumber;
+            const tempRecord = response.data.data.items[0];
+            if (tempRecord) {
+              this.totalRows = tempRecord.total_records;
+            } else {
+              this.totalRows = 0;
             }
-            this.currentPage = 1;
-            this.totalRows = this.items.length;
           } else {
             this.failureToast(response.data.messsage);
           }
@@ -220,7 +273,9 @@ export default {
           this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
-              error.response.data && error.response.data.messsage
+              error.response &&
+                error.response.data &&
+                error.response.data.messsage
             );
         }
       );

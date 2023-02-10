@@ -54,7 +54,6 @@ import FamilyMembersProfile from '../pages/family-members/family-members-profile
 
 import UsersModule from '../pages/users'
 import PatientList from '../pages/users/patient-list'
-import PatientRequestList from '../pages/users/patient-request-list'
 import PhysicianList from '../pages/users/physician-list'
 import StaffList from '../pages/users/staff-list'
 import UserDetails from '../pages/users/user-details'
@@ -68,6 +67,8 @@ import promotionsDetails from '../pages/promotions/promotions-details'
 import promotionsForm from '../pages/promotions/promotions-form'
 
 import TransactionsList from '../pages/transactions/transactions-list'
+
+import RolesList from '../pages/roles-permissions/roles-list'
 
 import { userService } from '../services';
 
@@ -586,6 +587,21 @@ const routes = [
             component: TransactionsList,
             meta: {
               title: 'Transactions List | Almoosa Specialist Hospital',
+            },
+          },
+        ]
+      },
+      {
+        path: 'roles-permissions',
+        component: RouterViewModule,
+        children: [
+          { path: '', name: "Roles Permissions", redirect: { name: 'Roles List' } },
+          {
+            path: "list",
+            name: 'Roles List',
+            component: RolesList,
+            meta: {
+              title: 'Roles List | Almoosa Specialist Hospital',
             },
           },
         ]

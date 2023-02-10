@@ -96,5 +96,12 @@ export const apiPath = {
 
     transactions: {
         fetchAll: getApiObject("get", "users?role_id=4"),
+    },
+
+    rolesPermissions: {
+        fetchRoles: getApiObject("get", "roles"),
+        fetchPermissions: getApiObject("get", "permissions"),
+        fetchRoleDetails: (id) => getApiObject("get", "roles-permissions?role_id=" + id),
+        updateRoleDetails: (id) => getApiObject("patch", "roles-permissions/" + id),
     }
 };

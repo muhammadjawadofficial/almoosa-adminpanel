@@ -159,7 +159,7 @@
           </vue-dropzone>
           <div
             :class="{
-              'dropzone is-invalid': promotionForm.image_id == false,
+              'dropzone is-invalid': promotionFormState.image_id == false,
             }"
           ></div>
         </div>
@@ -320,7 +320,9 @@ export default {
         (error) => {
           if (!this.isAPIAborted(error))
             this.failureToast(
-              error.response.data && error.response.data.message
+              error.response &&
+                error.response.data &&
+                error.response.data.message
             );
           this.setLoadingState(false);
         }
@@ -353,7 +355,7 @@ export default {
           if (res.data.status) {
             this.promotionForm.image_id = res.data.data.id;
             this.promotionFormState.image_id =
-              this.promotionForm.image_id != null;
+              this.promotionForm.image_id != "";
             this.successToast(this.$t("insurance.idUploaded"));
           } else {
             this.failureToast(res.data.message);
@@ -363,7 +365,9 @@ export default {
         (error) => {
           if (!this.isAPIAborted(error))
             this.failureToast(
-              error.response.data && error.response.data.message
+              error.response &&
+                error.response.data &&
+                error.response.data.message
             );
           this.setLoadingState(false);
         }
@@ -408,7 +412,9 @@ export default {
           (error) => {
             if (!this.isAPIAborted(error))
               this.failureToast(
-                error.response.data && error.response.data.message
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
               );
             this.setLoadingState(false);
           }
@@ -429,7 +435,9 @@ export default {
             (error) => {
               if (!this.isAPIAborted(error))
                 this.failureToast(
-                  error.response.data && error.response.data.message
+                  error.response &&
+                    error.response.data &&
+                    error.response.data.message
                 );
               this.setLoadingState(false);
             }

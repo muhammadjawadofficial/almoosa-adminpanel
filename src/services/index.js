@@ -11,3 +11,4 @@ export * from './timeline.service';
 export * from './services-packages.service';
 export * from './family-member.service';
 export * from './transactions.service';
+export * from './roles-permissions.service';

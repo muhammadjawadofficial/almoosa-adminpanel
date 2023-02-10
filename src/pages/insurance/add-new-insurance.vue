@@ -120,7 +120,9 @@ export default {
           console.error(err);
           if (!this.isAPIAborted(error))
             this.failureToast(
-              error.response.data && error.response.data.message
+              error.response &&
+                error.response.data &&
+                error.response.data.message
             );
           this.setLoadingState(false);
         }
@@ -160,7 +162,9 @@ export default {
         (error) => {
           if (!this.isAPIAborted(error))
             this.failureToast(
-              error.response.data && error.response.data.message
+              error.response &&
+                error.response.data &&
+                error.response.data.message
             );
           this.setLoadingState(false);
         }

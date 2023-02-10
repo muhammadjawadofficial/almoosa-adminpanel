@@ -595,6 +595,7 @@
     "selectedLabel": "Selected",
     "deselectLabel": "Press enter to remove",
     "sendToPharmacist": "Send to Pharmacist",
+    "sentToPharmacist": "Sent to Pharmacist",
     "services": "Services",
     "noOfServices": "No. of Services",
     "price": "Price",
@@ -624,6 +625,7 @@
     "rating": "Rating",
     "gender": "Gender",
     "registered": "Registered",
-    "newRequest": "New Request"
+    "newRequest": "New Request",
+    "searchRole": "Search Role by Name"
   }
 }

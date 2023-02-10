@@ -196,7 +196,9 @@ export default {
           this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
-              error.response.data && error.response.data.message
+              error.response &&
+                error.response.data &&
+                error.response.data.message
             );
         }
       );
@@ -230,7 +232,9 @@ export default {
               this.setLoadingState(false);
               if (!this.isAPIAborted(error))
                 this.failureToast(
-                  error.response.data && error.response.data.message
+                  error.response &&
+                    error.response.data &&
+                    error.response.data.message
                 );
             }
           );

@@ -13,12 +13,13 @@ export default {
         userInfo: null,
         isGuest: true,
         selectedUser: null,
+        userPermissions: []
     },
     actions: {
         setLoading({ commit }, data) {
             setTimeout(() => {
                 commit('SET_LOADING', data)
-            }, data ? 100 : 0);
+            }, 100);
         },
         setOtp({ commit }, data) {
             commit('SET_OTP', data)
@@ -54,6 +55,9 @@ export default {
         setSelectedUser({ commit }, data) {
             commit('SET_SELECTED_USER', data)
         },
+        setUserPermissions({ commit }, data) {
+            commit('SET_USER_PERMISSIONS', data)
+        },
     },
     mutations: {
         SET_LOADING(state, loading) {
@@ -84,6 +88,7 @@ export default {
             userService.removeLoginInfo();
             localStorage.removeItem("doctor");
             Vue.set(state, 'userInfo', null);
+            Vue.set(state, 'userPermissions', []);
         },
         UPDATE_USER_INFO(state, userInfo) {
             Vue.set(state, 'userInfo', { ...state.userInfo, ...userInfo });
@@ -98,6 +103,9 @@ export default {
         SET_SELECTED_USER(state, selectedUser) {
             state.selectedUser = selectedUser
         },
+        SET_USER_PERMISSIONS(state, userPermissions) {
+            Vue.set(state, 'userPermissions', userPermissions);
+        },
     },
     getters: {
         getLoading: (state) => state.loading,
@@ -109,5 +117,6 @@ export default {
         getUserInfo: (state) => state.userInfo,
         getIsGuest: (state) => state.isGuest,
         getSelectedUser: (state) => state.selectedUser,
+        getUserPermissions: (state) => state.userPermissions,
     }
 };
