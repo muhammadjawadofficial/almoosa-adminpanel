@@ -83,7 +83,7 @@ export default {
             let data = response.data.data.items[0];
             this.savedInstructions = {
               ...data,
-              instructions: data.value,
+              instructions: JSON.parse(data.value),
             };
             this.setInstructions();
           } else {
