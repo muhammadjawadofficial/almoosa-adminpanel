@@ -387,7 +387,15 @@
                     "
                     track-by="id"
                     label="title"
-                  ></multiselect>
+                  >
+                    <template slot="singleLabel" slot-scope="props">
+                      {{ props.option[getLocaleKey("title")] }}
+                    </template>
+
+                    <template slot="option" slot-scope="props">
+                      {{ props.option[getLocaleKey("title")] }}
+                    </template>
+                  </multiselect>
                   <div
                     class="custom-state-invalid icon"
                     :class="{

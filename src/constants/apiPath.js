@@ -65,7 +65,8 @@ export const apiPath = {
         getNationalities: getApiObject("get", "nationalities"),
         getDepartments: getApiObject("get", "departments"),
         clinics: getApiObject("get", "clinics"),
-        specialities: getApiObject("get", "specialities"),
+        specialities: getApiObject("get", "specialities", "v2"),
+        specialitiesV1: getApiObject("get", "specialities"),
         uploadId: getApiObject("post", "mediafiles/upload"),
     },
 

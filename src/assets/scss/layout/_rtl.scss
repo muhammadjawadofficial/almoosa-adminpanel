@@ -5065,7 +5065,13 @@
       }
     }
   }
-
+  .multiselect {
+    .multiselect__tag-icon,
+    .multiselect__select {
+      right: unset !important;
+      left: 0;
+    }
+  }
   .user-profile-details {
     .user-profile {
       right: unset;

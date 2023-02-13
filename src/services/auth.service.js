@@ -14,7 +14,8 @@ export const authService = {
     getNationalities,
     getDepartments,
     getClinics,
-    getSpecialities
+    getSpecialities,
+    getSpecialitiesV1
 }
 
 
@@ -119,5 +120,12 @@ function getSpecialities() {
     return axios({
         method: apiPath.user.specialities.method,
         url: apiPath.user.specialities.url
+    })
+}
+
+function getSpecialitiesV1() {
+    return axios({
+        method: apiPath.user.specialitiesV1.method,
+        url: apiPath.user.specialitiesV1.url
     })
 }
