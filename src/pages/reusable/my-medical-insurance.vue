@@ -25,13 +25,12 @@
                 <div
                   class="appointment-list"
                   :class="{
-                    noData:
-                      !getApprovedInsurances || !getApprovedInsurances.length,
+                    noData: !insuranceList || !insuranceList.length,
                   }"
                 >
                   <div
                     class="appointment-list-item"
-                    v-for="insurance in getApprovedInsurances"
+                    v-for="insurance in insuranceList"
                     :key="'upcoming-appointment-id' + insurance.id"
                   >
                     <div class="appointment-card success">
@@ -59,26 +58,28 @@
                     </div>
                   </div>
                 </div>
-                <div class="loading no-data" v-if="!getApprovedInsurances">
+                <div class="loading no-data" v-if="!insuranceList">
                   {{ $t("loading") }}
                 </div>
-                <div class="no-data" v-else-if="!getApprovedInsurances.length">
+                <div class="no-data" v-else-if="!insuranceList.length">
                   {{ $t("noData") }}
                 </div>
               </b-tab>
               <b-tab :title="$t('insurance.approvals')">
                 <div
                   class="appointment-list"
-                  :class="{ noData: !insuranceList || !insuranceList.length }"
+                  :class="{
+                    noData: !insuranceServices || !insuranceServices.length,
+                  }"
                 >
                   <div
                     class="appointment-list-item"
-                    v-for="insurance in insuranceList"
+                    v-for="insurance in insuranceServices"
                     :key="'upcoming-appointment-id' + insurance.id"
                   >
                     <div
                       class="appointment-card"
-                      :class="getStatusClass(insurance.status)"
+                      :class="getStatusClass(insurance.approval_status)"
                     >
                       <div class="doctor-avatar transparent">
                         <shield-bg-svg />
@@ -97,16 +98,21 @@
                           {{ getLongDateAndTimeFromDate(insurance.updated_at) }}
                         </div>
                         <button class="btn start-call-button status-color">
-                          {{ insurance.status }}
+                          {{
+                            $t(
+                              "approvalStatus." +
+                                insurance.approval_status.toLowerCase()
+                            )
+                          }}
                         </button>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="loading no-data" v-if="insuranceList == null">
+                <div class="loading no-data" v-if="insuranceServices == null">
                   {{ $t("loading") }}
                 </div>
-                <div class="no-data" v-else-if="!insuranceList.length">
+                <div class="no-data" v-else-if="!insuranceServices.length">
                   {{ $t("noData") }}
                 </div>
               </b-tab>
@@ -130,6 +136,7 @@ export default {
   data() {
     return {
       insuranceList: null,
+      insuranceServices: null,
     };
   },
   mounted() {
@@ -159,30 +166,41 @@ export default {
   methods: {
     getInsurances() {
       this.setLoadingState(true);
-      insuranceService.fetchInsurances(this.userId).then(
-        (response) => {
-          if (response.data.status) {
-            this.insuranceList = response.data.data.items;
+      Promise.all([
+        insuranceService.fetchInsurances(this.userId),
+        insuranceService.fetchInsuranceServices(this.userId),
+      ])
+        .then((response) => {
+          let myInsurances = response[0];
+          let insuranceServices = response[1];
+          if (myInsurances.data.status) {
+            this.insuranceList = myInsurances.data.data.items;
           } else {
-            this.failureToast(response.data.message);
+            this.failureToast(myInsurances.data.message);
           }
-          this.setLoadingState(false);
-        },
-        (error) => {
+          if (insuranceServices.data.status) {
+            this.insuranceServices = insuranceServices.data.data.items;
+          } else {
+            this.failureToast(insuranceServices.data.message);
+          }
+        })
+        .catch((error) => {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
                 error.response.data &&
                 error.response.data.message
             );
+        })
+        .finally(() => {
           this.setLoadingState(false);
-        }
-      );
+        });
     },
-    getStatusClass(status) {
+    getStatusClass(statusTemp) {
+      let status = statusTemp || "";
       if (
-        status.toLowerCase() == "pending" ||
-        status.toLowerCase() == "sent for approval"
+        status.toLowerCase() == "unpaid" ||
+        status.toLowerCase().includes("approval")
       )
         return "warning";
       else if (status.toLowerCase() == "rejected") return "danger";

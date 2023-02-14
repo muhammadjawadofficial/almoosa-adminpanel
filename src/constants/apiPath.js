@@ -37,7 +37,8 @@ export const apiPath = {
 
     insurance: {
         addNew: getApiObject("post", "insurances"),
-        fetch: (id) => getApiObject("get", "insurances?patient_id=" + id + "&sort=-id"),
+        services: (id) => getApiObject("get", "insurances/services?mrn_number=" + id, "v2"),
+        fetch: (id) => getApiObject("get", "insurances?mrn_number=" + id + "&sort=-id", "v2"),
     },
 
     medication: {
