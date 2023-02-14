@@ -59,6 +59,7 @@
               :lang="getCurrentLang()"
               @input="dateChange"
               :disabled-date="disabledBeforeTodayAndAfterAWeek"
+              :clearable="fromDate != defaultStart && toDate != defaultEnd"
             >
               <template #icon-calendar>
                 <img
@@ -155,17 +156,12 @@ export default {
       locale: "",
       sortBy: "",
       sortDesc: null,
+      defaultStart: null,
+      defaultEnd: null,
     };
   },
   mounted() {
-    let now = new Date();
-    this.fromDate = this.dateFormatter(now, "YYYY-MM-DD");
-    this.toDate = this.dateFormatter(
-      now.setFullYear(now.getFullYear() + 1),
-      "YYYY-MM-DD"
-    );
-    this.dateRange = [this.fromDate, this.toDate];
-    this.fetchAppointments();
+    this.resetDates(true);
   },
   watch: {
     searchDoctorQuery(query) {
@@ -178,6 +174,24 @@ export default {
     },
   },
   methods: {
+    resetDates(setDefault = false) {
+      let now = new Date();
+      const fromDate = this.dateFormatter(now, "YYYY-MM-DD");
+      now = new Date();
+      const toDate = this.dateFormatter(
+        now.setFullYear(now.getFullYear() + 1),
+        "YYYY-MM-DD"
+      );
+
+      this.fromDate = fromDate;
+      this.toDate = toDate;
+      if (setDefault) {
+        this.defaultStart = fromDate;
+        this.defaultEnd = toDate;
+      }
+      this.dateRange = [this.fromDate, this.toDate];
+      this.fetchAppointments();
+    },
     disabledBeforeTodayAndAfterAWeek(date) {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -187,6 +201,12 @@ export default {
     dateChange(val) {
       this.fromDate = val[0];
       this.toDate = val[1];
+
+      if (!this.fromDate && !this.toDate) {
+        this.resetDates();
+        return;
+      }
+
       if (!this.fromDate || this.toDate) {
         this.showCalendar = false;
       }
