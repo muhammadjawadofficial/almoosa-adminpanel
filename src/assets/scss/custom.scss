@@ -124,8 +124,9 @@
         padding-inline-end: 26px;
         padding-inline-start: 10px;
         &-icon {
-            justify-content: flex-start;
-            // padding-inline-start: 0.25em;
+            justify-content: center;
+            margin-left: 7px;
+            margin-right: 7px;
             width: 0.75em;
         }
     }
@@ -133,6 +134,10 @@
         min-height: 2.375rem;
         padding-top: 7px;
         border: 1px solid #ced4da;
+        &-wrap {
+            gap: 0.5em;
+            padding-inline-end: 0.5em;
+        }
     }
     &__placeholder {
         margin-bottom: 6px;
@@ -2327,4 +2332,10 @@ html {
 }
 body {
     font-size: 0.938rem;
+}
+.forceLtr {
+    direction: ltr;
+}
+.forceRtl {
+    direction: rtl;
 }

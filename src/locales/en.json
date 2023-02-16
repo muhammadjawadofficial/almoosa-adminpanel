@@ -626,6 +626,8 @@
     "gender": "Gender",
     "registered": "Registered",
     "newRequest": "New Request",
-    "searchRole": "Search Role by Name"
+    "searchRole": "Search Role by Name",
+    "english": "English",
+    "arabic": "Arabic"
   }
 }

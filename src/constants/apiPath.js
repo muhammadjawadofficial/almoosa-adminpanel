@@ -63,7 +63,7 @@ export const apiPath = {
         fetchUsers: (query) => getApiObject("get", "users" + query),
         fetchPatients: (query) => getApiObject("get", "admin/patients" + query, "v2"),
         fetchDoctors: (query) => getApiObject("get", "admin/doctors" + query, "v2"),
-        getNationalities: getApiObject("get", "nationalities"),
+        getNationalities: getApiObject("get", "nationalities", "v2"),
         getDepartments: getApiObject("get", "departments"),
         clinics: getApiObject("get", "clinics"),
         specialities: getApiObject("get", "specialities", "v2"),

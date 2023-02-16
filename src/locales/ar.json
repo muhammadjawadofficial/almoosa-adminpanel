@@ -620,6 +620,8 @@
     "gender": "جنس",
     "registered": "مسجل",
     "newRequest": "طلب جديد",
-    "searchRole": "بحث في الدور"
+    "searchRole": "بحث في الدور",
+    "english": "الإنجليزية",
+    "arabic": "العربية"
   }
 }

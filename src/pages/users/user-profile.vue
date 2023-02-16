@@ -418,10 +418,10 @@
               </div>
               <div class="profile-info-card-detail">
                 <div class="profile-info-card-detail-title">
-                  {{ $t("profile.expertise") }}
+                  {{ $t("profile.expertise") + " - " + $t("admin.english") }}
                 </div>
                 <div
-                  class="profile-info-card-detail-value"
+                  class="profile-info-card-detail-value forceLtr"
                   :class="{ inactive: !isEditing }"
                 >
                   <b-form-input
@@ -456,12 +456,20 @@
                     :disabled="!isEditing"
                     v-model="doctor.nationality"
                     :options="nationalities"
-                    track-by="id"
+                    track-by="code"
                     label="nationality"
                     :placeholder="
                       $t('profile.select') + ' ' + $t('profile.nationality')
                     "
-                  ></multiselect>
+                  >
+                    <template slot="singleLabel" slot-scope="props">
+                      {{ props.option[getLocaleKey("nationality")] }}
+                    </template>
+
+                    <template slot="option" slot-scope="props">
+                      {{ props.option[getLocaleKey("nationality")] }}
+                    </template>
+                  </multiselect>
                   <div
                     class="custom-state-invalid icon"
                     :class="{
@@ -480,14 +488,72 @@
             </div>
             <div class="profile-info-card">
               <div class="profile-info-card-logo">
+                <img src="../../assets/images/doctor-bg.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("profile.expertise") + " - " + $t("admin.arabic") }}
+                </div>
+                <div
+                  class="profile-info-card-detail-value forceRtl"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <b-form-input
+                    v-model="doctor.expertiseAr"
+                    :state="doctorState.expertiseArState"
+                    :placeholder="
+                      $t('profile.expertise') + ' - ' + $t('admin.arabic')
+                    "
+                    :disabled="!isEditing"
+                  ></b-form-input>
+                </div>
+              </div>
+              <div class="profile-info-card-option">
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/family-bg.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("profile.consulting") + " - " + $t("admin.english") }}
+                </div>
+                <div
+                  class="profile-info-card-detail-value forceLtr"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <b-form-input
+                    v-model="doctor.consulting"
+                    :state="doctorState.consultingState"
+                    :placeholder="$t('profile.consulting')"
+                    :disabled="!isEditing"
+                  ></b-form-input>
+                </div>
+              </div>
+              <div class="profile-info-card-option">
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
                 <img src="../../assets/images/translate-bg.svg" alt="" />
               </div>
               <div class="profile-info-card-detail">
                 <div class="profile-info-card-detail-title">
-                  {{ $t("profile.languages") }}
+                  {{ $t("profile.languages") + " - " + $t("admin.english") }}
                 </div>
                 <div
-                  class="profile-info-card-detail-value"
+                  class="profile-info-card-detail-value forceLtr"
                   :class="{ inactive: !isEditing }"
                 >
                   <b-form-input
@@ -512,16 +578,48 @@
               </div>
               <div class="profile-info-card-detail">
                 <div class="profile-info-card-detail-title">
-                  {{ $t("profile.consulting") }}
+                  {{ $t("profile.consulting") + " - " + $t("admin.arabic") }}
                 </div>
                 <div
-                  class="profile-info-card-detail-value"
+                  class="profile-info-card-detail-value forceRtl"
                   :class="{ inactive: !isEditing }"
                 >
                   <b-form-input
-                    v-model="doctor.consulting"
-                    :state="doctorState.consultingState"
-                    :placeholder="$t('profile.consulting')"
+                    v-model="doctor.consultingAr"
+                    :state="doctorState.consultingArState"
+                    :placeholder="
+                      $t('profile.consulting') + ' - ' + $t('admin.arabic')
+                    "
+                    :disabled="!isEditing"
+                  ></b-form-input>
+                </div>
+              </div>
+              <div class="profile-info-card-option">
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/translate-bg.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("profile.languages") + " - " + $t("admin.arabic") }}
+                </div>
+                <div
+                  class="profile-info-card-detail-value forceRtl"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <b-form-input
+                    v-model="doctor.languagesAr"
+                    :state="doctorState.languagesArState"
+                    :placeholder="
+                      $t('profile.languages') + ' - ' + $t('admin.arabic')
+                    "
                     :disabled="!isEditing"
                   ></b-form-input>
                 </div>
@@ -600,17 +698,23 @@ export default {
         clinics: [],
         speciality: {},
         expertise: "",
+        expertiseAr: "",
         nationality: {},
         languages: "",
+        languagesAr: "",
         consulting: "",
+        consultingAr: "",
       },
       doctorState: {
         clinicsState: null,
         specialityState: null,
         expertiseState: null,
+        expertiseArState: null,
         nationalityState: null,
         languagesState: null,
+        languagesArState: null,
         consultingState: null,
+        consultingArState: null,
       },
       nationalities: [],
       clinics: [],
@@ -618,6 +722,7 @@ export default {
       isEditingAllowed: false,
       isMrnEditingAllowed: false,
       backRoute: "",
+      activeTab: "english",
     };
   },
   mounted() {
@@ -659,6 +764,9 @@ export default {
   },
   methods: {
     ...mapActions("user", ["updateUserInfo", "updateSelectedUser"]),
+    changeTab(tab) {
+      this.activeTab = tab;
+    },
     changeProfilePicture(e) {
       let file = e.target.files[0];
       if (!file) {
@@ -813,15 +921,21 @@ export default {
         this.doctor.speciality = this.getSelectedUser.speciality;
         this.doctor.nationality = this.getSelectedUser.nationality;
         this.doctor.expertise = this.getSelectedUser.expertise;
+        this.doctor.expertiseAr = this.getSelectedUser.expertise_ar;
         this.doctor.languages = this.getSelectedUser.languages;
+        this.doctor.languagesAr = this.getSelectedUser.languages_ar;
         this.doctor.consulting = this.getSelectedUser.consulting_age_group;
+        this.doctor.consultingAr = this.getSelectedUser.consulting_age_group_ar;
         this.doctorState = {
           clinicsState: null,
           specialityState: null,
           expertiseState: null,
+          expertiseArState: null,
           nationalityState: null,
           languagesState: null,
+          languagesArState: null,
           consultingState: null,
+          consultingArState: null,
         };
       } else {
         this.address = this.getSelectedUser.location;
@@ -845,12 +959,18 @@ export default {
           this.doctor.speciality != {} && !!this.doctor.speciality;
         this.doctorState.expertiseState =
           this.doctor.expertise != "" && !!this.doctor.expertise;
+        this.doctorState.expertiseArState =
+          this.doctor.expertiseAr != "" && !!this.doctor.expertiseAr;
         this.doctorState.nationalityState =
           this.doctor.nationality != {} && !!this.doctor.nationality;
         this.doctorState.languagesState =
           this.doctor.languages != "" && !!this.doctor.languages;
+        this.doctorState.languagesArState =
+          this.doctor.languagesAr != "" && !!this.doctor.languagesAr;
         this.doctorState.consultingState =
           this.doctor.consulting != "" && !!this.doctor.consulting;
+        this.doctorState.consultingArState =
+          this.doctor.consultingAr != "" && !!this.doctor.consultingAr;
         return !Object.values(this.doctorState).includes(false);
       } else {
         this.addressState = this.address != "";
@@ -888,6 +1008,9 @@ export default {
           if (this.getSelectedUser.expertise !== this.doctor.expertise) {
             updateUserObj.expertise = this.doctor.expertise;
           }
+          if (this.getSelectedUser.expertiseAr !== this.doctor.expertiseAr) {
+            updateUserObj.expertiseAr = this.doctor.expertiseAr;
+          }
           if (
             !this.getSelectedUser.nationality ||
             this.getSelectedUser.nationality.id !== this.doctor.nationality.id
@@ -897,10 +1020,19 @@ export default {
           if (this.getSelectedUser.languages !== this.doctor.languages) {
             updateUserObj.languages = this.doctor.languages;
           }
+          if (this.getSelectedUser.languagesAr !== this.doctor.languagesAr) {
+            updateUserObj.languagesAr = this.doctor.languagesAr;
+          }
           if (
             this.getSelectedUser.consulting_age_group !== this.doctor.consulting
           ) {
             updateUserObj.consulting_age_group = this.doctor.consulting;
+          }
+          if (
+            this.getSelectedUser.consulting_age_group_ar !==
+            this.doctor.consultingAr
+          ) {
+            updateUserObj.consulting_age_group_ar = this.doctor.consultingAr;
           }
         } else {
           updateUserObj = {
