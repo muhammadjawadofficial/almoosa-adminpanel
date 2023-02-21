@@ -430,6 +430,7 @@
     "bookAppointment": "Book Appointment",
     "tapToAddFamilyMember": "Tap to Add New Family Member",
     "addFamilyMember": "Add Family Member",
+    "addStaffMember": "Add Staff Member",
     "addedSuccessfully": "Family Member Added Successfully",
     "addMember": "Add Member",
     "selectTypeOfId": "Select Type of ID",
@@ -628,6 +629,11 @@
     "newRequest": "New Request",
     "searchRole": "Search Role by Name",
     "english": "English",
-    "arabic": "Arabic"
+    "arabic": "Arabic",
+    "gatewayId": "Gateway ID",
+    "amount": "Amount",
+    "appointmentId": "Appointment ID",
+    "doctor": "Doctor",
+    "appointmentDate": "Appointment Date"
   }
 }

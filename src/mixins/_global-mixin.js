@@ -92,6 +92,14 @@ export default {
                 return number;
             }
         },
+        alphabetsOnly(string) {
+            /**
+             * @param {string} string
+             * @returns {string}
+             */
+            let regex = this.getCurrentLang() == "en" ? /[^a-zA-Z ]/g : /[^ء-ي ]/g;
+            return string.replace(regex, "");
+        },
         confirmModal(title, confirmText, cancelText) {
             return this.$swal({
                 text: title || this.$t('areYouSure'),

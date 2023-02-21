@@ -426,6 +426,7 @@
     "bookAppointment": "موعد الكتاب",
     "tapToAddFamilyMember": "انقر لإضافة عضو عائلة جديد",
     "addFamilyMember": "إضافة فرد جديد",
+    "addStaffMember": "إضافة عضو فريق العمل",
     "addedSuccessfully": "تمت إضافة فرد جديد بنجاح",
     "addMember": "إضافة عضو",
     "selectTypeOfId": "حدد نوع الهوية",
@@ -622,6 +623,11 @@
     "newRequest": "طلب جديد",
     "searchRole": "بحث في الدور",
     "english": "الإنجليزية",
-    "arabic": "العربية"
+    "arabic": "العربية",
+    "gatewayId": "معرف البوابة",
+    "amount": "كمية",
+    "appointmentId": "معرف الموعد",
+    "doctor": "طبيب",
+    "appointmentDate": "تاريخ الموعد"
   }
 }

@@ -5,26 +5,13 @@
         <i class="fa fa-search" aria-hidden="true"></i>
       </div>
       <div class="search-input">
-        <b-form-input
-          :placeholder="$t('admin.searchPatientMrn')"
-          id="type-search"
-          type="search"
-          v-model="searchQuery"
-          debounce="500"
-        ></b-form-input>
+        <b-form-input :placeholder="$t('admin.searchPatientMrn')" id="type-search" type="search" v-model="searchQuery"
+          debounce="500"></b-form-input>
       </div>
     </div>
 
-    <b-table
-      show-empty
-      stacked="md"
-      borderless
-      :items="items"
-      :fields="tablefields"
-      :current-page="currentPage"
-      :per-page="5"
-      class="ash-data-table"
-    >
+    <b-table show-empty stacked="md" borderless :items="items" :fields="tablefields" :current-page="currentPage"
+      :per-page="5" class="ash-data-table">
       <template #head()="data">{{ $t("admin." + data.label) }} </template>
 
       <template #cell()="data">
@@ -35,6 +22,12 @@
           <div class="action-buttons">
             <feather class="pointer" type="edit"></feather>
           </div>
+        </template>
+        <template v-else-if="data.field.key == 'amount'">
+          {{ data.value + " " + data.item.currency }}
+        </template>
+        <template v-else-if="data.field.key.toLowerCase().includes('date')">
+          {{ getLongDateAndTimeFromDate(data.value, true) }}
         </template>
         <template v-else-if="data.field.key == 'patient_name'">
           <div class="user-name-with-image">
@@ -47,13 +40,8 @@
         <template v-else>{{ data.value }}</template>
       </template>
     </b-table>
-    <b-pagination
-      v-model="currentPage"
-      :total-rows="totalRows"
-      :per-page="getPerPageSelection"
-      class="my-0 justify-content-end"
-      v-if="getPerPageSelection"
-    ></b-pagination>
+    <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="getPerPageSelection"
+      class="my-0 justify-content-end" v-if="getPerPageSelection"></b-pagination>
     <b-pagination v-else class="my-0"> </b-pagination>
   </div>
 </template>
@@ -68,12 +56,13 @@ export default {
       currentPage: 1,
       getPerPageSelection: 5,
       tablefields: [
-        { key: "id", label: "id", sortable: true },
-        { key: "patient_name", label: "patientName", sortable: true },
-        { key: "mrn", label: "mrn", sortable: true },
-        { key: "roleName", label: "role", sortable: true },
-        { key: "email", label: "email", sortable: true },
-        { key: "phone", label: "phoneNumber", sortable: true },
+        { key: "gateway_id", label: "gatewayId", sortable: true },
+        { key: "amount", label: "amount", sortable: true },
+        { key: "appointment_id", label: "appointmentId", sortable: true },
+        { key: "patient", label: "patient", sortable: true },
+        { key: "doctor", label: "doctor", sortable: true },
+        { key: "appointmentDate", label: "appointmentDate", sortable: true },
+        { key: "appointmentStatus", label: "appointmentStatus", sortable: true },
         { key: "status", label: "status", sortable: true },
       ],
       items: [],
@@ -92,14 +81,10 @@ export default {
       this.items = [];
       data.forEach((x) => {
         this.items.push({
-          id: x.id,
-          patient_name: this.getFullName(x),
-          patient_photo: x.photo,
-          mrn: x.mrn_number || "N/A",
-          roleName: x.role.title || "N/A",
-          email: x.email_address || "N/A",
-          phone: x.phone_number || "N/A",
-          status: x.status || "N/A",
+          patient: x.appointment && x.appointment.patient_id,
+          doctor: x.appointment && x.appointment.doctor_id,
+          appointmentDate: x.appointment && x.appointment.booked_date,
+          appointmentStatus: x.appointment && x.appointment.status,
           ...x,
         });
       });
@@ -124,8 +109,8 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-                error.response.data &&
-                error.response.data.message
+              error.response.data &&
+              error.response.data.message
             );
         }
       );
@@ -134,5 +119,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

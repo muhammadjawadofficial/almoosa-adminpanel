@@ -5,27 +5,13 @@
         <i class="fa fa-search" aria-hidden="true"></i>
       </div>
       <div class="search-input">
-        <b-form-input
-          :placeholder="$t('admin.searchStaff')"
-          id="type-search"
-          type="search"
-          v-model="searchQuery"
-          debounce="500"
-        ></b-form-input>
+        <b-form-input :placeholder="$t('admin.searchStaff')" id="type-search" type="search" v-model="searchQuery"
+          debounce="500"></b-form-input>
       </div>
     </div>
 
-    <b-table
-      show-empty
-      stacked="md"
-      borderless
-      :items="items"
-      :fields="tablefields"
-      :current-page="currentPage"
-      :per-page="5"
-      class="ash-data-table clickable"
-      @row-clicked="rowClicked"
-    >
+    <b-table show-empty stacked="md" borderless :items="filteredItems" :fields="filteredFields" :current-page="currentPage"
+      :per-page="5" class="ash-data-table " @row-clicked="rowClicked">
       <template #head()="data">{{ $t("admin." + data.label) }} </template>
 
       <template #cell()="data">
@@ -48,13 +34,8 @@
         <template v-else>{{ data.value }}</template>
       </template>
     </b-table>
-    <b-pagination
-      v-model="currentPage"
-      :total-rows="totalRows"
-      :per-page="getPerPageSelection"
-      class="my-0 justify-content-end"
-      v-if="getPerPageSelection"
-    ></b-pagination>
+    <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="getPerPageSelection"
+      class="my-0 justify-content-end" v-if="getPerPageSelection"></b-pagination>
     <b-pagination v-else class="my-0"> </b-pagination>
   </div>
 </template>
@@ -72,13 +53,23 @@ export default {
       tablefields: [
         { key: "id", label: "id", sortable: true },
         { key: "patient_name", label: "staffName", sortable: true },
-        { key: "mrn", label: "mrn", sortable: true },
+        { key: "mrn", label: "mrn", sortable: true, filtered: 3 },
+        { key: "roleName", label: "role", sortable: true },
+        { key: "email", label: "email", sortable: true },
+        { key: "phone", label: "phoneNumber", sortable: true },
+        { key: "status", label: "status", sortable: true },
+      ],
+      filteredFields: [
+        { key: "id", label: "id", sortable: true },
+        { key: "patient_name", label: "staffName", sortable: true },
+        { key: "mrn", label: "mrn", sortable: true, filtered: 3 },
         { key: "roleName", label: "role", sortable: true },
         { key: "email", label: "email", sortable: true },
         { key: "phone", label: "phoneNumber", sortable: true },
         { key: "status", label: "status", sortable: true },
       ],
       items: [],
+      filteredItems: [],
     };
   },
   mounted() {
@@ -86,14 +77,22 @@ export default {
   },
   watch: {
     searchQuery(query) {
+      this.filteredItems = this.items.filter((item) => {
+        return (
+          item.patient_name.toLowerCase().includes(query.toLowerCase()) ||
+          item.mrn.toLowerCase().includes(query.toLowerCase())
+        );
+      });
+    },
+    $route() {
       this.fetchUsers();
     },
   },
   methods: {
     ...mapActions("user", ["setSelectedUser"]),
     rowClicked(e) {
-      this.setSelectedUser(e);
-      this.navigateTo("Patient Details");
+      // this.setSelectedUser(e);
+      // this.navigateTo("Patient Profile");
     },
     parseData(data) {
       this.items = [];
@@ -110,10 +109,15 @@ export default {
           ...x,
         });
       });
+      this.filteredItems = this.items;
     },
     fetchUsers() {
+      let roleId = this.$route.params.roleId;
+      this.items = [];
+      this.filteredItems = [];
+      this.filteredFields = this.tablefields.filter((x) => !x.filtered || x.filtered == roleId);
       this.setLoadingState(true);
-      userService.getUsers("?role_id=1").then(
+      userService.getUsers("?role_id=" + roleId).then(
         (response) => {
           if (response.data.status) {
             this.parseData(response.data.data.items);
@@ -131,8 +135,8 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-                error.response.data &&
-                error.response.data.message
+              error.response.data &&
+              error.response.data.message
             );
         }
       );
@@ -141,5 +145,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -56,6 +56,7 @@ import UsersModule from '../pages/users'
 import PatientList from '../pages/users/patient-list'
 import PhysicianList from '../pages/users/physician-list'
 import StaffList from '../pages/users/staff-list'
+import StaffForm from '../pages/users/staff-form'
 import UserDetails from '../pages/users/user-details'
 import UserProfile from '../pages/users/user-profile'
 
@@ -482,11 +483,19 @@ const routes = [
             ]
           },
           {
-            path: "staff",
+            path: "staff/:roleId",
             name: 'Staff List',
             component: StaffList,
             meta: {
               title: 'Staff List | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "update/staff",
+            name: 'Staff Form',
+            component: StaffForm,
+            meta: {
+              title: 'Staff Form | Almoosa Specialist Hospital',
             },
           },
         ]

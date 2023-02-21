@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import Menu from '../../data/menu'
 
 const state = {
@@ -5,6 +6,7 @@ const state = {
   searchData: [],
   togglesidebar: false,
   stickysidebar: true,
+  rolesList: [],
 }
 
 // getters
@@ -104,6 +106,9 @@ const mutations = {
         })
       }
     })
+  },
+  setRolesList: (state, item) => {
+    Vue.set(state, 'rolesList', item)
   }
 };
 
@@ -132,6 +137,9 @@ const actions = {
   },
   setActiveRoute: (context, item) => {
     context.commit('setActiveRoute', item)
+  },
+  setRolesList: (context, item) => {
+    context.commit('setRolesList', item)
   }
 }
 

@@ -67,8 +67,20 @@
                 {
                     "title": "Staff Management",
                     "title_ar": "إدارة الموظفين",
+                    "type": "sub",
+                    "dynamicSub": true,
+                    "badgeType": "primary",
+                    "badgeValue": "",
+                    "active": false,
+                    "disabled": false,
+                    "children": [
+                    ]
+                },
+                {
+                    "title": "Add Staff Member",
+                    "title_ar": "إدارة الموظفين",
                     "type": "link",
-                    "path": "/users/staff"
+                    "path": "/users/update/staff"
                 }
             ]
         },

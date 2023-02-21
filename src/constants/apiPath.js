@@ -69,6 +69,7 @@ export const apiPath = {
         specialities: getApiObject("get", "specialities", "v2"),
         specialitiesV1: getApiObject("get", "specialities"),
         uploadId: getApiObject("post", "mediafiles/upload"),
+        addStaffMember: getApiObject("post", "auth/staff/register"),
     },
 
     healthEducation: {
@@ -97,7 +98,7 @@ export const apiPath = {
     },
 
     transactions: {
-        fetchAll: getApiObject("get", "users?role_id=4"),
+        fetchAll: getApiObject("get", "payments/transactions"),
     },
 
     rolesPermissions: {

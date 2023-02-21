@@ -15,7 +15,8 @@ export const authService = {
     getDepartments,
     getClinics,
     getSpecialities,
-    getSpecialitiesV1
+    getSpecialitiesV1,
+    addStaffMember
 }
 
 
@@ -74,6 +75,13 @@ function register(data) {
         method: apiPath.register.patient.method,
         url: apiPath.register.patient.url,
         data
+    })
+}
+function addStaffMember(data){
+    return axios({
+        method: apiPath.user.addStaffMember.method,
+        url: apiPath.user.addStaffMember.url,
+        data: data
     })
 }
 function resendOtp(data) {

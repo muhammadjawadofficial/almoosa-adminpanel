@@ -5078,6 +5078,10 @@
       left: 0;
     }
   }
+  .role-checkbox label:before, .role-checkbox label:after {
+    right: -1.75rem;
+    left: unset;
+  }
 }
 
 /**=====================
