@@ -1,54 +1,65 @@
 <template>
   <div class="standard-width page-body-container">
-    <back-navigation
-      :backLink="backRoute"
-      :title="$t('healthEducation.title')"
-      :showBack="!!backRoute"
-    />
+    <back-navigation :backLink="backRoute" :title="$t('healthEducation.title')" :showBack="!!backRoute" />
     <div class="row mt-3">
       <div class="col-md-6">
-        <b-input-group class="custom-login-input-groups">
-          <b-form-input
-            v-model="healthEducationForm.short_title"
-            :state="healthEducationFormState.short_title"
-            :placeholder="$t('admin.shortTitle')"
-          ></b-form-input>
+        <b-input-group class="custom-login-input-groups forceLtr">
+          <b-form-input v-model="healthEducationForm.short_title" :state="healthEducationFormState.short_title"
+            :placeholder="$t('admin.shortTitle') + ' ' + $t('admin.english')"></b-form-input>
         </b-input-group>
       </div>
       <div class="col-md-6">
-        <b-input-group class="custom-login-input-groups">
-          <b-form-input
-            v-model="healthEducationForm.long_title"
-            :state="healthEducationFormState.long_title"
-            :placeholder="$t('admin.longTitle')"
-          ></b-form-input>
+        <b-input-group class="custom-login-input-groups forceLtr">
+          <b-form-input v-model="healthEducationForm.long_title" :state="healthEducationFormState.long_title"
+            :placeholder="$t('admin.longTitle') + ' ' + $t('admin.english')"></b-form-input>
         </b-input-group>
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
-        <b-input-group class="custom-login-input-groups">
-          <b-form-input
-            v-model="healthEducationForm.short_text"
-            :state="healthEducationFormState.short_text"
-            :placeholder="$t('admin.shortText')"
-          ></b-form-input>
+        <b-input-group class="custom-login-input-groups forceLtr">
+          <b-form-input v-model="healthEducationForm.short_text" :state="healthEducationFormState.short_text"
+            :placeholder="$t('admin.shortText') + ' ' + $t('admin.english')"></b-form-input>
         </b-input-group>
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
-        <b-input-group
-          class="custom-login-input-groups"
-          style="flex-direction: column"
-        >
-          <b-form-input
-            disabled
-            :placeholder="$t('admin.longText')"
-            class="w-100"
-            :state="healthEducationFormState.long_text"
-          ></b-form-input>
+        <b-input-group class="custom-login-input-groups forceLtr" style="flex-direction: column">
+          <b-form-input disabled :placeholder="$t('admin.longText') + ' ' + $t('admin.english')" class="w-100"
+            :state="healthEducationFormState.long_text"></b-form-input>
           <rich-text-editor v-model="healthEducationForm.long_text" />
+        </b-input-group>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-6">
+        <b-input-group class="custom-login-input-groups forceRtl">
+          <b-form-input v-model="healthEducationForm.short_title_ar" :state="healthEducationFormState.short_title_ar"
+            :placeholder="$t('admin.shortTitle') + ' ' + $t('admin.arabic')"></b-form-input>
+        </b-input-group>
+      </div>
+      <div class="col-md-6">
+        <b-input-group class="custom-login-input-groups forceRtl">
+          <b-form-input v-model="healthEducationForm.long_title_ar" :state="healthEducationFormState.long_title_ar"
+            :placeholder="$t('admin.longTitle') + ' ' + $t('admin.arabic')"></b-form-input>
+        </b-input-group>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <b-input-group class="custom-login-input-groups forceRtl">
+          <b-form-input v-model="healthEducationForm.short_text_ar" :state="healthEducationFormState.short_text_ar"
+            :placeholder="$t('admin.shortText') + ' ' + $t('admin.arabic')"></b-form-input>
+        </b-input-group>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <b-input-group class="custom-login-input-groups forceRtl" style="flex-direction: column">
+          <b-form-input disabled :placeholder="$t('admin.longText') + ' ' + $t('admin.arabic')" class="w-100"
+            :state="healthEducationFormState.long_text_ar"></b-form-input>
+          <rich-text-editor v-model="healthEducationForm.long_text_ar" />
         </b-input-group>
       </div>
     </div>
@@ -61,23 +72,15 @@
           <div class="upload-text text-muted w200 center" v-else>
             {{ $t("admin.uploadThumbnail") }}
           </div>
-          <vue-dropzone
-            v-if="showUpload"
-            @vdropzone-file-added="fileUpload($event, 'thumbnail')"
-            @vdropzone-removed-file="removeFile('thumbnail')"
-            :options="validationdropzoneOptions"
-            ref="thumbnailFileUpload"
-            id="validationdropzone"
-            class="dropzone digits custom-file-upload"
-          >
+          <vue-dropzone v-if="showUpload" @vdropzone-file-added="fileUpload($event, 'thumbnail')"
+            @vdropzone-removed-file="removeFile('thumbnail')" :options="validationdropzoneOptions"
+            ref="thumbnailFileUpload" id="validationdropzone" class="dropzone digits custom-file-upload">
           </vue-dropzone>
-          <div
-            :class="{
-              'dropzone is-invalid': formSubmitted
-                ? !healthEducationFormState.thumbnail_id
-                : null,
-            }"
-          ></div>
+          <div :class="{
+            'dropzone is-invalid': formSubmitted
+              ? !healthEducationFormState.thumbnail_id
+              : null,
+          }"></div>
         </div>
       </div>
       <div class="col-md-6">
@@ -88,23 +91,15 @@
           <div class="upload-text text-muted w200 center" v-else>
             {{ $t("admin.uploadBanner") }}
           </div>
-          <vue-dropzone
-            v-if="showUpload"
-            @vdropzone-file-added="fileUpload($event, 'banner')"
-            @vdropzone-removed-file="removeFile('banner')"
-            :options="validationdropzoneOptions"
-            ref="bannerFileUpload"
-            id="thumbnailId"
-            class="dropzone digits custom-file-upload"
-          >
+          <vue-dropzone v-if="showUpload" @vdropzone-file-added="fileUpload($event, 'banner')"
+            @vdropzone-removed-file="removeFile('banner')" :options="validationdropzoneOptions" ref="bannerFileUpload"
+            id="thumbnailId" class="dropzone digits custom-file-upload">
           </vue-dropzone>
-          <div
-            :class="{
-              'dropzone is-invalid': formSubmitted
-                ? !healthEducationFormState.banner_id
-                : null,
-            }"
-          ></div>
+          <div :class="{
+            'dropzone is-invalid': formSubmitted
+              ? !healthEducationFormState.banner_id
+              : null,
+          }"></div>
         </div>
       </div>
     </div>
@@ -137,6 +132,10 @@ export default {
         long_title: "",
         short_text: "",
         long_text: "",
+        short_title_ar: "",
+        long_title_ar: "",
+        short_text_ar: "",
+        long_text_ar: "",
         banner_id: "",
         thumbnail_id: "",
       },
@@ -145,6 +144,10 @@ export default {
         long_title: null,
         short_text: null,
         long_text: null,
+        short_title_ar: null,
+        long_title_ar: null,
+        short_text_ar: null,
+        long_text_ar: null,
         banner_id: null,
         thumbnail_id: null,
       },
@@ -158,7 +161,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("user", ["getUserInfo"]),
+    ...mapGetters("healthEducation", ["getSelectedHealthEducation"]),
   },
   components: {
     RichTextEditor,
@@ -171,11 +174,80 @@ export default {
     },
   },
   mounted() {
+    if (this.$route.name.toLowerCase().includes("edit")) {
+      if (!this.getSelectedHealthEducation) {
+        this.navigateTo('Health Education List')
+        return;
+      }
+      this.initializeData();
+    }
     if (this.$route.name.toLowerCase().includes("create")) {
       this.backRoute = null;
     }
   },
   methods: {
+    initializeData() {
+      this.setLoadingState(true);
+      healthEducationService
+        .fetchHealthEducationsDetails(this.getSelectedHealthEducation.id)
+        .then(
+          (response) => {
+            if (response.data.status) {
+              let data = response.data.data;
+              this.healthEducationForm.short_title = data.short_title;
+              this.healthEducationForm.long_title = data.long_title;
+              this.healthEducationForm.short_text = data.short_text;
+              this.healthEducationForm.long_text = data.long_text;
+              this.healthEducationForm.short_title_ar = data.short_title_ar;
+              this.healthEducationForm.long_title_ar = data.long_title_ar;
+              this.healthEducationForm.short_text_ar = data.short_text_ar;
+              this.healthEducationForm.long_text_ar = data.long_text_ar;
+              let thumbnail = data.thumbnail || this.getSelectedHealthEducation.thumbnail;
+              if (thumbnail) {
+                this.healthEducationForm.thumbnail_id = data.thumbnail_id;
+                let image = thumbnail;
+                let file = {
+                  size: +image.size,
+                  name: image.filename,
+                  type: image.mimetype,
+                };
+                this.$refs.thumbnailFileUpload.manuallyAddFile(
+                  file,
+                  this.getImageUrl(thumbnail)
+                );
+                this.thumbnailToUpload = [file];
+              }
+              let banner = data.banner || this.getSelectedHealthEducation.banner;
+              if (banner) {
+                this.healthEducationForm.banner_id = data.banner_id;
+                let image = banner;
+                let file = {
+                  size: +image.size,
+                  name: image.filename,
+                  type: image.mimetype,
+                };
+                this.$refs.bannerFileUpload.manuallyAddFile(
+                  file,
+                  this.getImageUrl(banner)
+                );
+                this.bannerToUpload = [file];
+              }
+            } else {
+              this.failureToast(response.data.messsage);
+            }
+            this.setLoadingState(false);
+          },
+          (error) => {
+            this.setLoadingState(false);
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response &&
+                error.response.data &&
+                error.response.data.message
+              );
+          }
+        );
+    },
     removeFile(type) {
       if (type == "thumbnail") {
         if (this.thumbnailToUpload.length > 1) {
@@ -200,6 +272,10 @@ export default {
         }
       }
 
+      if (file.manuallyAdded) {
+        return;
+      }
+
       this.setLoadingState(true);
       authService.uploadId(file).then(
         (res) => {
@@ -217,8 +293,8 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-                error.response.data &&
-                error.response.data.message
+              error.response.data &&
+              error.response.data.message
             );
           this.setLoadingState(false);
         }
@@ -230,6 +306,10 @@ export default {
       this.healthEducationFormState.long_title = form.long_title != "";
       this.healthEducationFormState.short_text = form.short_text != "";
       this.healthEducationFormState.long_text = form.long_text != "";
+      this.healthEducationFormState.short_title_ar = form.short_title_ar != "";
+      this.healthEducationFormState.long_title_ar = form.long_title_ar != "";
+      this.healthEducationFormState.short_text_ar = form.short_text_ar != "";
+      this.healthEducationFormState.long_text_ar = form.long_text_ar != "";
       this.healthEducationFormState.banner_id = form.banner_id != "";
       this.healthEducationFormState.thumbnail_id = form.thumbnail_id != "";
 
@@ -260,8 +340,8 @@ export default {
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
-                  error.response.data &&
-                  error.response.data.message
+                error.response.data &&
+                error.response.data.message
               );
             this.setLoadingState(false);
           }
@@ -276,6 +356,10 @@ export default {
         long_title: "",
         short_text: "",
         long_text: "",
+        short_title_ar: "",
+        long_title_ar: "",
+        short_text_ar: "",
+        long_text_ar: "",
         banner_id: "",
         thumbnail_id: "",
       };
@@ -284,6 +368,10 @@ export default {
         long_title: null,
         short_text: null,
         long_text: null,
+        short_title_ar: null,
+        long_title_ar: null,
+        short_text_ar: null,
+        long_text_ar: null,
         banner_id: null,
         thumbnail_id: null,
       };
@@ -296,5 +384,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

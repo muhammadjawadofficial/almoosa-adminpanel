@@ -112,14 +112,6 @@ const routes = [
         component: healthEducationModule,
         children: [
           {
-            path: 'edit',
-            name: 'Health Education Edit',
-            component: healthEducationEdit,
-            meta: {
-              title: 'Health Education Edit | Almoosa Specialist Hospital',
-            },
-          },
-          {
             path: 'create',
             name: 'Health Education Create',
             component: healthEducationEdit,
@@ -133,6 +125,22 @@ const routes = [
             component: healthEducationList,
             meta: {
               title: 'Health Education List | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: 'list/edit',
+            name: 'Health Education Edit',
+            component: healthEducationEdit,
+            meta: {
+              title: 'Health Education Edit | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: 'list/details/:id',
+            name: 'Health Education Details',
+            component: healthEducationDetails,
+            meta: {
+              title: 'Health Education Details | Almoosa Specialist Hospital',
             },
           }
         ]

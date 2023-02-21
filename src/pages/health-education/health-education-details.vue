@@ -9,22 +9,15 @@
     <template v-else>
       <div class="main-banner">
         <div class="background-image">
-          <img
-            :src="getImageUrl(educationContent.banner)"
-            alt="main-banner"
-            class="img-fluid w-100"
-          />
+          <img :src="getImageUrl(educationContent.banner)" alt="main-banner" class="img-fluid w-100" />
           <div class="standard-width">
             <div class="main-banner-text w600" :class="{ 'px-3': getIsGuest }">
-              {{ educationContent.long_title }}
+              {{ educationContent[getLocaleKey('long_title')] }}
             </div>
           </div>
         </div>
       </div>
-      <div
-        class="standard-width educational-content"
-        v-html="educationContent.long_text"
-      ></div>
+      <div class="standard-width educational-content" v-html="educationContent[getLocaleKey('long_text')]"></div>
     </template>
   </div>
 </template>
@@ -63,8 +56,8 @@ export default {
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
-                  error.response.data &&
-                  error.response.data.message
+                error.response.data &&
+                error.response.data.message
               );
           }
         );
@@ -79,13 +72,16 @@ export default {
   top: 3rem;
   z-index: 1;
 }
+
 .text-content {
   font-size: 1.125rem;
   color: #8696b8;
   margin-block: 1.5rem;
 }
+
 .educational-content {
   padding-block-end: 5rem;
+
   :deep * {
     font-family: "DiodrumArabicMedium" !important;
   }
@@ -103,21 +99,25 @@ export default {
     }
   }
 }
+
 @media (min-width: 991px) {
   .educational-content {
     padding-block-start: 1.5rem;
   }
+
   .main-banner {
     .background-image {
       isolation: isolate;
       height: 500px;
       display: flex;
+
       .main-banner-text {
         width: 45%;
         padding-block-end: 2rem;
         font-size: 2.625rem;
       }
-      > img {
+
+      >img {
         position: absolute;
         z-index: -1;
         height: 100%;
@@ -125,10 +125,11 @@ export default {
     }
   }
 }
+
 @media (max-width: 992px) {
   .main-banner {
     .background-image {
-      > img {
+      >img {
         min-height: auto;
       }
     }

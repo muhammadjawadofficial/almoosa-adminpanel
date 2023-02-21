@@ -628,6 +628,12 @@
     "amount": "كمية",
     "appointmentId": "معرف الموعد",
     "doctor": "طبيب",
-    "appointmentDate": "تاريخ الموعد"
+    "appointmentDate": "تاريخ الموعد",
+    "thumbnail": "صورة مصغرة",
+    "short_text": "نص قصير",
+    "short_title": "عنوان قصير",
+    "searchArticleName": "البحث في اسم المقال",
+    "articleDeleteConfirm": "هل أنت متأكد أنك تريد حذف هذا المقال؟",
+    "articleDeleteSuccess": "تم حذف المقال بنجاح"
   }
 }
