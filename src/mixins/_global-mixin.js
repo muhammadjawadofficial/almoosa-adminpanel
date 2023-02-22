@@ -37,14 +37,26 @@ export default {
                 return (this.checkRoleFromUser ? userService.getUserRole() : userService.getRole())
             }
         },
-        getImageUrl(profile, appendType = false) {
-            if (profile) {
-                let fileType = null
-                if (appendType && profile.mimetype)
-                    fileType = profile.mimetype.split("/")[1];
-                return process.env.VUE_APP_SERVER + profile.path + (fileType ? '.' + fileType : '');
+        getImageUrl(profile) {
+            let path = '/profile.png'
+            let getPathFromUrl = (url) => {
+                let urlParts = url.split('/');
+                let lastPart = urlParts[urlParts.length - 1];
+                if (lastPart.includes('.')) {
+                    return url;
+                }
+                return path;
             }
-            return "/profile.png";
+
+            if (profile == null)
+                return path;
+            else if (typeof profile == 'string')
+                path = getPathFromUrl(profile);
+            else if (profile.profile_photo_url)
+                path = getPathFromUrl(profile.profile_photo_url)
+            else if (profile.path)
+                path = process.env.VUE_APP_SERVER + profile.path;
+            return path
         },
         getLocaleKey: function (key, wordCase = "lower", enLocale = "", arLocale = "_ar") {
             let postKey = this.$i18n.locale == "ar" ? arLocale : enLocale;

@@ -634,6 +634,8 @@
     "short_title": "عنوان قصير",
     "searchArticleName": "البحث في اسم المقال",
     "articleDeleteConfirm": "هل أنت متأكد أنك تريد حذف هذا المقال؟",
-    "articleDeleteSuccess": "تم حذف المقال بنجاح"
+    "articleDeleteSuccess": "تم حذف المقال بنجاح",
+    "articleAddedSuccess": "تمت إضافة المقال بنجاح",
+    "articleUpdatedSuccess": "تم تحديث المقال بنجاح"
   }
 }

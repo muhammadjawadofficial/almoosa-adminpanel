@@ -106,7 +106,10 @@
     <div class="row mt-5">
       <div class="register-navigation col-md-12">
         <div class="button-group">
-          <button class="btn btn-primary" @click="createUpdateArticle">
+          <button class="btn btn-primary" @click="updateArticle" v-if="healthEducationId">
+            {{ $t("admin.update") }}
+          </button>
+          <button class="btn btn-primary" @click="createArticle" v-else>
             {{ $t("admin.create") }}
           </button>
         </div>
@@ -151,6 +154,7 @@ export default {
         banner_id: null,
         thumbnail_id: null,
       },
+      healthEducationId: null,
       validationdropzoneOptions: {
         url: "http://localhost:8080",
         thumbnailWidth: 150,
@@ -194,6 +198,7 @@ export default {
           (response) => {
             if (response.data.status) {
               let data = response.data.data;
+              this.healthEducationId = data.id;
               this.healthEducationForm.short_title = data.short_title;
               this.healthEducationForm.long_title = data.long_title;
               this.healthEducationForm.short_text = data.short_text;
@@ -315,7 +320,7 @@ export default {
 
       return !Object.values(this.healthEducationFormState).includes(false);
     },
-    createUpdateArticle() {
+    createArticle() {
       this.formSubmitted = true;
       if (!this.validateForm()) {
         return;
@@ -330,7 +335,38 @@ export default {
           (response) => {
             if (response.data.status) {
               this.resetForm();
-              this.successToast(this.$t("insurance.insuranceAdded"));
+              this.successToast(this.$t("admin.articleAddedSuccess"));
+            } else {
+              this.failureToast(response.data.message);
+            }
+            this.setLoadingState(false);
+          },
+          (error) => {
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response &&
+                error.response.data &&
+                error.response.data.message
+              );
+            this.setLoadingState(false);
+          }
+        );
+    },
+    updateArticle() {
+      this.formSubmitted = true;
+      if (!this.validateForm()) {
+        return;
+      }
+      this.setLoadingState(true);
+      let healthEducationArticle = {
+        ...this.healthEducationForm,
+      };
+      healthEducationService
+        .updateHealthEducationArticle(this.healthEducationId, healthEducationArticle)
+        .then(
+          (response) => {
+            if (response.data.status) {
+              this.successToast(this.$t("admin.articleUpdatedSuccess"));
             } else {
               this.failureToast(response.data.message);
             }

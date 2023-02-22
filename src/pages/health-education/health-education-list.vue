@@ -18,7 +18,7 @@
         <template v-if="data.field.key == 'action'">
           <div class="action-buttons">
             <feather class="pointer" type="edit" @click.stop="editArticle(data.item)"></feather>
-            <!-- <feather class="pointer" type="trash" @click.stop="deleteArticle(data.item)"></feather> -->
+            <feather class="pointer" type="trash" @click.stop="deleteArticle(data.item)"></feather>
           </div>
         </template>
         <template v-else-if="data.field.key == 'thumbnail'">
@@ -102,7 +102,7 @@ export default {
         if (res.value) {
           this.setLoadingState(true);
           this.setLoadingState(true);
-          healthEducationService.deleteArticle(item.id).then(
+          healthEducationService.deleteHealthEducationArticle(item.id).then(
             (response) => {
               if (response.data.status) {
                 this.parseData(this.items.filter((x) => x.id != item.id));

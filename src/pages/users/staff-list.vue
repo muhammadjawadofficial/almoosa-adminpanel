@@ -10,8 +10,8 @@
       </div>
     </div>
 
-    <b-table show-empty stacked="md" borderless :items="filteredItems" :fields="filteredFields" :current-page="currentPage"
-      :per-page="5" class="ash-data-table " @row-clicked="rowClicked">
+    <b-table show-empty stacked="md" borderless :items="filteredItems" :fields="filteredFields"
+      :current-page="currentPage" :per-page="5" class="ash-data-table " @row-clicked="rowClicked">
       <template #head()="data">{{ $t("admin." + data.label) }} </template>
 
       <template #cell()="data">
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 import { userService } from "../../services";
 export default {
   data() {
