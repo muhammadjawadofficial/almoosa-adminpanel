@@ -556,6 +556,7 @@
     "unverified": "Unverified",
     "verified": "Verified",
     "blocked": "Blocked",
+    "delivered": "Delivered",
     "role": "Role",
     "email": "Email",
     "phoneNumber": "Phone Number",

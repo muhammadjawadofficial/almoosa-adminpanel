@@ -1,7 +1,7 @@
 module.exports = {
     baseUrl: "/",
     publicPath: "/",
-    outputDir: "dist",
+    outputDir: "dist/almoosa-adminpanel",
     devServer: {
         disableHostCheck: true
     }

@@ -91,9 +91,9 @@
           <div
             class="badge"
             :class="
-              data.value == 'confirmed'
+              data.value.toLowerCase() == 'paid'
                 ? 'bg-primary'
-                : data.value == 'cancelled'
+                : data.value.toLowerCase() == 'cancelled'
                 ? 'bg-danger'
                 : 'bg-warning'
             "
@@ -267,7 +267,7 @@ export default {
       if (this.searchDoctorQuery) {
         if (isNaN(this.searchDoctorQuery))
           query += "&name=" + this.searchDoctorQuery;
-        else query += "&mr_number=" + this.searchDoctorQuery;
+        else query += "&mrn_number=" + this.searchDoctorQuery;
       }
       if (this.fromDate) {
         query += "&start_date=" + this.fromDate;
