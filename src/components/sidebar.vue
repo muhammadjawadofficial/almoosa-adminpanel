@@ -295,7 +295,7 @@ export default {
         if (res.data.status) {
           let data = res.data.data;
           if (data) {
-            this.$store.dispatch("menu/setRolesList", data.items.map(role => {
+            this.$store.dispatch("menu/setRolesList", data.items.filter(x => ![3, 4].includes(x.id)).map(role => {
               return {
                 title: role.title,
                 title_ar: role.title_ar,

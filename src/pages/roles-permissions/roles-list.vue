@@ -191,7 +191,7 @@ export default {
         .then((res) => {
           let roles = res[0];
           if (roles.data.status) {
-            this.roles = roles.data.data.items.filter((x) => x.id !== 1);
+            this.roles = roles.data.data.items.filter((x) => ![1,3,4].includes(x.id));
             this.filteredRoles = [...this.roles];
           } else {
             this.failureToast(roles.data.messsage);

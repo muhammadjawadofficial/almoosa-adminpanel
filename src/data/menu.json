@@ -144,8 +144,8 @@
             ]
         },
         {
-            "title": "Medications Refills",
-            "title_ar": "عبوات الأدوية",
+            "title": "Medications",
+            "title_ar": "الأدوية",
             "icon": "pill-fill-svg",
             "type": "link",
             "badgeType": "primary",

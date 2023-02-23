@@ -33,7 +33,7 @@
     <div class="row">
       <div class="col-lg-8">
         <div class="accordion mt-2" role="tablist">
-          <b-card no-body class="transparent mb-2">
+          <b-card no-body class="transparent mb-2" v-if="false">
             <b-card-header header-tag="header" class="p-1 accordion-tab">
               <b-button block @click="navigateTimeline()">
                 <div>Timeline</div>

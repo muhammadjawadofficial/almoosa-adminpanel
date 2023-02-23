@@ -508,7 +508,7 @@
   "dr": "دكتور",
   "admin": {
     "searchPatientMrn": "ابحث عن المريض بالاسم / رقم السجل الطبي",
-    "searchPhysician": "ابحث عن الطبيب بالاسم",
+    "searchPhysician": "ابحث عن الطبيب بالاسم/ رقم الهوية",
     "searchStaff": "ابحث عن الموظف بالاسم",
     "date": "تاريخ",
     "onsite": "بالموقع",
@@ -637,6 +637,7 @@
     "articleDeleteConfirm": "هل أنت متأكد أنك تريد حذف هذا المقال؟",
     "articleDeleteSuccess": "تم حذف المقال بنجاح",
     "articleAddedSuccess": "تمت إضافة المقال بنجاح",
-    "articleUpdatedSuccess": "تم تحديث المقال بنجاح"
+    "articleUpdatedSuccess": "تم تحديث المقال بنجاح",
+    "deliveryRequest": "طلب التسليم"
   }
 }
