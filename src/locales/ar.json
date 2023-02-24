@@ -638,6 +638,7 @@
     "articleDeleteSuccess": "تم حذف المقال بنجاح",
     "articleAddedSuccess": "تمت إضافة المقال بنجاح",
     "articleUpdatedSuccess": "تم تحديث المقال بنجاح",
-    "deliveryRequest": "طلب التسليم"
+    "deliveryRequest": "طلب التسليم",
+    "identity_number": "رقم الهوية"
   }
 }

@@ -5,16 +5,27 @@
         <div class="standard-width page-body-container">
           <div class="doctor-details-card-header">
             <div class="doctor-details-card-header-image">
-              <img :src="
-                getImageUrl(
-                  typeof getSelectedUser.photo == 'string'
-                    ? { path: getSelectedUser.photo }
-                    : getSelectedUser.photo
-                )
-              " alt="doctor-image" />
-              <label for="user-profile-picture-upload" v-if="isEditingAllowed && forceDisable">
+              <img
+                :src="
+                  getImageUrl(
+                    typeof getSelectedUser.photo == 'string'
+                      ? { path: getSelectedUser.photo }
+                      : getSelectedUser.photo
+                  )
+                "
+                alt="doctor-image"
+              />
+              <label
+                for="user-profile-picture-upload"
+                v-if="isEditingAllowed && forceDisable"
+              >
                 Upload Picture
-                <input type="file" @change="changeProfilePicture" id="user-profile-picture-upload" class="d-none" />
+                <input
+                  type="file"
+                  @change="changeProfilePicture"
+                  id="user-profile-picture-upload"
+                  class="d-none"
+                />
               </label>
             </div>
             <div class="doctor-details-card-header-right">
@@ -29,9 +40,9 @@
                 </div>
                 <div class="doctor-details-card-header-right-info-section">
                   <template v-if="getSelectedUser.nationality">
-                    <div class="
-                          doctor-details-card-header-right-info-section-detail
-                        ">
+                    <div
+                      class="doctor-details-card-header-right-info-section-detail"
+                    >
                       <div class="title">{{ $t("profile.nationality") }}</div>
                       <div class="value">
                         {{
@@ -42,9 +53,9 @@
                     </div>
                   </template>
                   <template v-if="getSelectedUser.saudi_id">
-                    <div class="
-                          doctor-details-card-header-right-info-section-detail
-                        ">
+                    <div
+                      class="doctor-details-card-header-right-info-section-detail"
+                    >
                       <div class="title">{{ $t("saudi_id") }}</div>
                       <div class="value">
                         {{ getSelectedUser.saudi_id }}
@@ -52,9 +63,9 @@
                     </div>
                   </template>
                   <template v-if="getSelectedUser.iqama">
-                    <div class="
-                          doctor-details-card-header-right-info-section-detail
-                        ">
+                    <div
+                      class="doctor-details-card-header-right-info-section-detail"
+                    >
                       <div class="title">{{ $t("iqama") }}</div>
                       <div class="value">
                         {{ getSelectedUser.iqama }}
@@ -62,12 +73,14 @@
                     </div>
                   </template>
                   <template v-if="!isSelectedUserDoctor">
-                    <div class="
-                          doctor-details-card-header-right-info-section-detail
-                          with-icon
-                        ">
+                    <div
+                      class="doctor-details-card-header-right-info-section-detail with-icon"
+                    >
                       <div class="icon">
-                        <img src="../../assets/images/star-points.svg" alt="star-img" />
+                        <img
+                          src="../../assets/images/star-points.svg"
+                          alt="star-img"
+                        />
                       </div>
                       <div class="content">
                         <div class="title">
@@ -89,12 +102,14 @@
                     </div>
                   </template>
                   <template v-else>
-                    <div class="
-                          doctor-details-card-header-right-info-section-detail
-                          with-icon
-                        ">
+                    <div
+                      class="doctor-details-card-header-right-info-section-detail with-icon"
+                    >
                       <div class="icon">
-                        <img src="../../assets/images/star-points.svg" alt="star-img" />
+                        <img
+                          src="../../assets/images/star-points.svg"
+                          alt="star-img"
+                        />
                       </div>
                       <div class="content">
                         <div class="title">
@@ -108,11 +123,14 @@
                             <div class="fa fa-star star"></div>
                             <div class="fa fa-star star"></div>
                             <div class="fa fa-star star"></div>
-                            <div class="rating-filled" :style="
-                              'width: ' +
-                              ((getSelectedUser.rating || 0) / 5) * 100 +
-                              '%'
-                            ">
+                            <div
+                              class="rating-filled"
+                              :style="
+                                'width: ' +
+                                ((getSelectedUser.rating || 0) / 5) * 100 +
+                                '%'
+                              "
+                            >
                               <div class="fa fa-star star active"></div>
                               <div class="fa fa-star star active"></div>
                               <div class="fa fa-star star active"></div>
@@ -141,13 +159,24 @@
                 <div class="profile-info-card-detail-title">
                   {{ $t("profile.address") }}
                 </div>
-                <div class="profile-info-card-detail-value" :class="{ inactive: !isEditing }">
-                  <b-form-input v-model="address" :state="addressState" :placeholder="$t('profile.address')"
-                    :disabled="!isEditing"></b-form-input>
+                <div
+                  class="profile-info-card-detail-value"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <b-form-input
+                    v-model="address"
+                    :state="addressState"
+                    :placeholder="$t('profile.address')"
+                    :disabled="!isEditing"
+                  ></b-form-input>
                 </div>
               </div>
               <div class="profile-info-card-option">
-                <img src="../../assets/images/pencil.svg" alt="" v-if="isEditing" />
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
               </div>
             </div>
             <div class="profile-info-card">
@@ -172,13 +201,25 @@
                 <div class="profile-info-card-detail-title">
                   {{ $t("profile.phoneNumber") }}
                 </div>
-                <div class="profile-info-card-detail-value" :class="{ inactive: !isEditing }">
-                  <b-form-input v-model="phoneNumber" :state="phoneNumberState" :placeholder="$t('profile.phoneNumber')"
-                    :formatter="formatNumber" :disabled="!isEditing"></b-form-input>
+                <div
+                  class="profile-info-card-detail-value"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <b-form-input
+                    v-model="phoneNumber"
+                    :state="phoneNumberState"
+                    :placeholder="$t('profile.phoneNumber')"
+                    :formatter="formatNumber"
+                    :disabled="!isEditing"
+                  ></b-form-input>
                 </div>
               </div>
               <div class="profile-info-card-option">
-                <img src="../../assets/images/pencil.svg" alt="" v-if="isEditing" />
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
               </div>
             </div>
             <div class="profile-info-card">
@@ -201,16 +242,29 @@
                 <div class="profile-info-card-detail-title">
                   {{ $t("admin.mrn") }}
                 </div>
-                <div class="profile-info-card-detail-value" :class="{ inactive: !isEditing && !isEditingMRN }">
-                  <b-form-input v-model="mrnNumber" :state="mrnNumberState" :placeholder="
-                    !isEditing && !isEditingMRN && !mrnNumber
-                      ? 'N/A'
-                      : $t('admin.enterMRN')
-                  " :disabled="!isEditing && !isEditingMRN" :formatter="numberOnly"></b-form-input>
+                <div
+                  class="profile-info-card-detail-value"
+                  :class="{ inactive: !isEditing && !isEditingMRN }"
+                >
+                  <b-form-input
+                    v-model="mrnNumber"
+                    :state="mrnNumberState"
+                    :placeholder="
+                      !isEditing && !isEditingMRN && !mrnNumber
+                        ? 'N/A'
+                        : $t('admin.enterMRN')
+                    "
+                    :disabled="!isEditing && !isEditingMRN"
+                    :formatter="numberOnly"
+                  ></b-form-input>
                 </div>
               </div>
               <div class="profile-info-card-option">
-                <img src="../../assets/images/pencil.svg" alt="" v-if="isEditing || isEditingMRN" />
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing || isEditingMRN"
+                />
               </div>
             </div>
             <div class="profile-info-card">
@@ -221,10 +275,19 @@
                 <div class="profile-info-card-detail-title">
                   {{ $t("admin.status") }}
                 </div>
-                <div class="profile-info-card-detail-value" :class="{ inactive: !isEditing && !isEditingMRN }">
-                  <multiselect v-model="userStatus" :options="userStatusOptions" :placeholder="$t('admin.selectStatus')"
-                    :selectLabel="$t('admin.selectLabel')" :selectedLabel="$t('admin.selectedLabel')"
-                    :deselectLabel="$t('admin.deselectLabel')" :disabled="!isEditing && !isEditingMRN">
+                <div
+                  class="profile-info-card-detail-value"
+                  :class="{ inactive: !isEditing && !isEditingMRN }"
+                >
+                  <multiselect
+                    v-model="userStatus"
+                    :options="userStatusOptions"
+                    :placeholder="$t('admin.selectStatus')"
+                    :selectLabel="$t('admin.selectLabel')"
+                    :selectedLabel="$t('admin.selectedLabel')"
+                    :deselectLabel="$t('admin.deselectLabel')"
+                    :disabled="!isEditing && !isEditingMRN"
+                  >
                     <template slot="singleLabel" slot-scope="props">
                       <div class="multiselect__with-icon">
                         {{ $t("admin." + props.option) }}
@@ -238,12 +301,18 @@
                       </div>
                     </template>
                   </multiselect>
-                  <div class="custom-state-invalid icon" :class="{
-                    'is-invalid': userStatusState == false,
-                  }"></div>
+                  <div
+                    class="custom-state-invalid icon"
+                    :class="{
+                      'is-invalid': userStatusState == false,
+                    }"
+                  ></div>
                 </div>
               </div>
-              <div v-if="isEditing || isEditingMRN" class="profile-info-card-option">
+              <div
+                v-if="isEditing || isEditingMRN"
+                class="profile-info-card-option"
+              >
                 <img src="../../assets/images/pencil.svg" alt="" />
               </div>
             </div>
@@ -257,24 +326,57 @@
                 <div class="profile-info-card-detail-title">
                   {{ $t("profile.clinics") }}
                 </div>
-                <div class="profile-info-card-detail-value" :class="{ inactive: !isEditing }">
-                  <multiselect :disabled="!isEditing" v-model="doctor.clinics" :options="clinics" :placeholder="
-                    $t('profile.select') + ' ' + $t('profile.clinics')
-                  " multiple track-by="id" label="title">
+                <div
+                  class="profile-info-card-detail-value"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <multiselect
+                    :disabled="!isEditing"
+                    v-model="doctor.clinics"
+                    :options="clinics"
+                    :placeholder="
+                      $t('profile.select') + ' ' + $t('profile.clinics')
+                    "
+                    multiple
+                    track-by="id"
+                    label="title"
+                  >
                     <template slot="singleLabel" slot-scope="props">
                       {{ props.option[getLocaleKey("title")] }}
+                    </template>
+                    <template
+                      slot="selection"
+                      slot-scope="{ values, search, isOpen }"
+                      ><span
+                        class="multiselect__single"
+                        v-if="values.length"
+                        v-show="!isOpen"
+                      >
+                        {{
+                          values
+                            .map((x) => x[getLocaleKey("title")])
+                            .join(" , ")
+                        }}
+                      </span>
                     </template>
                     <template slot="option" slot-scope="props">
                       {{ props.option[getLocaleKey("title")] }}
                     </template>
                   </multiselect>
-                  <div class="custom-state-invalid icon" :class="{
-                    'is-invalid': doctorState.clinicsState == false,
-                  }"></div>
+                  <div
+                    class="custom-state-invalid icon"
+                    :class="{
+                      'is-invalid': doctorState.clinicsState == false,
+                    }"
+                  ></div>
                 </div>
               </div>
               <div class="profile-info-card-option">
-                <img src="../../assets/images/pencil.svg" alt="" v-if="isEditing" />
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
               </div>
             </div>
             <div class="profile-info-card">
@@ -286,9 +388,16 @@
                   {{ $t("profile.speciality") }}
                 </div>
                 <div class="profile-info-card-detail-value inactive">
-                  <multiselect v-model="doctor.speciality" disabled :options="specialities" :placeholder="
-                    $t('profile.select') + ' ' + $t('profile.speciality')
-                  " track-by="id" label="title">
+                  <multiselect
+                    v-model="doctor.speciality"
+                    disabled
+                    :options="specialities"
+                    :placeholder="
+                      $t('profile.select') + ' ' + $t('profile.speciality')
+                    "
+                    track-by="id"
+                    label="title"
+                  >
                     <template slot="singleLabel" slot-scope="props">
                       {{ props.option[getLocaleKey("title")] }}
                     </template>
@@ -297,9 +406,12 @@
                       {{ props.option[getLocaleKey("title")] }}
                     </template>
                   </multiselect>
-                  <div class="custom-state-invalid icon" :class="{
-                    'is-invalid': doctorState.specialityState == false,
-                  }"></div>
+                  <div
+                    class="custom-state-invalid icon"
+                    :class="{
+                      'is-invalid': doctorState.specialityState == false,
+                    }"
+                  ></div>
                 </div>
               </div>
             </div>
@@ -311,13 +423,24 @@
                 <div class="profile-info-card-detail-title">
                   {{ $t("profile.expertise") + " - " + $t("admin.english") }}
                 </div>
-                <div class="profile-info-card-detail-value forceLtr" :class="{ inactive: !isEditing }">
-                  <b-form-input v-model="doctor.expertise" :state="doctorState.expertiseState"
-                    :placeholder="$t('profile.expertise')" :disabled="!isEditing"></b-form-input>
+                <div
+                  class="profile-info-card-detail-value forceLtr"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <b-form-input
+                    v-model="doctor.expertise"
+                    :state="doctorState.expertiseState"
+                    :placeholder="$t('profile.expertise')"
+                    :disabled="!isEditing"
+                  ></b-form-input>
                 </div>
               </div>
               <div class="profile-info-card-option">
-                <img src="../../assets/images/pencil.svg" alt="" v-if="isEditing" />
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
               </div>
             </div>
             <div class="profile-info-card">
@@ -329,10 +452,16 @@
                   {{ $t("profile.nationality") }}
                 </div>
                 <div class="profile-info-card-detail-value inactive">
-                  <multiselect disabled v-model="doctor.nationality" :options="nationalities" track-by="code"
-                    label="nationality" :placeholder="
+                  <multiselect
+                    disabled
+                    v-model="doctor.nationality"
+                    :options="nationalities"
+                    track-by="code"
+                    label="nationality"
+                    :placeholder="
                       $t('profile.select') + ' ' + $t('profile.nationality')
-                    ">
+                    "
+                  >
                     <template slot="singleLabel" slot-scope="props">
                       {{ props.option[getLocaleKey("nationality")] }}
                     </template>
@@ -341,9 +470,12 @@
                       {{ props.option[getLocaleKey("nationality")] }}
                     </template>
                   </multiselect>
-                  <div class="custom-state-invalid icon" :class="{
-                    'is-invalid': doctorState.nationalityState == false,
-                  }"></div>
+                  <div
+                    class="custom-state-invalid icon"
+                    :class="{
+                      'is-invalid': doctorState.nationalityState == false,
+                    }"
+                  ></div>
                 </div>
               </div>
             </div>
@@ -355,14 +487,26 @@
                 <div class="profile-info-card-detail-title">
                   {{ $t("profile.expertise") + " - " + $t("admin.arabic") }}
                 </div>
-                <div class="profile-info-card-detail-value forceRtl" :class="{ inactive: !isEditing }">
-                  <b-form-input v-model="doctor.expertiseAr" :state="doctorState.expertiseArState" :placeholder="
-                    $t('profile.expertise') + ' - ' + $t('admin.arabic')
-                  " :disabled="!isEditing"></b-form-input>
+                <div
+                  class="profile-info-card-detail-value forceRtl"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <b-form-input
+                    v-model="doctor.expertiseAr"
+                    :state="doctorState.expertiseArState"
+                    :placeholder="
+                      $t('profile.expertise') + ' - ' + $t('admin.arabic')
+                    "
+                    :disabled="!isEditing"
+                  ></b-form-input>
                 </div>
               </div>
               <div class="profile-info-card-option">
-                <img src="../../assets/images/pencil.svg" alt="" v-if="isEditing" />
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
               </div>
             </div>
             <div class="profile-info-card">
@@ -373,13 +517,24 @@
                 <div class="profile-info-card-detail-title">
                   {{ $t("profile.consulting") + " - " + $t("admin.english") }}
                 </div>
-                <div class="profile-info-card-detail-value forceLtr" :class="{ inactive: !isEditing }">
-                  <b-form-input v-model="doctor.consulting" :state="doctorState.consultingState"
-                    :placeholder="$t('profile.consulting')" :disabled="!isEditing"></b-form-input>
+                <div
+                  class="profile-info-card-detail-value forceLtr"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <b-form-input
+                    v-model="doctor.consulting"
+                    :state="doctorState.consultingState"
+                    :placeholder="$t('profile.consulting')"
+                    :disabled="!isEditing"
+                  ></b-form-input>
                 </div>
               </div>
               <div class="profile-info-card-option">
-                <img src="../../assets/images/pencil.svg" alt="" v-if="isEditing" />
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
               </div>
             </div>
             <div class="profile-info-card">
@@ -390,13 +545,24 @@
                 <div class="profile-info-card-detail-title">
                   {{ $t("profile.languages") + " - " + $t("admin.english") }}
                 </div>
-                <div class="profile-info-card-detail-value forceLtr" :class="{ inactive: !isEditing }">
-                  <b-form-input v-model="doctor.languages" :state="doctorState.languagesState"
-                    :placeholder="$t('profile.languages')" :disabled="!isEditing"></b-form-input>
+                <div
+                  class="profile-info-card-detail-value forceLtr"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <b-form-input
+                    v-model="doctor.languages"
+                    :state="doctorState.languagesState"
+                    :placeholder="$t('profile.languages')"
+                    :disabled="!isEditing"
+                  ></b-form-input>
                 </div>
               </div>
               <div class="profile-info-card-option">
-                <img src="../../assets/images/pencil.svg" alt="" v-if="isEditing" />
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
               </div>
             </div>
             <div class="profile-info-card">
@@ -407,14 +573,26 @@
                 <div class="profile-info-card-detail-title">
                   {{ $t("profile.consulting") + " - " + $t("admin.arabic") }}
                 </div>
-                <div class="profile-info-card-detail-value forceRtl" :class="{ inactive: !isEditing }">
-                  <b-form-input v-model="doctor.consultingAr" :state="doctorState.consultingArState" :placeholder="
-                    $t('profile.consulting') + ' - ' + $t('admin.arabic')
-                  " :disabled="!isEditing"></b-form-input>
+                <div
+                  class="profile-info-card-detail-value forceRtl"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <b-form-input
+                    v-model="doctor.consultingAr"
+                    :state="doctorState.consultingArState"
+                    :placeholder="
+                      $t('profile.consulting') + ' - ' + $t('admin.arabic')
+                    "
+                    :disabled="!isEditing"
+                  ></b-form-input>
                 </div>
               </div>
               <div class="profile-info-card-option">
-                <img src="../../assets/images/pencil.svg" alt="" v-if="isEditing" />
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
               </div>
             </div>
             <div class="profile-info-card">
@@ -425,38 +603,62 @@
                 <div class="profile-info-card-detail-title">
                   {{ $t("profile.languages") + " - " + $t("admin.arabic") }}
                 </div>
-                <div class="profile-info-card-detail-value forceRtl" :class="{ inactive: !isEditing }">
-                  <b-form-input v-model="doctor.languagesAr" :state="doctorState.languagesArState" :placeholder="
-                    $t('profile.languages') + ' - ' + $t('admin.arabic')
-                  " :disabled="!isEditing"></b-form-input>
+                <div
+                  class="profile-info-card-detail-value forceRtl"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <b-form-input
+                    v-model="doctor.languagesAr"
+                    :state="doctorState.languagesArState"
+                    :placeholder="
+                      $t('profile.languages') + ' - ' + $t('admin.arabic')
+                    "
+                    :disabled="!isEditing"
+                  ></b-form-input>
                 </div>
               </div>
               <div class="profile-info-card-option">
-                <img src="../../assets/images/pencil.svg" alt="" v-if="isEditing" />
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-md-12 button-group">
-              <button class="btn btn-secondary" @click="editProfile" v-if="isEditingAllowed">
+              <button
+                class="btn btn-secondary"
+                @click="editProfile"
+                v-if="isEditingAllowed"
+              >
                 {{
                   isEditing
-                  ? $t("profile.updateProfile")
-                  : $t("profile.editProfile")
+                    ? $t("profile.updateProfile")
+                    : $t("profile.editProfile")
                 }}
               </button>
-              <button class="btn btn-secondary" @click="editMRN" v-if="isMrnEditingAllowed">
+              <button
+                class="btn btn-secondary"
+                @click="editMRN"
+                v-if="isMrnEditingAllowed"
+              >
                 {{
                   isEditingMRN
-                  ? $t("profile.updateProfile")
-                  : $t("profile.editProfile")
+                    ? $t("profile.updateProfile")
+                    : $t("profile.editProfile")
                 }}
               </button>
-              <button class="btn" :class="
-                isEditingAllowed || isMrnEditingAllowed
-                  ? 'btn-tertiary'
-                  : 'btn-secondary'
-              " @click="cancelEditing">
+              <button
+                class="btn"
+                :class="
+                  isEditingAllowed || isMrnEditingAllowed
+                    ? 'btn-tertiary'
+                    : 'btn-secondary'
+                "
+                @click="cancelEditing"
+              >
                 {{ isEditing || isEditingMRN ? $t("cancel") : $t("back") }}
               </button>
             </div>
@@ -583,8 +785,8 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-              error.response.data &&
-              error.response.data.message
+                error.response.data &&
+                error.response.data.message
             );
           this.setLoadingState(false);
         }
@@ -630,8 +832,8 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-              error.response.data &&
-              error.response.data.message
+                error.response.data &&
+                error.response.data.message
             );
         })
         .finally(() => {
@@ -673,8 +875,8 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-              error.response.data &&
-              error.response.data.message
+                error.response.data &&
+                error.response.data.message
             );
         }
       );
@@ -703,8 +905,8 @@ export default {
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
-                error.response.data &&
-                error.response.data.message
+                  error.response.data &&
+                  error.response.data.message
               );
           }
         );
@@ -749,14 +951,10 @@ export default {
           this.doctor.clinics != [] &&
           this.doctor.clinics.length > 0 &&
           !!this.doctor.clinics;
-        this.doctorState.specialityState =
-          this.doctor.speciality != {} && !!this.doctor.speciality;
         this.doctorState.expertiseState =
           this.doctor.expertise != "" && !!this.doctor.expertise;
         this.doctorState.expertiseArState =
           this.doctor.expertiseAr != "" && !!this.doctor.expertiseAr;
-        this.doctorState.nationalityState =
-          this.doctor.nationality != {} && !!this.doctor.nationality;
         this.doctorState.languagesState =
           this.doctor.languages != "" && !!this.doctor.languages;
         this.doctorState.languagesArState =
@@ -779,7 +977,6 @@ export default {
     },
     editProfile() {
       if (this.isEditing) {
-        console.log(this.validateForm(), "validate");
         if (!this.validateForm()) {
           return;
         }
@@ -789,27 +986,15 @@ export default {
             this.getSelectedUser.clinics &&
             this.doctor.clinics &&
             this.getSelectedUser.clinics.map((x) => x.id).join(",") !==
-            this.doctor.clinics.map((x) => x.id).join(",")
+              this.doctor.clinics.map((x) => x.id).join(",")
           ) {
             updateUserObj.clinics = this.doctor.clinics.map((x) => x.id);
-          }
-          if (
-            !this.getSelectedUser.speciality ||
-            this.getSelectedUser.speciality.id !== this.doctor.speciality.id
-          ) {
-            updateUserObj.speciality_id = this.doctor.speciality.id;
           }
           if (this.getSelectedUser.expertise !== this.doctor.expertise) {
             updateUserObj.expertise = this.doctor.expertise;
           }
           if (this.getSelectedUser.expertiseAr !== this.doctor.expertiseAr) {
             updateUserObj.expertiseAr = this.doctor.expertiseAr;
-          }
-          if (
-            !this.getSelectedUser.nationality ||
-            this.getSelectedUser.nationality.id !== this.doctor.nationality.id
-          ) {
-            updateUserObj.nationality_id = this.doctor.nationality.id;
           }
           if (this.getSelectedUser.languages !== this.doctor.languages) {
             updateUserObj.languages = this.doctor.languages;
@@ -871,8 +1056,8 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-              error.response.data &&
-              error.response.data.message
+                error.response.data &&
+                error.response.data.message
             );
         }
       );
@@ -898,8 +1083,8 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-              error.response.data &&
-              error.response.data.message
+                error.response.data &&
+                error.response.data.message
             );
         }
       );

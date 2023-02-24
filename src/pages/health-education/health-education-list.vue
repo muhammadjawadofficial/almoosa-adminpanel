@@ -5,20 +5,41 @@
         <i class="fa fa-search" aria-hidden="true"></i>
       </div>
       <div class="search-input">
-        <b-form-input :placeholder="$t('admin.searchArticleName')" id="type-search" type="search" v-model="searchQuery"
-          debounce="500"></b-form-input>
+        <b-form-input
+          :placeholder="$t('admin.searchArticleName')"
+          id="type-search"
+          type="search"
+          v-model="searchQuery"
+          debounce="1000"
+        ></b-form-input>
       </div>
     </div>
 
-    <b-table show-empty stacked="md" borderless :items="filteredItems" :fields="tablefields" :per-page="5"
-      class="ash-data-table clickable" @row-clicked="onRowClicked">
+    <b-table
+      show-empty
+      stacked="md"
+      borderless
+      :items="filteredItems"
+      :fields="tablefields"
+      :per-page="5"
+      class="ash-data-table clickable"
+      @row-clicked="onRowClicked"
+    >
       <template #head()="data">{{ $t("admin." + data.label) }} </template>
 
       <template #cell()="data">
         <template v-if="data.field.key == 'action'">
           <div class="action-buttons">
-            <feather class="pointer" type="edit" @click.stop="editArticle(data.item)"></feather>
-            <feather class="pointer" type="trash" @click.stop="deleteArticle(data.item)"></feather>
+            <feather
+              class="pointer"
+              type="edit"
+              @click.stop="editArticle(data.item)"
+            ></feather>
+            <feather
+              class="pointer"
+              type="trash"
+              @click.stop="deleteArticle(data.item)"
+            ></feather>
           </div>
         </template>
         <template v-else-if="data.field.key == 'thumbnail'">
@@ -28,12 +49,20 @@
             </div>
           </div>
         </template>
-        <template v-else-if="data.field.translate">{{ data.item[getLocaleKey(data.field.key)] }}</template>
+        <template v-else-if="data.field.translate">{{
+          data.item[getLocaleKey(data.field.key)]
+        }}</template>
         <template v-else>{{ data.value }}</template>
       </template>
     </b-table>
-    <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="getPerPageSelection"
-      class="my-0 justify-content-end" v-if="getPerPageSelection" @change="fetchArticles"></b-pagination>
+    <b-pagination
+      v-model="currentPage"
+      :total-rows="totalRows"
+      :per-page="getPerPageSelection"
+      class="my-0 justify-content-end"
+      v-if="getPerPageSelection"
+      @change="fetchArticles"
+    ></b-pagination>
     <b-pagination v-else class="my-0"> </b-pagination>
   </div>
 </template>
@@ -55,8 +84,18 @@ export default {
       tablefields: [
         { key: "id", label: "id", sortable: true },
         { key: "thumbnail", label: "thumbnail" },
-        { key: "short_title", label: "short_title", sortable: true, translate: true },
-        { key: "short_text", label: "short_text", sortable: true, translate: true },
+        {
+          key: "short_title",
+          label: "short_title",
+          sortable: true,
+          translate: true,
+        },
+        {
+          key: "short_text",
+          label: "short_text",
+          sortable: true,
+          translate: true,
+        },
         { key: "action", label: "action" },
       ],
       items: [],
@@ -73,9 +112,9 @@ export default {
   watch: {
     searchQuery(query) {
       this.filteredItems = this.items.filter((item) => {
-        return (
-          item[this.getLocaleKey('short_title')].toLowerCase().includes(query.toLowerCase())
-        );
+        return item[this.getLocaleKey("short_title")]
+          .toLowerCase()
+          .includes(query.toLowerCase());
       });
       this.totalRows = this.filteredItems.length;
     },
@@ -84,7 +123,7 @@ export default {
     this.fetchArticles();
   },
   methods: {
-    ...mapActions('healthEducation', ['setSelectedHealthEducation']),
+    ...mapActions("healthEducation", ["setSelectedHealthEducation"]),
     onRowClicked(row) {
       this.navigateTo("Health Education Details", { id: row.id });
     },
@@ -120,8 +159,8 @@ export default {
               if (!this.isAPIAborted(error))
                 this.failureToast(
                   error.response &&
-                  error.response.data &&
-                  error.response.data.message
+                    error.response.data &&
+                    error.response.data.message
                 );
             }
           );
@@ -133,7 +172,7 @@ export default {
       data.forEach((x) => {
         this.items.push({
           id: x.id,
-          ...x
+          ...x,
         });
       });
       this.filteredItems = this.items;
@@ -156,8 +195,8 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-              error.response.data &&
-              error.response.data.message
+                error.response.data &&
+                error.response.data.message
             );
         }
       );

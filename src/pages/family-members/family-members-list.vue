@@ -15,7 +15,7 @@
           id="type-search"
           type="search"
           v-model="searchQuery"
-          debounce="500"
+          debounce="1000"
         ></b-form-input>
       </div>
     </div>

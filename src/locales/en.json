@@ -644,6 +644,7 @@
     "articleDeleteSuccess": "Article has been deleted successfully",
     "articleAddedSuccess": "Article has been added successfully",
     "articleUpdatedSuccess": "Article has been updated successfully",
-    "deliveryRequest": "Delivery Request"
+    "deliveryRequest": "Delivery Request",
+    "identity_number": "Identity Number"
   }
 }

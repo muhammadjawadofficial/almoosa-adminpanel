@@ -5,18 +5,29 @@
         <i class="fa fa-search" aria-hidden="true"></i>
       </div>
       <div class="search-input">
-        <b-form-input :placeholder="$t('admin.searchPatientMrn')" id="type-search" type="search" v-model="searchQuery"
-          debounce="500"></b-form-input>
+        <b-form-input
+          :placeholder="$t('admin.searchPatientMrn')"
+          id="type-search"
+          type="search"
+          v-model="searchQuery"
+          debounce="1000"
+        ></b-form-input>
       </div>
     </div>
     <div class="filter-container">
       <div class="toggle-options">
-        <div class="toggle-options--single" :class="{ active: activeTab == 'refillRequest' }"
-          @click="changeTab('refillRequest')">
+        <div
+          class="toggle-options--single"
+          :class="{ active: activeTab == 'refillRequest' }"
+          @click="changeTab('refillRequest')"
+        >
           {{ $t("admin.refillRequest") }}
         </div>
-        <div class="toggle-options--single" :class="{ active: activeTab == 'deliveryRequest' }"
-          @click="changeTab('deliveryRequest')">
+        <div
+          class="toggle-options--single"
+          :class="{ active: activeTab == 'deliveryRequest' }"
+          @click="changeTab('deliveryRequest')"
+        >
           {{ $t("admin.deliveryRequest") }}
         </div>
       </div>
@@ -35,13 +46,25 @@
                 {{ toDate || $t("admin.selectDate") }}
               </div>
             </div>
-            <date-picker :append-to-body="false" format="DD-MM-YYYY" v-model="dateRange"
-              :popup-style="{ top: 'calc(100% - 5px)', left: 0, right: 0 }" popup-class="hideSecondCalendar"
-              value-type="format" class="ash-datepicker" range :open="showCalendar" :lang="getCurrentLang()"
-              @input="dateChange">
+            <date-picker
+              :append-to-body="false"
+              format="DD-MM-YYYY"
+              v-model="dateRange"
+              :popup-style="{ top: 'calc(100% - 5px)', left: 0, right: 0 }"
+              popup-class="hideSecondCalendar"
+              value-type="format"
+              class="ash-datepicker"
+              range
+              :open="showCalendar"
+              :lang="getCurrentLang()"
+              @input="dateChange"
+            >
               <template #icon-calendar>
-                <img src="../../assets/images/calendar.svg" alt=""
-                  style="width: 1rem; height: 1rem; object-fit: contain" />
+                <img
+                  src="../../assets/images/calendar.svg"
+                  alt=""
+                  style="width: 1rem; height: 1rem; object-fit: contain"
+                />
               </template>
             </date-picker>
           </template>
@@ -49,8 +72,16 @@
       </div>
     </div>
 
-    <b-table show-empty stacked="md" borderless :items="items" :fields="tablefields" :current-page="currentPage"
-      :per-page="5" class="ash-data-table">
+    <b-table
+      show-empty
+      stacked="md"
+      borderless
+      :items="items"
+      :fields="tablefields"
+      :current-page="currentPage"
+      :per-page="5"
+      class="ash-data-table"
+    >
       <template #head()="data">{{ $t("admin." + data.label) }} </template>
 
       <template #cell()="data">
@@ -59,8 +90,16 @@
         </template>
         <template v-else-if="data.field.key == 'action'">
           <div class="action-buttons">
-            <feather class="pointer" type="edit" @click.stop="rowClicked(data.item)"></feather>
-            <feather class="pointer" type="trash" @click.stop="deleteMedicationRefill(data.item)"></feather>
+            <feather
+              class="pointer"
+              type="edit"
+              @click.stop="rowClicked(data.item)"
+            ></feather>
+            <feather
+              class="pointer"
+              type="trash"
+              @click.stop="deleteMedicationRefill(data.item)"
+            ></feather>
           </div>
         </template>
         <template v-else-if="data.field.key == 'patient_name'">
@@ -74,8 +113,13 @@
         <template v-else>{{ data.value }}</template>
       </template>
     </b-table>
-    <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="getPerPageSelection"
-      class="my-0 justify-content-end" v-if="getPerPageSelection"></b-pagination>
+    <b-pagination
+      v-model="currentPage"
+      :total-rows="totalRows"
+      :per-page="getPerPageSelection"
+      class="my-0 justify-content-end"
+      v-if="getPerPageSelection"
+    ></b-pagination>
     <b-pagination v-else class="my-0"> </b-pagination>
   </div>
 </template>
@@ -145,9 +189,9 @@ export default {
         if (this.activeTab == "deliveryRequest" && !x.is_delivery) return;
         this.items.push({
           medicationRefillRequested: x.status,
-          title: x.medication ? x.medication.title : 'N/A',
-          variation: x.medication ? x.medication.variation : 'N/A',
-          description: x.medication ? x.medication.description : 'N/A',
+          title: x.medication ? x.medication.title : "N/A",
+          variation: x.medication ? x.medication.variation : "N/A",
+          description: x.medication ? x.medication.description : "N/A",
           ...x,
         });
       });
@@ -172,8 +216,8 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-              error.response.data &&
-              error.response.data.message
+                error.response.data &&
+                error.response.data.message
             );
         }
       );
@@ -208,8 +252,8 @@ export default {
               if (!this.isAPIAborted(error))
                 this.failureToast(
                   error.response &&
-                  error.response.data &&
-                  error.response.data.message
+                    error.response.data &&
+                    error.response.data.message
                 );
             }
           );

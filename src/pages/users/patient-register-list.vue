@@ -68,7 +68,7 @@ export default {
         { key: "id", label: "id", sortable: true },
         { key: "patientName", label: "patientName" },
         { key: "mrn_number", label: "mrn", sortable: true },
-        { key: "email", label: "email" },
+        { key: "identity_number", label: "identity_number" },
         { key: "phoneNumber", label: "phoneNumber" },
       ],
       items: [],
@@ -98,7 +98,7 @@ export default {
           patientName: this.getFullName(x),
           patient_photo: x.photo,
           mrn_number: x.mrn_number,
-          email: x.email_address,
+          identity_number: x.saudi_id || x.iqama,
           phoneNumber: x.phone_number,
           status: x.status,
         });

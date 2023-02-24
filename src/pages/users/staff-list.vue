@@ -5,13 +5,27 @@
         <i class="fa fa-search" aria-hidden="true"></i>
       </div>
       <div class="search-input">
-        <b-form-input :placeholder="$t('admin.searchStaff')" id="type-search" type="search" v-model="searchQuery"
-          debounce="500"></b-form-input>
+        <b-form-input
+          :placeholder="$t('admin.searchStaff')"
+          id="type-search"
+          type="search"
+          v-model="searchQuery"
+          debounce="1000"
+        ></b-form-input>
       </div>
     </div>
 
-    <b-table show-empty stacked="md" borderless :items="filteredItems" :fields="filteredFields"
-      :current-page="currentPage" :per-page="5" class="ash-data-table " @row-clicked="rowClicked">
+    <b-table
+      show-empty
+      stacked="md"
+      borderless
+      :items="filteredItems"
+      :fields="filteredFields"
+      :current-page="currentPage"
+      :per-page="5"
+      class="ash-data-table"
+      @row-clicked="rowClicked"
+    >
       <template #head()="data">{{ $t("admin." + data.label) }} </template>
 
       <template #cell()="data">
@@ -34,8 +48,13 @@
         <template v-else>{{ data.value }}</template>
       </template>
     </b-table>
-    <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="getPerPageSelection"
-      class="my-0 justify-content-end" v-if="getPerPageSelection"></b-pagination>
+    <b-pagination
+      v-model="currentPage"
+      :total-rows="totalRows"
+      :per-page="getPerPageSelection"
+      class="my-0 justify-content-end"
+      v-if="getPerPageSelection"
+    ></b-pagination>
     <b-pagination v-else class="my-0"> </b-pagination>
   </div>
 </template>
@@ -115,7 +134,9 @@ export default {
       let roleId = this.$route.params.roleId;
       this.items = [];
       this.filteredItems = [];
-      this.filteredFields = this.tablefields.filter((x) => !x.filtered || x.filtered == roleId);
+      this.filteredFields = this.tablefields.filter(
+        (x) => !x.filtered || x.filtered == roleId
+      );
       this.setLoadingState(true);
       userService.getUsers("?role_id=" + roleId).then(
         (response) => {
@@ -135,8 +156,8 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-              error.response.data &&
-              error.response.data.message
+                error.response.data &&
+                error.response.data.message
             );
         }
       );

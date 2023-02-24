@@ -67,8 +67,7 @@ export default {
       tablefields: [
         { key: "id", label: "id", sortable: true },
         { key: "patientName", label: "patientName" },
-        { key: "mrn_number", label: "mrn", sortable: true },
-        { key: "email", label: "email" },
+        { key: "identity_number", label: "identity_number" },
         { key: "phoneNumber", label: "phoneNumber" },
         { key: "status", label: "status" },
       ],
@@ -107,6 +106,7 @@ export default {
           patientName: this.getFullName(x),
           patient_photo: x.photo,
           mrn_number: x.mrn_number,
+          identity_number: x.saudi_id || x.iqama,
           email: x.email_address,
           phoneNumber: x.phone_number,
           status: x.status,
@@ -153,5 +153,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
