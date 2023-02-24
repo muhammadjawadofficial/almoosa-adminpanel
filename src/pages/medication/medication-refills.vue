@@ -1,6 +1,6 @@
 <template>
   <div class="doctor-list-container page-body-container standard-width">
-    <div class="search-box full-width">
+    <div class="search-box full-width" v-if="false">
       <div class="search-icon">
         <i class="fa fa-search" aria-hidden="true"></i>
       </div>
