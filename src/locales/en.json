@@ -557,6 +557,7 @@
     "verified": "Verified",
     "blocked": "Blocked",
     "delivered": "Delivered",
+    "sent for approval": "Sent For Approval",
     "role": "Role",
     "email": "Email",
     "phoneNumber": "Phone Number",
@@ -645,6 +646,11 @@
     "articleAddedSuccess": "Article has been added successfully",
     "articleUpdatedSuccess": "Article has been updated successfully",
     "deliveryRequest": "Delivery Request",
-    "identity_number": "Identity Number"
+    "identity_number": "Identity Number",
+    "searchInsurance": "Search Insurance by Name",
+    "companyName": "Company Name",
+    "insuranceDeleteConfirm": "Are you sure you want to delete this insurance?",
+    "insuranceDeleteSuccess": "Insurance has been deleted successfully",
+    "insuranceRequestDetails": "Insurance Request Details"
   }
 }

@@ -156,6 +156,18 @@
             "path": "/medication-refills"
         },
         {
+            "title": "Insurance Management",
+            "title_ar": "إدارة التأمين",
+            "icon": "shield-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "permission": "Insurance Management",
+            "path": "/insurance-management"
+        },
+        {
             "title": "Health Education",
             "title_ar": "التثقيف الصحي",
             "type": "sub",

@@ -32,6 +32,10 @@ import insuranceModule from '../pages/insurance'
 import insuranceMyMedical from '../pages/insurance/my-medical-insurance'
 import addNewInsurance from '../pages/insurance/add-new-insurance'
 
+import insuranceManagementModule from '../pages/insurance-management'
+import insuranceManagementList from '../pages/insurance-management/insurance-management-list'
+import insuranceManagementDetails from '../pages/insurance-management/insurance-management-details'
+
 import myMedicationModule from '../pages/medication'
 import myMedicationSessions from '../pages/medication/medication-session-list'
 import myMedicationList from '../pages/medication/medication-list'
@@ -49,8 +53,8 @@ import servicesPackagesList from '../pages/services-packages/services-packages-l
 import servicesPackagesDetails from '../pages/services-packages/services-packages-details'
 import servicesPackagesForm from '../pages/services-packages/services-packages-form'
 
-import FamilyMembersList from '../pages/family-members/family-members-list'
-import FamilyMembersProfile from '../pages/family-members/family-members-profile'
+import familyMembersList from '../pages/family-members/family-members-list'
+import familyMembersProfile from '../pages/family-members/family-members-profile'
 
 import UsersModule from '../pages/users'
 import PatientList from '../pages/users/patient-list'
@@ -353,7 +357,7 @@ const routes = [
                   {
                     path: "family",
                     name: 'Patient Family Members',
-                    component: FamilyMembersList,
+                    component: familyMembersList,
                     meta: {
                       title: 'Patient Family Members | Almoosa Specialist Hospital',
                     },
@@ -361,7 +365,7 @@ const routes = [
                   {
                     path: "family/profile",
                     name: 'Patient Family Member Profile',
-                    component: FamilyMembersProfile,
+                    component: familyMembersProfile,
                     meta: {
                       title: 'Patient Family Member Profile | Almoosa Specialist Hospital',
                     },
@@ -578,7 +582,7 @@ const routes = [
           {
             path: "list",
             name: 'Family Members List',
-            component: FamilyMembersList,
+            component: familyMembersList,
             meta: {
               title: 'Family Members List | Almoosa Specialist Hospital',
             },
@@ -586,9 +590,32 @@ const routes = [
           {
             path: "profile",
             name: 'Family Members Profile',
-            component: FamilyMembersProfile,
+            component: familyMembersProfile,
             meta: {
               title: 'Family Members Profile | Almoosa Specialist Hospital',
+            },
+          },
+        ]
+      },
+      {
+        path: 'insurance-management',
+        component: insuranceManagementModule,
+        children: [
+          { path: '', name: "Insurance Management", redirect: { name: 'Insurance Management List' } },
+          {
+            path: "list",
+            name: 'Insurance Management List',
+            component: insuranceManagementList,
+            meta: {
+              title: 'Insurance Management List | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "details",
+            name: 'Insurance Management Details',
+            component: insuranceManagementDetails,
+            meta: {
+              title: 'Insurance Management Details | Almoosa Specialist Hospital',
             },
           },
         ]

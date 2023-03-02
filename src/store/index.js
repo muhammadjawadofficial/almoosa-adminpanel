@@ -12,6 +12,7 @@ import myTimeline from './modules/my-timeline'
 import myMedication from './modules/my-medication'
 import servicesPackages from './modules/services-packages'
 import familyMember from './modules/family-member'
+import insuranceManagement from './modules/insurance-management'
 
 Vue.use(Vuex);
 
@@ -34,7 +35,8 @@ export const store = new Vuex.Store({
     myTimeline,
     myMedication,
     servicesPackages,
-    familyMember
+    familyMember,
+    insuranceManagement
   }
 });
 

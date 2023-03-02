@@ -551,6 +551,7 @@
     "verified": "تم التحقق",
     "blocked": "ممنوع",
     "delivered": "تم التسليم",
+    "sent for approval": "أرسل للموافقة",
     "role": "دور",
     "email": "البريد الإلكتروني",
     "phoneNumber": "رقم الهاتف",
@@ -639,6 +640,11 @@
     "articleAddedSuccess": "تمت إضافة المقال بنجاح",
     "articleUpdatedSuccess": "تم تحديث المقال بنجاح",
     "deliveryRequest": "طلب التسليم",
-    "identity_number": "رقم الهوية"
+    "identity_number": "رقم الهوية",
+    "searchInsurance": "البحث في التأمين",
+    "companyName": "اسم الشركة",
+    "insuranceDeleteConfirm": "هل أنت متأكد أنك تريد حذف هذا التأمين؟",
+    "insuranceDeleteSuccess": "تم حذف التأمين بنجاح",
+    "insuranceRequestDetails": "تفاصيل طلب التأمين"
   }
 }

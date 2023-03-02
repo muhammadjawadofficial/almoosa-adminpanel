@@ -388,7 +388,9 @@
                   {{ $t("profile.speciality") }}
                 </div>
                 <div class="profile-info-card-detail-value inactive">
+                  {{ doctor.speciality[getLocaleKey("title")] || "N/A" }}
                   <multiselect
+                    v-if="false"
                     v-model="doctor.speciality"
                     disabled
                     :options="specialities"
@@ -452,7 +454,9 @@
                   {{ $t("profile.nationality") }}
                 </div>
                 <div class="profile-info-card-detail-value inactive">
+                  {{ doctor.nationality[getLocaleKey("nationality")] || "N/A" }}
                   <multiselect
+                    v-if="false"
                     disabled
                     v-model="doctor.nationality"
                     :options="nationalities"
@@ -994,13 +998,13 @@ export default {
             updateUserObj.expertise = this.doctor.expertise;
           }
           if (this.getSelectedUser.expertiseAr !== this.doctor.expertiseAr) {
-            updateUserObj.expertiseAr = this.doctor.expertiseAr;
+            updateUserObj.expertise_ar = this.doctor.expertiseAr;
           }
           if (this.getSelectedUser.languages !== this.doctor.languages) {
             updateUserObj.languages = this.doctor.languages;
           }
           if (this.getSelectedUser.languagesAr !== this.doctor.languagesAr) {
-            updateUserObj.languagesAr = this.doctor.languagesAr;
+            updateUserObj.languages_ar = this.doctor.languagesAr;
           }
           if (
             this.getSelectedUser.consulting_age_group !== this.doctor.consulting
