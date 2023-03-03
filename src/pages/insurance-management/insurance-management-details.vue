@@ -79,7 +79,15 @@
           </b-card-body>
         </b-card>
         <div class="appointment--action-buttons">
-          <button class="btn btn-secondary" @click="updateInsuranceRequest">
+          <button
+            class="btn btn-secondary"
+            :class="{
+              disabled: savedStatus == selectedStatus,
+            }"
+            @click="
+              savedStatus == selectedStatus ? null : updateInsuranceRequest()
+            "
+          >
             {{ $t("admin.update") }}
           </button>
         </div>
@@ -90,12 +98,14 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { insuranceService } from "../../services";
 export default {
   data() {
     return {
       backRoute: "Insurance Management List",
       statuses: ["sent for approval", "approved", "rejected"],
       selectedStatus: "",
+      savedStatus: "",
     };
   },
   computed: {
@@ -107,10 +117,37 @@ export default {
     }
     this.selectedStatus =
       this.getSelectedInsuranceManagement.status || this.statuses[0];
+    this.savedStatus = this.selectedStatus;
   },
   methods: {
     updateInsuranceRequest() {
-      console.log("update");
+      this.setLoadingState(true);
+      insuranceService
+        .updateInsurances(this.getSelectedInsuranceManagement.id, {
+          status: this.selectedStatus,
+        })
+        .then(
+          (response) => {
+            if (response.data.status) {
+              this.successToast(
+                this.$t("admin.insuranceRequestUpdatedSuccess")
+              );
+              this.savedStatus = this.selectedStatus;
+            } else {
+              this.failureToast(response.data.message);
+            }
+            this.setLoadingState(false);
+          },
+          (error) => {
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
+            this.setLoadingState(false);
+          }
+        );
     },
   },
 };

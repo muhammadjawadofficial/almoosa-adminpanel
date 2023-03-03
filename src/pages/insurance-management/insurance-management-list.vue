@@ -39,7 +39,6 @@
               class="pointer"
               type="trash"
               @click.stop="deleteInsurance(data.item)"
-              v-if="false"
             ></feather>
           </div>
         </template>

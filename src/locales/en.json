@@ -651,6 +651,7 @@
     "companyName": "Company Name",
     "insuranceDeleteConfirm": "Are you sure you want to delete this insurance?",
     "insuranceDeleteSuccess": "Insurance has been deleted successfully",
-    "insuranceRequestDetails": "Insurance Request Details"
+    "insuranceRequestDetails": "Insurance Request Details",
+    "insuranceRequestUpdatedSuccess": "Insurance Request has been updated successfully"
   }
 }

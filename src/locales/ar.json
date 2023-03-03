@@ -645,6 +645,7 @@
     "companyName": "اسم الشركة",
     "insuranceDeleteConfirm": "هل أنت متأكد أنك تريد حذف هذا التأمين؟",
     "insuranceDeleteSuccess": "تم حذف التأمين بنجاح",
-    "insuranceRequestDetails": "تفاصيل طلب التأمين"
+    "insuranceRequestDetails": "تفاصيل طلب التأمين",
+    "insuranceRequestUpdatedSuccess": "تم تحديث طلب التأمين بنجاح"
   }
 }
