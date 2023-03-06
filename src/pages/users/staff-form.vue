@@ -98,6 +98,7 @@
               :state="registerFormState.userId"
               :placeholder="$t('familyMembers.' + selectedItem.placeholder)"
               type="number"
+              :formatter="numberOnly"
             ></b-form-input>
           </b-input-group>
         </div>
