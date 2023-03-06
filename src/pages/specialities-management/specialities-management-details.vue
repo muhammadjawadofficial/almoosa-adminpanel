@@ -149,6 +149,7 @@ export default {
       this.setLoadingState(true);
       specialityService
         .updateSpeciality(this.getSelectedSpecialitiesManagement.id, {
+          ...this.getSelectedSpecialitiesManagement,
           icon: "" + this.iconId,
         })
         .then(

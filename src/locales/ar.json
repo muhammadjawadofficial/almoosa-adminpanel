@@ -654,6 +654,7 @@
     "uploadIcon": "تحميل الأيقونة",
     "specialityDetails": "تفاصيل التخصص",
     "thumbnailUploaded": "تم تحميل الصورة المصغرة",
-    "bannerUploaded": "تم تحميل اللافتة"
+    "bannerUploaded": "تم تحميل اللافتة",
+    "specialityRequestUpdatedSuccess": "تم تحديث طلب التخصص بنجاح"
   }
 }

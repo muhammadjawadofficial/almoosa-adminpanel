@@ -660,6 +660,7 @@
     "uploadIcon": "Upload Icon",
     "specialityDetails": "Speciality Details",
     "thumbnailUploaded": "Thumbnail Uploaded Successfully",
-    "bannerUploaded": "Banner Uploaded Successfully"
+    "bannerUploaded": "Banner Uploaded Successfully",
+    "specialityRequestUpdatedSuccess": "Speciality Request has been updated successfully"
   }
 }
