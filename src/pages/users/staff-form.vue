@@ -94,18 +94,19 @@
         <div class="col-xl-4 col-md-6">
           <b-input-group class="custom-login-input-groups same-height">
             <b-form-input
-              v-model="registerForm.first_name"
-              :state="registerFormState.first_name"
-              :placeholder="$t('familyMembers.firstName')"
-              :formatter="alphabetsOnly"
+              v-model="userId"
+              :state="registerFormState.userId"
+              :placeholder="$t('familyMembers.' + selectedItem.placeholder)"
+              type="number"
             ></b-form-input>
           </b-input-group>
         </div>
         <div class="col-xl-4 col-md-6">
           <b-input-group class="custom-login-input-groups same-height">
             <b-form-input
-              v-model="registerForm.middle_name"
-              :placeholder="$t('familyMembers.middleName')"
+              v-model="registerForm.first_name"
+              :state="registerFormState.first_name"
+              :placeholder="$t('familyMembers.firstName')"
               :formatter="alphabetsOnly"
             ></b-form-input>
           </b-input-group>
@@ -115,9 +116,8 @@
         <div class="col-xl-4 col-md-6">
           <b-input-group class="custom-login-input-groups same-height">
             <b-form-input
-              v-model="registerForm.family_name"
-              :state="registerFormState.family_name"
-              :placeholder="$t('familyMembers.familyName')"
+              v-model="registerForm.middle_name"
+              :placeholder="$t('familyMembers.middleName')"
               :formatter="alphabetsOnly"
             ></b-form-input>
           </b-input-group>
@@ -125,10 +125,10 @@
         <div class="col-xl-4 col-md-6">
           <b-input-group class="custom-login-input-groups same-height">
             <b-form-input
-              v-model="userId"
-              :state="registerFormState.userId"
-              :placeholder="$t('familyMembers.' + selectedItem.placeholder)"
-              type="number"
+              v-model="registerForm.family_name"
+              :state="registerFormState.family_name"
+              :placeholder="$t('familyMembers.familyName')"
+              :formatter="alphabetsOnly"
             ></b-form-input>
           </b-input-group>
         </div>
@@ -182,6 +182,7 @@
             v-model="registerForm.dob"
             class="same-height"
             disableDate="backward"
+            :dateToCompare="new Date()"
           />
           <div
             class="custom-state-invalid icon mr-3"
@@ -539,7 +540,7 @@ export default {
       this.registerFormState.userId = null;
       this.registerFormState.card_id = null;
       this.registerFormState.nationality_id = null;
-      
+
       this.userId = "";
     },
   },

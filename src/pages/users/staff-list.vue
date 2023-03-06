@@ -39,7 +39,7 @@
         </template>
         <template v-else-if="data.field.key == 'patient_name'">
           <div class="user-name-with-image">
-            <div class="image">
+            <div class="image" v-if="false">
               <img :src="getImageUrl(data.item.patient_photo)" alt="user" />
             </div>
             <span class="text">{{ data.value }}</span>
