@@ -428,6 +428,7 @@
     "addFamilyMember": "إضافة فرد جديد",
     "addStaffMember": "إضافة عضو فريق العمل",
     "addedSuccessfully": "تمت إضافة فرد جديد بنجاح",
+    "staffAddedSuccessfully": "تمت إضافة عضو فريق العمل بنجاح",
     "addMember": "إضافة عضو",
     "selectTypeOfId": "حدد نوع الهوية",
     "firstName": "الاسم الاول",
@@ -646,6 +647,13 @@
     "insuranceDeleteConfirm": "هل أنت متأكد أنك تريد حذف هذا التأمين؟",
     "insuranceDeleteSuccess": "تم حذف التأمين بنجاح",
     "insuranceRequestDetails": "تفاصيل طلب التأمين",
-    "insuranceRequestUpdatedSuccess": "تم تحديث طلب التأمين بنجاح"
+    "insuranceRequestUpdatedSuccess": "تم تحديث طلب التأمين بنجاح",
+    "searchSpeciality": "البحث في التخصص",
+    "icon": "أيقونة",
+    "iconUploaded": "تم تحميل الأيقونة",
+    "uploadIcon": "تحميل الأيقونة",
+    "specialityDetails": "تفاصيل التخصص",
+    "thumbnailUploaded": "تم تحميل الصورة المصغرة",
+    "bannerUploaded": "تم تحميل اللافتة"
   }
 }

@@ -75,6 +75,10 @@ export const apiPath = {
         addStaffMember: getApiObject("post", "auth/staff/register"),
     },
 
+    speciality: {
+        update: (id) => getApiObject("patch", "specialities/" + id),
+    },
+
     healthEducation: {
         fetch: getApiObject("get", "health-education"),
         details: (id) => getApiObject("get", "health-education/" + id),

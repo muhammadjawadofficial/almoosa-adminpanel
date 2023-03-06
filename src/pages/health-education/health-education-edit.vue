@@ -1,33 +1,53 @@
 <template>
   <div class="standard-width page-body-container">
-    <back-navigation :backLink="backRoute" :title="$t('healthEducation.title')" :showBack="!!backRoute" />
+    <back-navigation
+      :backLink="backRoute"
+      :title="$t('healthEducation.title')"
+      :showBack="!!backRoute"
+    />
     <div class="row mt-3">
       <div class="col-md-6">
         <b-input-group class="custom-login-input-groups forceLtr">
-          <b-form-input v-model="healthEducationForm.short_title" :state="healthEducationFormState.short_title"
-            :placeholder="$t('admin.shortTitle') + ' ' + $t('admin.english')"></b-form-input>
+          <b-form-input
+            v-model="healthEducationForm.short_title"
+            :state="healthEducationFormState.short_title"
+            :placeholder="$t('admin.shortTitle') + ' ' + $t('admin.english')"
+          ></b-form-input>
         </b-input-group>
       </div>
       <div class="col-md-6">
         <b-input-group class="custom-login-input-groups forceLtr">
-          <b-form-input v-model="healthEducationForm.long_title" :state="healthEducationFormState.long_title"
-            :placeholder="$t('admin.longTitle') + ' ' + $t('admin.english')"></b-form-input>
+          <b-form-input
+            v-model="healthEducationForm.long_title"
+            :state="healthEducationFormState.long_title"
+            :placeholder="$t('admin.longTitle') + ' ' + $t('admin.english')"
+          ></b-form-input>
         </b-input-group>
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
         <b-input-group class="custom-login-input-groups forceLtr">
-          <b-form-input v-model="healthEducationForm.short_text" :state="healthEducationFormState.short_text"
-            :placeholder="$t('admin.shortText') + ' ' + $t('admin.english')"></b-form-input>
+          <b-form-input
+            v-model="healthEducationForm.short_text"
+            :state="healthEducationFormState.short_text"
+            :placeholder="$t('admin.shortText') + ' ' + $t('admin.english')"
+          ></b-form-input>
         </b-input-group>
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
-        <b-input-group class="custom-login-input-groups forceLtr" style="flex-direction: column">
-          <b-form-input disabled :placeholder="$t('admin.longText') + ' ' + $t('admin.english')" class="w-100"
-            :state="healthEducationFormState.long_text"></b-form-input>
+        <b-input-group
+          class="custom-login-input-groups forceLtr"
+          style="flex-direction: column"
+        >
+          <b-form-input
+            disabled
+            :placeholder="$t('admin.longText') + ' ' + $t('admin.english')"
+            class="w-100"
+            :state="healthEducationFormState.long_text"
+          ></b-form-input>
           <rich-text-editor v-model="healthEducationForm.long_text" />
         </b-input-group>
       </div>
@@ -35,30 +55,46 @@
     <div class="row mt-3">
       <div class="col-md-6">
         <b-input-group class="custom-login-input-groups forceRtl">
-          <b-form-input v-model="healthEducationForm.short_title_ar" :state="healthEducationFormState.short_title_ar"
-            :placeholder="$t('admin.shortTitle') + ' ' + $t('admin.arabic')"></b-form-input>
+          <b-form-input
+            v-model="healthEducationForm.short_title_ar"
+            :state="healthEducationFormState.short_title_ar"
+            :placeholder="$t('admin.shortTitle') + ' ' + $t('admin.arabic')"
+          ></b-form-input>
         </b-input-group>
       </div>
       <div class="col-md-6">
         <b-input-group class="custom-login-input-groups forceRtl">
-          <b-form-input v-model="healthEducationForm.long_title_ar" :state="healthEducationFormState.long_title_ar"
-            :placeholder="$t('admin.longTitle') + ' ' + $t('admin.arabic')"></b-form-input>
+          <b-form-input
+            v-model="healthEducationForm.long_title_ar"
+            :state="healthEducationFormState.long_title_ar"
+            :placeholder="$t('admin.longTitle') + ' ' + $t('admin.arabic')"
+          ></b-form-input>
         </b-input-group>
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
         <b-input-group class="custom-login-input-groups forceRtl">
-          <b-form-input v-model="healthEducationForm.short_text_ar" :state="healthEducationFormState.short_text_ar"
-            :placeholder="$t('admin.shortText') + ' ' + $t('admin.arabic')"></b-form-input>
+          <b-form-input
+            v-model="healthEducationForm.short_text_ar"
+            :state="healthEducationFormState.short_text_ar"
+            :placeholder="$t('admin.shortText') + ' ' + $t('admin.arabic')"
+          ></b-form-input>
         </b-input-group>
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
-        <b-input-group class="custom-login-input-groups forceRtl" style="flex-direction: column">
-          <b-form-input disabled :placeholder="$t('admin.longText') + ' ' + $t('admin.arabic')" class="w-100"
-            :state="healthEducationFormState.long_text_ar"></b-form-input>
+        <b-input-group
+          class="custom-login-input-groups forceRtl"
+          style="flex-direction: column"
+        >
+          <b-form-input
+            disabled
+            :placeholder="$t('admin.longText') + ' ' + $t('admin.arabic')"
+            class="w-100"
+            :state="healthEducationFormState.long_text_ar"
+          ></b-form-input>
           <rich-text-editor v-model="healthEducationForm.long_text_ar" />
         </b-input-group>
       </div>
@@ -72,15 +108,23 @@
           <div class="upload-text text-muted w200 center" v-else>
             {{ $t("admin.uploadThumbnail") }}
           </div>
-          <vue-dropzone v-if="showUpload" @vdropzone-file-added="fileUpload($event, 'thumbnail')"
-            @vdropzone-removed-file="removeFile('thumbnail')" :options="validationdropzoneOptions"
-            ref="thumbnailFileUpload" id="validationdropzone" class="dropzone digits custom-file-upload">
+          <vue-dropzone
+            v-if="showUpload"
+            @vdropzone-file-added="fileUpload($event, 'thumbnail')"
+            @vdropzone-removed-file="removeFile('thumbnail')"
+            :options="validationdropzoneOptions"
+            ref="thumbnailFileUpload"
+            id="validationdropzone"
+            class="dropzone digits custom-file-upload"
+          >
           </vue-dropzone>
-          <div :class="{
-            'dropzone is-invalid': formSubmitted
-              ? !healthEducationFormState.thumbnail_id
-              : null,
-          }"></div>
+          <div
+            :class="{
+              'dropzone is-invalid': formSubmitted
+                ? !healthEducationFormState.thumbnail_id
+                : null,
+            }"
+          ></div>
         </div>
       </div>
       <div class="col-md-6">
@@ -91,22 +135,34 @@
           <div class="upload-text text-muted w200 center" v-else>
             {{ $t("admin.uploadBanner") }}
           </div>
-          <vue-dropzone v-if="showUpload" @vdropzone-file-added="fileUpload($event, 'banner')"
-            @vdropzone-removed-file="removeFile('banner')" :options="validationdropzoneOptions" ref="bannerFileUpload"
-            id="thumbnailId" class="dropzone digits custom-file-upload">
+          <vue-dropzone
+            v-if="showUpload"
+            @vdropzone-file-added="fileUpload($event, 'banner')"
+            @vdropzone-removed-file="removeFile('banner')"
+            :options="validationdropzoneOptions"
+            ref="bannerFileUpload"
+            id="thumbnailId"
+            class="dropzone digits custom-file-upload"
+          >
           </vue-dropzone>
-          <div :class="{
-            'dropzone is-invalid': formSubmitted
-              ? !healthEducationFormState.banner_id
-              : null,
-          }"></div>
+          <div
+            :class="{
+              'dropzone is-invalid': formSubmitted
+                ? !healthEducationFormState.banner_id
+                : null,
+            }"
+          ></div>
         </div>
       </div>
     </div>
     <div class="row mt-5">
       <div class="register-navigation col-md-12">
         <div class="button-group">
-          <button class="btn btn-primary" @click="updateArticle" v-if="healthEducationId">
+          <button
+            class="btn btn-primary"
+            @click="updateArticle"
+            v-if="healthEducationId"
+          >
             {{ $t("admin.update") }}
           </button>
           <button class="btn btn-primary" @click="createArticle" v-else>
@@ -180,7 +236,7 @@ export default {
   mounted() {
     if (this.$route.name.toLowerCase().includes("edit")) {
       if (!this.getSelectedHealthEducation) {
-        this.navigateTo('Health Education List')
+        this.navigateTo("Health Education List");
         return;
       }
       this.initializeData();
@@ -207,7 +263,8 @@ export default {
               this.healthEducationForm.long_title_ar = data.long_title_ar;
               this.healthEducationForm.short_text_ar = data.short_text_ar;
               this.healthEducationForm.long_text_ar = data.long_text_ar;
-              let thumbnail = data.thumbnail || this.getSelectedHealthEducation.thumbnail;
+              let thumbnail =
+                data.thumbnail || this.getSelectedHealthEducation.thumbnail;
               if (thumbnail) {
                 this.healthEducationForm.thumbnail_id = data.thumbnail_id;
                 let image = thumbnail;
@@ -222,7 +279,8 @@ export default {
                 );
                 this.thumbnailToUpload = [file];
               }
-              let banner = data.banner || this.getSelectedHealthEducation.banner;
+              let banner =
+                data.banner || this.getSelectedHealthEducation.banner;
               if (banner) {
                 this.healthEducationForm.banner_id = data.banner_id;
                 let image = banner;
@@ -247,8 +305,8 @@ export default {
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
-                error.response.data &&
-                error.response.data.message
+                  error.response.data &&
+                  error.response.data.message
               );
           }
         );
@@ -288,7 +346,7 @@ export default {
             this.healthEducationForm[type + "_id"] = res.data.data.id;
             this.healthEducationFormState[type + "_id"] =
               this.healthEducationForm[type + "_id"] != null;
-            this.successToast(this.$t("insurance.idUploaded"));
+            this.successToast(this.$t("admin." + type + "Uploaded"));
           } else {
             this.failureToast(res.data.message);
           }
@@ -298,8 +356,8 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-              error.response.data &&
-              error.response.data.message
+                error.response.data &&
+                error.response.data.message
             );
           this.setLoadingState(false);
         }
@@ -345,8 +403,8 @@ export default {
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
-                error.response.data &&
-                error.response.data.message
+                  error.response.data &&
+                  error.response.data.message
               );
             this.setLoadingState(false);
           }
@@ -362,7 +420,10 @@ export default {
         ...this.healthEducationForm,
       };
       healthEducationService
-        .updateHealthEducationArticle(this.healthEducationId, healthEducationArticle)
+        .updateHealthEducationArticle(
+          this.healthEducationId,
+          healthEducationArticle
+        )
         .then(
           (response) => {
             if (response.data.status) {
@@ -376,8 +437,8 @@ export default {
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
-                error.response.data &&
-                error.response.data.message
+                  error.response.data &&
+                  error.response.data.message
               );
             this.setLoadingState(false);
           }

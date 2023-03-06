@@ -168,6 +168,18 @@
             "path": "/insurance-management"
         },
         {
+            "title": "Speciality Management",
+            "title_ar": "إدارة التخصص",
+            "icon": "symptom-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "permission": "Specialities",
+            "path": "/specialities-management"
+        },
+        {
             "title": "Health Education",
             "title_ar": "التثقيف الصحي",
             "type": "sub",

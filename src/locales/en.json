@@ -432,6 +432,7 @@
     "addFamilyMember": "Add Family Member",
     "addStaffMember": "Add Staff Member",
     "addedSuccessfully": "Family Member Added Successfully",
+    "staffAddedSuccessfully": "Staff Member Added Successfully",
     "addMember": "Add Member",
     "selectTypeOfId": "Select Type of ID",
     "firstName": "First Name",
@@ -652,6 +653,13 @@
     "insuranceDeleteConfirm": "Are you sure you want to delete this insurance?",
     "insuranceDeleteSuccess": "Insurance has been deleted successfully",
     "insuranceRequestDetails": "Insurance Request Details",
-    "insuranceRequestUpdatedSuccess": "Insurance Request has been updated successfully"
+    "insuranceRequestUpdatedSuccess": "Insurance Request has been updated successfully",
+    "searchSpeciality": "Search Speciality",
+    "icon": "Icon",
+    "iconUploaded": "Icon Uploaded Successfully",
+    "uploadIcon": "Upload Icon",
+    "specialityDetails": "Speciality Details",
+    "thumbnailUploaded": "Thumbnail Uploaded Successfully",
+    "bannerUploaded": "Banner Uploaded Successfully"
   }
 }

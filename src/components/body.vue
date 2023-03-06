@@ -145,7 +145,6 @@ export default {
       if (!roleId) {
         return;
       }
-      this.setLoadingState(true);
       rolesPermissionsService
         .fetchRoleDetails(roleId)
         .then((response) => {
@@ -156,12 +155,10 @@ export default {
           } else {
             this.failureToast(response.data.message);
           }
-          this.setLoadingState(false);
         })
         .catch((error) => {
           if (!this.isAPIAborted(error))
             this.failureToast(error.response && error.response.data.message);
-          this.setLoadingState(false);
         });
     },
     setLayoutObject() {

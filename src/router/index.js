@@ -36,6 +36,10 @@ import insuranceManagementModule from '../pages/insurance-management'
 import insuranceManagementList from '../pages/insurance-management/insurance-management-list'
 import insuranceManagementDetails from '../pages/insurance-management/insurance-management-details'
 
+import specialitiesManagementModule from '../pages/specialities-management'
+import specialitiesManagementList from '../pages/specialities-management/specialities-management-list'
+import specialitiesManagementDetails from '../pages/specialities-management/specialities-management-details'
+
 import myMedicationModule from '../pages/medication'
 import myMedicationSessions from '../pages/medication/medication-session-list'
 import myMedicationList from '../pages/medication/medication-list'
@@ -616,6 +620,29 @@ const routes = [
             component: insuranceManagementDetails,
             meta: {
               title: 'Insurance Management Details | Almoosa Specialist Hospital',
+            },
+          },
+        ]
+      },
+      {
+        path: 'specialities-management',
+        component: specialitiesManagementModule,
+        children: [
+          { path: '', name: "Specialities Management", redirect: { name: 'Specialities Management List' } },
+          {
+            path: "list",
+            name: 'Specialities Management List',
+            component: specialitiesManagementList,
+            meta: {
+              title: 'Specialities Management List | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "details",
+            name: 'Specialities Management Details',
+            component: specialitiesManagementDetails,
+            meta: {
+              title: 'Specialities Management Details | Almoosa Specialist Hospital',
             },
           },
         ]
