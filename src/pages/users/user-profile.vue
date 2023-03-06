@@ -419,20 +419,20 @@
             </div>
             <div class="profile-info-card">
               <div class="profile-info-card-logo">
-                <img src="../../assets/images/doctor-bg.svg" alt="" />
+                <img src="../../assets/images/translate-bg.svg" alt="" />
               </div>
               <div class="profile-info-card-detail">
                 <div class="profile-info-card-detail-title">
-                  {{ $t("profile.expertise") + " - " + $t("admin.english") }}
+                  {{ $t("profile.languages") + " - " + $t("admin.english") }}
                 </div>
                 <div
                   class="profile-info-card-detail-value forceLtr"
                   :class="{ inactive: !isEditing }"
                 >
                   <b-form-input
-                    v-model="doctor.expertise"
-                    :state="doctorState.expertiseState"
-                    :placeholder="$t('profile.expertise')"
+                    v-model="doctor.languages"
+                    :state="doctorState.languagesState"
+                    :placeholder="$t('profile.languages')"
                     :disabled="!isEditing"
                   ></b-form-input>
                 </div>
@@ -489,20 +489,54 @@
               </div>
               <div class="profile-info-card-detail">
                 <div class="profile-info-card-detail-title">
+                  {{ $t("profile.expertise") + " - " + $t("admin.english") }}
+                </div>
+                <div
+                  class="profile-info-card-detail-value forceLtr"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <b-form-textarea
+                    v-model="doctor.expertise"
+                    :state="doctorState.expertiseState"
+                    :placeholder="$t('profile.expertise')"
+                    :disabled="!isEditing"
+                    no-resize
+                    rows="3"
+                    max-rows="3"
+                  ></b-form-textarea>
+                </div>
+              </div>
+              <div class="profile-info-card-option">
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/doctor-bg-sec.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
                   {{ $t("profile.expertise") + " - " + $t("admin.arabic") }}
                 </div>
                 <div
                   class="profile-info-card-detail-value forceRtl"
                   :class="{ inactive: !isEditing }"
                 >
-                  <b-form-input
+                  <b-form-textarea
                     v-model="doctor.expertiseAr"
                     :state="doctorState.expertiseArState"
                     :placeholder="
                       $t('profile.expertise') + ' - ' + $t('admin.arabic')
                     "
                     :disabled="!isEditing"
-                  ></b-form-input>
+                    no-resize
+                    rows="3"
+                    max-rows="3"
+                  ></b-form-textarea>
                 </div>
               </div>
               <div class="profile-info-card-option">
@@ -543,35 +577,7 @@
             </div>
             <div class="profile-info-card">
               <div class="profile-info-card-logo">
-                <img src="../../assets/images/translate-bg.svg" alt="" />
-              </div>
-              <div class="profile-info-card-detail">
-                <div class="profile-info-card-detail-title">
-                  {{ $t("profile.languages") + " - " + $t("admin.english") }}
-                </div>
-                <div
-                  class="profile-info-card-detail-value forceLtr"
-                  :class="{ inactive: !isEditing }"
-                >
-                  <b-form-input
-                    v-model="doctor.languages"
-                    :state="doctorState.languagesState"
-                    :placeholder="$t('profile.languages')"
-                    :disabled="!isEditing"
-                  ></b-form-input>
-                </div>
-              </div>
-              <div class="profile-info-card-option">
-                <img
-                  src="../../assets/images/pencil.svg"
-                  alt=""
-                  v-if="isEditing"
-                />
-              </div>
-            </div>
-            <div class="profile-info-card">
-              <div class="profile-info-card-logo">
-                <img src="../../assets/images/family-bg.svg" alt="" />
+                <img src="../../assets/images/family-bg-sec.svg" alt="" />
               </div>
               <div class="profile-info-card-detail">
                 <div class="profile-info-card-detail-title">
