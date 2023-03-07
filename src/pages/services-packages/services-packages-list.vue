@@ -6,7 +6,7 @@
       </div>
       <div class="search-input">
         <b-form-input
-          :placeholder="$t('admin.searchPatientMrn')"
+          :placeholder="$t('servicesPackages.searchPlaceholder')"
           id="type-search"
           type="search"
           v-model="searchQuery"
@@ -134,7 +134,6 @@ export default {
         { key: "noOfServices", label: "noOfServices", sortable: true },
         { key: "price", label: "price", sortable: true },
         { key: "createdAt", label: "createdAt", sortable: true },
-        { key: "action", label: "action" },
       ],
       items: [],
       showDatePicker: true,
