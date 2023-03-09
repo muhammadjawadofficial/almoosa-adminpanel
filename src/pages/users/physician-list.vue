@@ -22,7 +22,7 @@
       borderless
       :items="items"
       :fields="tablefields"
-      :per-page="5"
+      :per-page="getPerPageSelection"
       :sort-by.sync="sortBy"
       :sort-desc.sync="sortDesc"
       @row-clicked="rowClicked"

@@ -388,7 +388,11 @@
                   {{ $t("profile.speciality") }}
                 </div>
                 <div class="profile-info-card-detail-value inactive">
-                  {{ doctor.speciality[getLocaleKey("title")] || "N/A" }}
+                  {{
+                    (doctor.speciality &&
+                      doctor.speciality[getLocaleKey("title")]) ||
+                    "N/A"
+                  }}
                   <multiselect
                     v-if="false"
                     v-model="doctor.speciality"
@@ -454,7 +458,11 @@
                   {{ $t("profile.nationality") }}
                 </div>
                 <div class="profile-info-card-detail-value inactive">
-                  {{ doctor.nationality[getLocaleKey("nationality")] || "N/A" }}
+                  {{
+                    (doctor.nationality &&
+                      doctor.nationality[getLocaleKey("nationality")]) ||
+                    "N/A"
+                  }}
                   <multiselect
                     v-if="false"
                     disabled
