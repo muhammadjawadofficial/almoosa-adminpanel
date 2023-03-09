@@ -614,7 +614,7 @@ export default {
       this.navigateTo(this.backLink);
       return;
     }
-    if (process.env.NODE_ENV !== "Production") {
+    if (process.env.NODE_ENV !== "production") {
       this.isEditingAllowed = !!localStorage.getItem("editProfile");
     }
     this.initializeData();

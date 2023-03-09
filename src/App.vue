@@ -8,18 +8,6 @@
     </div>
     <!-- Loader ends-->
     <router-view></router-view>
-
-    <div class="developed-by" id="tooltip-target-1" v-if="isNotProduction">
-      <img src="./assets/images/db.png" alt="developed by devbatch" />
-      <b-tooltip target="tooltip-target-1" triggers="hover">
-        <span class="db-tooltip">
-          Maintained and Developed by
-          <a href="https://www.devbatch.com/contact-us/" target="_blank">
-            DevBatch
-          </a>
-        </span>
-      </b-tooltip>
-    </div>
   </div>
 </template>
 
