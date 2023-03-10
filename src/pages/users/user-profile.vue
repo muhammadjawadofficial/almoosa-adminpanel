@@ -317,7 +317,10 @@
                 <img src="../../assets/images/pencil.svg" alt="" />
               </div>
             </div>
-            <div class="profile-info-card">
+            <div
+              class="profile-info-card"
+              v-if="getSelectedUser.card && getSelectedUser.card.id"
+            >
               <div class="profile-info-card-logo">
                 <img src="../../assets/images/active-problems.svg" alt="" />
               </div>
@@ -1047,7 +1050,9 @@ export default {
           if (this.getSelectedUser.languagesAr !== this.doctor.languagesAr) {
             updateUserObj.languages_ar = this.doctor.languagesAr;
           }
-          if (this.getSelectedUser.nationality_id !== this.doctor.nationality.id) {
+          if (
+            this.getSelectedUser.nationality_id !== this.doctor.nationality.id
+          ) {
             updateUserObj.nationality_id = this.doctor.nationality.id;
           }
           if (
