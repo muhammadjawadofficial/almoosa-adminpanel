@@ -128,7 +128,8 @@
     "expertise": "Areas of Expertise",
     "languages": "Languages",
     "consulting": "Consulting Age Groups",
-    "select": "Select"
+    "select": "Select",
+    "cardId": "Card ID"
   },
   "header": {
     "marhaba": "Marhaba",

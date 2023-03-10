@@ -128,7 +128,8 @@
     "expertise": "مجالات الخبرة",
     "languages": "اللغات",
     "consulting": "الفئات العمرية للاستشارات",
-    "select": "اختار"
+    "select": "اختار",
+    "cardId": "رقم البطاقة"
   },
   "header": {
     "marhaba": "مرحباً بك",
@@ -506,7 +507,7 @@
   "selectLabel": "اضغط على دخل لتحديد",
   "selectedLabel": "المحدد",
   "deselectLabel": "اضغط على دخل للإزالة",
-  "dr": "دكتور",
+  "dr": "د.",
   "admin": {
     "searchPatientMrn": "ابحث عن المريض بالاسم / رقم السجل الطبي",
     "searchPhysician": "ابحث عن الطبيب بالاسم/ رقم الهوية",

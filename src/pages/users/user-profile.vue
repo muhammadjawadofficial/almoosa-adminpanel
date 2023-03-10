@@ -46,8 +46,9 @@
                       <div class="title">{{ $t("profile.nationality") }}</div>
                       <div class="value">
                         {{
-                          getSelectedUser.nationality.nationality ||
-                          getSelectedUser.nationality
+                          getSelectedUser.nationality[
+                            getLocaleKey("nationality")
+                          ] || getSelectedUser.nationality
                         }}
                       </div>
                     </div>
@@ -316,6 +317,23 @@
                 <img src="../../assets/images/pencil.svg" alt="" />
               </div>
             </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/active-problems.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("profile.cardId") }}
+                </div>
+                <div class="profile-info-card-detail-value inactive">
+                  <img
+                    :src="getImageUrl(getSelectedUser.card)"
+                    alt="card-id"
+                    style="width: 100%; max-height: 200px; object-fit: contain"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
           <div class="profile-info" v-else>
             <div class="profile-info-card">
@@ -457,18 +475,20 @@
                 <div class="profile-info-card-detail-title">
                   {{ $t("profile.nationality") }}
                 </div>
-                <div class="profile-info-card-detail-value inactive">
-                  {{
+                <div
+                  class="profile-info-card-detail-value"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <!-- {{
                     (doctor.nationality &&
                       doctor.nationality[getLocaleKey("nationality")]) ||
                     "N/A"
-                  }}
+                  }} -->
                   <multiselect
-                    v-if="false"
-                    disabled
+                    :disabled="!isEditing"
                     v-model="doctor.nationality"
                     :options="nationalities"
-                    track-by="code"
+                    track-by="id"
                     label="nationality"
                     :placeholder="
                       $t('profile.select') + ' ' + $t('profile.nationality')
@@ -489,6 +509,13 @@
                     }"
                   ></div>
                 </div>
+              </div>
+              <div class="profile-info-card-option">
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
               </div>
             </div>
             <div class="profile-info-card">
@@ -1019,6 +1046,9 @@ export default {
           }
           if (this.getSelectedUser.languagesAr !== this.doctor.languagesAr) {
             updateUserObj.languages_ar = this.doctor.languagesAr;
+          }
+          if (this.getSelectedUser.nationality_id !== this.doctor.nationality.id) {
+            updateUserObj.nationality_id = this.doctor.nationality.id;
           }
           if (
             this.getSelectedUser.consulting_age_group !== this.doctor.consulting
