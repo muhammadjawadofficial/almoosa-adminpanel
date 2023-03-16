@@ -137,30 +137,9 @@ export default {
     this.$store.dispatch("menu/setNavLinkActive", { path: this.$route.path });
     let userInfo = userService.currentUser();
     this.setUserInfo(userInfo);
-    this.fetchPermissions(userInfo.role_id);
   },
   methods: {
-    ...mapActions("user", ["setUserInfo", "setUserPermissions"]),
-    fetchPermissions(roleId) {
-      if (!roleId) {
-        return;
-      }
-      rolesPermissionsService
-        .fetchRoleDetails(roleId)
-        .then((response) => {
-          if (response.data.status) {
-            this.setUserPermissions(
-              response.data.data.items.map((x) => x.permission.title)
-            );
-          } else {
-            this.failureToast(response.data.message);
-          }
-        })
-        .catch((error) => {
-          if (!this.isAPIAborted(error))
-            this.failureToast(error.response && error.response.data.message);
-        });
-    },
+    ...mapActions("user", ["setUserInfo"]),
     setLayoutObject() {
       if (
         (window.innerWidth < 991 &&

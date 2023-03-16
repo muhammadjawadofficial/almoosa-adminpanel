@@ -1,8 +1,7 @@
 import Vue from 'vue';
-import Menu from '../../data/menu'
 
 const state = {
-  data: Menu.data,
+  data: [],
   searchData: [],
   togglesidebar: false,
   stickysidebar: true,
@@ -11,7 +10,8 @@ const state = {
 
 // getters
 const getters = {
-
+  getMenuItems: (state) => state.data,
+  getRolesList: (state) => state.rolesList,
 }
 
 // mutations
@@ -109,6 +109,9 @@ const mutations = {
   },
   setRolesList: (state, item) => {
     Vue.set(state, 'rolesList', item)
+  },
+  updateMenuItmes: (state, items) => {
+    Vue.set(state, 'data', items)
   }
 };
 
@@ -140,6 +143,9 @@ const actions = {
   },
   setRolesList: (context, item) => {
     context.commit('setRolesList', item)
+  },
+  updateMenuItems: (context, item) => {
+    context.commit('updateMenuItmes', item)
   }
 }
 

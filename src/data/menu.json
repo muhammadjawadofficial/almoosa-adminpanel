@@ -9,7 +9,8 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/dashboard"
+            "path": "/dashboard",
+            "super": true
         },
         {
             "title": "Appointments",

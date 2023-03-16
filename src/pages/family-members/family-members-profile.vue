@@ -16,7 +16,7 @@
                 alt="doctor-image"
               />
               <label for="user-profile-picture-upload" v-if="isEditingAllowed">
-                Upload Picture
+                {{ $t("profile.uploadPicture") }}
                 <input
                   type="file"
                   @change="changeProfilePicture"
@@ -54,9 +54,7 @@
                 <div class="doctor-details-card-header-right-info-section">
                   <template v-if="getSelectedFamilyMember.nationality">
                     <div
-                      class="
-                        doctor-details-card-header-right-info-section-detail
-                      "
+                      class="doctor-details-card-header-right-info-section-detail"
                     >
                       <div class="title">{{ $t("profile.nationality") }}</div>
                       <div class="value">
@@ -83,9 +81,7 @@
                   </div>
                   <template v-if="getSelectedFamilyMember.allergy">
                     <div
-                      class="
-                        doctor-details-card-header-right-info-section-detail
-                      "
+                      class="doctor-details-card-header-right-info-section-detail"
                     >
                       <div class="title">{{ $t("profile.nationality") }}</div>
                       <div class="value">
@@ -95,10 +91,7 @@
                   </template>
                   <template v-if="!isSelectedUserDoctor">
                     <div
-                      class="
-                        doctor-details-card-header-right-info-section-detail
-                        with-icon
-                      "
+                      class="doctor-details-card-header-right-info-section-detail with-icon"
                     >
                       <div class="icon">
                         <img

@@ -23,7 +23,7 @@
       :fields="filteredFields"
       :current-page="currentPage"
       :per-page="5"
-      class="ash-data-table"
+      class="ash-data-table clickable"
       @row-clicked="rowClicked"
     >
       <template #head()="data">{{ $t("admin." + data.label) }} </template>
@@ -110,8 +110,8 @@ export default {
   methods: {
     ...mapActions("user", ["setSelectedUser"]),
     rowClicked(e) {
-      // this.setSelectedUser(e);
-      // this.navigateTo("Patient Profile");
+      this.setSelectedUser(e);
+      this.navigateTo("Staff Profile");
     },
     parseData(data) {
       this.items = [];

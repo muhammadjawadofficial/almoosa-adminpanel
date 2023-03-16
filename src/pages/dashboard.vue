@@ -1,21 +1,59 @@
 <template>
-  <div class="coming-soon-section" :class="{ guest: isGuest }">
-    <div class="heading w600">
-      <span class="font-secondary">{{ $t("comingSoon.coming") }}</span>
-      <span class="font-primary">{{ $t("comingSoon.soon") }}</span>
+  <div>
+    <div
+      class="coming-soon-section"
+      :class="{ guest: isGuest }"
+      v-if="!loading"
+    >
+      <div class="heading w600">
+        <span class="font-secondary">{{ $t("comingSoon.coming") }}</span>
+        <span class="font-primary">{{ $t("comingSoon.soon") }}</span>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
       isGuest: false,
+      loading: true,
     };
+  },
+  watch: {
+    getMenuItems() {
+      this.loadDashboard();
+    },
+  },
+  mounted() {
+    this.loadDashboard();
   },
   mounted() {
     this.isGuest = this.$route.path.includes("guest");
+  },
+  computed: {
+    ...mapGetters("menu", ["getMenuItems"]),
+    ...mapGetters("user", ["getUserInfo"]),
+  },
+  methods: {
+    loadDashboard() {
+      this.loading = true;
+      let firstItem = this.getMenuItems[0];
+      let getPath = (item) => {
+        if (item.children && item.children.length) {
+          let subChild = item.children[0];
+          return getPath(subChild);
+        }
+        return item.path;
+      };
+      let path = getPath(firstItem);
+      if (path && path != this.$route.path) {
+        this.$router.replace(path);
+      }
+      this.loading = false;
+    },
   },
 };
 </script>

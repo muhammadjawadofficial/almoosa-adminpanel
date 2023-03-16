@@ -126,7 +126,6 @@ export default {
       rolesPermissionsService
         .updateRolePermissions(id, permissions)
         .then((res) => {
-          console.log(res, "res");
           if (res.data.status) {
             this.successToast(res.data.message);
           } else {

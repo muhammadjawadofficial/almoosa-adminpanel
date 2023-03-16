@@ -33,11 +33,6 @@
                 <div class="doctor-details-card-header-right-info-name">
                   {{ getFullName(getSelectedUser) }}
                 </div>
-                <div class="doctor-details-card-header-right-info-user">
-                  <div class="user-id">
-                    {{ getSelectedUser.mrn_number || "N/A" }}
-                  </div>
-                </div>
                 <div class="doctor-details-card-header-right-info-section">
                   <template v-if="getSelectedUser.nationality">
                     <div
@@ -70,76 +65,6 @@
                       <div class="title">{{ $t("iqama") }}</div>
                       <div class="value">
                         {{ getSelectedUser.iqama }}
-                      </div>
-                    </div>
-                  </template>
-                  <template v-if="!isSelectedUserDoctor">
-                    <div
-                      class="doctor-details-card-header-right-info-section-detail with-icon"
-                    >
-                      <div class="icon">
-                        <img
-                          src="../../assets/images/star-points.svg"
-                          alt="star-img"
-                        />
-                      </div>
-                      <div class="content">
-                        <div class="title">
-                          {{ $t("profile.loyaltyPoint") }}
-                        </div>
-                        <div class="value">
-                          {{ getSelectedUser.loyality_points }} /
-                          <div class="sub-value">
-                            {{ $t("equal") }}
-                            {{
-                              translateNumber(
-                                getSelectedUser.loyality_points / 2
-                              )
-                            }}
-                            {{ $t("sar") }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </template>
-                  <template v-else>
-                    <div
-                      class="doctor-details-card-header-right-info-section-detail with-icon"
-                    >
-                      <div class="icon">
-                        <img
-                          src="../../assets/images/star-points.svg"
-                          alt="star-img"
-                        />
-                      </div>
-                      <div class="content">
-                        <div class="title">
-                          {{ $t("admin.rating") }}:
-                          {{ getSelectedUser.rating || 0 }}/5
-                        </div>
-                        <div class="value mt-2">
-                          <div class="rating-container disable-hover">
-                            <div class="fa fa-star star"></div>
-                            <div class="fa fa-star star"></div>
-                            <div class="fa fa-star star"></div>
-                            <div class="fa fa-star star"></div>
-                            <div class="fa fa-star star"></div>
-                            <div
-                              class="rating-filled"
-                              :style="
-                                'width: ' +
-                                ((getSelectedUser.rating || 0) / 5) * 100 +
-                                '%'
-                              "
-                            >
-                              <div class="fa fa-star star active"></div>
-                              <div class="fa fa-star star active"></div>
-                              <div class="fa fa-star star active"></div>
-                              <div class="fa fa-star star active"></div>
-                              <div class="fa fa-star star active"></div>
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </template>
@@ -182,20 +107,6 @@
             </div>
             <div class="profile-info-card">
               <div class="profile-info-card-logo">
-                <img src="../../assets/images/active-problems.svg" alt="" />
-              </div>
-              <div class="profile-info-card-detail">
-                <div class="profile-info-card-detail-title">
-                  {{ $t("profile.activeProblem") }}
-                </div>
-                <div class="profile-info-card-detail-value">
-                  Caries of dentine
-                </div>
-              </div>
-              <div class="profile-info-card-option"></div>
-            </div>
-            <div class="profile-info-card">
-              <div class="profile-info-card-logo">
                 <img src="../../assets/images/call.svg" alt="" />
               </div>
               <div class="profile-info-card-detail">
@@ -223,49 +134,24 @@
                 />
               </div>
             </div>
-            <div class="profile-info-card">
+            <div
+              class="profile-info-card"
+              v-if="getSelectedUser.card && getSelectedUser.card.id"
+            >
               <div class="profile-info-card-logo">
-                <img src="../../assets/images/clinical-warning.svg" alt="" />
+                <img src="../../assets/images/active-problems.svg" alt="" />
               </div>
               <div class="profile-info-card-detail">
                 <div class="profile-info-card-detail-title">
-                  {{ $t("profile.clinicWarning") }}
+                  {{ $t("profile.cardId") }}
                 </div>
-                <div class="profile-info-card-detail-value">Not Added Yet</div>
-              </div>
-              <div class="profile-info-card-option"></div>
-            </div>
-            <div class="profile-info-card">
-              <div class="profile-info-card-logo">
-                <img src="../../assets/images/MRN.svg" alt="" />
-              </div>
-              <div class="profile-info-card-detail">
-                <div class="profile-info-card-detail-title">
-                  {{ $t("admin.mrn") }}
+                <div class="profile-info-card-detail-value inactive">
+                  <img
+                    :src="getImageUrl(getSelectedUser.card)"
+                    alt="card-id"
+                    style="width: 100%; max-height: 200px; object-fit: contain"
+                  />
                 </div>
-                <div
-                  class="profile-info-card-detail-value"
-                  :class="{ inactive: !isEditing && !isEditingMRN }"
-                >
-                  <b-form-input
-                    v-model="mrnNumber"
-                    :state="mrnNumberState"
-                    :placeholder="
-                      !isEditing && !isEditingMRN && !mrnNumber
-                        ? 'N/A'
-                        : $t('admin.enterMRN')
-                    "
-                    :disabled="!isEditing && !isEditingMRN"
-                    :formatter="numberOnly"
-                  ></b-form-input>
-                </div>
-              </div>
-              <div class="profile-info-card-option">
-                <img
-                  src="../../assets/images/pencil.svg"
-                  alt=""
-                  v-if="isEditing || isEditingMRN"
-                />
               </div>
             </div>
             <div class="profile-info-card">
@@ -315,362 +201,6 @@
                 class="profile-info-card-option"
               >
                 <img src="../../assets/images/pencil.svg" alt="" />
-              </div>
-            </div>
-            <div
-              class="profile-info-card"
-              v-if="getSelectedUser.card && getSelectedUser.card.id"
-            >
-              <div class="profile-info-card-logo">
-                <img src="../../assets/images/active-problems.svg" alt="" />
-              </div>
-              <div class="profile-info-card-detail">
-                <div class="profile-info-card-detail-title">
-                  {{ $t("profile.cardId") }}
-                </div>
-                <div class="profile-info-card-detail-value inactive">
-                  <img
-                    :src="getImageUrl(getSelectedUser.card)"
-                    alt="card-id"
-                    style="width: 100%; max-height: 200px; object-fit: contain"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="profile-info" v-else>
-            <div class="profile-info-card">
-              <div class="profile-info-card-logo">
-                <img src="../../assets/images/location-bg.svg" alt="" />
-              </div>
-              <div class="profile-info-card-detail">
-                <div class="profile-info-card-detail-title">
-                  {{ $t("profile.clinics") }}
-                </div>
-                <div
-                  class="profile-info-card-detail-value"
-                  :class="{ inactive: !isEditing }"
-                >
-                  <multiselect
-                    :disabled="!isEditing"
-                    v-model="doctor.clinics"
-                    :options="clinics"
-                    :placeholder="
-                      $t('profile.select') + ' ' + $t('profile.clinics')
-                    "
-                    multiple
-                    track-by="id"
-                    label="title"
-                  >
-                    <template slot="singleLabel" slot-scope="props">
-                      {{ props.option[getLocaleKey("title")] }}
-                    </template>
-                    <template
-                      slot="selection"
-                      slot-scope="{ values, search, isOpen }"
-                      ><span
-                        class="multiselect__single"
-                        v-if="values.length"
-                        v-show="!isOpen"
-                      >
-                        {{
-                          values
-                            .map((x) => x[getLocaleKey("title")])
-                            .join(" , ")
-                        }}
-                      </span>
-                    </template>
-                    <template slot="option" slot-scope="props">
-                      {{ props.option[getLocaleKey("title")] }}
-                    </template>
-                  </multiselect>
-                  <div
-                    class="custom-state-invalid icon"
-                    :class="{
-                      'is-invalid': doctorState.clinicsState == false,
-                    }"
-                  ></div>
-                </div>
-              </div>
-              <div class="profile-info-card-option">
-                <img
-                  src="../../assets/images/pencil.svg"
-                  alt=""
-                  v-if="isEditing"
-                />
-              </div>
-            </div>
-            <div class="profile-info-card">
-              <div class="profile-info-card-logo">
-                <img src="../../assets/images/heart-vitals-bg.svg" alt="" />
-              </div>
-              <div class="profile-info-card-detail">
-                <div class="profile-info-card-detail-title">
-                  {{ $t("profile.speciality") }}
-                </div>
-                <div class="profile-info-card-detail-value inactive">
-                  {{
-                    (doctor.speciality &&
-                      doctor.speciality[getLocaleKey("title")]) ||
-                    "N/A"
-                  }}
-                  <multiselect
-                    v-if="false"
-                    v-model="doctor.speciality"
-                    disabled
-                    :options="specialities"
-                    :placeholder="
-                      $t('profile.select') + ' ' + $t('profile.speciality')
-                    "
-                    track-by="id"
-                    label="title"
-                  >
-                    <template slot="singleLabel" slot-scope="props">
-                      {{ props.option[getLocaleKey("title")] }}
-                    </template>
-
-                    <template slot="option" slot-scope="props">
-                      {{ props.option[getLocaleKey("title")] }}
-                    </template>
-                  </multiselect>
-                  <div
-                    class="custom-state-invalid icon"
-                    :class="{
-                      'is-invalid': doctorState.specialityState == false,
-                    }"
-                  ></div>
-                </div>
-              </div>
-            </div>
-            <div class="profile-info-card">
-              <div class="profile-info-card-logo">
-                <img src="../../assets/images/translate-bg.svg" alt="" />
-              </div>
-              <div class="profile-info-card-detail">
-                <div class="profile-info-card-detail-title">
-                  {{ $t("profile.languages") + " - " + $t("admin.english") }}
-                </div>
-                <div
-                  class="profile-info-card-detail-value forceLtr"
-                  :class="{ inactive: !isEditing }"
-                >
-                  <b-form-input
-                    v-model="doctor.languages"
-                    :state="doctorState.languagesState"
-                    :placeholder="$t('profile.languages')"
-                    :disabled="!isEditing"
-                  ></b-form-input>
-                </div>
-              </div>
-              <div class="profile-info-card-option">
-                <img
-                  src="../../assets/images/pencil.svg"
-                  alt=""
-                  v-if="isEditing"
-                />
-              </div>
-            </div>
-            <div class="profile-info-card">
-              <div class="profile-info-card-logo">
-                <img src="../../assets/images/flag-bg.svg" alt="" />
-              </div>
-              <div class="profile-info-card-detail">
-                <div class="profile-info-card-detail-title">
-                  {{ $t("profile.nationality") }}
-                </div>
-                <div
-                  class="profile-info-card-detail-value"
-                  :class="{ inactive: !isEditing }"
-                >
-                  <!-- {{
-                    (doctor.nationality &&
-                      doctor.nationality[getLocaleKey("nationality")]) ||
-                    "N/A"
-                  }} -->
-                  <multiselect
-                    :disabled="!isEditing"
-                    v-model="doctor.nationality"
-                    :options="nationalities"
-                    track-by="id"
-                    label="nationality"
-                    :placeholder="
-                      $t('profile.select') + ' ' + $t('profile.nationality')
-                    "
-                  >
-                    <template slot="singleLabel" slot-scope="props">
-                      {{ props.option[getLocaleKey("nationality")] }}
-                    </template>
-
-                    <template slot="option" slot-scope="props">
-                      {{ props.option[getLocaleKey("nationality")] }}
-                    </template>
-                  </multiselect>
-                  <div
-                    class="custom-state-invalid icon"
-                    :class="{
-                      'is-invalid': doctorState.nationalityState == false,
-                    }"
-                  ></div>
-                </div>
-              </div>
-              <div class="profile-info-card-option">
-                <img
-                  src="../../assets/images/pencil.svg"
-                  alt=""
-                  v-if="isEditing"
-                />
-              </div>
-            </div>
-            <div class="profile-info-card">
-              <div class="profile-info-card-logo">
-                <img src="../../assets/images/doctor-bg.svg" alt="" />
-              </div>
-              <div class="profile-info-card-detail">
-                <div class="profile-info-card-detail-title">
-                  {{ $t("profile.expertise") + " - " + $t("admin.english") }}
-                </div>
-                <div
-                  class="profile-info-card-detail-value forceLtr"
-                  :class="{ inactive: !isEditing }"
-                >
-                  <b-form-textarea
-                    v-model="doctor.expertise"
-                    :state="doctorState.expertiseState"
-                    :placeholder="$t('profile.expertise')"
-                    :disabled="!isEditing"
-                    no-resize
-                    rows="3"
-                    max-rows="3"
-                  ></b-form-textarea>
-                </div>
-              </div>
-              <div class="profile-info-card-option">
-                <img
-                  src="../../assets/images/pencil.svg"
-                  alt=""
-                  v-if="isEditing"
-                />
-              </div>
-            </div>
-            <div class="profile-info-card">
-              <div class="profile-info-card-logo">
-                <img src="../../assets/images/doctor-bg-sec.svg" alt="" />
-              </div>
-              <div class="profile-info-card-detail">
-                <div class="profile-info-card-detail-title">
-                  {{ $t("profile.expertise") + " - " + $t("admin.arabic") }}
-                </div>
-                <div
-                  class="profile-info-card-detail-value forceRtl"
-                  :class="{ inactive: !isEditing }"
-                >
-                  <b-form-textarea
-                    v-model="doctor.expertiseAr"
-                    :state="doctorState.expertiseArState"
-                    :placeholder="
-                      $t('profile.expertise') + ' - ' + $t('admin.arabic')
-                    "
-                    :disabled="!isEditing"
-                    no-resize
-                    rows="3"
-                    max-rows="3"
-                  ></b-form-textarea>
-                </div>
-              </div>
-              <div class="profile-info-card-option">
-                <img
-                  src="../../assets/images/pencil.svg"
-                  alt=""
-                  v-if="isEditing"
-                />
-              </div>
-            </div>
-            <div class="profile-info-card">
-              <div class="profile-info-card-logo">
-                <img src="../../assets/images/family-bg.svg" alt="" />
-              </div>
-              <div class="profile-info-card-detail">
-                <div class="profile-info-card-detail-title">
-                  {{ $t("profile.consulting") + " - " + $t("admin.english") }}
-                </div>
-                <div
-                  class="profile-info-card-detail-value forceLtr"
-                  :class="{ inactive: !isEditing }"
-                >
-                  <b-form-input
-                    v-model="doctor.consulting"
-                    :state="doctorState.consultingState"
-                    :placeholder="$t('profile.consulting')"
-                    :disabled="!isEditing"
-                  ></b-form-input>
-                </div>
-              </div>
-              <div class="profile-info-card-option">
-                <img
-                  src="../../assets/images/pencil.svg"
-                  alt=""
-                  v-if="isEditing"
-                />
-              </div>
-            </div>
-            <div class="profile-info-card">
-              <div class="profile-info-card-logo">
-                <img src="../../assets/images/family-bg-sec.svg" alt="" />
-              </div>
-              <div class="profile-info-card-detail">
-                <div class="profile-info-card-detail-title">
-                  {{ $t("profile.consulting") + " - " + $t("admin.arabic") }}
-                </div>
-                <div
-                  class="profile-info-card-detail-value forceRtl"
-                  :class="{ inactive: !isEditing }"
-                >
-                  <b-form-input
-                    v-model="doctor.consultingAr"
-                    :state="doctorState.consultingArState"
-                    :placeholder="
-                      $t('profile.consulting') + ' - ' + $t('admin.arabic')
-                    "
-                    :disabled="!isEditing"
-                  ></b-form-input>
-                </div>
-              </div>
-              <div class="profile-info-card-option">
-                <img
-                  src="../../assets/images/pencil.svg"
-                  alt=""
-                  v-if="isEditing"
-                />
-              </div>
-            </div>
-            <div class="profile-info-card">
-              <div class="profile-info-card-logo">
-                <img src="../../assets/images/translate-bg.svg" alt="" />
-              </div>
-              <div class="profile-info-card-detail">
-                <div class="profile-info-card-detail-title">
-                  {{ $t("profile.languages") + " - " + $t("admin.arabic") }}
-                </div>
-                <div
-                  class="profile-info-card-detail-value forceRtl"
-                  :class="{ inactive: !isEditing }"
-                >
-                  <b-form-input
-                    v-model="doctor.languagesAr"
-                    :state="doctorState.languagesArState"
-                    :placeholder="
-                      $t('profile.languages') + ' - ' + $t('admin.arabic')
-                    "
-                    :disabled="!isEditing"
-                  ></b-form-input>
-                </div>
-              </div>
-              <div class="profile-info-card-option">
-                <img
-                  src="../../assets/images/pencil.svg"
-                  alt=""
-                  v-if="isEditing"
-                />
               </div>
             </div>
           </div>
@@ -1023,6 +553,10 @@ export default {
       this.userStatusState = this.userStatus != "" && !!this.userStatus;
       return this.mrnNumberState && this.userStatusState;
     },
+    validateStatus() {
+      this.userStatusState = this.userStatus != "" && !!this.userStatus;
+      return this.userStatusState;
+    },
     editProfile() {
       if (this.isEditing) {
         if (!this.validateForm()) {
@@ -1079,11 +613,10 @@ export default {
     },
     editMRN() {
       if (this.isEditingMRN) {
-        if (!this.validateMrn()) {
+        if (!this.validateStatus()) {
           return;
         }
         let updateUserObj = {
-          mrn_number: this.mrnNumber,
           status: this.userStatus,
         };
         this.updateProfileInfo(updateUserObj);

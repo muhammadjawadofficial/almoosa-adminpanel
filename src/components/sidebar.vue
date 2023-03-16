@@ -36,7 +36,7 @@
             </div>
           </li>
           <li
-            v-for="(menuItem, index) in menuItems"
+            v-for="(menuItem, index) in getMenuItems"
             :key="index"
             :class="{
               active: menuItem.active,
@@ -317,9 +317,10 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import { layoutClasses } from "../constants/layout";
 import { rolesPermissionsService } from "../services";
+import Menu from "../data/menu.json";
 export default {
   name: "Sidebar",
   data() {
@@ -340,26 +341,11 @@ export default {
   },
   computed: {
     ...mapState({
-      menuItems(state) {
-        return state.menu.data.filter((x) => {
-          if (x.children) {
-            x.children.forEach((y) => {
-              if (y.dynamicSub && !y.children.length) {
-                y.children = state.menu.rolesList;
-              }
-            });
-          }
-          return (
-            !x.disabled &&
-            (!x.permission ||
-              state.user.userPermissions.includes(x.permission) ||
-              state.user.userInfo.role_id == 1)
-          );
-        });
-      },
       layout: (state) => state.layout.layout,
       sidebar: (state) => state.layout.sidebarType,
     }),
+    ...mapGetters("menu", ["getMenuItems", "getRolesList"]),
+    ...mapGetters("user", ["getUserInfo"]),
     layoutobject: {
       get: function () {
         return JSON.parse(
@@ -382,7 +368,6 @@ export default {
     },
   },
   created() {
-    this.fetchRoles();
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
     if (this.width < 991) {
@@ -411,7 +396,7 @@ export default {
     window.removeEventListener("resize", this.handleResize);
   },
   mounted() {
-    this.setActiveLayout();
+    this.fetchPermissions(this.getUserInfo.role_id);
   },
   watch: {
     $route() {
@@ -420,8 +405,54 @@ export default {
     },
   },
   methods: {
+    ...mapActions("menu", ["updateMenuItems"]),
+    ...mapActions("user", ["setUserPermissions"]),
     getSubChild(item) {
       return item.children;
+    },
+    initializeMenuItems() {
+      let filteredMenuItems = Menu.data.filter((x) => {
+        if (x.children) {
+          x.children.forEach((y) => {
+            if (y.dynamicSub && !y.children.length) {
+              y.children = this.getRolesList;
+            }
+          });
+        }
+        return (
+          !x.disabled &&
+          ((!x.permission && this.getUserInfo.role_id == 1) ||
+            x.common ||
+            this.getUserPermissions.includes(x.permission) ||
+            this.getUserInfo.role_id == 1)
+        );
+      });
+
+      this.updateMenuItems(JSON.parse(JSON.stringify(filteredMenuItems)));
+      this.setActiveLayout();
+    },
+    fetchPermissions(roleId) {
+      if (!roleId) {
+        return;
+      }
+      rolesPermissionsService
+        .fetchRoleDetails(roleId)
+        .then((response) => {
+          if (response.data.status) {
+            this.setUserPermissions(
+              response.data.data.items.map((x) => x.permission.title)
+            );
+          } else {
+            this.failureToast(response.data.message);
+          }
+        })
+        .catch((error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(error.response && error.response.data.message);
+        })
+        .finally(() => {
+          this.fetchRoles();
+        });
     },
     fetchRoles() {
       rolesPermissionsService
@@ -430,19 +461,17 @@ export default {
           if (res.data.status) {
             let data = res.data.data;
             if (data) {
-              this.$store.dispatch(
-                "menu/setRolesList",
-                data.items
-                  .filter((x) => ![3, 4].includes(x.id))
-                  .map((role) => {
-                    return {
-                      title: role.title,
-                      title_ar: role.title_ar,
-                      type: "link",
-                      path: `/users/staff/${role.id}`,
-                    };
-                  })
-              );
+              let roles = data.items
+                .filter((x) => ![3, 4].includes(x.id))
+                .map((role) => {
+                  return {
+                    title: role.title,
+                    title_ar: role.title_ar,
+                    type: "link",
+                    path: `/users/staff/${role.id}`,
+                  };
+                });
+              this.$store.dispatch("menu/setRolesList", roles);
             }
           } else {
             this.failureToast(res.data.message);
@@ -451,10 +480,13 @@ export default {
         .catch((error) => {
           if (!this.isAPIAborted(error))
             this.failureToast(error.response && error.response.data.message);
+        })
+        .finally(() => {
+          this.initializeMenuItems();
         });
     },
     setActiveLayout() {
-      this.menuItems.filter((items) => {
+      this.getMenuItems.filter((items) => {
         if (items.path && this.$route.path.includes(items.path))
           this.$store.dispatch("menu/setActiveRoute", items);
         if (!items.children) return false;
