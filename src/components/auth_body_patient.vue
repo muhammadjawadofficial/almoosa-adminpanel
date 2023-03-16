@@ -42,8 +42,10 @@ export default {
   mounted() {
     this.layoutType = this.$i18n.locale == "en" ? "ltr" : "rtl";
     this.switchLanguage("ltr");
+    this.updateMenuItems([]);
   },
   methods: {
+    ...mapActions("menu", ["updateMenuItems"]),
     ...mapActions("user", ["setUserRole"]),
     switchLanguage(layout) {
       if (layout) {

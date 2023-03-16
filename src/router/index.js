@@ -8,6 +8,9 @@ import Login from '../pages/authentication/login';
 
 import Dashboard from '../pages/dashboard'
 
+import PharmacistDashboard from '../pages/pharmacist/dashboard'
+import PharmacistMedicationDetails from '../pages/pharmacist/refill-request-details'
+
 import RouterViewModule from '../pages/reusable/module'
 
 import AppointmentModule from '../pages/appointment'
@@ -98,6 +101,22 @@ const routes = [
         component: Dashboard,
         meta: {
           title: 'Dashboard | Almoosa Specialist Hospital',
+        }
+      },
+      {
+        path: 'pharmacist-dashboard',
+        name: 'Pharmacist Dashboard',
+        component: PharmacistDashboard,
+        meta: {
+          title: 'Pharmacist Dashboard | Almoosa Specialist Hospital',
+        }
+      },
+      {
+        path: 'pharmacist-dashboard/details',
+        name: 'Pharmacist Medication Details',
+        component: PharmacistMedicationDetails,
+        meta: {
+          title: 'Pharmacist Dashboard | Almoosa Specialist Hospital',
         }
       },
       {

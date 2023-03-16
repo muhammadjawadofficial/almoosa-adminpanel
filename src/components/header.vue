@@ -1,7 +1,7 @@
 <template>
   <div
     class="header-wrapper"
-    :class="isSideBarSticky ? 'px-3' : 'standard-width row'"
+    :class="isSideBarSticky && !hideSidebar ? 'px-3' : 'standard-width row'"
   >
     <div class="header-logo-wrapper">
       <div class="logo-wrapper">
@@ -41,7 +41,7 @@
           </div>
           <ul class="profile-dropdown onhover-show-div">
             <span class="sec-heading w500">{{ $t("header.settings") }}</span>
-            <li class="d-none d-lg-block">
+            <li class="d-none d-lg-block" v-if="!hideSidebar">
               <hr />
               <a class="" @click="toggle_stickybar">
                 <span class="profile-dropdown-menu-icon">
@@ -81,7 +81,7 @@
         <div
           class="hamburger"
           @click="toggle_sidebar"
-          v-if="showSidebarToggler"
+          v-if="showSidebarToggler && !hideSidebar"
         >
           <img
             src="../assets/images/header/hamburger.png"
@@ -101,6 +101,7 @@ import { userService } from "../services";
 import Notifications from "./notifications";
 export default {
   name: "Search",
+  props: ["hideSidebar"],
   data() {
     return {
       terms: "",

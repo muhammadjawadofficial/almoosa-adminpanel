@@ -2,14 +2,14 @@
   <div>
     <div
       class="page-wrapper"
-      :class="[layoutobj, { 'full-width': !stickysidebar }]"
+      :class="[layoutobj, { 'full-width': !stickysidebar || withoutSideBar }]"
     >
       <div
         v-if="getUserInfo"
         class="page-header"
-        :class="{ close_icon: !togglesidebar }"
+        :class="{ close_icon: !togglesidebar && !withoutSideBar }"
       >
-        <Header @clicked="sidebar_toggle" />
+        <Header @clicked="sidebar_toggle" :hideSidebar="withoutSideBar" />
       </div>
       <div class="page-body-wrapper">
         <div class="bg-overlay"></div>
@@ -17,6 +17,7 @@
           class="sidebar-wrapper"
           :class="[{ close_icon: !togglesidebar }]"
           :sidebar-layout="layout.settings.sidebar_setting"
+          v-if="!withoutSideBar"
         >
           <Sidebar @clicked="sidebar_toggle" />
         </div>
@@ -61,6 +62,7 @@ export default {
       horizontal_Sidebar: true,
       resized: false,
       layoutobj: {},
+      withoutSideBar: false,
     };
   },
   computed: {
@@ -72,6 +74,7 @@ export default {
       activeoverlay: (state) => state.menu.activeoverlay,
     }),
     ...mapGetters("user", ["getUserInfo"]),
+    ...mapGetters("menu", ["getMenuItems"]),
     layoutobject: {
       get: function () {
         return JSON.parse(
@@ -119,6 +122,12 @@ export default {
       this.resized =
         this.width <= 991 ? !this.sidebar_toggle_var : this.sidebar_toggle_var;
     },
+    getMenuItems(val) {
+      this.withoutSideBar = !!(val && val.length == 1);
+    },
+  },
+  beforeDestroy(){
+    this.withoutSideBar = false;
   },
   created() {
     window.addEventListener("resize", this.handleResize);

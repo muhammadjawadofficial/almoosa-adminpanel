@@ -662,6 +662,7 @@
     "specialityDetails": "Speciality Details",
     "thumbnailUploaded": "Thumbnail Uploaded Successfully",
     "bannerUploaded": "Banner Uploaded Successfully",
-    "specialityRequestUpdatedSuccess": "Speciality Request has been updated successfully"
+    "specialityRequestUpdatedSuccess": "Speciality Request has been updated successfully",
+    "completeRequest": "Complete Request"
   }
 }

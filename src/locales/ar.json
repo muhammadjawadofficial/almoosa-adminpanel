@@ -656,6 +656,7 @@
     "specialityDetails": "تفاصيل التخصص",
     "thumbnailUploaded": "تم تحميل الصورة المصغرة",
     "bannerUploaded": "تم تحميل اللافتة",
-    "specialityRequestUpdatedSuccess": "تم تحديث طلب التخصص بنجاح"
+    "specialityRequestUpdatedSuccess": "تم تحديث طلب التخصص بنجاح",
+    "completeRequest": "طلب كامل"
   }
 }

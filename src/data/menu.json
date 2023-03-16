@@ -13,6 +13,18 @@
             "super": true
         },
         {
+            "title": "Pharmacist Dashboard",
+            "title_ar": "الرئيسة",
+            "icon": "dashboard-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "path": "/pharmacist-dashboard",
+            "permission": "Pharmacist Dashboard"
+        },
+        {
             "title": "Appointments",
             "title_ar": "المواعيد",
             "icon": "clipboard-svg",
@@ -74,8 +86,7 @@
                     "badgeValue": "",
                     "active": false,
                     "disabled": false,
-                    "children": [
-                    ]
+                    "children": []
                 },
                 {
                     "title": "Add Staff Member",
