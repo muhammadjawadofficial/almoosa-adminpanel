@@ -589,6 +589,7 @@
     "requested": "مطلوب",
     "notRequested": "غير مطلوب",
     "pending": "قيد الانتظار",
+    "completed": "مكتمل",
     "selectStatus": "حدد الحالة",
     "selectLabel": "اضغط على دخل لتحديد",
     "selectedLabel": "المحدد",
@@ -657,6 +658,19 @@
     "thumbnailUploaded": "تم تحميل الصورة المصغرة",
     "bannerUploaded": "تم تحميل اللافتة",
     "specialityRequestUpdatedSuccess": "تم تحديث طلب التخصص بنجاح",
-    "completeRequest": "طلب كامل"
+    "completeRequest": "طلب كامل",
+    "bannerDetails": "تفاصيل البانر",
+    "text": "نص",
+    "searchBannerTitle": "عنوان شعار البحث",
+    "image": "صورة",
+    "selectTypeOfBanner": "حدد نوع البانر",
+    "PROMOTIONAL": "لافتة ترويجية",
+    "MAIN": "لافتة رئيسية",
+    "bannerUpdatedSuccess": "تم تحديث البانر بنجاح",
+    "bannerCreatedSuccess": "تم إنشاء البانر بنجاح",
+    "uploadBannerImage": "تحميل صورة البانر",
+    "createBanner": "إنشاء لافتة",
+    "bannerDeleteConfirm": "هل أنت متأكد أنك تريد حذف هذا الشعار؟",
+    "bannerDeleteSuccess": "تم حذف البانر بنجاح"
   }
 }

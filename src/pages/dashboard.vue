@@ -29,8 +29,6 @@ export default {
   },
   mounted() {
     this.loadDashboard();
-  },
-  mounted() {
     this.isGuest = this.$route.path.includes("guest");
   },
   computed: {

@@ -115,5 +115,12 @@ export const apiPath = {
         fetchPermissions: getApiObject("get", "permissions"),
         fetchRoleDetails: (id) => getApiObject("get", "roles-permissions?role_id=" + id),
         updateRoleDetails: (id) => getApiObject("patch", "roles-permissions/" + id),
+    },
+
+    bannerManagement: {
+        fetchAll: (query) => getApiObject("get", "banner" + query),
+        save: getApiObject("post", "banner"),
+        update: (id) => getApiObject("patch", "banner/" + id),
+        delete: (id) => getApiObject("delete", "banner/" + id),
     }
 };

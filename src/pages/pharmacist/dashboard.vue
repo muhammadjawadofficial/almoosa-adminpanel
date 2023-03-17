@@ -28,7 +28,7 @@
           :class="{ active: activeTab == 'completed' }"
           @click="changeTab('completed')"
         >
-          {{ $t("paymentStatus.success") }}
+          {{ $t("admin.completed") }}
         </div>
       </div>
       <div class="filters-dropdown" v-if="false">

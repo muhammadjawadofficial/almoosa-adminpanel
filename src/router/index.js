@@ -43,6 +43,10 @@ import specialitiesManagementModule from '../pages/specialities-management'
 import specialitiesManagementList from '../pages/specialities-management/specialities-management-list'
 import specialitiesManagementDetails from '../pages/specialities-management/specialities-management-details'
 
+import bannerManagementModule from '../pages/banner-management'
+import bannerManagementList from '../pages/banner-management/banner-management-list'
+import bannerManagementDetails from '../pages/banner-management/banner-management-details'
+
 import myMedicationModule from '../pages/medication'
 import myMedicationSessions from '../pages/medication/medication-session-list'
 import myMedicationList from '../pages/medication/medication-list'
@@ -671,6 +675,37 @@ const routes = [
             component: specialitiesManagementDetails,
             meta: {
               title: 'Specialities Management Details | Almoosa Specialist Hospital',
+            },
+          },
+        ]
+      },
+      {
+        path: 'banner-management',
+        component: bannerManagementModule,
+        children: [
+          { path: '', name: "Banner Management", redirect: { name: 'Banner Management List' } },
+          {
+            path: "list",
+            name: 'Banner Management List',
+            component: bannerManagementList,
+            meta: {
+              title: 'Banner Management List | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "list/details",
+            name: 'Banner Management Details',
+            component: bannerManagementDetails,
+            meta: {
+              title: 'Banner Management Details | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "create",
+            name: 'Banner Management Create',
+            component: bannerManagementDetails,
+            meta: {
+              title: 'Banner Management Create | Almoosa Specialist Hospital',
             },
           },
         ]

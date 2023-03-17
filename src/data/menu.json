@@ -192,6 +192,30 @@
             "path": "/specialities-management"
         },
         {
+            "title": "Banner Management",
+            "title_ar": "التثقيف الصحي",
+            "type": "sub",
+            "icon": "atom-fill-svg",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "children": [
+                {
+                    "title": "List",
+                    "title_ar": "قائمة",
+                    "type": "link",
+                    "path": "/banner-management/list"
+                },
+                {
+                    "title": "Create",
+                    "title_ar": "خلق",
+                    "type": "link",
+                    "path": "/banner-management/create"
+                }
+            ]
+        },
+        {
             "title": "Health Education",
             "title_ar": "التثقيف الصحي",
             "type": "sub",

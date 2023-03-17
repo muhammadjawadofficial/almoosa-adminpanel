@@ -595,6 +595,7 @@
     "requested": "Requested",
     "notRequested": "Not Requested",
     "pending": "Pending",
+    "completed": "Completed",
     "selectStatus": "Select Status",
     "selectLabel": "Press enter to select",
     "selectedLabel": "Selected",
@@ -663,6 +664,19 @@
     "thumbnailUploaded": "Thumbnail Uploaded Successfully",
     "bannerUploaded": "Banner Uploaded Successfully",
     "specialityRequestUpdatedSuccess": "Speciality Request has been updated successfully",
-    "completeRequest": "Complete Request"
+    "completeRequest": "Complete Request",
+    "bannerDetails": "Banner Details",
+    "text": "Text",
+    "searchBannerTitle": "Search Banner Title",
+    "image": "Image",
+    "selectTypeOfBanner": "Select Type of Banner",
+    "PROMOTIONAL": "Promotional Banner",
+    "MAIN": "Main Banner",
+    "bannerUpdatedSuccess": "Banner Updated Successfully",
+    "bannerCreatedSuccess": "Banner Created Successfully",
+    "uploadBannerImage": "Upload Banner Image",
+    "createBanner": "Create Banner",
+    "bannerDeleteConfirm": "Are you sure you want to delete this banner?",
+    "bannerDeleteSuccess": "Banner deleted Successfully"
   }
 }

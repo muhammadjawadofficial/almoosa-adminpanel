@@ -14,6 +14,7 @@ import servicesPackages from './modules/services-packages'
 import familyMember from './modules/family-member'
 import insuranceManagement from './modules/insurance-management'
 import specialitiesManagement from './modules/specialities-management'
+import bannerManagement from './modules/banner-management'
 
 Vue.use(Vuex);
 
@@ -38,7 +39,8 @@ export const store = new Vuex.Store({
     servicesPackages,
     familyMember,
     insuranceManagement,
-    specialitiesManagement
+    specialitiesManagement,
+    bannerManagement
   }
 });
 

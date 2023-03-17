@@ -13,3 +13,4 @@ export * from './family-member.service';
 export * from './transactions.service';
 export * from './roles-permissions.service';
 export * from './speciality-service';
+export * from './banner-management.service';
