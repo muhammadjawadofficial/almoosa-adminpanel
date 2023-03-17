@@ -223,7 +223,7 @@ export default {
         (res) => {
           if (res.data.status) {
             this.imageId = res.data.data.id;
-            this.successToast(this.$t("admin.imageUploaded"));
+            this.successToast(this.$t("admin.bannerUploaded"));
           } else {
             this.failureToast(res.data.message);
           }
