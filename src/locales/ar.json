@@ -671,6 +671,12 @@
     "uploadBannerImage": "تحميل صورة البانر",
     "createBanner": "إنشاء لافتة",
     "bannerDeleteConfirm": "هل أنت متأكد أنك تريد حذف هذا الشعار؟",
-    "bannerDeleteSuccess": "تم حذف البانر بنجاح"
+    "bannerDeleteSuccess": "تم حذف البانر بنجاح",
+    "type": "نوع",
+    "cmsPage": "صفحات إدارة المحتوى",
+    "selectTypeOfCms": "حدد نوع إدارة المحتوى",
+    "terms_and_conditions": "الشروط والأحكام",
+    "searchArticleTitle": "البحث في عنوان المقال",
+    "pageTitle": "عنوان الصفحة"
   }
 }

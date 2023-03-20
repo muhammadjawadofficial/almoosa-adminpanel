@@ -15,6 +15,7 @@ import familyMember from './modules/family-member'
 import insuranceManagement from './modules/insurance-management'
 import specialitiesManagement from './modules/specialities-management'
 import bannerManagement from './modules/banner-management'
+import cmsPages from './modules/cms-pages'
 
 Vue.use(Vuex);
 
@@ -40,7 +41,8 @@ export const store = new Vuex.Store({
     familyMember,
     insuranceManagement,
     specialitiesManagement,
-    bannerManagement
+    bannerManagement,
+    cmsPages
   }
 });
 

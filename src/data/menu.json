@@ -195,7 +195,7 @@
             "title": "Banner Management",
             "title_ar": "التثقيف الصحي",
             "type": "sub",
-            "icon": "atom-fill-svg",
+            "icon": "insurance-svg",
             "badgeType": "primary",
             "badgeValue": "",
             "active": false,
@@ -237,6 +237,31 @@
                     "title_ar": "خلق",
                     "type": "link",
                     "path": "/health-education/create"
+                }
+            ]
+        },
+        {
+            "title": "CMS Pages",
+            "title_ar": "صفحات إدارة المحتوى",
+            "type": "sub",
+            "icon": "clipboard-svg",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "permission": "CMS Pages",
+            "children": [
+                {
+                    "title": "List",
+                    "title_ar": "قائمة",
+                    "type": "link",
+                    "path": "/cms-pages/list"
+                },
+                {
+                    "title": "Create",
+                    "title_ar": "خلق",
+                    "type": "link",
+                    "path": "/cms-pages/create"
                 }
             ]
         },

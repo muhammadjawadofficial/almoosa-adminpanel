@@ -685,6 +685,51 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 1rem;
 }
+.ql-editor {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+        font-size: 1.25rem;
+        font-family: "DiodrumArabicBold";
+        color: var(--theme-default);
+        text-decoration: underline;
+        margin-top: 1rem;
+    }
+
+    * {
+        font-size: inherit;
+        font-family: inherit;
+        color: inherit;
+        letter-spacing: inherit;
+        line-height: inherit;
+    }
+}
+.forceRtl {
+    .ql-editor {
+        ul {
+            li {
+                --indent: 1.5em;
+                padding-left: 0;
+                padding-inline-start: var(--indent) !important;
+                &:before {
+                    margin-left: 0.3em;
+                    margin-right: -1.5em;
+                }
+                &.ql-indent-1 {
+                    --indent: 4.5em;
+                }
+                &.ql-indent-2 {
+                    --indent: 7.5em;
+                }
+                &.ql-indent-3 {
+                    --indent: 10.5em;
+                }
+            }
+        }
+    }
+}
 .promotions-details-conatiner {
     .button-group {
         margin-top: 3.75rem;

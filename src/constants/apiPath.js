@@ -87,6 +87,14 @@ export const apiPath = {
         delete: (id) => getApiObject("delete", "health-education/" + id),
     },
 
+    cmsPages: {
+        fetch: getApiObject("get", "cms-content"),
+        details: (id) => getApiObject("get", "cms-content/" + id),
+        save: getApiObject("post", "cms-content"),
+        update: (id) => getApiObject("patch", "cms-content/" + id),
+        delete: (id) => getApiObject("delete", "cms-content/" + id),
+    },
+
     timeline: {
         sessions: (id) => getApiObject("get", "timelines?mrn_number=" + id, "v2"),
         details: (mrn, id) => getApiObject("get", "timelines/details?mrn_number=" + mrn + "&id=" + id, "v2"),

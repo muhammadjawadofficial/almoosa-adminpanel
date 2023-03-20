@@ -677,6 +677,12 @@
     "uploadBannerImage": "Upload Banner Image",
     "createBanner": "Create Banner",
     "bannerDeleteConfirm": "Are you sure you want to delete this banner?",
-    "bannerDeleteSuccess": "Banner deleted Successfully"
+    "bannerDeleteSuccess": "Banner deleted Successfully",
+    "type": "Type",
+    "cmsPage": "CMS Page",
+    "selectTypeOfCms": "Select type of CMS Page",
+    "terms_and_conditions": "Terms and Conditions",
+    "searchArticleTitle": "Search Article By Title",
+    "pageTitle": "Page Title"
   }
 }

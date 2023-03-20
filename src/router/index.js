@@ -59,6 +59,11 @@ import healthEducationList from '../pages/health-education/health-education-list
 import healthEducationDetails from '../pages/health-education/health-education-details'
 import healthEducationEdit from '../pages/health-education/health-education-edit'
 
+import cmsPagesModule from '../pages/cms-pages'
+import cmsPagesList from '../pages/cms-pages/cms-pages-list'
+import cmsPagesDetails from '../pages/cms-pages/cms-pages-details'
+import cmsPagesEdit from '../pages/cms-pages/cms-pages-edit'
+
 import servicesPackagesModule from '../pages/services-packages'
 import servicesPackagesList from '../pages/services-packages/services-packages-list'
 import servicesPackagesDetails from '../pages/services-packages/services-packages-details'
@@ -173,6 +178,44 @@ const routes = [
             component: healthEducationDetails,
             meta: {
               title: 'Health Education Details | Almoosa Specialist Hospital',
+            },
+          }
+        ]
+      },
+      {
+        path: 'cms-pages',
+        component: cmsPagesModule,
+        children: [
+          {
+            path: 'create',
+            name: 'CMS Pages Create',
+            component: cmsPagesEdit,
+            meta: {
+              title: 'CMS Pages Create | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: 'list',
+            name: 'CMS Pages List',
+            component: cmsPagesList,
+            meta: {
+              title: 'CMS Pages List | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: 'list/edit',
+            name: 'CMS Pages Edit',
+            component: cmsPagesEdit,
+            meta: {
+              title: 'CMS Pages Edit | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: 'list/details/:id',
+            name: 'CMS Pages Details',
+            component: cmsPagesDetails,
+            meta: {
+              title: 'CMS Pages Details | Almoosa Specialist Hospital',
             },
           }
         ]

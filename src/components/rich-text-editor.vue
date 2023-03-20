@@ -22,12 +22,11 @@ export default {
   props: ["value"],
   data() {
     return {
-      content: "<h1>Some initial content</h1>",
+      content: "",
     };
   },
   methods: {
     handleChange(val) {
-      console.log(val);
       this.$emit("input", val);
     },
   },
