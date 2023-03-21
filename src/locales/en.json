@@ -377,7 +377,7 @@
     "planDetails": "Plan Details",
     "lastUpdate": "Last Update On",
     "insuranceCompnayName": "Insurance Company Name",
-    "nationalId": "National ID / Saudi ID",
+    "nationalId": "National ID / Iqama ID",
     "uploadId": "Upload Your ID",
     "idUploaded": "Your ID has been uploaded successfully",
     "addInsurance": "Add Insurance",
@@ -687,6 +687,8 @@
     "selectTypeOfCms": "Select type of CMS Page",
     "terms_and_conditions": "Terms and Conditions",
     "searchArticleTitle": "Search Article By Title",
-    "pageTitle": "Page Title"
+    "pageTitle": "Page Title",
+    "searchCmsByTitle": "Search CMS Page By Title",
+    "attachment": "Attachment"
   }
 }

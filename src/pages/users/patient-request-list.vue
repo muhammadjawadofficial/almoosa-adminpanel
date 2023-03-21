@@ -60,7 +60,7 @@ export default {
   data() {
     return {
       sortBy: "id",
-      sortDesc: false,
+      sortDesc: true,
       totalRows: 1,
       currentPage: 1,
       getPerPageSelection: 5,

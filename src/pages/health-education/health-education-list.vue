@@ -21,7 +21,8 @@
       borderless
       :items="filteredItems"
       :fields="tablefields"
-      :per-page="5"
+      :per-page="getPerPageSelection"
+      :current-page="currentPage"
       class="ash-data-table clickable"
       @row-clicked="onRowClicked"
     >
@@ -61,7 +62,6 @@
       :per-page="getPerPageSelection"
       class="my-0 justify-content-end"
       v-if="getPerPageSelection"
-      @change="fetchArticles"
     ></b-pagination>
     <b-pagination v-else class="my-0"> </b-pagination>
   </div>

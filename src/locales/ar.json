@@ -681,6 +681,8 @@
     "selectTypeOfCms": "حدد نوع إدارة المحتوى",
     "terms_and_conditions": "الشروط والأحكام",
     "searchArticleTitle": "البحث في عنوان المقال",
-    "pageTitle": "عنوان الصفحة"
+    "pageTitle": "عنوان الصفحة",
+    "searchCmsByTitle": "البحث في عنوان إدارة المحتوى",
+    "attachment": "مرفق"
   }
 }

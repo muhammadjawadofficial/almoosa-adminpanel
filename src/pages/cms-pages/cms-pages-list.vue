@@ -6,7 +6,7 @@
       </div>
       <div class="search-input">
         <b-form-input
-          :placeholder="$t('admin.searchArticleTitle')"
+          :placeholder="$t('admin.searchCmsByTitle')"
           id="type-search"
           type="search"
           v-model="searchQuery"
@@ -21,7 +21,8 @@
       borderless
       :items="filteredItems"
       :fields="tablefields"
-      :per-page="5"
+      :per-page="getPerPageSelection"
+      :current-page="currentPage"
       class="ash-data-table"
     >
       <template #head()="data">{{ $t("admin." + data.label) }} </template>
@@ -56,7 +57,6 @@
       :per-page="getPerPageSelection"
       class="my-0 justify-content-end"
       v-if="getPerPageSelection"
-      @change="fetchArticles"
     ></b-pagination>
     <b-pagination v-else class="my-0"> </b-pagination>
   </div>

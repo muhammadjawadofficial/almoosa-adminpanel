@@ -21,13 +21,72 @@
                 </div>
               </div>
             </div>
-            <div class="appointment-detail mt-5">
+            <template v-if="getSelectedInsuranceManagement.patient">
+              <div class="appointment-detail mt-5">
+                <div class="appointment-detail--type">
+                  <div class="appointment-detail--label">
+                    {{ $t("admin.patientName") }}
+                  </div>
+                  <div class="appointment-detail--value">
+                    {{ getFullName(getSelectedInsuranceManagement.patient) }}
+                  </div>
+                </div>
+              </div>
+              <div class="appointment-detail mt-5">
+                <div class="appointment-detail--type">
+                  <div class="appointment-detail--label">
+                    {{ $t("mrn_number") }}
+                  </div>
+                  <div class="appointment-detail--value">
+                    {{
+                      translateNumber(
+                        getSelectedInsuranceManagement.patient.mrn_number
+                      )
+                    }}
+                  </div>
+                </div>
+              </div>
+              <div class="appointment-detail mt-5">
+                <div class="appointment-detail--type">
+                  <div class="appointment-detail--label">
+                    {{
+                      $t(
+                        "register." +
+                          (getSelectedInsuranceManagement.patient.saudi_id
+                            ? "saudiId"
+                            : "iqamaId")
+                      )
+                    }}
+                  </div>
+                  <div class="appointment-detail--value">
+                    {{
+                      translateNumber(
+                        getSelectedInsuranceManagement.patient.saudi_id ||
+                          getSelectedInsuranceManagement.patient.iqama
+                      )
+                    }}
+                  </div>
+                </div>
+              </div>
+            </template>
+            <div
+              class="appointment-detail mt-5"
+              v-if="
+                getSelectedInsuranceManagement.insurance_card &&
+                getSelectedInsuranceManagement.insurance_card.id
+              "
+            >
               <div class="appointment-detail--type">
                 <div class="appointment-detail--label">
-                  {{ $t("insurance.nationalId") }}
+                  {{ $t("admin.attachment") }}
                 </div>
                 <div class="appointment-detail--value">
-                  <img src="../../assets/images/c3.jpg" class="insurance-id" />
+                  <img
+                    :src="
+                      getImageUrl(getSelectedInsuranceManagement.insurance_card)
+                    "
+                    class="insurance-id mt-2"
+                  />
                 </div>
               </div>
             </div>
@@ -221,6 +280,7 @@ export default {
 }
 .insurance-id {
   max-width: 400px;
+  max-height: 300px;
 }
 .custom-login-input-groups {
   .multiselect {
