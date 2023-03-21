@@ -42,6 +42,14 @@
             Remember Me
           </b-form-checkbox>
         </div>
+        <div class="col-xl-5 col-lg-12 col-md-6 d-flex align-items-center">
+          <span
+            @click="navigateTo('Forgot Password')"
+            class="forgot-password pointer mt-3 w200"
+          >
+            {{ $t("login.forgotPassword") }}
+          </span>
+        </div>
       </div>
       <div class="row">
         <div class="col-md-12 button-group">

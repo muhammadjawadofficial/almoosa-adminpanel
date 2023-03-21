@@ -46,12 +46,16 @@
     "verify": "Verify",
     "didntReceiveACode": "Didn't receive a code?",
     "resend": "Resend",
+    "resendIn": "Resend in",
     "letsConsult": "Let's Consult With Our Specialist Today",
     "setNewPassword": "Set New Password",
     "setNewPasswordDescription": "Set new password for your account and use the latest password for login",
     "enterNewPassword": "Enter New Password",
     "confirmPassword": "Confirm Password",
-    "setPassword": "Set Password"
+    "setPassword": "Set Password",
+    "otpRequired": "Please enter OTP to proceed",
+    "resetPasswordModalTitle": "Reset Successfully",
+    "resetPasswordModalText": "Your password has been reset successfully. Go to your login screen and login with the latest password"
   },
   "register": {
     "modal": {

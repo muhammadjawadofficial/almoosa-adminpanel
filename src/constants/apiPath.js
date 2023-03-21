@@ -9,6 +9,12 @@ export const apiPath = {
     //Login
     login: {
         admin: getApiObject("post", "auth/admin/login"),
+        resetPassword: getApiObject("post", "password/reset")
+    },
+
+    loginOtp: {
+        resend: getApiObject("post", "otp/send"),
+        verify: getApiObject("post", "otp/verify", "v2"),
     },
 
     appointment: {

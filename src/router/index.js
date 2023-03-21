@@ -5,6 +5,9 @@ import Body from '../components/body'
 import AuthBody from '../components/auth_body'
 import AuthBodyAdmin from '../components/auth_body_patient'
 import Login from '../pages/authentication/login';
+import NewPassword from '../pages/authentication/new_password';
+import OTP from '../pages/authentication/otp';
+import ForgotPassword from '../pages/authentication/forgot_password';
 
 import Dashboard from '../pages/dashboard'
 
@@ -800,6 +803,34 @@ const routes = [
             component: Login,
             meta: {
               title: 'Admin Login | Almoosa Specialist Hospital',
+              public: true
+            }
+          },
+          {
+            path: 'otp',
+            name: 'OTP',
+            component: OTP,
+            meta: {
+              title: 'OTP | Almoosa Health Group',
+              public: true,
+              hideButtons: true
+            }
+          },
+          {
+            path: 'forgot-password',
+            name: 'Forgot Password',
+            component: ForgotPassword,
+            meta: {
+              title: 'Forgot Password | Almoosa Health Group',
+              public: true
+            }
+          },
+          {
+            path: 'new-password',
+            name: 'New Password',
+            component: NewPassword,
+            meta: {
+              title: 'New Password | Almoosa Health Group',
               public: true
             }
           },

@@ -46,12 +46,16 @@
     "verify": "للتأكيد",
     "didntReceiveACode": "لم تستلم الكود?",
     "resend": "أعداة ارسال الكود",
+    "resendIn": "إعادة إرسال بعد",
     "letsConsult": "استشر طبيبك اليوم",
     "setNewPassword": "تعيين كلمة مرور جديدة",
     "setNewPasswordDescription": "قم بتعيين كلمة مرور جديدة لحسابك واستخدم أحدث كلمة مرور لتسجيل الدخول",
     "enterNewPassword": "أدخل كلمة مرور جديدة",
     "confirmPassword": "تأكيد كلمة المرور",
-    "setPassword": "ضبط كلمة السر"
+    "setPassword": "ضبط كلمة السر",
+    "otpRequired": "رمز التحقق مطلوب",
+    "resetPasswordModalTitle": "تمت إعادة تعيين كلمة المرور بنجاح",
+    "resetPasswordModalText": "تمت إعادة تعيين كلمة المرور بنجاح. يرجى تسجيل الدخول باستخدام كلمة المرور الجديدة"
   },
   "register": {
     "modal": {

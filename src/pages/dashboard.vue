@@ -40,7 +40,7 @@ export default {
       this.loading = true;
       let firstItem = this.getMenuItems[0];
       let getPath = (item) => {
-        if (item.children && item.children.length) {
+        if (item && item.children && item.children.length) {
           let subChild = item.children[0];
           return getPath(subChild);
         }
