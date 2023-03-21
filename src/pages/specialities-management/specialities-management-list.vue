@@ -89,7 +89,9 @@ export default {
   watch: {
     searchQuery(query) {
       this.filteredItems = this.items.filter((item) => {
-        return item.company_name.toLowerCase().includes(query.toLowerCase());
+        return item[this.getLocaleKey("title")]
+          .toLowerCase()
+          .includes(query.toLowerCase());
       });
       this.totalRows = this.filteredItems.length;
     },
@@ -98,7 +100,9 @@ export default {
     this.fetchSpecialities();
   },
   methods: {
-    ...mapActions("specialitiesManagement", ["setSelectedSpecialitiesManagement"]),
+    ...mapActions("specialitiesManagement", [
+      "setSelectedSpecialitiesManagement",
+    ]),
     editSpecialities(row) {
       this.setSelectedSpecialitiesManagement(row);
       this.navigateTo("Specialities Management Details");
