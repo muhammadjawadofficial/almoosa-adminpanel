@@ -22,8 +22,7 @@
       :items="filteredItems"
       :fields="tablefields"
       :per-page="5"
-      class="ash-data-table clickable"
-      @row-clicked="onRowClicked"
+      class="ash-data-table"
     >
       <template #head()="data">{{ $t("admin." + data.label) }} </template>
 
@@ -120,9 +119,6 @@ export default {
   },
   methods: {
     ...mapActions("cmsPages", ["setSelectedCmsPage"]),
-    onRowClicked(row) {
-      this.navigateTo("CMS Pages Details", { id: row.id });
-    },
     editArticle(row) {
       this.setSelectedCmsPage(row);
       this.navigateTo("CMS Pages Edit", { id: row.id });
