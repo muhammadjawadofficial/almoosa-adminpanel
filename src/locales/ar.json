@@ -683,6 +683,12 @@
     "searchArticleTitle": "البحث في عنوان المقال",
     "pageTitle": "عنوان الصفحة",
     "searchCmsByTitle": "البحث في عنوان إدارة المحتوى",
-    "attachment": "مرفق"
+    "attachment": "مرفق",
+    "dob": "تاريخ الميلاد",
+    "primaryPhoneNumber": "رقم الهاتف الأساسي",
+    "secondaryPhoneNumber": "رقم الهاتف الثانوي",
+    "city": "مدينة",
+    "area": "منطقة",
+    "district": "منطقة"
   }
 }

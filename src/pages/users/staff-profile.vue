@@ -302,18 +302,7 @@ export default {
     if (process.env.NODE_ENV !== "production") {
       this.isEditingAllowed = !!localStorage.getItem("editProfile");
     }
-    let routeName = this.$route.name.toLowerCase();
-    let routeTab = this.$route.params.tab;
-    if (routeName.includes("patient")) {
-      if (routeTab.toLowerCase().includes("request"))
-        this.backRoute = "Patient List";
-      else this.backRoute = "Patient Details";
-    } else if (routeName.includes("physician")) {
-      this.backRoute = "Physician List";
-      this.isEditingAllowed = true;
-    } else {
-      this.backRoute = "default";
-    }
+    this.backRoute = "Staff List";
     if (!this.getSelectedUser) {
       this.navigateTo(this.backRoute);
       return;

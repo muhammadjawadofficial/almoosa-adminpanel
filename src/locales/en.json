@@ -689,6 +689,12 @@
     "searchArticleTitle": "Search Article By Title",
     "pageTitle": "Page Title",
     "searchCmsByTitle": "Search CMS Page By Title",
-    "attachment": "Attachment"
+    "attachment": "Attachment",
+    "dob": "Date of Birth",
+    "primaryPhoneNumber": "Primary Phone Number",
+    "secondaryPhoneNumber": "Secondary Phone Number",
+    "city": "City",
+    "area": "Area",
+    "district": "District"
   }
 }

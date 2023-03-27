@@ -88,12 +88,12 @@
                           {{ $t("profile.loyaltyPoint") }}
                         </div>
                         <div class="value">
-                          {{ getSelectedUser.loyality_points }} /
+                          {{ getSelectedUser.loyality_points || 0 }} /
                           <div class="sub-value">
                             {{ $t("equal") }}
                             {{
                               translateNumber(
-                                getSelectedUser.loyality_points / 2
+                                (getSelectedUser.loyality_points || 0) / 2
                               )
                             }}
                             {{ $t("sar") }}
@@ -152,7 +152,7 @@
       <div class="standard-width doctor-details-section">
         <div class="">
           <div class="profile-info patient" v-if="!isSelectedUserDoctor">
-            <div class="profile-info-card">
+            <div class="profile-info-card" v-if="false">
               <div class="profile-info-card-logo">
                 <img src="../../assets/images/home.svg" alt="" />
               </div>
@@ -182,6 +182,45 @@
             </div>
             <div class="profile-info-card">
               <div class="profile-info-card-logo">
+                <img src="../../assets/images/home.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("admin.area") }}
+                </div>
+                <div class="profile-info-card-detail-value">
+                  {{ translateNumber(getSelectedUser.area || "N/A") }}
+                </div>
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/home.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("admin.city") }}
+                </div>
+                <div class="profile-info-card-detail-value">
+                  {{ translateNumber(getSelectedUser.city || "N/A") }}
+                </div>
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/home.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("admin.district") }}
+                </div>
+                <div class="profile-info-card-detail-value">
+                  {{ translateNumber(getSelectedUser.district || "N/A") }}
+                </div>
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
                 <img src="../../assets/images/active-problems.svg" alt="" />
               </div>
               <div class="profile-info-card-detail">
@@ -195,6 +234,31 @@
               <div class="profile-info-card-option"></div>
             </div>
             <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/clinical-warning.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("profile.clinicWarning") }}
+                </div>
+                <div class="profile-info-card-detail-value">Not Added Yet</div>
+              </div>
+              <div class="profile-info-card-option"></div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/MRN.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("admin.dob") }}
+                </div>
+                <div class="profile-info-card-detail-value">
+                  {{ translateNumber(formatDate(getSelectedUser.dob)) }}
+                </div>
+              </div>
+            </div>
+            <div class="profile-info-card" v-if="false">
               <div class="profile-info-card-logo">
                 <img src="../../assets/images/call.svg" alt="" />
               </div>
@@ -225,15 +289,37 @@
             </div>
             <div class="profile-info-card">
               <div class="profile-info-card-logo">
-                <img src="../../assets/images/clinical-warning.svg" alt="" />
+                <img src="../../assets/images/call.svg" alt="" />
               </div>
               <div class="profile-info-card-detail">
                 <div class="profile-info-card-detail-title">
-                  {{ $t("profile.clinicWarning") }}
+                  {{ $t("admin.primaryPhoneNumber") }}
                 </div>
-                <div class="profile-info-card-detail-value">Not Added Yet</div>
+                <div class="profile-info-card-detail-value">
+                  {{
+                    translateNumber(
+                      getSelectedUser.primary_phone_number || "N/A"
+                    )
+                  }}
+                </div>
               </div>
-              <div class="profile-info-card-option"></div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/call.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("admin.secondaryPhoneNumber") }}
+                </div>
+                <div class="profile-info-card-detail-value">
+                  {{
+                    translateNumber(
+                      getSelectedUser.secondary_phone_number || "N/A"
+                    )
+                  }}
+                </div>
+              </div>
             </div>
             <div class="profile-info-card">
               <div class="profile-info-card-logo">
@@ -841,53 +927,57 @@ export default {
       );
     },
     checkDropdownValues() {
-      this.setLoadingState(true);
-      Promise.all([
-        authService.getNationalities(),
-        authService.getClinics(),
-        authService.getSpecialities(),
-      ])
-        .then((res) => {
-          let nationalities = res[0];
-          let clinics = res[1];
-          let specialities = res[2];
-          if (nationalities.data.status) {
-            let data = nationalities.data.data;
-            if (data) {
-              this.nationalities = data.items;
+      if (this.isSelectedUserDoctor) {
+        this.setLoadingState(true);
+        Promise.all([
+          authService.getNationalities(),
+          authService.getClinics(),
+          authService.getSpecialities(),
+        ])
+          .then((res) => {
+            let nationalities = res[0];
+            let clinics = res[1];
+            let specialities = res[2];
+            if (nationalities.data.status) {
+              let data = nationalities.data.data;
+              if (data) {
+                this.nationalities = data.items;
+              }
+            } else {
+              this.failureToast(nationalities.data.message);
             }
-          } else {
-            this.failureToast(nationalities.data.message);
-          }
-          if (clinics.data.status) {
-            let data = clinics.data.data;
-            if (data) {
-              this.clinics = data.items;
+            if (clinics.data.status) {
+              let data = clinics.data.data;
+              if (data) {
+                this.clinics = data.items;
+              }
+            } else {
+              this.failureToast(clinics.data.message);
             }
-          } else {
-            this.failureToast(clinics.data.message);
-          }
-          if (specialities.data.status) {
-            let data = specialities.data.data;
-            if (data) {
-              this.specialities = data.items;
+            if (specialities.data.status) {
+              let data = specialities.data.data;
+              if (data) {
+                this.specialities = data.items;
+              }
+            } else {
+              this.failureToast(specialities.data.message);
             }
-          } else {
-            this.failureToast(specialities.data.message);
-          }
-        })
-        .catch((error) => {
-          if (!this.isAPIAborted(error))
-            this.failureToast(
-              error.response &&
-                error.response.data &&
-                error.response.data.message
-            );
-        })
-        .finally(() => {
-          this.setLoadingState(false);
-          this.getProfileData();
-        });
+          })
+          .catch((error) => {
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
+          })
+          .finally(() => {
+            this.setLoadingState(false);
+            this.getProfileData();
+          });
+      } else {
+        this.getProfileData();
+      }
     },
     formatNumber(number, input) {
       if (
