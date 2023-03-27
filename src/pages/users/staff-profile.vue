@@ -68,6 +68,16 @@
                       </div>
                     </div>
                   </template>
+                  <template v-if="getSelectedUser.id">
+                    <div
+                      class="doctor-details-card-header-right-info-section-detail"
+                    >
+                      <div class="title">{{ $t("admin.staffId") }}</div>
+                      <div class="value">
+                        {{ getSelectedUser.id }}
+                      </div>
+                    </div>
+                  </template>
                 </div>
               </div>
             </div>
@@ -83,16 +93,16 @@
               </div>
               <div class="profile-info-card-detail">
                 <div class="profile-info-card-detail-title">
-                  {{ $t("profile.address") }}
+                  {{ $t("admin.email") }}
                 </div>
                 <div
                   class="profile-info-card-detail-value"
                   :class="{ inactive: !isEditing }"
                 >
                   <b-form-input
-                    v-model="address"
-                    :state="addressState"
-                    :placeholder="$t('profile.address')"
+                    v-model="email"
+                    :state="emailState"
+                    :placeholder="$t('profile.email')"
                     :disabled="!isEditing"
                   ></b-form-input>
                 </div>
@@ -258,6 +268,8 @@ export default {
       isEditingMRN: false,
       address: "",
       addressState: null,
+      email: "",
+      emailState: null,
       phoneNumber: "",
       phoneNumberState: null,
       mrnNumber: "",
@@ -502,6 +514,7 @@ export default {
         };
       } else {
         this.address = this.getSelectedUser.location;
+        this.email = this.getSelectedUser.email_address;
         this.phoneNumber = this.getSelectedUser.phone_number;
         this.mrnNumber = this.getSelectedUser.mrn_number;
         this.userStatus = this.getSelectedUser.status;
@@ -533,8 +546,9 @@ export default {
         return !Object.values(this.doctorState).includes(false);
       } else {
         this.addressState = this.address != "";
+        this.emailState = this.email != "";
         this.phoneNumberState = this.validPhoneNumber;
-        return this.addressState && this.phoneNumberState;
+        return this.emailState && this.phoneNumberState;
       }
     },
     validateMrn() {
@@ -592,6 +606,7 @@ export default {
         } else {
           updateUserObj = {
             location: this.address,
+            email_address: this.email,
             phone_number: this.phoneNumber,
           };
         }

@@ -298,7 +298,9 @@
                 <div class="profile-info-card-detail-value">
                   {{
                     translateNumber(
-                      getSelectedUser.primary_phone_number || "N/A"
+                      getSelectedUser.phoneNumber ||
+                        getSelectedUser.primary_phone_number ||
+                        "N/A"
                     )
                   }}
                 </div>

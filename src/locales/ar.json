@@ -689,6 +689,9 @@
     "secondaryPhoneNumber": "رقم الهاتف الثانوي",
     "city": "مدينة",
     "area": "منطقة",
-    "district": "منطقة"
+    "district": "منطقة",
+    "selectRole": "حدد الدور",
+    "enterStaffId": "أدخل هوية الموظف",
+    "staffId": "هوية الموظف"
   }
 }
