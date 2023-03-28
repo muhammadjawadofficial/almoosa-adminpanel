@@ -65,7 +65,7 @@ export default {
       currentPage: 1,
       getPerPageSelection: 5,
       tablefields: [
-        { key: "id", label: "id", sortable: true },
+        // { key: "id", label: "id", sortable: true },
         { key: "patientName", label: "patientName" },
         { key: "identity_number", label: "identity_number" },
         { key: "phoneNumber", label: "phoneNumber" },

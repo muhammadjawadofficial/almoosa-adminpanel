@@ -119,6 +119,9 @@
         <template v-else-if="data.field.key == 'doctor_name'">
           {{ getFullName(data.item.doctor, $t("dr")) }}
         </template>
+        <template v-else-if="data.field.key == 'speciality'">
+          {{ data.item.doctor[getLocaleKey("speciality")] }}
+        </template>
         <template v-else-if="data.field.key == 'datetime'">
           {{
             formatLongDayDateFromDate(data.item.booked_date) +
@@ -163,6 +166,7 @@ export default {
         { key: "mrn", label: "mrn", sortable: true },
         { key: "datetime", label: "dateTime", sortable: true },
         { key: "doctor_name", label: "consultingDoctor", sortable: true },
+        { key: "speciality", label: "speciality" },
         { key: "status", label: "status" },
       ],
       items: [],

@@ -359,7 +359,7 @@
     "search": "ابحث عن المريض"
   },
   "healthEducation": {
-    "title": "التثقيف الصحي",
+    "title": "التثقيف الطبي",
     "viewDetails": "عرض التفاصيل",
     "noData": "لا توجد بيانات تم تحميلها حتى الآن"
   },
@@ -692,6 +692,7 @@
     "district": "منطقة",
     "selectRole": "حدد الدور",
     "enterStaffId": "أدخل هوية الموظف",
-    "staffId": "هوية الموظف"
+    "staffId": "هوية الموظف",
+    "speciality": "تخصص"
   }
 }

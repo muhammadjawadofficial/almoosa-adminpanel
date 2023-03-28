@@ -698,6 +698,7 @@
     "district": "District",
     "selectRole": "Select Role",
     "enterStaffId": "Enter Staff Id",
-    "staffId": "Staff Id"
+    "staffId": "Staff Id",
+    "speciality": "Speciality"
   }
 }

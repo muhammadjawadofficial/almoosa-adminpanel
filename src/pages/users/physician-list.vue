@@ -44,8 +44,11 @@
             <div class="image">
               <img :src="getImageUrl(data.item.patient_photo)" alt="user" />
             </div>
-            <span class="text">{{ data.value }}</span>
+            <span class="text">{{ getFullName(data.item) }}</span>
           </div>
+        </template>
+        <template v-else-if="data.field.key == 'speciality' && data.value">
+          {{ data.value[getLocaleKey("title")] }}
         </template>
         <template v-else>{{ data.value || "N/A" }}</template>
       </template>
@@ -77,6 +80,7 @@ export default {
       tablefields: [
         { key: "id", label: "id", sortable: true },
         { key: "physicianName", label: "physicianName" },
+        { key: "speciality", label: "speciality" },
         { key: "gender", label: "gender", sortable: true },
         { key: "email", label: "email" },
         { key: "phone_number", label: "phoneNumber" },
