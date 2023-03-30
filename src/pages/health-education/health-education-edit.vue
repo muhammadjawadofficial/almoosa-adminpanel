@@ -230,6 +230,7 @@ export default {
     $route: function (val) {
       if (val.name.toLowerCase().includes("create")) {
         this.backRoute = null;
+        this.resetForm();
       }
     },
   },

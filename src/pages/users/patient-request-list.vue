@@ -1,5 +1,23 @@
 <template>
   <div class="doctor-list-container standard-width">
+    <div class="filter-container">
+      <div class="toggle-options my-0">
+        <div
+          class="toggle-options--single"
+          :class="{ active: activeTab == 'unverified' }"
+          @click="changeTab('unverified')"
+        >
+          {{ $t("admin.unverified") }}
+        </div>
+        <div
+          class="toggle-options--single"
+          :class="{ active: activeTab == 'blocked' }"
+          @click="changeTab('blocked')"
+        >
+          {{ $t("admin.blocked") }}
+        </div>
+      </div>
+    </div>
     <b-table
       class="ash-data-table clickable"
       show-empty
@@ -73,6 +91,7 @@ export default {
       ],
       items: [],
       filteredItems: [],
+      activeTab: "unverified",
     };
   },
   mounted() {
@@ -98,6 +117,10 @@ export default {
       this.setSelectedUser(e);
       this.navigateTo("Patient Profile");
     },
+    changeTab(tab) {
+      this.activeTab = tab;
+      this.fetchUsers();
+    },
     parseData(data) {
       data.forEach((x) => {
         this.items.push({
@@ -112,7 +135,22 @@ export default {
           status: x.status,
         });
       });
-      this.filteredItems = [...this.items];
+      if (this.searchQuery) {
+        this.filteredItems = [
+          ...this.items.filter((item) => {
+            return (
+              item.patientName
+                .toLowerCase()
+                .includes(this.searchQuery.toLowerCase()) ||
+              (item.mrn_number &&
+                item.mrn_number
+                  .toLowerCase()
+                  .includes(this.searchQuery.toLowerCase()))
+            );
+          }),
+        ];
+        this.totalRows = this.filteredItems.length;
+      } else this.filteredItems = [...this.items];
     },
     sortUsers(filter) {
       this.sortDesc = filter.sortDesc;
@@ -125,29 +163,31 @@ export default {
       if (this.sortBy) {
         query = "&sort=" + (this.sortDesc ? "-" : "") + this.sortBy;
       }
-      userService.getUsers("?status=unverified&role_id=3" + query).then(
-        (response) => {
-          if (response.data.status) {
-            this.parseData(response.data.data.items);
-            this.currentPage = 1;
-            this.totalRows = this.filteredItems.length;
-          } else {
-            this.failureToast(response.data.messsage);
+      userService
+        .getUsers("?status=" + this.activeTab + "&role_id=3" + query)
+        .then(
+          (response) => {
+            if (response.data.status) {
+              this.parseData(response.data.data.items);
+              this.currentPage = 1;
+              this.totalRows = this.filteredItems.length;
+            } else {
+              this.failureToast(response.data.messsage);
+            }
+            this.appointmentStatus = null;
+            this.setLoadingState(false);
+          },
+          (error) => {
+            this.appointmentStatus = null;
+            this.setLoadingState(false);
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
           }
-          this.appointmentStatus = null;
-          this.setLoadingState(false);
-        },
-        (error) => {
-          this.appointmentStatus = null;
-          this.setLoadingState(false);
-          if (!this.isAPIAborted(error))
-            this.failureToast(
-              error.response &&
-                error.response.data &&
-                error.response.data.message
-            );
-        }
-      );
+        );
     },
   },
 };
