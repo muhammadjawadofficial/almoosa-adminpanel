@@ -71,7 +71,7 @@ export const apiPath = {
         getDoctorProfile: (id) => getApiObject("get", "users?id=" + id),
         fetchUsers: (query) => getApiObject("get", "users" + query),
         deleteUser: (id) => getApiObject("delete", "users/" + id),
-        fetchDuplicatedUsers: (query) => getApiObject("get", "users/duplicate" + query, "v1", "http://localhost:3000/"),
+        fetchDuplicatedUsers: (query) => getApiObject("get", "users/duplicate" + query, "v1"),
         fetchPatients: (query) => getApiObject("get", "admin/patients" + query, "v2"),
         fetchDoctors: (query) => getApiObject("get", "admin/doctors" + query, "v2"),
         getNationalities: getApiObject("get", "nationalities"),
