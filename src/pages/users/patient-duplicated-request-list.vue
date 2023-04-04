@@ -140,16 +140,18 @@ export default {
           userService.deleteUser(item.id).then(
             (response) => {
               if (response.data.status) {
-                this.parseData([...this.items.filter((x) => x.id != item.id)]);
+                this.setLoadingState(false);
                 this.successIconModal(
                   this.$t("changesDone"),
                   this.$t("admin.userDeleteSuccess")
-                );
+                ).then(() => {
+                  this.fetchUsers();
+                });
               } else {
                 this.failureToast(response.data.messsage);
+                this.setLoadingState(false);
               }
               this.appointmentStatus = null;
-              this.setLoadingState(false);
             },
             (error) => {
               this.appointmentStatus = null;
