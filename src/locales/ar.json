@@ -697,6 +697,8 @@
     "speciality": "تخصص",
     "duplicated": "مكرر",
     "userDeleteConfirm": "هل أنت متأكد أنك تريد حذف هذا المستخدم؟",
-    "userDeleteSuccess": "تم حذف المستخدم بنجاح"
+    "userDeleteSuccess": "تم حذف المستخدم بنجاح",
+    "saudi_id": "الهوية السعودية",
+    "iqama": "الإقامة"
   }
 }

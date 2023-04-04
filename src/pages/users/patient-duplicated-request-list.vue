@@ -100,7 +100,8 @@ export default {
       tablefields: [
         // { key: "id", label: "id", sortable: true },
         { key: "patientName", label: "patientName" },
-        { key: "identity_number", label: "identity_number" },
+        { key: "saudi_id", label: "saudi_id" },
+        { key: "iqama", label: "iqama" },
         { key: "phoneNumber", label: "phoneNumber" },
         { key: "status", label: "status" },
         { key: "action", label: "action" },

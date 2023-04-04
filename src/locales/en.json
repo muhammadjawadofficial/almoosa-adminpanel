@@ -703,6 +703,8 @@
     "speciality": "Speciality",
     "duplicated": "Duplicated",
     "userDeleteConfirm": "Are you sure you want to delete this user?",
-    "userDeleteSuccess": "User has been deleted successfully"
+    "userDeleteSuccess": "User has been deleted successfully",
+    "saudi_id": "Saudi ID",
+    "iqama": "Iqama"
   }
 }
