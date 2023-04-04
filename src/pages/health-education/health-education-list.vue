@@ -26,6 +26,10 @@
       class="ash-data-table clickable"
       @row-clicked="onRowClicked"
     >
+      <template #empty>
+        <div class="text-center my-2">{{ $t("noRecordToShow") }}</div>
+      </template>
+
       <template #head()="data">{{ $t("admin." + data.label) }} </template>
 
       <template #cell()="data">

@@ -512,6 +512,7 @@
   "selectedLabel": "المحدد",
   "deselectLabel": "اضغط على دخل للإزالة",
   "dr": "د.",
+  "noRecordToShow": "لا توجد سجلات لعرضها",
   "admin": {
     "searchPatientMrn": "ابحث عن المريض بالاسم / رقم السجل الطبي",
     "searchPhysician": "ابحث عن الطبيب بالاسم/ رقم الهوية",
@@ -693,6 +694,9 @@
     "selectRole": "حدد الدور",
     "enterStaffId": "أدخل هوية الموظف",
     "staffId": "هوية الموظف",
-    "speciality": "تخصص"
+    "speciality": "تخصص",
+    "duplicated": "مكرر",
+    "userDeleteConfirm": "هل أنت متأكد أنك تريد حذف هذا المستخدم؟",
+    "userDeleteSuccess": "تم حذف المستخدم بنجاح"
   }
 }

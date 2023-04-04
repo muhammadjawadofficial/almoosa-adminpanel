@@ -25,6 +25,10 @@
       :current-page="currentPage"
       class="ash-data-table"
     >
+      <template #empty>
+        <div class="text-center my-2">{{ $t("noRecordToShow") }}</div>
+      </template>
+
       <template #head()="data">{{ $t("admin." + data.label) }} </template>
 
       <template #cell()="data">

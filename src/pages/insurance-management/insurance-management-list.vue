@@ -25,6 +25,10 @@
       :per-page="5"
       class="ash-data-table"
     >
+      <template #empty>
+        <div class="text-center my-2">{{ $t("noRecordToShow") }}</div>
+      </template>
+
       <template #head()="data">{{ $t("admin." + data.label) }} </template>
 
       <template #cell()="data">
@@ -53,7 +57,7 @@
           {{ data.item[getLocaleKey(data.field.key)] }}
         </template>
         <template v-else-if="data.field.key == 'status'">
-          {{ $t('admin.' + data.value.toLowerCase()) }}
+          {{ $t("admin." + data.value.toLowerCase()) }}
         </template>
         <template v-else>{{ data.value }}</template>
       </template>

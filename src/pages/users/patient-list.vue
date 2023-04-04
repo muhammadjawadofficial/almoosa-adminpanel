@@ -30,6 +30,13 @@
         >
           {{ $t("admin.newRequest") }}
         </div>
+        <div
+          class="toggle-options--single"
+          :class="{ active: activeTab == 'duplicated' }"
+          @click="changeTab('duplicated')"
+        >
+          {{ $t("admin.duplicated") }}
+        </div>
       </div>
     </div>
 
@@ -41,12 +48,17 @@
       :searchQuery="searchQuery"
       v-if="activeTab == 'requested'"
     />
+    <patient-duplicated-request-list
+      :searchQuery="searchQuery"
+      v-if="activeTab == 'duplicated'"
+    />
   </div>
 </template>
 
 <script>
 import patientRegisterList from "./patient-register-list.vue";
 import patientRequestList from "./patient-request-list.vue";
+import patientDuplicatedRequestList from "./patient-duplicated-request-list.vue";
 export default {
   data() {
     return {
@@ -57,6 +69,7 @@ export default {
   components: {
     "patient-register-list": patientRegisterList,
     "patient-request-list": patientRequestList,
+    "patient-duplicated-request-list": patientDuplicatedRequestList,
   },
   mounted() {
     this.activeTab = this.$route.params.tab || "registered";

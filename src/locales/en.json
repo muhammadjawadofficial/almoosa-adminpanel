@@ -518,6 +518,7 @@
   "selectedLabel": "Selected",
   "deselectLabel": "Press enter to remove",
   "dr": "Dr.",
+  "noRecordToShow": "There are no records to show",
   "admin": {
     "searchPatientMrn": "Search Patient by Name / MRN",
     "searchPhysician": "Search Physician by Name / ID",
@@ -699,6 +700,9 @@
     "selectRole": "Select Role",
     "enterStaffId": "Enter Staff Id",
     "staffId": "Staff Id",
-    "speciality": "Speciality"
+    "speciality": "Speciality",
+    "duplicated": "Duplicated",
+    "userDeleteConfirm": "Are you sure you want to delete this user?",
+    "userDeleteSuccess": "User has been deleted successfully"
   }
 }

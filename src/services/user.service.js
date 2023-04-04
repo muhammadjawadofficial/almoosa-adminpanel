@@ -22,8 +22,10 @@ export const userService = {
     getProfile,
     getDoctorProfile,
     getUsers,
+    getDuplicatedUsers,
     getPatients,
-    getDoctors
+    getDoctors,
+    deleteUser
 };
 
 import axios from "axios";
@@ -133,6 +135,12 @@ function getUsers(query) {
         url: apiPath.user.fetchUsers(query || '').url,
     })
 }
+function getDuplicatedUsers(query) {
+    return axios({
+        method: apiPath.user.fetchDuplicatedUsers(query || '').method,
+        url: apiPath.user.fetchDuplicatedUsers(query || '').url,
+    })
+}
 function getPatients(query) {
     return axios({
         method: apiPath.user.fetchPatients(query || '').method,
@@ -143,5 +151,11 @@ function getDoctors(query) {
     return axios({
         method: apiPath.user.fetchDoctors(query || '').method,
         url: apiPath.user.fetchDoctors(query || '').url,
+    })
+}
+function deleteUser(id) {
+    return axios({
+        method: apiPath.user.deleteUser(id).method,
+        url: apiPath.user.deleteUser(id).url,
     })
 }

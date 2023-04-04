@@ -1,15 +1,40 @@
 <template>
   <div class="doctor-list-container standard-width">
+    <div class="filter-container">
+      <div class="toggle-options my-0" v-if="false">
+        <div
+          class="toggle-options--single"
+          :class="{ active: activeTab == 'unverified' }"
+          @click="changeTab('unverified')"
+        >
+          {{ $t("admin.unverified") }}
+        </div>
+        <div
+          class="toggle-options--single"
+          :class="{ active: activeTab == 'verified' }"
+          @click="changeTab('verified')"
+        >
+          {{ $t("admin.verified") }}
+        </div>
+        <div
+          class="toggle-options--single"
+          :class="{ active: activeTab == 'blocked' }"
+          @click="changeTab('blocked')"
+        >
+          {{ $t("admin.blocked") }}
+        </div>
+      </div>
+    </div>
     <b-table
       class="ash-data-table clickable"
       show-empty
       stacked="md"
       borderless
-      :items="items"
+      :items="filteredItems"
       :fields="tablefields"
       :per-page="5"
-      :sort-by.sync="sortBy"
-      :sort-desc.sync="sortDesc"
+      :sort-by="sortBy"
+      :sort-desc="sortDesc"
       @row-clicked="rowClicked"
       @sort-changed="sortUsers"
     >
@@ -25,7 +50,11 @@
         </template>
         <template v-else-if="data.field.key == 'action'">
           <div class="action-buttons">
-            <feather class="pointer" type="edit"></feather>
+            <feather
+              @click.stop="deleteUser(data.item)"
+              class="pointer"
+              type="trash"
+            ></feather>
           </div>
         </template>
         <template v-else-if="data.field.key == 'patientName'">
@@ -69,14 +98,16 @@ export default {
       currentPage: 1,
       getPerPageSelection: 5,
       tablefields: [
-        { key: "id", label: "id", sortable: true },
+        // { key: "id", label: "id", sortable: true },
         { key: "patientName", label: "patientName" },
-        { key: "mrn_number", label: "mrn", sortable: true },
         { key: "identity_number", label: "identity_number" },
         { key: "phoneNumber", label: "phoneNumber" },
+        { key: "status", label: "status" },
+        { key: "action", label: "action" },
       ],
       items: [],
-      activeTab: "registered",
+      filteredItems: [],
+      activeTab: "unverified",
     };
   },
   mounted() {
@@ -91,55 +122,92 @@ export default {
     ...mapActions("user", ["setSelectedUser"]),
     rowClicked(e) {
       this.setSelectedUser(e);
-      this.navigateTo("Patient Details");
+      this.navigateTo("Patient Profile");
+    },
+    changeTab(tab) {
+      this.activeTab = tab;
+      this.fetchUsers();
+    },
+    deleteUser(item) {
+      this.confirmIconModal(
+        this.$t("areYouSure"),
+        this.$t("admin.userDeleteConfirm"),
+        "m-check",
+        this.$t("admin.delete")
+      ).then((res) => {
+        if (res.value) {
+          this.setLoadingState(true);
+          userService.deleteUser(item.id).then(
+            (response) => {
+              if (response.data.status) {
+                this.parseData([...this.items.filter((x) => x.id != item.id)]);
+                this.successIconModal(
+                  this.$t("changesDone"),
+                  this.$t("admin.userDeleteSuccess")
+                );
+              } else {
+                this.failureToast(response.data.messsage);
+              }
+              this.appointmentStatus = null;
+              this.setLoadingState(false);
+            },
+            (error) => {
+              this.appointmentStatus = null;
+              this.setLoadingState(false);
+              if (!this.isAPIAborted(error))
+                this.failureToast(
+                  error.response &&
+                    error.response.data &&
+                    error.response.data.message
+                );
+            }
+          );
+        }
+      });
     },
     parseData(data) {
       this.items = [];
       data.forEach((x) => {
         this.items.push({
           ...x,
-          id: x.row_number,
+          id: x.id,
           patientName: this.getFullName(x),
           patient_photo: x.photo,
           mrn_number: x.mrn_number,
           identity_number: x.saudi_id || x.iqama,
+          email: x.email_address,
           phoneNumber: x.phone_number,
           status: x.status,
         });
       });
+      this.filteredItems = [...this.items];
     },
     sortUsers(filter) {
       this.sortDesc = filter.sortDesc;
       this.sortBy = filter.sortBy;
-      this.fetchUsers();
     },
     fetchUsers(pageNumber = 1) {
       this.items = [];
       this.setLoadingState(true);
       let query = "";
       if (this.sortBy) {
-        query = "&sort_by=" + this.sortBy;
-      }
-      if (this.sortDesc !== null) {
-        query += "&sort_direction=" + (this.sortDesc ? "DESC" : "ASC");
+        query = "?sort=" + (this.sortDesc ? "-" : "") + this.sortBy;
       }
       if (this.getPerPageSelection) {
-        query += "&per_page=" + this.getPerPageSelection;
+        query += "&limit=" + this.getPerPageSelection;
       }
       if (pageNumber) {
-        query += "&page_number=" + pageNumber;
+        query += "&page=" + pageNumber;
       }
       if (this.searchQuery) {
-        if (isNaN(this.searchQuery)) query += "&name=" + this.searchQuery;
-        else query += "&mr_number=" + this.searchQuery;
+        query += "&search=" + this.searchQuery;
       }
-      userService.getPatients("?role=PATIENT" + query).then(
+      userService.getDuplicatedUsers(query).then(
         (response) => {
           if (response.data.status) {
             this.parseData(response.data.data.items);
             this.currentPage = pageNumber;
-            if (this.items[0]) this.totalRows = this.items[0].total_records;
-            else this.totalRows = 0;
+            this.totalRows = response.data.data.total_records;
           } else {
             this.failureToast(response.data.messsage);
           }
@@ -162,5 +230,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
