@@ -1,7 +1,12 @@
 <template>
-  <div class="appointment-detail-container medication-detail-container page-body-container standard-width"
-    v-if="getSelectedMedication">
-    <back-navigation :backLink="backRoute" :title="$t('myMedication.medicationDetails')" />
+  <div
+    class="appointment-detail-container medication-detail-container page-body-container standard-width"
+    v-if="getSelectedMedication"
+  >
+    <back-navigation
+      :backLink="backRoute"
+      :title="$t('myMedication.medicationDetails')"
+    />
     <div class="row">
       <div class="col-sm-12">
         <b-card header-tag="div" no-body class="ash-card card-rounded">
@@ -14,13 +19,9 @@
                 <div class="name">
                   <div class="title">
                     {{
-                      getSelectedMedication.title +
-                      " " +
-                      getSelectedMedication.variation
+                      getSelectedMedication[getLocaleKey("patient_name")] ||
+                      "N/A"
                     }}
-                  </div>
-                  <div class="subTitle w200">
-                    {{ getSelectedMedication.description }}
                   </div>
                 </div>
               </div>
@@ -29,60 +30,82 @@
             <div class="appointment-detail mt-5">
               <div class="appointment-detail--type">
                 <div class="appointment-detail--label">
-                  {{ $t("myMedication.doctorInstruction") }}
+                  {{ $t("admin.consultingDoctor") }}
                 </div>
                 <div class="appointment-detail--value">
-                  {{ getSelectedMedication.instructions }}
+                  <template v-if="getSelectedMedication.doctor_name">
+                    {{ $t("dr") }}
+                    {{
+                      getSelectedMedication[getLocaleKey("doctor_name")] ||
+                      "N/A"
+                    }}
+                  </template>
+                  <template v-else> N/A </template>
                 </div>
               </div>
               <div class="appointment-detail--sepecialist mt-5">
                 <div class="appointment-detail--label">
-                  {{ $t("myMedication.time") }}
+                  {{ $t("admin.phoneNumber") }}
                 </div>
                 <div class="appointment-detail--value">
-                  {{ getSelectedMedication.description }}
+                  {{ getSelectedMedication.phone_number || "N/A" }}
                 </div>
                 <div class="appointment-detail--value--details mt-3">
-                  <span v-if="getSelectedMedication.morning_reminder" class="btn btn-secondary btn-pill">{{
-                    translateNumber(
-                      removeSecondsFromTimeString(
-                        getSelectedMedication.morning_reminder
+                  <span
+                    v-if="getSelectedMedication.morning_reminder"
+                    class="btn btn-secondary btn-pill"
+                    >{{
+                      translateNumber(
+                        removeSecondsFromTimeString(
+                          getSelectedMedication.morning_reminder
+                        )
                       )
-                    )
-                  }}
+                    }}
                   </span>
-                  <span v-if="getSelectedMedication.afternoon_reminder" class="btn btn-dark-blue btn-pill">{{
-                    translateNumber(
-                      removeSecondsFromTimeString(
-                        getSelectedMedication.afternoon_reminder
+                  <span
+                    v-if="getSelectedMedication.afternoon_reminder"
+                    class="btn btn-dark-blue btn-pill"
+                    >{{
+                      translateNumber(
+                        removeSecondsFromTimeString(
+                          getSelectedMedication.afternoon_reminder
+                        )
                       )
-                    )
-                  }}
+                    }}
                   </span>
-                  <span v-if="getSelectedMedication.evening_reminder" class="btn btn-primary btn-pill">{{
-                    translateNumber(
-                      removeSecondsFromTimeString(
-                        getSelectedMedication.evening_reminder
+                  <span
+                    v-if="getSelectedMedication.evening_reminder"
+                    class="btn btn-primary btn-pill"
+                    >{{
+                      translateNumber(
+                        removeSecondsFromTimeString(
+                          getSelectedMedication.evening_reminder
+                        )
                       )
-                    )
-                  }}
+                    }}
                   </span>
                 </div>
               </div>
               <!-- Refill Request Section -->
-              <div class="appointment-detail--type mt-5" v-if="!getSelectedMedication.is_delivery">
+              <div
+                class="appointment-detail--type mt-5"
+                v-if="!getSelectedMedication.is_delivery"
+              >
                 <div class="appointment-detail--label">
                   {{ $t("admin.refillRequest") }}
                 </div>
-                <div class="
-                                                appointment-detail--value
-                                                mt-3
-                                                custom-login-input-groups
-                                                select-box
-                                              " v-if="statuses.includes(this.getSelectedMedication.status)">
-                  <multiselect v-model="selectedStatus" :options="statuses" :placeholder="$t('admin.selectStatus')"
-                    :selectLabel="$t('admin.selectLabel')" :selectedLabel="$t('admin.selectedLabel')"
-                    :deselectLabel="$t('admin.deselectLabel')">
+                <div
+                  class="appointment-detail--value mt-3 custom-login-input-groups select-box"
+                  v-if="statuses.includes(this.getSelectedMedication.status)"
+                >
+                  <multiselect
+                    v-model="selectedStatus"
+                    :options="statuses"
+                    :placeholder="$t('admin.selectStatus')"
+                    :selectLabel="$t('admin.selectLabel')"
+                    :selectedLabel="$t('admin.selectedLabel')"
+                    :deselectLabel="$t('admin.deselectLabel')"
+                  >
                     <template slot="singleLabel" slot-scope="props">
                       <div class="multiselect__with-icon">
                         {{ $t("admin." + props.option) }}
@@ -96,13 +119,19 @@
                       </div>
                     </template>
                   </multiselect>
-                  <div class="custom-state-invalid icon" :class="{
-                    'is-invalid': selectedStatusState == false,
-                  }"></div>
+                  <div
+                    class="custom-state-invalid icon"
+                    :class="{
+                      'is-invalid': selectedStatusState == false,
+                    }"
+                  ></div>
                 </div>
 
                 <!-- Delivery Request Section -->
-                <div class="appointment-detail--value mt-3" v-else-if="getSelectedMedication.status == 'approved'">
+                <div
+                  class="appointment-detail--value mt-3"
+                  v-else-if="getSelectedMedication.status == 'approved'"
+                >
                   {{ $t("admin.sentToPharmacist") }}
                 </div>
                 <div class="appointment-detail--value mt-3" v-else>
@@ -113,11 +142,18 @@
                 <div class="appointment-detail--label">
                   {{ $t("admin.deliveryRequest") }}
                 </div>
-                <div class="appointment-detail--value mt-3 custom-login-input-groups select-box"
-                  v-if="statuses.includes(this.getSelectedMedication.status)">
-                  <multiselect v-model="selectedStatus" :options="deliveryStatuses"
-                    :placeholder="$t('admin.selectStatus')" :selectLabel="$t('admin.selectLabel')"
-                    :selectedLabel="$t('admin.selectedLabel')" :deselectLabel="$t('admin.deselectLabel')">
+                <div
+                  class="appointment-detail--value mt-3 custom-login-input-groups select-box"
+                  v-if="statuses.includes(this.getSelectedMedication.status)"
+                >
+                  <multiselect
+                    v-model="selectedStatus"
+                    :options="deliveryStatuses"
+                    :placeholder="$t('admin.selectStatus')"
+                    :selectLabel="$t('admin.selectLabel')"
+                    :selectedLabel="$t('admin.selectedLabel')"
+                    :deselectLabel="$t('admin.deselectLabel')"
+                  >
                     <template slot="singleLabel" slot-scope="props">
                       <div class="multiselect__with-icon">
                         {{ $t("admin." + props.option) }}
@@ -131,11 +167,17 @@
                       </div>
                     </template>
                   </multiselect>
-                  <div class="custom-state-invalid icon" :class="{
-                    'is-invalid': selectedStatusState == false,
-                  }"></div>
+                  <div
+                    class="custom-state-invalid icon"
+                    :class="{
+                      'is-invalid': selectedStatusState == false,
+                    }"
+                  ></div>
                 </div>
-                <div class="appointment-detail--value mt-3" v-else-if="getSelectedMedication.status == 'approved'">
+                <div
+                  class="appointment-detail--value mt-3"
+                  v-else-if="getSelectedMedication.status == 'approved'"
+                >
                   {{ $t("admin.sentToPharmacist") }}
                 </div>
                 <div class="appointment-detail--value mt-3" v-else>
@@ -145,8 +187,13 @@
             </div>
           </b-card-body>
         </b-card>
-        <div class="appointment--action-buttons"
-          v-if="!getSelectedMedication.is_delivery && statuses.includes(this.getSelectedMedication.status)">
+        <div
+          class="appointment--action-buttons"
+          v-if="
+            !getSelectedMedication.is_delivery &&
+            statuses.includes(this.getSelectedMedication.status)
+          "
+        >
           <button class="btn btn-secondary" @click="updateMedicationRefill()">
             {{ $t("admin.update") }}
           </button>
@@ -154,8 +201,13 @@
             {{ $t("admin.sendToPharmacist") }}
           </button>
         </div>
-        <div class="appointment--action-buttons"
-          v-if="getSelectedMedication.is_delivery && getSelectedMedication.status !== 'delivered'">
+        <div
+          class="appointment--action-buttons"
+          v-if="
+            getSelectedMedication.is_delivery &&
+            getSelectedMedication.status !== 'delivered'
+          "
+        >
           <button class="btn btn-secondary" @click="updateMedicationRefill()">
             {{ $t("admin.update") }}
           </button>
@@ -215,8 +267,8 @@ export default {
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
-                error.response.data &&
-                error.response.data.message
+                  error.response.data &&
+                  error.response.data.message
               );
           }
         );

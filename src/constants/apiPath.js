@@ -2,6 +2,7 @@ let getApiObject = (method, url, version = "v1", pre = null) => {
     let versionKey = version.toUpperCase();
     let envKey = 'VUE_APP_API_' + versionKey + '_BASE_URL';
     let baseUrl = pre || process.env[envKey];
+    // baseUrl = "http://172.16.247.126:3000/";
     return { method, url: baseUrl + "api/" + version + "/" + url };
 }
 
@@ -67,7 +68,7 @@ export const apiPath = {
 
     user: {
         updateProfile: (id) => getApiObject("patch", "users/" + id),
-        getProfile: (profile, mrn) => getApiObject("get", "users?mrn_number=" + mrn),
+        getProfile: (profile, mrn) => getApiObject("get", "auth/patient/profile?mrn_number=" + mrn, "v2"),
         getDoctorProfile: (id) => getApiObject("get", "users?id=" + id),
         fetchUsers: (query) => getApiObject("get", "users" + query),
         deleteUser: (id) => getApiObject("delete", "users/" + id),

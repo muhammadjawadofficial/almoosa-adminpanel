@@ -106,15 +106,11 @@
             ></feather>
           </div>
         </template>
-        <template v-else-if="data.field.key == 'patient_name'">
-          <div class="user-name-with-image">
-            <div class="image">
-              <img :src="getImageUrl(data.item.patient_photo)" alt="user" />
-            </div>
-            <span class="text">{{ data.value }}</span>
-          </div>
+        <template v-else-if="data.field.translate && data.value">
+          {{ data.field.key.toLowerCase().includes("doctor") ? $t("dr") : "" }}
+          {{ data.item[getLocaleKey(data.field.key)] }}
         </template>
-        <template v-else>{{ data.value }}</template>
+        <template v-else>{{ data.value || "N/A" }}</template>
       </template>
     </b-table>
     <b-pagination
@@ -143,15 +139,31 @@ export default {
       dateRange: null,
       tablefields: [
         { key: "id", label: "id", sortable: true },
-        { key: "title", label: "title", sortable: true },
-        { key: "variation", label: "variation", sortable: true },
-        { key: "description", label: "description", sortable: true },
+        {
+          key: "patient_name",
+          label: "patientName",
+          sortable: true,
+          translate: true,
+        },
+        {
+          key: "doctor_name",
+          label: "consultingDoctor",
+          sortable: true,
+          translate: true,
+        },
+        { key: "phone_number", label: "phoneNumber", sortable: true },
+        {
+          key: "speciality",
+          label: "speciality",
+          sortable: true,
+          translate: true,
+        },
         {
           key: "medicationRefillRequested",
           label: "refillRequest",
           sortable: true,
         },
-        { key: "action", label: "action", sortable: true },
+        { key: "action", label: "action" },
       ],
       items: [],
       showDatePicker: true,
@@ -193,9 +205,8 @@ export default {
         if (this.activeTab == "deliveryRequest" && !x.is_delivery) return;
         this.items.push({
           medicationRefillRequested: x.status,
-          title: x.medication ? x.medication.title : "N/A",
-          variation: x.medication ? x.medication.variation : "N/A",
-          description: x.medication ? x.medication.description : "N/A",
+          speciality: x.clinic_id ? x.clinic.title : "",
+          speciality_ar: x.clinic_id ? x.clinic.title_ar : "",
           ...x,
         });
       });

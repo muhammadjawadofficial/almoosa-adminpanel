@@ -356,7 +356,7 @@
                 />
               </div>
             </div>
-            <div class="profile-info-card">
+            <div class="profile-info-card" v-if="getSelectedUser.status">
               <div class="profile-info-card-logo">
                 <img src="../../assets/images/heart-vitals-bg.svg" alt="" />
               </div>
@@ -778,7 +778,7 @@
               <button
                 class="btn btn-secondary"
                 @click="editMRN"
-                v-if="isMrnEditingAllowed"
+                v-if="isMrnEditingAllowed && getSelectedUser.status"
               >
                 {{
                   isEditingMRN
@@ -789,7 +789,8 @@
               <button
                 class="btn"
                 :class="
-                  isEditingAllowed || isMrnEditingAllowed
+                  (isEditingAllowed || isMrnEditingAllowed) &&
+                  getSelectedUser.status
                     ? 'btn-tertiary'
                     : 'btn-secondary'
                 "
