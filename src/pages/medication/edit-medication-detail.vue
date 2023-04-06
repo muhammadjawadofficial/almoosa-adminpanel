@@ -18,72 +18,79 @@
                 </div>
                 <div class="name">
                   <div class="title">
-                    {{
-                      getSelectedMedication[getLocaleKey("patient_name")] ||
-                      "N/A"
-                    }}
+                    {{ getSelectedMedication.medicine_name || "N/A" }}
                   </div>
                 </div>
               </div>
               <div class="header-section--button"></div>
             </div>
             <div class="appointment-detail mt-5">
-              <div class="appointment-detail--type">
-                <div class="appointment-detail--label">
-                  {{ $t("admin.consultingDoctor") }}
+              <div class="row">
+                <div class="col-md-4 appointment-detail--type">
+                  <div class="appointment-detail--label">
+                    {{ $t("admin.consultingDoctor") }}
+                  </div>
+                  <div class="appointment-detail--value">
+                    <template v-if="getSelectedMedication.doctor_name">
+                      {{ $t("dr") }}
+                      {{
+                        getSelectedMedication[getLocaleKey("doctor_name")] ||
+                        "N/A"
+                      }}
+                    </template>
+                    <template v-else> N/A </template>
+                  </div>
                 </div>
-                <div class="appointment-detail--value">
-                  <template v-if="getSelectedMedication.doctor_name">
-                    {{ $t("dr") }}
+                <div class="col-md-4 appointment-detail--sepecialist">
+                  <div class="appointment-detail--label">
+                    {{ $t("admin.speciality") }}
+                  </div>
+                  <div class="appointment-detail--value">
                     {{
-                      getSelectedMedication[getLocaleKey("doctor_name")] ||
-                      "N/A"
+                      getSelectedMedication[getLocaleKey("speciality")] || "N/A"
                     }}
-                  </template>
-                  <template v-else> N/A </template>
+                  </div>
+                </div>
+                <div class="col-md-4 appointment-detail--sepecialist">
+                  <div class="appointment-detail--label">
+                    {{ $t("admin.endDate") }}
+                  </div>
+                  <div class="appointment-detail--value">
+                    {{
+                      getSelectedMedication.end_date
+                        ? formatDateTime(getSelectedMedication.end_date)
+                        : "N/A"
+                    }}
+                  </div>
                 </div>
               </div>
-              <div class="appointment-detail--sepecialist mt-5">
-                <div class="appointment-detail--label">
-                  {{ $t("admin.phoneNumber") }}
+              <div class="row mt-5">
+                <div class="col-md-4 appointment-detail--type">
+                  <div class="appointment-detail--label">
+                    {{ $t("admin.patient") }}
+                  </div>
+                  <div class="appointment-detail--value">
+                    {{
+                      getSelectedMedication[getLocaleKey("patient_name")] ||
+                      "N/A"
+                    }}
+                  </div>
                 </div>
-                <div class="appointment-detail--value">
-                  {{ getSelectedMedication.phone_number || "N/A" }}
+                <div class="col-md-4 appointment-detail--sepecialist">
+                  <div class="appointment-detail--label">
+                    {{ $t("admin.mrn") }}
+                  </div>
+                  <div class="appointment-detail--value">
+                    {{ getSelectedMedication.mrn_number || "N/A" }}
+                  </div>
                 </div>
-                <div class="appointment-detail--value--details mt-3">
-                  <span
-                    v-if="getSelectedMedication.morning_reminder"
-                    class="btn btn-secondary btn-pill"
-                    >{{
-                      translateNumber(
-                        removeSecondsFromTimeString(
-                          getSelectedMedication.morning_reminder
-                        )
-                      )
-                    }}
-                  </span>
-                  <span
-                    v-if="getSelectedMedication.afternoon_reminder"
-                    class="btn btn-dark-blue btn-pill"
-                    >{{
-                      translateNumber(
-                        removeSecondsFromTimeString(
-                          getSelectedMedication.afternoon_reminder
-                        )
-                      )
-                    }}
-                  </span>
-                  <span
-                    v-if="getSelectedMedication.evening_reminder"
-                    class="btn btn-primary btn-pill"
-                    >{{
-                      translateNumber(
-                        removeSecondsFromTimeString(
-                          getSelectedMedication.evening_reminder
-                        )
-                      )
-                    }}
-                  </span>
+                <div class="col-md-4 appointment-detail--sepecialist">
+                  <div class="appointment-detail--label">
+                    {{ $t("admin.phoneNumber") }}
+                  </div>
+                  <div class="appointment-detail--value">
+                    {{ getSelectedMedication.phone_number || "N/A" }}
+                  </div>
                 </div>
               </div>
               <!-- Refill Request Section -->

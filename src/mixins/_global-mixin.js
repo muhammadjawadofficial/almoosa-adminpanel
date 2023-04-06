@@ -406,6 +406,9 @@ export default {
         formatDate(date) {
             return this.dateFormatter(date, "DD-MM-YYYY")
         },
+        formatDateTime(date, utc = true) {
+            return this.dateFormatter(date, 'DD/MM/YYYY hh:mm A', utc);
+        },
         getLongMonthDayFromDate(date) {
             return this.dateFormatter(date, 'MMMM, D dddd')
         },
