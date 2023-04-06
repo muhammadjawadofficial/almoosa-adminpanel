@@ -188,6 +188,7 @@ export default {
     sortUsers(filter) {
       this.sortDesc = filter.sortDesc;
       this.sortBy = filter.sortBy;
+      this.fetchUsers();
     },
     fetchUsers(pageNumber = 1) {
       this.items = [];

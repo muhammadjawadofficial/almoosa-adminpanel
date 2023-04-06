@@ -5,9 +5,9 @@ export const transactionsService = {
     fetchTransactionList
 }
 
-function fetchTransactionList() {
+function fetchTransactionList(query) {
     return axios({
-        method: apiPath.transactions.fetchAll.method,
-        url: apiPath.transactions.fetchAll.url
+        method: apiPath.transactions.fetchAll(query).method,
+        url: apiPath.transactions.fetchAll(query).url
     })
 }

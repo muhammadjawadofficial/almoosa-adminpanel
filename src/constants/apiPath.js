@@ -124,7 +124,7 @@ export const apiPath = {
     },
 
     transactions: {
-        fetchAll: getApiObject("get", "payments/transactions"),
+        fetchAll: (query) => getApiObject("get", "payments/transactions" + query),
     },
 
     rolesPermissions: {

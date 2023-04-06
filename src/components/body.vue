@@ -123,7 +123,7 @@ export default {
         this.width <= 991 ? !this.sidebar_toggle_var : this.sidebar_toggle_var;
     },
     getMenuItems(val) {
-      this.withoutSideBar = !!(val && val.length == 1);
+      this.withoutSideBar = !!(val && val.length == 1) && false;
     },
   },
   beforeDestroy(){

@@ -1,20 +1,5 @@
 <template>
   <div class="doctor-list-container page-body-container standard-width">
-    <div class="search-box full-width mb-5">
-      <div class="search-icon">
-        <i class="fa fa-search" aria-hidden="true"></i>
-      </div>
-      <div class="search-input">
-        <b-form-input
-          :placeholder="$t('admin.searchPatientMrn')"
-          id="type-search"
-          type="search"
-          v-model="searchQuery"
-          debounce="1000"
-        ></b-form-input>
-      </div>
-    </div>
-
     <b-table
       show-empty
       stacked="md"
@@ -23,6 +8,9 @@
       :fields="tablefields"
       :current-page="currentPage"
       :per-page="5"
+      :sort-by="sortBy"
+      :sort-desc="sortDesc"
+      @sort-changed="sortUsers"
       class="ash-data-table"
     >
       <template #empty>
@@ -51,10 +39,10 @@
             <div class="image">
               <img :src="getImageUrl(data.item.patient_photo)" alt="user" />
             </div>
-            <span class="text">{{ data.value }}</span>
+            <span class="text">{{ data.value || "N/A" }}</span>
           </div>
         </template>
-        <template v-else>{{ data.value }}</template>
+        <template v-else>{{ data.value || "N/A" }}</template>
       </template>
     </b-table>
     <b-pagination
@@ -73,22 +61,18 @@ import { transactionsService } from "../../services";
 export default {
   data() {
     return {
-      searchQuery: "",
       totalRows: 1,
       currentPage: 1,
       getPerPageSelection: 5,
+      sortBy: "id",
+      sortDesc: true,
       tablefields: [
-        { key: "gateway_id", label: "gatewayId", sortable: true },
+        { key: "id", label: "id", sortable: true },
+        { key: "gateway_id", label: "gatewayId" },
         { key: "amount", label: "amount", sortable: true },
         { key: "appointment_id", label: "appointmentId", sortable: true },
-        { key: "patient", label: "patient", sortable: true },
-        { key: "doctor", label: "doctor", sortable: true },
-        { key: "appointmentDate", label: "appointmentDate", sortable: true },
-        {
-          key: "appointmentStatus",
-          label: "appointmentStatus",
-          sortable: true,
-        },
+        { key: "mrn", label: "mrn" },
+        { key: "consultingDoctor", label: "consultingDoctor" },
         { key: "status", label: "status", sortable: true },
       ],
       items: [],
@@ -97,27 +81,36 @@ export default {
   mounted() {
     this.fetchUsers();
   },
-  watch: {
-    searchQuery(query) {
+  methods: {
+    sortUsers(filter) {
+      this.sortDesc = filter.sortDesc;
+      this.sortBy = filter.sortBy;
       this.fetchUsers();
     },
-  },
-  methods: {
     parseData(data) {
       this.items = [];
       data.forEach((x) => {
         this.items.push({
-          patient: x.appointment && x.appointment.patient_id,
-          doctor: x.appointment && x.appointment.doctor_id,
-          appointmentDate: x.appointment && x.appointment.booked_date,
-          appointmentStatus: x.appointment && x.appointment.status,
+          mrn: x.patient && x.patient.mrn_number,
+          consultingDoctor: x.doctor && this.getFullName(x.doctor),
           ...x,
         });
       });
     },
-    fetchUsers() {
+    fetchUsers(pageNumber = 1) {
+      this.items = [];
       this.setLoadingState(true);
-      transactionsService.fetchTransactionList().then(
+      let query = "";
+      if (this.sortBy) {
+        query = "?sort=" + (this.sortDesc ? "-" : "") + this.sortBy;
+      }
+      // if (this.getPerPageSelection) {
+      //   query += "&limit=" + this.getPerPageSelection;
+      // }
+      // if (pageNumber) {
+      //   query += "&page=" + pageNumber;
+      // }
+      transactionsService.fetchTransactionList(query).then(
         (response) => {
           if (response.data.status) {
             this.parseData(response.data.data.items);
