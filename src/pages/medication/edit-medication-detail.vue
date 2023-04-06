@@ -137,7 +137,9 @@
                 <!-- Delivery Request Section -->
                 <div
                   class="appointment-detail--value mt-3"
-                  v-else-if="getSelectedMedication.status == 'approved'"
+                  v-else-if="
+                    getSelectedMedication.status == 'approved' && false
+                  "
                 >
                   {{ $t("admin.sentToPharmacist") }}
                 </div>
@@ -183,7 +185,9 @@
                 </div>
                 <div
                   class="appointment-detail--value mt-3"
-                  v-else-if="getSelectedMedication.status == 'approved'"
+                  v-else-if="
+                    getSelectedMedication.status == 'approved' && false
+                  "
                 >
                   {{ $t("admin.sentToPharmacist") }}
                 </div>
@@ -204,7 +208,7 @@
           <button class="btn btn-secondary" @click="updateMedicationRefill()">
             {{ $t("admin.update") }}
           </button>
-          <button class="btn btn-secondary" @click="sendToPharma">
+          <button class="btn btn-secondary" @click="sendToPharma" v-if="false">
             {{ $t("admin.sendToPharmacist") }}
           </button>
         </div>
@@ -233,7 +237,7 @@ export default {
       backRoute: "",
       selectedStatus: null,
       selectedStatusState: null,
-      statuses: ["pending", "rejected"],
+      statuses: ["pending", "approved", "rejected", "completed"],
       deliveryStatuses: ["pending", "delivered"],
     };
   },
