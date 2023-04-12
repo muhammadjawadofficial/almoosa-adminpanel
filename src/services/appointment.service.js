@@ -22,10 +22,10 @@ function fetchAllAppointments(query) {
         url: apiPath.appointment.all(query).url,
     })
 }
-function fetchAppointmentInstructions() {
+function fetchAppointmentInstructions(query) {
     return axios({
-        method: apiPath.appointment.fetchInstructions.method,
-        url: apiPath.appointment.fetchInstructions.url,
+        method: apiPath.appointment.fetchInstructions(query).method,
+        url: apiPath.appointment.fetchInstructions(query).url,
     })
 }
 function updateAppointmentInstructions(id, value) {

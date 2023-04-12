@@ -14,12 +14,22 @@
           rows="10"
           max-rows="15"
         ></b-form-textarea>
+        <div class="mt-5 forceRtl">
+          <b-form-textarea
+            id="textarea"
+            v-model="instructionsAr"
+            placeholder="Enter something..."
+            rows="10"
+            max-rows="15"
+          ></b-form-textarea>
+        </div>
       </template>
+
       <div class="view-instructions-container" v-else>
         <div class="no-data" v-if="getLoading">{{ $t("loading") }}...</div>
-        <ul class="swal2-list" v-else-if="getInstructionArray.length">
+        <ul class="swal2-list" v-else-if="getInstructionsInArray.length">
           <li
-            v-for="(instruction, index) in getInstructionArray"
+            v-for="(instruction, index) in getInstructionsInArray"
             :key="'instruction-line-' + index"
           >
             {{ instruction }}
@@ -36,17 +46,15 @@
         {{ $t("admin.instructions") }}
       </button>
       <button
-        v-if="isEditing && getInstructionArray && getInstructionArray.length"
+        v-if="
+          isEditing && getInstructionsInArray && getInstructionsInArray.length
+        "
         @click="cancelAppointment"
         class="btn btn-tertiary"
       >
         {{ $t("admin.cancel") }}
       </button>
-      <button
-        v-if="getInstructionArray.length"
-        @click="preview"
-        class="btn btn-secondary"
-      >
+      <button v-if="!isEditing" @click="preview" class="btn btn-secondary">
         {{ $t("admin.preview") }}
       </button>
     </div>
@@ -59,7 +67,13 @@ export default {
   data() {
     return {
       instructions: "",
+      instructionsAr: "",
+      instructionsArray: [],
+      instructionsArrayAr: [],
       savedInstructions: {
+        instructions: "",
+      },
+      savedInstructionsAr: {
         instructions: "",
       },
       isEditing: false,
@@ -69,40 +83,121 @@ export default {
     this.fetchAppointmentInstruction();
   },
   computed: {
-    getInstructionArray() {
-      let instructions = this.instructions.split(/\r?\n/);
-      return instructions.filter((x) => x != "");
+    getInstructionsInArray() {
+      if (this.$i18n.locale == "en") {
+        return this.instructionsArray;
+      } else {
+        return this.instructionsArrayAr;
+      }
     },
   },
   methods: {
+    getInstructionArray(instruction) {
+      return this[instruction].split(/\r?\n/).filter((x) => x != "");
+    },
     fetchAppointmentInstruction() {
       this.setLoadingState(true);
-      appointmentService.fetchAppointmentInstructions().then(
-        (response) => {
-          if (response.data.status) {
-            let data = response.data.data.items[0];
+      Promise.all([
+        appointmentService.fetchAppointmentInstructions(
+          "?title=TELE_INSTRUCTIONS"
+        ),
+        appointmentService.fetchAppointmentInstructions(
+          "?title=TELE_INSTRUCTIONS_AR"
+        ),
+      ])
+        .then((res) => {
+          if (res[0].data.status) {
+            let data = res[0].data.data.items[0];
+            let parsedData = JSON.parse(data.value);
             this.savedInstructions = {
               ...data,
-              instructions: JSON.parse(data.value),
+              instructions: parsedData,
             };
-            this.setInstructions();
+            this.instructionsArray = parsedData.filter((x) => x != "");
           } else {
-            this.failureToast(response.data.messsage);
+            this.failureToast(res[0].data.messsage);
           }
+          if (res[1].data.status) {
+            let dataAr = res[1].data.data.items[0];
+            let parsedDataAr = JSON.parse(dataAr.value);
+            this.savedInstructionsAr = {
+              ...dataAr,
+              instructions: parsedDataAr,
+            };
+            this.instructionsArrayAr = parsedDataAr.filter((x) => x != "");
+          } else {
+            this.failureToast(res[1].data.messsage);
+          }
+
+          console.log(this.instructionsArray);
           this.appointmentStatus = null;
           this.setLoadingState(false);
-        },
-        (error) => {
+        })
+        .catch((err) => {
           this.appointmentStatus = null;
           this.setLoadingState(false);
-          if (!this.isAPIAborted(error))
+          if (!this.isAPIAborted(err))
             this.failureToast(
-              error.response &&
-                error.response.data &&
-                error.response.data.messsage
+              err.response && err.response.data && err.response.data.messsage
             );
-        }
-      );
+        });
+
+      // this.setLoadingState(true);
+      // appointmentService
+      //   .fetchAppointmentInstructions("?title=TELE_INSTRUCTIONS")
+      //   .then(
+      //     (response) => {
+      //       if (response.data.status) {
+      //         let data = response.data.data.items[0];
+      //         this.savedInstructions = {
+      //           ...data,
+      //           instructions: JSON.parse(data.value),
+      //         };
+      //       } else {
+      //         this.failureToast(response.data.messsage);
+      //       }
+      //       this.appointmentStatus = null;
+      //       this.setLoadingState(false);
+      //     },
+      //     (error) => {
+      //       this.appointmentStatus = null;
+      //       this.setLoadingState(false);
+      //       if (!this.isAPIAborted(error))
+      //         this.failureToast(
+      //           error.response &&
+      //             error.response.data &&
+      //             error.response.data.messsage
+      //         );
+      //     }
+      //   );
+      // this.setLoadingState(true);
+      // appointmentService
+      //   .fetchAppointmentInstructions("?title=TELE_INSTRUCTIONS_AR")
+      //   .then(
+      //     (response) => {
+      //       if (response.data.status) {
+      //         let data = response.data.data.items[0];
+      //         this.savedInstructionsAr = {
+      //           ...data,
+      //           instructions: JSON.parse(data.value),
+      //         };
+      //       } else {
+      //         this.failureToast(response.data.messsage);
+      //       }
+      //       this.appointmentStatus = null;
+      //       this.setLoadingState(false);
+      //     },
+      //     (error) => {
+      //       this.appointmentStatus = null;
+      //       this.setLoadingState(false);
+      //       if (!this.isAPIAborted(error))
+      //         this.failureToast(
+      //           error.response &&
+      //             error.response.data &&
+      //             error.response.data.messsage
+      //         );
+      //     }
+      //   );
     },
     updateAppointmentInstruction(id, instructions) {
       this.setLoadingState(true);
@@ -129,7 +224,8 @@ export default {
       );
     },
     saveInstructions() {
-      let instructions = this.getInstructionArray;
+      let instructions = this.instructionsArray;
+      let instructionsAr = this.instructionsArrayAr;
       this.setInstructions();
       if (!this.isEditing) {
         this.isEditing = true;
@@ -139,6 +235,10 @@ export default {
         this.savedInstructions.id,
         JSON.stringify(instructions)
       );
+      this.updateAppointmentInstruction(
+        this.savedInstructionsAr.id,
+        JSON.stringify(instructionsAr)
+      );
       this.isEditing = false;
     },
     cancelAppointment() {
@@ -147,11 +247,12 @@ export default {
     },
     setInstructions() {
       this.instructions = this.savedInstructions.instructions.join("\r\n");
+      this.instructionsAr = this.savedInstructionsAr.instructions.join("\r\n");
     },
     preview() {
       let html =
         "<ul class='swal2-list'>" +
-        this.getInstructionArray.map((x) => "<li>" + x + "</li>").join("") +
+        this.getInstructionsInArray.map((x) => "<li>" + x + "</li>").join("") +
         "</ul>";
       this.successIconListModal(
         this.$t("appointmentDetail.instructionTitle"),

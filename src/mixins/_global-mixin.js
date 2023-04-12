@@ -58,7 +58,7 @@ export default {
                 path = process.env.VUE_APP_SERVER + profile.path;
             return path
         },
-        getLocaleKey: function (key, wordCase = "lower", enLocale = "", arLocale = "_ar") {
+        getLocaleKey: function (key, enLocale = "", arLocale = "_ar", wordCase = "camel") {
             let postKey = this.$i18n.locale == "ar" ? arLocale : enLocale;
             if (wordCase == "upper") {
                 postKey = postKey.toUpperCase();

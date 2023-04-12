@@ -21,7 +21,7 @@ export const apiPath = {
     appointment: {
         view: (type) => getApiObject("get", "appointments?type=" + type),
         all: (query) => getApiObject("get", "admin/appointments" + query, "v2"),
-        fetchInstructions: getApiObject("get", "system-settings?title=TELE_INSTRUCTIONS"),
+        fetchInstructions: (query) => getApiObject("get", "system-settings" + query),
         updateInstructions: (id) => getApiObject("patch", "system-settings/" + id),
         fetchUpcomingAppointments: getApiObject("get", "appointments/upcoming"),
         fetchAppointmentHistory: getApiObject("get", "appointments/history"),

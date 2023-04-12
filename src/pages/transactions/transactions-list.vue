@@ -93,6 +93,7 @@ export default {
         this.items.push({
           mrn: x.patient && x.patient.mrn_number,
           consultingDoctor: x.doctor && this.getFullName(x.doctor),
+          paymentReponse: x.reponse ? JSON.parse(x.reponse) : "N/A",
           ...x,
         });
       });
