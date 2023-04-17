@@ -189,6 +189,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
+            "permission": "Banner Management",
             "children": [
                 {
                     "title": "List",
