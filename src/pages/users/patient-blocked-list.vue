@@ -84,7 +84,7 @@ export default {
       ],
       items: [],
       filteredItems: [],
-      activeTab: "unverified",
+      activeTab: "blocked",
     };
   },
   mounted() {
