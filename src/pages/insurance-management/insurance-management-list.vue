@@ -14,6 +14,31 @@
         ></b-form-input>
       </div>
     </div>
+    <div class="filter-container">
+      <div class="toggle-options mt-0">
+        <div
+          class="toggle-options--single"
+          :class="{ active: activeTab == 'pending' }"
+          @click="changeTab('pending')"
+        >
+          {{ $t("admin.pending") }}
+        </div>
+        <div
+          class="toggle-options--single"
+          :class="{ active: activeTab == 'approved' }"
+          @click="changeTab('approved')"
+        >
+          {{ $t("admin.approved") }}
+        </div>
+        <div
+          class="toggle-options--single"
+          :class="{ active: activeTab == 'rejected' }"
+          @click="changeTab('rejected')"
+        >
+          {{ $t("admin.rejected") }}
+        </div>
+      </div>
+    </div>
 
     <b-table
       show-empty
@@ -93,6 +118,7 @@ export default {
       filteredItems: [],
       sortBy: "",
       sortDesc: null,
+      activeTab: "pending",
     };
   },
   watch: {
@@ -108,6 +134,10 @@ export default {
   },
   methods: {
     ...mapActions("insuranceManagement", ["setSelectedInsuranceManagement"]),
+    changeTab(type) {
+      this.activeTab = type;
+      this.fetchInsurances(1, type);
+    },
     editInsurance(row) {
       this.setSelectedInsuranceManagement(row);
       this.navigateTo("Insurance Management Details");
@@ -161,7 +191,7 @@ export default {
     },
     fetchInsurances() {
       this.setLoadingState(true);
-      insuranceService.fetchAllInsurances().then(
+      insuranceService.fetchAllInsurances("?status=" + this.activeTab).then(
         (response) => {
           if (response.data.status) {
             let data = response.data.data.items;

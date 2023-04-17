@@ -29,10 +29,10 @@ function addNewInsurace(insurance) {
         data: insurance
     })
 }
-function fetchAllInsurances() {
+function fetchAllInsurances(query) {
     return axios({
-        method: apiPath.insurance.fetchAll.method,
-        url: apiPath.insurance.fetchAll.url,
+        method: apiPath.insurance.fetchAll(query).method,
+        url: apiPath.insurance.fetchAll(query).url,
     })
 }
 function updateInsurances(id, data) {
