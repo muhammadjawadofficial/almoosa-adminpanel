@@ -16,6 +16,7 @@
     </div>
     <b-table
       show-empty
+      responsive
       stacked="md"
       borderless
       :items="items"
@@ -45,7 +46,12 @@
         <template v-else-if="data.field.key == 'amount'">
           {{ data.value + " " + data.item.currency }}
         </template>
-        <template v-else-if="data.field.key.toLowerCase().includes('date')">
+        <template
+          v-else-if="
+            data.field.key.toLowerCase().includes('updated') ||
+            data.field.key.toLowerCase().includes('created')
+          "
+        >
           {{ getLongDateAndTimeFromDate(data.value, true) }}
         </template>
         <template v-else-if="data.field.key == 'patient_name'">
@@ -87,6 +93,8 @@ export default {
         { key: "appointment_id", label: "appointmentId", sortable: true },
         { key: "mrn", label: "mrn" },
         { key: "consultingDoctor", label: "consultingDoctor" },
+        { key: "created_at", label: "createdAt" },
+        { key: "updated_at", label: "updatedAt" },
         { key: "status", label: "status", sortable: true },
       ],
       items: [],

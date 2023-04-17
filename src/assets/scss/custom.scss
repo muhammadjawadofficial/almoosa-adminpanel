@@ -2217,9 +2217,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
 }
 .ash-data-table {
-    font-size: 1rem;
-    border-collapse: separate;
-    border-spacing: 0 1rem;
+    &,
+    & > table {
+        font-size: 1rem;
+        border-collapse: separate;
+        border-spacing: 0 1rem;
+    }
+    &.table-responsive {
+        overflow-x: auto;
+    }
     &.clickable {
         tbody {
             tr {
@@ -2264,6 +2270,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         display: flex;
         align-items: center;
         .image {
+            min-width: 3rem;
             width: 3rem;
             height: 3rem;
             border-radius: 50%;
