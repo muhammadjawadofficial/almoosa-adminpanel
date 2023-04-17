@@ -1,12 +1,12 @@
 <template>
   <div class="doctor-list-container page-body-container standard-width">
-    <div class="search-box full-width" v-if="false">
+    <div class="search-box full-width">
       <div class="search-icon">
         <i class="fa fa-search" aria-hidden="true"></i>
       </div>
       <div class="search-input">
         <b-form-input
-          :placeholder="$t('admin.searchPatientMrn')"
+          :placeholder="$t('admin.searchByMrn')"
           id="type-search"
           type="search"
           v-model="searchQuery"
@@ -31,43 +31,29 @@
           {{ $t("admin.deliveryRequest") }}
         </div>
       </div>
-      <div class="filters-dropdown" v-if="false">
-        {{ $t("admin.date") }}
-        <img src="../../assets/images/filter.svg" alt="" />
-        <div class="filters-dropdown-menu">
-          <template v-if="true">
-            <div style="display: flex">
-              <div class="date-container" @click="showCalendar = !showCalendar">
-                {{ $t("admin.from") }}:
-                {{ fromDate || $t("admin.selectDate") }}
-              </div>
-              <div class="date-container" @click="showCalendar = !showCalendar">
-                {{ $t("admin.to") }}:
-                {{ toDate || $t("admin.selectDate") }}
-              </div>
-            </div>
-            <date-picker
-              :append-to-body="false"
-              format="DD-MM-YYYY"
-              v-model="dateRange"
-              :popup-style="{ top: 'calc(100% - 5px)', left: 0, right: 0 }"
-              popup-class="hideSecondCalendar"
-              value-type="format"
-              class="ash-datepicker"
-              range
-              :open="showCalendar"
-              :lang="getCurrentLang()"
-              @input="dateChange"
-            >
-              <template #icon-calendar>
-                <img
-                  src="../../assets/images/calendar.svg"
-                  alt=""
-                  style="width: 1rem; height: 1rem; object-fit: contain"
-                />
-              </template>
-            </date-picker>
-          </template>
+    </div>
+    <div class="filters-container">
+      <div class="toggle-options mt-0">
+        <div
+          class="toggle-options--single"
+          :class="{ active: subTab == 'pending' }"
+          @click="changeSubTab('pending')"
+        >
+          {{ $t("admin.pending") }}
+        </div>
+        <div
+          class="toggle-options--single"
+          :class="{ active: subTab == 'approved' }"
+          @click="changeSubTab('approved')"
+        >
+          {{ $t("admin.approved") }}
+        </div>
+        <div
+          class="toggle-options--single"
+          :class="{ active: subTab == 'rejected' }"
+          @click="changeSubTab('rejected')"
+        >
+          {{ $t("admin.rejected") }}
         </div>
       </div>
     </div>
@@ -166,10 +152,12 @@ export default {
         { key: "action", label: "action" },
       ],
       items: [],
+      totalItems: [],
       showDatePicker: true,
       showCalendar: false,
       locale: "",
       activeTab: "refillRequest",
+      subTab: "pending",
     };
   },
   mounted() {
@@ -177,7 +165,7 @@ export default {
   },
   watch: {
     searchQuery(query) {
-      this.fetchMedications();
+      this.filterList(query);
     },
   },
   methods: {
@@ -185,6 +173,12 @@ export default {
     rowClicked(e) {
       this.setSelectedMedication(e);
       this.navigateTo("All Medication Details");
+    },
+    filterList(query) {
+      this.items = this.totalItems.filter((x) =>
+        ("" + x.mrn_number).includes(query)
+      );
+      this.totalRows = this.items.length;
     },
     dateChange(val) {
       this.fromDate = val[0];
@@ -196,6 +190,10 @@ export default {
     },
     changeTab(type) {
       this.activeTab = type;
+      this.fetchMedications();
+    },
+    changeSubTab(type) {
+      this.subTab = type;
       this.fetchMedications();
     },
     parseData(data) {
@@ -210,10 +208,13 @@ export default {
           ...x,
         });
       });
+      this.totalItems = [...this.items];
+      this.filterList(this.searchQuery);
+      console.log(this.searchQuery, 'asldkasldkf')
     },
     fetchMedications() {
       this.setLoadingState(true);
-      medicationService.getMedicationRefills().then(
+      medicationService.getMedicationRefills("?status=" + this.subTab).then(
         (response) => {
           if (response.data.status) {
             this.parseData(response.data.data.items);
@@ -250,6 +251,7 @@ export default {
             (response) => {
               if (response.data.status) {
                 this.items = [...this.items.filter((x) => x.id != item.id)];
+                this.totalItems = [...this.items];
                 this.totalRows = this.items.length;
                 this.successIconModal(
                   this.$t("changesDone"),
