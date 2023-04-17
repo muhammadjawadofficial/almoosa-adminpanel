@@ -142,7 +142,7 @@ export default {
         (response) => {
           if (response.data.status) {
             this.parseData(response.data.data.items);
-            this.currentPage = 1;
+            this.currentPage = pageNumber;
             this.totalRows = this.items.length;
           } else {
             this.failureToast(response.data.messsage);

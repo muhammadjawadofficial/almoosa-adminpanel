@@ -5,7 +5,8 @@ export const reportService = {
     getAppointmentsWithReports,
     fetchLabReports,
     fetchRadiologyReports,
-    getReportsWithAppointments
+    getReportsWithAppointments,
+    getAppointmentStats
 }
 
 function getAppointmentsWithReports(id, type) {
@@ -32,5 +33,12 @@ function getReportsWithAppointments(id) {
     return axios({
         method: apiPath.reports.reportsWithAppointments(id).method,
         url: apiPath.reports.reportsWithAppointments(id).url,
+    })
+}
+
+function getAppointmentStats(query) {
+    return axios({
+        method: apiPath.reports.appointmentStats(query).method,
+        url: apiPath.reports.appointmentStats(query).url,
     })
 }
