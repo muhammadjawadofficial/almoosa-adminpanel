@@ -17,7 +17,7 @@
               />
               <label
                 for="user-profile-picture-upload"
-                v-if="isEditingAllowed && forceDisable"
+                v-if="isEditingAllowed && !forceDisable"
               >
                 {{ $t("profile.uploadPicture") }}
                 <input
@@ -879,7 +879,7 @@ export default {
     }
     if (!this.isSelectedUserDoctor) {
       this.isMrnEditingAllowed = true;
-      this.forceDisable = true;
+      // this.forceDisable = true;
     }
     this.initializeData();
     this.checkDropdownValues();
