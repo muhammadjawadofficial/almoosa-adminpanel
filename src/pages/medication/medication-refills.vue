@@ -205,8 +205,8 @@ export default {
         if (this.activeTab == "deliveryRequest" && !x.is_delivery) return;
         this.items.push({
           medicationRefillRequested: x.status,
-          speciality: x.clinic_id ? x.clinic.title : "",
-          speciality_ar: x.clinic_id ? x.clinic.title_ar : "",
+          speciality: x.clinic ? x.clinic.title : "",
+          speciality_ar: x.clinic ? x.clinic.title_ar : "",
           ...x,
         });
       });
