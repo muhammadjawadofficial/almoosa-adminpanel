@@ -1,5 +1,19 @@
 <template>
   <div class="doctor-list-container page-body-container standard-width">
+    <div class="search-box full-width">
+      <div class="search-icon">
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </div>
+      <div class="search-input">
+        <b-form-input
+          :placeholder="$t('admin.searchTransaction')"
+          id="type-search"
+          type="search"
+          v-model="searchQuery"
+          debounce="1000"
+        ></b-form-input>
+      </div>
+    </div>
     <b-table
       show-empty
       stacked="md"
@@ -11,7 +25,7 @@
       :sort-by="sortBy"
       :sort-desc="sortDesc"
       @sort-changed="sortUsers"
-      class="ash-data-table"
+      class="ash-data-table mt-3"
     >
       <template #empty>
         <div class="text-center my-2">{{ $t("noRecordToShow") }}</div>
@@ -76,10 +90,22 @@ export default {
         { key: "status", label: "status", sortable: true },
       ],
       items: [],
+      totalItems: [],
+      searchQuery: "",
     };
   },
   mounted() {
     this.fetchUsers();
+  },
+  watch: {
+    searchQuery(query) {
+      this.items = this.totalItems.filter(
+        (x) =>
+          ("" + x.appointment_id).includes(query) ||
+          ("" + x.mrn).includes(query)
+      );
+      this.totalRows = this.items.length;
+    },
   },
   methods: {
     sortUsers(filter) {
@@ -97,6 +123,7 @@ export default {
           ...x,
         });
       });
+      this.totalItems = [...this.items];
     },
     fetchUsers(pageNumber = 1) {
       this.items = [];
