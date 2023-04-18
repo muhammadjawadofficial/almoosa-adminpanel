@@ -18,8 +18,8 @@
       <div class="toggle-options mt-0">
         <div
           class="toggle-options--single"
-          :class="{ active: activeTab == 'pending' }"
-          @click="changeTab('pending')"
+          :class="{ active: activeTab == 'Sent for approval' }"
+          @click="changeTab('Sent for approval')"
         >
           {{ $t("admin.pending") }}
         </div>
