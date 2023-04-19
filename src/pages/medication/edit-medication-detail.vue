@@ -238,7 +238,7 @@ export default {
       selectedStatus: null,
       selectedStatusState: null,
       statuses: ["pending", "approved", "rejected", "completed"],
-      deliveryStatuses: ["pending", "delivered"],
+      deliveryStatuses: ["pending", "approved", "rejected", "delivered"],
     };
   },
   computed: {

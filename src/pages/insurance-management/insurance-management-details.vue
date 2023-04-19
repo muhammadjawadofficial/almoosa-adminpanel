@@ -52,7 +52,9 @@
                     {{
                       $t(
                         "register." +
-                          (getSelectedInsuranceManagement.patient.saudi_id
+                          (getSelectedInsuranceManagement.patient.saudi_id &&
+                          getSelectedInsuranceManagement.patient.saudi_id.toLowerCase() !=
+                            "null"
                             ? "saudiId"
                             : "iqamaId")
                       )
@@ -61,8 +63,11 @@
                   <div class="appointment-detail--value">
                     {{
                       translateNumber(
-                        getSelectedInsuranceManagement.patient.saudi_id ||
-                          getSelectedInsuranceManagement.patient.iqama
+                        getSelectedInsuranceManagement.patient.saudi_id &&
+                          getSelectedInsuranceManagement.patient.saudi_id.toLowerCase() !=
+                            "null"
+                          ? getSelectedInsuranceManagement.patient.saudi_id
+                          : getSelectedInsuranceManagement.patient.iqama
                       )
                     }}
                   </div>

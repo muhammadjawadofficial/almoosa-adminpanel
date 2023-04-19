@@ -118,7 +118,7 @@ export default {
       filteredItems: [],
       sortBy: "",
       sortDesc: null,
-      activeTab: "pending",
+      activeTab: "Sent for approval",
     };
   },
   watch: {
