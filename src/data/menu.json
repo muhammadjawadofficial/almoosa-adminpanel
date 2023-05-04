@@ -302,6 +302,31 @@
             "permission": "Roles & Permissions",
             "super": true,
             "path": "/roles-permissions"
+        },
+        {
+            "title": "Reports",
+            "title_ar": "تقارير",
+            "type": "sub",
+            "icon": "clipboard-svg",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "permission": "CMS Pages",
+            "children": [
+                {
+                    "title": "Physician Rating",
+                    "title_ar": "تقييم الطبيب",
+                    "type": "link",
+                    "path": "/reports/physician-rating"
+                },
+                {
+                    "title": "New Patient",
+                    "title_ar": "مريض جديد",
+                    "type": "link",
+                    "path": "/reports/new-patient-request"
+                }
+            ]
         }
     ]
 }

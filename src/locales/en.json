@@ -709,6 +709,8 @@
     "saudi_id": "Saudi ID",
     "iqama": "Iqama",
     "searchTransaction": "Search transaction using MRN or Appointment ID",
-    "searchByMrn": "Search by MRN"
+    "searchByMrn": "Search by MRN",
+    "searchBySaudiIqama": "Search by Saudi/Iqama ID",
+    "nationality": "Nationality"
   }
 }

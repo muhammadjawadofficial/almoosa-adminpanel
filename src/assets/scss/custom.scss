@@ -2351,6 +2351,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         font-size: 1rem;
     }
 }
+.download-icon {
+    height: 3.125rem;
+    background-color: $primary-color;
+    border-radius: 5vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $white;
+    font-size: 1rem;
+    padding-inline: 1.5rem;
+    gap: 0.5rem;
+    border: none !important;
+    outline: none !important;
+}
 html {
     font-size: var(--globalFontSize);
     --globalFontSize: 16px;
@@ -2397,4 +2411,7 @@ body {
 }
 .forceRtl {
     direction: rtl;
+}
+.export-button {
+    display: none;
 }

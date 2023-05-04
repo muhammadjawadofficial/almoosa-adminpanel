@@ -95,6 +95,9 @@ import TransactionsList from '../pages/transactions/transactions-list'
 
 import RolesList from '../pages/roles-permissions/roles-list'
 
+import PhysicianRating from '../pages/reports/physician-rating'
+import NewPatientRequest from '../pages/reports/new-patient-request'
+
 import { userService } from '../services';
 
 // component
@@ -785,7 +788,30 @@ const routes = [
             },
           },
         ]
-      }
+      },
+      {
+        path: 'reports',
+        component: RouterViewModule,
+        children: [
+          { path: '', name: "Reports", redirect: { name: 'Physician Rating' } },
+          {
+            path: "physician-rating",
+            name: 'Physician Rating',
+            component: PhysicianRating,
+            meta: {
+              title: 'Physician Rating | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "new-patient-request",
+            name: 'New Patient Request',
+            component: NewPatientRequest,
+            meta: {
+              title: 'New Patient Request | Almoosa Specialist Hospital',
+            },
+          },
+        ]
+      },
     ]
   },
   {
