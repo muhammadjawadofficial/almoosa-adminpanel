@@ -98,6 +98,7 @@ import RolesList from '../pages/roles-permissions/roles-list'
 import PhysicianRating from '../pages/reports/physician-rating'
 import NewPatientRequest from '../pages/reports/new-patient-request'
 import InsuranceRequest from '../pages/reports/insurance-request'
+import PhysicianReport from '../pages/reports/physician-list'
 
 import { userService } from '../services';
 
@@ -817,6 +818,14 @@ const routes = [
             component: InsuranceRequest,
             meta: {
               title: 'Insurance Request | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "physician-report",
+            name: 'Physician Report',
+            component: PhysicianReport,
+            meta: {
+              title: 'Physician Report | Almoosa Specialist Hospital',
             },
           },
         ]

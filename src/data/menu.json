@@ -331,6 +331,12 @@
                     "title_ar": "طلب التأمين",
                     "type": "link",
                     "path": "/reports/insurance-request"
+                },
+                {
+                    "title": "Physician Details",
+                    "title_ar": "تفاصيل الطبيب",
+                    "type": "link",
+                    "path": "/reports/physician-report"
                 }
             ]
         }
