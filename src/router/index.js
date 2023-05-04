@@ -97,6 +97,7 @@ import RolesList from '../pages/roles-permissions/roles-list'
 
 import PhysicianRating from '../pages/reports/physician-rating'
 import NewPatientRequest from '../pages/reports/new-patient-request'
+import InsuranceRequest from '../pages/reports/insurance-request'
 
 import { userService } from '../services';
 
@@ -808,6 +809,14 @@ const routes = [
             component: NewPatientRequest,
             meta: {
               title: 'New Patient Request | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "insurance-request",
+            name: 'Insurance Request',
+            component: InsuranceRequest,
+            meta: {
+              title: 'Insurance Request | Almoosa Specialist Hospital',
             },
           },
         ]

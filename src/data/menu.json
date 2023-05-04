@@ -325,6 +325,12 @@
                     "title_ar": "مريض جديد",
                     "type": "link",
                     "path": "/reports/new-patient-request"
+                },
+                {
+                    "title": "Insurance Request",
+                    "title_ar": "طلب التأمين",
+                    "type": "link",
+                    "path": "/reports/insurance-request"
                 }
             ]
         }
