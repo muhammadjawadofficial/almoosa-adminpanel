@@ -95,6 +95,10 @@ export default {
     getInstructionArray(instruction) {
       return this[instruction].split(/\r?\n/).filter((x) => x != "");
     },
+    parseInstructionsIntoArray() {
+      this.instructionsArray = parsedData.filter((x) => x != "");
+      this.instructionsArrayAr = parsedDataAr.filter((x) => x != "");
+    },
     fetchAppointmentInstruction() {
       this.setLoadingState(true);
       Promise.all([
@@ -129,7 +133,8 @@ export default {
             this.failureToast(res[1].data.messsage);
           }
 
-          console.log(this.instructionsArray);
+          // this.parseInstructionsIntoArray();
+
           this.appointmentStatus = null;
           this.setLoadingState(false);
         })
@@ -141,63 +146,6 @@ export default {
               err.response && err.response.data && err.response.data.messsage
             );
         });
-
-      // this.setLoadingState(true);
-      // appointmentService
-      //   .fetchAppointmentInstructions("?title=TELE_INSTRUCTIONS")
-      //   .then(
-      //     (response) => {
-      //       if (response.data.status) {
-      //         let data = response.data.data.items[0];
-      //         this.savedInstructions = {
-      //           ...data,
-      //           instructions: JSON.parse(data.value),
-      //         };
-      //       } else {
-      //         this.failureToast(response.data.messsage);
-      //       }
-      //       this.appointmentStatus = null;
-      //       this.setLoadingState(false);
-      //     },
-      //     (error) => {
-      //       this.appointmentStatus = null;
-      //       this.setLoadingState(false);
-      //       if (!this.isAPIAborted(error))
-      //         this.failureToast(
-      //           error.response &&
-      //             error.response.data &&
-      //             error.response.data.messsage
-      //         );
-      //     }
-      //   );
-      // this.setLoadingState(true);
-      // appointmentService
-      //   .fetchAppointmentInstructions("?title=TELE_INSTRUCTIONS_AR")
-      //   .then(
-      //     (response) => {
-      //       if (response.data.status) {
-      //         let data = response.data.data.items[0];
-      //         this.savedInstructionsAr = {
-      //           ...data,
-      //           instructions: JSON.parse(data.value),
-      //         };
-      //       } else {
-      //         this.failureToast(response.data.messsage);
-      //       }
-      //       this.appointmentStatus = null;
-      //       this.setLoadingState(false);
-      //     },
-      //     (error) => {
-      //       this.appointmentStatus = null;
-      //       this.setLoadingState(false);
-      //       if (!this.isAPIAborted(error))
-      //         this.failureToast(
-      //           error.response &&
-      //             error.response.data &&
-      //             error.response.data.messsage
-      //         );
-      //     }
-      //   );
     },
     updateAppointmentInstruction(id, instructions) {
       this.setLoadingState(true);
@@ -224,13 +172,14 @@ export default {
       );
     },
     saveInstructions() {
-      let instructions = this.instructionsArray;
-      let instructionsAr = this.instructionsArrayAr;
+      let instructions = this.getInstructionArray("instructions");
+      let instructionsAr = this.getInstructionArray("instructionsAr");
+
       this.setInstructions();
       if (!this.isEditing) {
         this.isEditing = true;
         return;
-      }
+      } 
       this.updateAppointmentInstruction(
         this.savedInstructions.id,
         JSON.stringify(instructions)
