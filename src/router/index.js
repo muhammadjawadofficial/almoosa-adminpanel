@@ -99,6 +99,7 @@ import PhysicianRating from '../pages/reports/physician-rating'
 import NewPatientRequest from '../pages/reports/new-patient-request'
 import InsuranceRequest from '../pages/reports/insurance-request'
 import PhysicianReport from '../pages/reports/physician-list'
+import MedicationRefills from '../pages/reports/medication-refills'
 
 import { userService } from '../services';
 
@@ -826,6 +827,14 @@ const routes = [
             component: PhysicianReport,
             meta: {
               title: 'Physician Report | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "medication-refills",
+            name: 'Medication Refills',
+            component: MedicationRefills,
+            meta: {
+              title: 'Medication Refills | Almoosa Specialist Hospital',
             },
           },
         ]

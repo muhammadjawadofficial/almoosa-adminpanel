@@ -337,6 +337,12 @@
                     "title_ar": "تفاصيل الطبيب",
                     "type": "link",
                     "path": "/reports/physician-report"
+                },
+                {
+                    "title": "Medication Refills",
+                    "title_ar": "إعادة تعبئة الأدوية",
+                    "type": "link",
+                    "path": "/reports/medication-refills"
                 }
             ]
         }
