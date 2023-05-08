@@ -164,7 +164,6 @@ export default {
           label: "refillRequest",
           sortable: true,
         },
-        { key: "action", label: "action" },
       ],
       fields: [
         { field: "id", label: "Request ID" },
