@@ -312,7 +312,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "permission": "CMS Pages",
+            "permission": "Reports Management",
             "children": [
                 {
                     "title": "Physician Rating",
