@@ -705,6 +705,9 @@
     "searchTransaction": "ابحث في المعاملة باستخدام رقم السجل الطبي أو معرف الموعد",
     "searchByMrn": "البحث في رقم السجل الطبي",
     "searchBySaudiIqama": "البحث في الهوية السعودية أو الإقامة",
-    "nationality": "الجنسية"
+    "nationality": "الجنسية",
+    "transaction_status": "حالة عملية",
+    "failed": "فشل",
+    "ready_to_call": "جاهز للاتصال"
   }
 }

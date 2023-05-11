@@ -711,6 +711,9 @@
     "searchTransaction": "Search transaction using MRN or Appointment ID",
     "searchByMrn": "Search by MRN",
     "searchBySaudiIqama": "Search by Saudi/Iqama ID",
-    "nationality": "Nationality"
+    "nationality": "Nationality",
+    "transaction_status": "T. Status",
+    "failed": "Failed",
+    "ready_to_call": "Ready to Call"
   }
 }

@@ -35,7 +35,7 @@
       <template #head()="data">{{ $t("admin." + data.label) }} </template>
 
       <template #cell()="data">
-        <template v-if="data.field.key == 'status'">
+        <template v-if="data.field.key.includes('status') && data.value">
           {{ $t("admin." + data.value) }}
         </template>
         <template v-else-if="data.field.key == 'action'">
@@ -96,6 +96,7 @@ export default {
         { key: "created_at", label: "createdAt" },
         { key: "updated_at", label: "updatedAt" },
         { key: "status", label: "status", sortable: true },
+        { key: "transaction_status", label: "transaction_status", sortable: true },
       ],
       items: [],
       totalItems: [],
