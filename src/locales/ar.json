@@ -708,6 +708,8 @@
     "nationality": "الجنسية",
     "transaction_status": "حالة عملية",
     "failed": "فشل",
-    "ready_to_call": "جاهز للاتصال"
+    "ready_to_call": "جاهز للاتصال",
+    "store procedure_request": "طلب إجراء المتجر",
+    "store procedure_response": "استجابة إجراء المتجر"
   }
 }

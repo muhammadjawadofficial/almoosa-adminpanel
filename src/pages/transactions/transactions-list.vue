@@ -62,6 +62,9 @@
             <span class="text">{{ data.value || "N/A" }}</span>
           </div>
         </template>
+        <div v-else-if="data.field.long" :title="data.value" class="truncate-table-field">
+          {{ data.value || "N/A" }}
+        </div>
         <template v-else>{{ data.value || "N/A" }}</template>
       </template>
     </b-table>
@@ -96,7 +99,18 @@ export default {
         { key: "created_at", label: "createdAt" },
         { key: "updated_at", label: "updatedAt" },
         { key: "status", label: "status", sortable: true },
-        { key: "transaction_status", label: "transaction_status", sortable: true },
+        {
+          key: "transaction_status",
+          label: "transaction_status",
+          sortable: true,
+        },
+        { key: "sp_request", label: "sp_request", sortable: true, long: true },
+        {
+          key: "sp_response",
+          label: "sp_response",
+          sortable: true,
+          long: true,
+        },
       ],
       items: [],
       totalItems: [],

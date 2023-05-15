@@ -4,36 +4,40 @@
 .pills-component {
 	width: 20%;
 }
-.table{
+.table {
 	margin-bottom: $table-b-margin;
-	th,td{
+	th,
+	td {
 		padding: $table-padding;
 	}
-	th{
+	th {
 		color: $table-heading-color;
 		font-weight: 500;
 	}
-	td{
+	td {
 		color: $table-row-color;
 	}
-	[class*='bg-']{
+	[class*="bg-"] {
 		color: $white;
 	}
-	.bg-light{
+	.bg-light {
 		color: $theme-body-font-color;
 	}
-	tfoot{
+	tfoot {
 		font-weight: $table-footer-font-weight;
 	}
 }
 
-.b-table-sticky-header, .table-responsive, [class*=table-responsive-] {
+.b-table-sticky-header,
+.table-responsive,
+[class*="table-responsive-"] {
 	margin-bottom: 0;
 }
 .table-inverse {
 	color: $white;
 	background-color: $table-inverse-bg-color;
-	th,td{
+	th,
+	td {
 		border-color: $white;
 		color: $white;
 	}
@@ -41,8 +45,9 @@
 		border: 0;
 	}
 }
-.table[class*='bg-']{
-	th,td{
+.table[class*="bg-"] {
+	th,
+	td {
 		color: $white;
 	}
 }
@@ -55,31 +60,36 @@
 }
 
 //Sizing class
-.table-xl{
-	td,th{
+.table-xl {
+	td,
+	th {
 		padding: $table-xl-padding;
 		font-size: $table-xl-font;
 	}
 }
-.table-lg{
-	td,th{
+.table-lg {
+	td,
+	th {
 		padding: $table-lg-padding;
 		font-size: $table-lg-font;
 	}
 }
-.table-de{
-	td,th{
+.table-de {
+	td,
+	th {
 		padding: $table-de-padding;
 	}
 }
-.table-sm{
-	th,td{
+.table-sm {
+	th,
+	td {
 		padding: $table-sm-padding;
 		font-size: $table-sm-font;
 	}
 }
-.table-xs{
-	th,td{
+.table-xs {
+	th,
+	td {
 		padding: $table-xs-padding;
 		font-size: $table-xs-font;
 	}
@@ -87,26 +97,30 @@
 
 //Table Border
 .table-border-horizontal {
-	tr,th,td{
+	tr,
+	th,
+	td {
 		border-top: 1px solid $horizontal-border-color;
 		padding: $horizontal-padding;
 	}
 }
-.table-border-vertical{
-	tr,th,td{
+.table-border-vertical {
+	tr,
+	th,
+	td {
 		border-top: 0;
 		border-right: 1px solid $horizontal-border-color;
 	}
-	tr{
-		td{
-			&:last-child{
+	tr {
+		td {
+			&:last-child {
 				border-right: none;
 			}
 		}
 	}
 }
-.table-bordernone{
-	td{
+.table-bordernone {
+	td {
 		border: none !important;
 	}
 	thead {
@@ -114,26 +128,34 @@
 			border: none !important;
 		}
 	}
-	.bd-t-none{
+	.bd-t-none {
 		border-top: none;
 	}
-	.u-s-tb{
+	.u-s-tb {
 		padding: 18px;
 	}
 }
-.table-striped{
-	tbody{
-		tr{
-			&:nth-of-type(odd){
+.table-striped {
+	tbody {
+		tr {
+			&:nth-of-type(odd) {
 				background-color: rgba(245, 247, 250, 0.5);
 			}
 		}
 	}
 }
-.table-bordered{
-	td, th  {
+.table-bordered {
+	td,
+	th {
 		border-color: $horizontal-border-color;
 	}
+}
+.truncate-table-field {
+	white-space: nowrap;
+	max-width: 200px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	cursor: pointer;
 }
 /**=====================
      39.Table CSS Ends

@@ -714,6 +714,8 @@
     "nationality": "Nationality",
     "transaction_status": "T. Status",
     "failed": "Failed",
-    "ready_to_call": "Ready to Call"
+    "ready_to_call": "Ready to Call",
+    "sp_request": "SP Request",
+    "sp_response": "SP Response"
   }
 }
