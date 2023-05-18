@@ -716,6 +716,14 @@
     "failed": "Failed",
     "ready_to_call": "Ready to Call",
     "sp_request": "SP Request",
-    "sp_response": "SP Response"
+    "sp_response": "SP Response",
+    "searchFamilyMemberByNameMrn": "Search Family Member by Name/MRN",
+    "familyMemberName": "Family Member Name",
+    "guardianName": "Guardian Name",
+    "familyMemberMrn": "Family Member MRN",
+    "guardianMrn": "Guardian MRN",
+    "familyMemberDeleteConfirm": "Are you sure you want to delete this family member?",
+    "familyMemberDeleteSuccess": "Family member has been deleted successfully",
+    "enterGuardianMrn": "Enter Guardian MRN"
   }
 }

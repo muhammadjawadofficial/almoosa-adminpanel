@@ -11,7 +11,7 @@
       </div>
       <div class="search-input">
         <b-form-input
-          :placeholder="$t('admin.searchPatientMrn')"
+          :placeholder="$t('admin.searchFamilyMemberByNameMrn')"
           id="type-search"
           type="search"
           v-model="searchQuery"
@@ -28,8 +28,7 @@
       :fields="tablefields"
       :current-page="currentPage"
       :per-page="5"
-      class="ash-data-table clickable"
-      @row-clicked="rowClicked"
+      class="ash-data-table"
     >
       <template #empty>
         <div class="text-center my-2">{{ $t("noRecordToShow") }}</div>
@@ -43,18 +42,40 @@
         </template>
         <template v-else-if="data.field.key == 'action'">
           <div class="action-buttons">
-            <feather class="pointer" type="edit"></feather>
+            <!-- <feather
+              @click.stop="editRequest(data.item)"
+              class="pointer"
+              type="settings"
+            ></feather> -->
+            <feather
+              @click.stop="rowClicked(data.item)"
+              class="pointer"
+              type="edit"
+            ></feather>
+            <feather
+              @click.stop="deleteRequest(data.item)"
+              class="pointer"
+              type="trash"
+            ></feather>
           </div>
         </template>
-        <template v-else-if="data.field.key == 'patient_name'">
+        <template v-else-if="data.field.key == 'family_member_name'">
           <div class="user-name-with-image">
             <div class="image">
-              <img :src="getImageUrl(data.item.photo)" alt="user" />
+              <img :src="getImageUrl(data.item.dependent.photo)" alt="user" />
             </div>
-            <span class="text">{{ data.value }}</span>
+            <span class="text">{{ getFullName(data.item.dependent) }}</span>
           </div>
         </template>
-        <template v-else>{{ data.value }}</template>
+        <template v-else-if="data.field.key == 'guardian_name'">
+          <div class="user-name-with-image">
+            <div class="image">
+              <img :src="getImageUrl(data.item.guardian.photo)" alt="user" />
+            </div>
+            <span class="text">{{ getFullName(data.item.guardian) }}</span>
+          </div>
+        </template>
+        <template v-else>{{ translateNumber(data.value) }}</template>
       </template>
     </b-table>
     <b-pagination
@@ -80,11 +101,17 @@ export default {
       getPerPageSelection: 5,
       tablefields: [
         { key: "id", label: "id", sortable: true },
-        { key: "patient_name", label: "patientName", sortable: true },
-        { key: "mrn", label: "mrn", sortable: true },
-        { key: "email", label: "email", sortable: true },
+        { key: "guardian_name", label: "guardianName", sortable: true },
+        { key: "guardian_mrn", label: "guardianMrn", sortable: true },
+        {
+          key: "family_member_name",
+          label: "familyMemberName",
+          sortable: true,
+        },
+        { key: "family_member_mrn", label: "familyMemberMrn", sortable: true },
         { key: "phone", label: "phoneNumber", sortable: true },
         { key: "status", label: "status", sortable: true },
+        { key: "action", label: "action" },
       ],
       items: [],
       userId: null,
@@ -108,9 +135,13 @@ export default {
     },
   },
   methods: {
-    ...mapActions("familyMember", ["setSelectedFamilyMember"]),
+    ...mapActions("familyMember", [
+      "setSelectedFamilyMember",
+      "setSelectedFamilyMemberRequest",
+    ]),
     rowClicked(e) {
-      this.setSelectedFamilyMember(e);
+      this.setSelectedFamilyMember(e.dependent);
+      this.setSelectedFamilyMemberRequest(e);
       if (this.userId) this.navigateTo("Patient Family Member Profile");
       else this.navigateTo("Family Members Profile");
     },
@@ -119,11 +150,10 @@ export default {
       data.forEach((x) => {
         this.items.push({
           id: x.id,
-          patient_name: this.getFullName(x),
-          patient_photo: x.patient && x.patient.photo,
-          mrn: x.mrn_number || "N/A",
-          email: x.email_address || "N/A",
-          phone: x.phone_number || "N/A",
+          family_member_mrn: x.dependent.mrn_number || "N/A",
+          guardian_mrn: x.guardian.mrn_number || "N/A",
+          email: x.dependent.email_address || "N/A",
+          phone: x.dependent.phone_number || "N/A",
           status: x.status || "N/A",
           ...x,
         });
@@ -138,32 +168,34 @@ export default {
     },
     fetchPatientFamilyMembers() {
       this.setLoadingState(true);
-      familyMemberService.fetchFamilyMembers(this.userId).then(
-        (response) => {
-          if (response.data.status) {
-            this.parseData(response.data.data.items);
-            this.currentPage = 1;
-            this.totalRows = this.items.length;
-          } else {
-            this.failureToast(response.data.message);
+      familyMemberService
+        .fetchAllFamilyMembers("?mrn_number=" + this.getSelectedUser.mrn_number)
+        .then(
+          (response) => {
+            if (response.data.status) {
+              this.parseData(response.data.data.items);
+              this.currentPage = 1;
+              this.totalRows = this.items.length;
+            } else {
+              this.failureToast(response.data.message);
+            }
+            this.setLoadingState(false);
+          },
+          (error) => {
+            console.error(error);
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
+            this.setLoadingState(false);
           }
-          this.setLoadingState(false);
-        },
-        (error) => {
-          console.error(error);
-          if (!this.isAPIAborted(error))
-            this.failureToast(
-              error.response &&
-                error.response.data &&
-                error.response.data.message
-            );
-          this.setLoadingState(false);
-        }
-      );
+        );
     },
     fetchAllFamilyMembers() {
       this.setLoadingState(true);
-      familyMemberService.fetchAllFamilyMembers("?status=unverified").then(
+      familyMemberService.fetchAllFamilyMembers().then(
         (response) => {
           if (response.data.status) {
             this.parseData(response.data.data.items);
@@ -186,6 +218,43 @@ export default {
             );
         }
       );
+    },
+    deleteRequest(request) {
+      this.confirmIconModal(
+        this.$t("areYouSure"),
+        this.$t("admin.familyMemberDeleteConfirm"),
+        "m-check",
+        this.$t("admin.delete")
+      ).then((res) => {
+        if (res.value) {
+          this.setLoadingState(true);
+          familyMemberService.deleteFamilyMemberRequest(request.id).then(
+            (response) => {
+              if (response.data.status) {
+                this.successToast(this.$t("admin.familyMemberDeleteSuccess"));
+                this.fetchUsers();
+              } else {
+                this.failureToast(response.data.message);
+              }
+              this.setLoadingState(false);
+            },
+            (error) => {
+              this.setLoadingState(false);
+              if (!this.isAPIAborted(error))
+                this.failureToast(
+                  error.response &&
+                    error.response.data &&
+                    error.response.data.message
+                );
+            }
+          );
+        }
+      });
+    },
+    editRequest(request) {
+      this.setSelectedFamilyMemberRequest(request);
+      this.setSelectedFamilyMember(request.dependent);
+      this.navigateTo("Family Members Request");
     },
   },
 };

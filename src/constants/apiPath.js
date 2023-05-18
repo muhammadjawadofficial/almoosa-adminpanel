@@ -121,8 +121,11 @@ export const apiPath = {
 
     familyMembers: {
         fetch: (id) => getApiObject("get", "users?guardian_id=" + id),
-        fetchAll: (query) => getApiObject("get", "all-family-members" + (query || '')),
-        add: getApiObject("post", "family-members/add"),
+        fetchAll: (query) => getApiObject("get", "family-members/get/all" + (query || ''), "v2"),
+        add: getApiObject("post", "family-members/add", "v2"),
+        update: getApiObject("patch", "family-members/update", "v2"),
+        updateStatus: getApiObject("patch", "family-members/update/status", "v2"),
+        delete: (id) => getApiObject("delete", "family-members/delete?id=" + id, "v2"),
     },
 
     transactions: {

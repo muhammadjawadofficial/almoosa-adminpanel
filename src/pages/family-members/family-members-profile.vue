@@ -15,7 +15,10 @@
                 "
                 alt="doctor-image"
               />
-              <label for="user-profile-picture-upload" v-if="isEditingAllowed">
+              <label
+                for="user-profile-picture-upload"
+                v-if="isEditingAllowed && !forceDisable"
+              >
                 {{ $t("profile.uploadPicture") }}
                 <input
                   type="file"
@@ -32,24 +35,8 @@
                 </div>
                 <div class="doctor-details-card-header-right-info-user">
                   <div class="user-id">
-                    {{
-                      getSelectedFamilyMember.mrn_number
-                        ? getSelectedFamilyMember.mrn_number
-                        : getSelectedFamilyMember.saudi_id
-                        ? getSelectedFamilyMember.saudi_id
-                        : getSelectedFamilyMember.iqama
-                        ? getSelectedFamilyMember.iqama
-                        : getSelectedFamilyMember.id
-                    }}
+                    {{ getSelectedFamilyMember.mrn_number || "N/A" }}
                   </div>
-                  <template v-if="getSelectedFamilyMember.nationality">
-                    <div class="nationality">
-                      {{
-                        getSelectedFamilyMember.nationality.nationality ||
-                        getSelectedFamilyMember.nationality
-                      }}
-                    </div>
-                  </template>
                 </div>
                 <div class="doctor-details-card-header-right-info-section">
                   <template v-if="getSelectedFamilyMember.nationality">
@@ -59,33 +46,30 @@
                       <div class="title">{{ $t("profile.nationality") }}</div>
                       <div class="value">
                         {{
-                          getSelectedFamilyMember.nationality.nationality ||
-                          getSelectedFamilyMember.nationality
+                          getSelectedFamilyMember.nationality[
+                            getLocaleKey("nationality")
+                          ] || getSelectedFamilyMember.nationality
                         }}
                       </div>
                     </div>
                   </template>
-                  <div
-                    class="doctor-details-card-header-right-info-section-detail"
-                  >
-                    <div class="title">{{ $t("profile.idNumber") }}</div>
-                    <div class="value">
-                      {{
-                        getSelectedFamilyMember.saudi_id
-                          ? getSelectedFamilyMember.saudi_id
-                          : getSelectedFamilyMember.iqama
-                          ? getSelectedFamilyMember.iqama
-                          : getSelectedFamilyMember.id
-                      }}
-                    </div>
-                  </div>
-                  <template v-if="getSelectedFamilyMember.allergy">
+                  <template v-if="getSelectedFamilyMember.saudi_id">
                     <div
                       class="doctor-details-card-header-right-info-section-detail"
                     >
-                      <div class="title">{{ $t("profile.nationality") }}</div>
+                      <div class="title">{{ $t("saudi_id") }}</div>
                       <div class="value">
-                        {{ getSelectedFamilyMember.allergy.name }}
+                        {{ getSelectedFamilyMember.saudi_id }}
+                      </div>
+                    </div>
+                  </template>
+                  <template v-if="getSelectedFamilyMember.iqama">
+                    <div
+                      class="doctor-details-card-header-right-info-section-detail"
+                    >
+                      <div class="title">{{ $t("iqama") }}</div>
+                      <div class="value">
+                        {{ getSelectedFamilyMember.iqama }}
                       </div>
                     </div>
                   </template>
@@ -104,15 +88,58 @@
                           {{ $t("profile.loyaltyPoint") }}
                         </div>
                         <div class="value">
-                          {{ getSelectedFamilyMember.loyality_points }} /
+                          {{ getSelectedFamilyMember.loyality_points || 0 }} /
                           <div class="sub-value">
                             {{ $t("equal") }}
                             {{
                               translateNumber(
-                                getSelectedFamilyMember.loyality_points / 2
+                                (getSelectedFamilyMember.loyality_points || 0) /
+                                  2
                               )
                             }}
                             {{ $t("sar") }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                  <template v-else>
+                    <div
+                      class="doctor-details-card-header-right-info-section-detail with-icon"
+                    >
+                      <div class="icon">
+                        <img
+                          src="../../assets/images/star-points.svg"
+                          alt="star-img"
+                        />
+                      </div>
+                      <div class="content">
+                        <div class="title">
+                          {{ $t("admin.rating") }}:
+                          {{ getSelectedFamilyMember.rating || 0 }}/5
+                        </div>
+                        <div class="value mt-2">
+                          <div class="rating-container disable-hover">
+                            <div class="fa fa-star star"></div>
+                            <div class="fa fa-star star"></div>
+                            <div class="fa fa-star star"></div>
+                            <div class="fa fa-star star"></div>
+                            <div class="fa fa-star star"></div>
+                            <div
+                              class="rating-filled"
+                              :style="
+                                'width: ' +
+                                ((getSelectedFamilyMember.rating || 0) / 5) *
+                                  100 +
+                                '%'
+                              "
+                            >
+                              <div class="fa fa-star star active"></div>
+                              <div class="fa fa-star star active"></div>
+                              <div class="fa fa-star star active"></div>
+                              <div class="fa fa-star star active"></div>
+                              <div class="fa fa-star star active"></div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -126,362 +153,215 @@
       </div>
       <div class="standard-width doctor-details-section">
         <div class="">
-          <div class="profile-info" :class="{ patient: !isSelectedUserDoctor }">
-            <template v-if="!isSelectedUserDoctor">
-              <div class="profile-info-card">
-                <div class="profile-info-card-logo">
-                  <img src="../../assets/images/home.svg" alt="" />
+          <div class="profile-info patient" v-if="!isSelectedUserDoctor">
+            <div class="profile-info-card" v-if="false">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/home.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("profile.address") }}
                 </div>
-                <div class="profile-info-card-detail">
-                  <div class="profile-info-card-detail-title">
-                    {{ $t("profile.address") }}
-                  </div>
-                  <div
-                    class="profile-info-card-detail-value"
-                    :class="{ inactive: !isEditing }"
-                  >
-                    <b-form-input
-                      v-model="address"
-                      :state="addressState"
-                      :placeholder="$t('profile.address')"
-                      :disabled="!isEditing"
-                    ></b-form-input>
-                  </div>
-                </div>
-                <div class="profile-info-card-option">
-                  <img
-                    src="../../assets/images/pencil.svg"
-                    alt=""
-                    v-if="isEditing"
-                  />
+                <div
+                  class="profile-info-card-detail-value"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <b-form-input
+                    v-model="address"
+                    :state="addressState"
+                    :placeholder="$t('profile.address')"
+                    :disabled="!isEditing"
+                  ></b-form-input>
                 </div>
               </div>
-              <div class="profile-info-card">
-                <div class="profile-info-card-logo">
-                  <img src="../../assets/images/heart-vitals.svg" alt="" />
-                </div>
-                <div class="profile-info-card-detail">
-                  <div class="profile-info-card-detail-title">
-                    {{ $t("profile.activeProblem") }}
-                  </div>
-                  <div class="profile-info-card-detail-value">
-                    Caries of dentine
-                  </div>
-                </div>
-                <div class="profile-info-card-option"></div>
+              <div class="profile-info-card-option">
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
               </div>
-              <div class="profile-info-card">
-                <div class="profile-info-card-logo">
-                  <img src="../../assets/images/call.svg" alt="" />
-                </div>
-                <div class="profile-info-card-detail">
-                  <div class="profile-info-card-detail-title">
-                    {{ $t("profile.phoneNumber") }}
-                  </div>
-                  <div
-                    class="profile-info-card-detail-value"
-                    :class="{ inactive: !isEditing }"
-                  >
-                    <b-form-input
-                      v-model="phoneNumber"
-                      :state="phoneNumberState"
-                      :placeholder="$t('profile.phoneNumber')"
-                      :formatter="formatNumber"
-                      :disabled="!isEditing"
-                    ></b-form-input>
-                  </div>
-                </div>
-                <div class="profile-info-card-option">
-                  <img
-                    src="../../assets/images/pencil.svg"
-                    alt=""
-                    v-if="isEditing"
-                  />
-                </div>
-              </div>
-              <div class="profile-info-card">
-                <div class="profile-info-card-logo">
-                  <img src="../../assets/images/heart-vitals.svg" alt="" />
-                </div>
-                <div class="profile-info-card-detail">
-                  <div class="profile-info-card-detail-title">
-                    {{ $t("profile.clinicWarning") }}
-                  </div>
-                  <div class="profile-info-card-detail-value">
-                    Not Added Yet
-                  </div>
-                </div>
-                <div class="profile-info-card-option"></div>
-              </div>
-            </template>
-            <template v-else>
-              <div class="profile-info-card">
-                <div class="profile-info-card-logo">
-                  <img src="../../assets/images/location-bg.svg" alt="" />
-                </div>
-                <div class="profile-info-card-detail">
-                  <div class="profile-info-card-detail-title">
-                    {{ $t("profile.clinics") }}
-                  </div>
-                  <div
-                    class="profile-info-card-detail-value"
-                    :class="{ inactive: !isEditing }"
-                  >
-                    <multiselect
-                      :disabled="!isEditing"
-                      v-model="doctor.clinics"
-                      :options="clinics"
-                      :placeholder="
-                        $t('profile.select') + ' ' + $t('profile.clinics')
-                      "
-                      multiple
-                      track-by="id"
-                      label="title"
-                    ></multiselect>
-                    <div
-                      class="custom-state-invalid icon"
-                      :class="{
-                        'is-invalid': doctorState.clinicsState == false,
-                      }"
-                    ></div>
-                  </div>
-                </div>
-                <div class="profile-info-card-option">
-                  <img
-                    src="../../assets/images/pencil.svg"
-                    alt=""
-                    v-if="isEditing"
-                  />
-                </div>
-              </div>
-              <div class="profile-info-card">
-                <div class="profile-info-card-logo">
-                  <img src="../../assets/images/heart-vitals-bg.svg" alt="" />
-                </div>
-                <div class="profile-info-card-detail">
-                  <div class="profile-info-card-detail-title">
-                    {{ $t("profile.speciality") }}
-                  </div>
-                  <div
-                    class="profile-info-card-detail-value"
-                    :class="{ inactive: !isEditing }"
-                  >
-                    <multiselect
-                      v-model="doctor.speciality"
-                      :disabled="!isEditing"
-                      :options="specialities"
-                      :placeholder="
-                        $t('profile.select') + ' ' + $t('profile.speciality')
-                      "
-                      track-by="id"
-                      label="title"
-                    ></multiselect>
-                    <div
-                      class="custom-state-invalid icon"
-                      :class="{
-                        'is-invalid': doctorState.specialityState == false,
-                      }"
-                    ></div>
-                  </div>
-                </div>
-                <div class="profile-info-card-option">
-                  <img
-                    src="../../assets/images/pencil.svg"
-                    alt=""
-                    v-if="isEditing"
-                  />
-                </div>
-              </div>
-              <div class="profile-info-card">
-                <div class="profile-info-card-logo">
-                  <img src="../../assets/images/strethoscope-bg.svg" alt="" />
-                </div>
-                <div class="profile-info-card-detail">
-                  <div class="profile-info-card-detail-title">
-                    {{ $t("profile.department") }}
-                  </div>
-                  <div
-                    class="profile-info-card-detail-value"
-                    :class="{ inactive: !isEditing }"
-                  >
-                    <multiselect
-                      :disabled="!isEditing"
-                      v-model="doctor.department"
-                      :options="departments"
-                      :placeholder="
-                        $t('profile.select') + ' ' + $t('profile.department')
-                      "
-                      track-by="id"
-                      label="name"
-                    ></multiselect>
-                    <div
-                      class="custom-state-invalid icon"
-                      :class="{
-                        'is-invalid': doctorState.departmentState == false,
-                      }"
-                    ></div>
-                  </div>
-                </div>
-                <div class="profile-info-card-option">
-                  <img
-                    src="../../assets/images/pencil.svg"
-                    alt=""
-                    v-if="isEditing"
-                  />
-                </div>
-              </div>
-              <div class="profile-info-card">
-                <div class="profile-info-card-logo">
-                  <img src="../../assets/images/user-id-bg.svg" alt="" />
-                </div>
-                <div class="profile-info-card-detail">
-                  <div class="profile-info-card-detail-title">
-                    {{ $t("profile.degree") }}
-                  </div>
-                  <div
-                    class="profile-info-card-detail-value"
-                    :class="{ inactive: !isEditing }"
-                  >
-                    <b-form-input
-                      v-model="doctor.degree"
-                      :state="doctorState.degreeState"
-                      :placeholder="$t('profile.degree')"
-                      :disabled="!isEditing"
-                    ></b-form-input>
-                  </div>
-                </div>
-                <div class="profile-info-card-option">
-                  <img
-                    src="../../assets/images/pencil.svg"
-                    alt=""
-                    v-if="isEditing"
-                  />
-                </div>
-              </div>
-              <div class="profile-info-card">
-                <div class="profile-info-card-logo">
-                  <img src="../../assets/images/doctor-bg.svg" alt="" />
-                </div>
-                <div class="profile-info-card-detail">
-                  <div class="profile-info-card-detail-title">
-                    {{ $t("profile.expertise") }}
-                  </div>
-                  <div
-                    class="profile-info-card-detail-value"
-                    :class="{ inactive: !isEditing }"
-                  >
-                    <b-form-input
-                      v-model="doctor.expertise"
-                      :state="doctorState.expertiseState"
-                      :placeholder="$t('profile.expertise')"
-                      :disabled="!isEditing"
-                    ></b-form-input>
-                  </div>
-                </div>
-                <div class="profile-info-card-option">
-                  <img
-                    src="../../assets/images/pencil.svg"
-                    alt=""
-                    v-if="isEditing"
-                  />
-                </div>
-              </div>
-              <div class="profile-info-card">
-                <div class="profile-info-card-logo">
-                  <img src="../../assets/images/flag-bg.svg" alt="" />
-                </div>
-                <div class="profile-info-card-detail">
-                  <div class="profile-info-card-detail-title">
-                    {{ $t("profile.nationality") }}
-                  </div>
-                  <div
-                    class="profile-info-card-detail-value"
-                    :class="{ inactive: !isEditing }"
-                  >
-                    <multiselect
-                      :disabled="!isEditing"
-                      v-model="doctor.nationality"
-                      :options="nationalities"
-                      track-by="id"
-                      label="nationality"
-                      :placeholder="
-                        $t('profile.select') + ' ' + $t('profile.nationality')
-                      "
-                    ></multiselect>
-                    <div
-                      class="custom-state-invalid icon"
-                      :class="{
-                        'is-invalid': doctorState.nationalityState == false,
-                      }"
-                    ></div>
-                  </div>
-                </div>
-                <div class="profile-info-card-option">
-                  <img
-                    src="../../assets/images/pencil.svg"
-                    alt=""
-                    v-if="isEditing"
-                  />
-                </div>
-              </div>
-              <div class="profile-info-card">
-                <div class="profile-info-card-logo">
-                  <img src="../../assets/images/translate-bg.svg" alt="" />
-                </div>
-                <div class="profile-info-card-detail">
-                  <div class="profile-info-card-detail-title">
-                    {{ $t("profile.languages") }}
-                  </div>
-                  <div
-                    class="profile-info-card-detail-value"
-                    :class="{ inactive: !isEditing }"
-                  >
-                    <b-form-input
-                      v-model="doctor.languages"
-                      :state="doctorState.languagesState"
-                      :placeholder="$t('profile.languages')"
-                      :disabled="!isEditing"
-                    ></b-form-input>
-                  </div>
-                </div>
-                <div class="profile-info-card-option">
-                  <img
-                    src="../../assets/images/pencil.svg"
-                    alt=""
-                    v-if="isEditing"
-                  />
-                </div>
-              </div>
-              <div class="profile-info-card">
-                <div class="profile-info-card-logo">
-                  <img src="../../assets/images/family-bg.svg" alt="" />
-                </div>
-                <div class="profile-info-card-detail">
-                  <div class="profile-info-card-detail-title">
-                    {{ $t("profile.consulting") }}
-                  </div>
-                  <div
-                    class="profile-info-card-detail-value"
-                    :class="{ inactive: !isEditing }"
-                  >
-                    <b-form-input
-                      v-model="doctor.consulting"
-                      :state="doctorState.consultingState"
-                      :placeholder="$t('profile.consulting')"
-                      :disabled="!isEditing"
-                    ></b-form-input>
-                  </div>
-                </div>
-                <div class="profile-info-card-option">
-                  <img
-                    src="../../assets/images/pencil.svg"
-                    alt=""
-                    v-if="isEditing"
-                  />
-                </div>
-              </div>
-            </template>
+            </div>
             <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/home.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("admin.area") }}
+                </div>
+                <div class="profile-info-card-detail-value">
+                  {{ translateNumber(getSelectedFamilyMember.area || "N/A") }}
+                </div>
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/home.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("admin.city") }}
+                </div>
+                <div class="profile-info-card-detail-value">
+                  {{ translateNumber(getSelectedFamilyMember.city || "N/A") }}
+                </div>
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/home.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("admin.district") }}
+                </div>
+                <div class="profile-info-card-detail-value">
+                  {{
+                    translateNumber(getSelectedFamilyMember.district || "N/A")
+                  }}
+                </div>
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/active-problems.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("profile.activeProblem") }}
+                </div>
+                <div class="profile-info-card-detail-value">
+                  Caries of dentine
+                </div>
+              </div>
+              <div class="profile-info-card-option"></div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/clinical-warning.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("profile.clinicWarning") }}
+                </div>
+                <div class="profile-info-card-detail-value">Not Added Yet</div>
+              </div>
+              <div class="profile-info-card-option"></div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/MRN.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("admin.dob") }}
+                </div>
+                <div class="profile-info-card-detail-value">
+                  {{ translateNumber(formatDate(getSelectedFamilyMember.dob)) }}
+                </div>
+              </div>
+            </div>
+            <div class="profile-info-card" v-if="false">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/call.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("profile.phoneNumber") }}
+                </div>
+                <div
+                  class="profile-info-card-detail-value"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <b-form-input
+                    v-model="phoneNumber"
+                    :state="phoneNumberState"
+                    :placeholder="$t('profile.phoneNumber')"
+                    :formatter="formatNumber"
+                    :disabled="!isEditing"
+                  ></b-form-input>
+                </div>
+              </div>
+              <div class="profile-info-card-option">
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/call.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("admin.primaryPhoneNumber") }}
+                </div>
+                <div class="profile-info-card-detail-value">
+                  {{
+                    translateNumber(
+                      getSelectedFamilyMember.phoneNumber ||
+                        getSelectedFamilyMember.primary_phone_number ||
+                        "N/A"
+                    )
+                  }}
+                </div>
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/call.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("admin.secondaryPhoneNumber") }}
+                </div>
+                <div class="profile-info-card-detail-value">
+                  {{
+                    translateNumber(
+                      getSelectedFamilyMember.secondary_phone_number || "N/A"
+                    )
+                  }}
+                </div>
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/MRN.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("admin.mrn") }}
+                </div>
+                <div
+                  class="profile-info-card-detail-value"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <b-form-input
+                    v-model="mrnNumber"
+                    :state="mrnNumberState"
+                    :placeholder="
+                      !isEditing && !mrnNumber ? 'N/A' : $t('admin.enterMRN')
+                    "
+                    :disabled="!isEditing"
+                    :formatter="numberOnly"
+                  ></b-form-input>
+                </div>
+              </div>
+              <div class="profile-info-card-option">
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
+              </div>
+            </div>
+            <div
+              class="profile-info-card"
+              v-if="getSelectedFamilyMember.status"
+            >
               <div class="profile-info-card-logo">
                 <img src="../../assets/images/heart-vitals-bg.svg" alt="" />
               </div>
@@ -489,7 +369,10 @@
                 <div class="profile-info-card-detail-title">
                   {{ $t("admin.status") }}
                 </div>
-                <div class="profile-info-card-detail-value">
+                <div
+                  class="profile-info-card-detail-value"
+                  :class="{ inactive: !isEditing && !isEditingStatus }"
+                >
                   <multiselect
                     v-model="userStatus"
                     :options="userStatusOptions"
@@ -497,6 +380,7 @@
                     :selectLabel="$t('admin.selectLabel')"
                     :selectedLabel="$t('admin.selectedLabel')"
                     :deselectLabel="$t('admin.deselectLabel')"
+                    :disabled="!isEditing && !isEditingStatus"
                   >
                     <template slot="singleLabel" slot-scope="props">
                       <div class="multiselect__with-icon">
@@ -519,12 +403,372 @@
                   ></div>
                 </div>
               </div>
-              <div class="profile-info-card-option">
+              <div
+                v-if="isEditing || isEditingStatus"
+                class="profile-info-card-option"
+              >
                 <img src="../../assets/images/pencil.svg" alt="" />
               </div>
             </div>
+            <div
+              class="profile-info-card"
+              v-if="
+                getSelectedFamilyMember.card && getSelectedFamilyMember.card.id
+              "
+            >
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/active-problems.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("profile.cardId") }}
+                </div>
+                <div class="profile-info-card-detail-value inactive">
+                  <img
+                    :src="getImageUrl(getSelectedFamilyMember.card)"
+                    alt="card-id"
+                    style="width: 100%; max-height: 200px; object-fit: contain"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
+          <div class="profile-info" v-else>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/location-bg.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("profile.clinics") }}
+                </div>
+                <div
+                  class="profile-info-card-detail-value"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <multiselect
+                    :disabled="!isEditing"
+                    v-model="doctor.clinics"
+                    :options="clinics"
+                    :placeholder="
+                      $t('profile.select') + ' ' + $t('profile.clinics')
+                    "
+                    multiple
+                    track-by="id"
+                    label="title"
+                  >
+                    <template slot="singleLabel" slot-scope="props">
+                      {{ props.option[getLocaleKey("title")] }}
+                    </template>
+                    <template
+                      slot="selection"
+                      slot-scope="{ values, search, isOpen }"
+                      ><span
+                        class="multiselect__single"
+                        v-if="values.length"
+                        v-show="!isOpen"
+                      >
+                        {{
+                          values
+                            .map((x) => x[getLocaleKey("title")])
+                            .join(" , ")
+                        }}
+                      </span>
+                    </template>
+                    <template slot="option" slot-scope="props">
+                      {{ props.option[getLocaleKey("title")] }}
+                    </template>
+                  </multiselect>
+                  <div
+                    class="custom-state-invalid icon"
+                    :class="{
+                      'is-invalid': doctorState.clinicsState == false,
+                    }"
+                  ></div>
+                </div>
+              </div>
+              <div class="profile-info-card-option">
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/heart-vitals-bg.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("profile.speciality") }}
+                </div>
+                <div class="profile-info-card-detail-value inactive">
+                  {{
+                    (doctor.speciality &&
+                      doctor.speciality[getLocaleKey("title")]) ||
+                    "N/A"
+                  }}
+                  <multiselect
+                    v-if="false"
+                    v-model="doctor.speciality"
+                    disabled
+                    :options="specialities"
+                    :placeholder="
+                      $t('profile.select') + ' ' + $t('profile.speciality')
+                    "
+                    track-by="id"
+                    label="title"
+                  >
+                    <template slot="singleLabel" slot-scope="props">
+                      {{ props.option[getLocaleKey("title")] }}
+                    </template>
 
+                    <template slot="option" slot-scope="props">
+                      {{ props.option[getLocaleKey("title")] }}
+                    </template>
+                  </multiselect>
+                  <div
+                    class="custom-state-invalid icon"
+                    :class="{
+                      'is-invalid': doctorState.specialityState == false,
+                    }"
+                  ></div>
+                </div>
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/translate-bg.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("profile.languages") + " - " + $t("admin.english") }}
+                </div>
+                <div
+                  class="profile-info-card-detail-value forceLtr"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <b-form-input
+                    v-model="doctor.languages"
+                    :state="doctorState.languagesState"
+                    :placeholder="$t('profile.languages')"
+                    :disabled="!isEditing"
+                  ></b-form-input>
+                </div>
+              </div>
+              <div class="profile-info-card-option">
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/flag-bg.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("profile.nationality") }}
+                </div>
+                <div
+                  class="profile-info-card-detail-value"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <!-- {{
+                    (doctor.nationality &&
+                      doctor.nationality[getLocaleKey("nationality")]) ||
+                    "N/A"
+                  }} -->
+                  <multiselect
+                    :disabled="!isEditing"
+                    v-model="doctor.nationality"
+                    :options="nationalities"
+                    track-by="id"
+                    label="nationality"
+                    :placeholder="
+                      $t('profile.select') + ' ' + $t('profile.nationality')
+                    "
+                  >
+                    <template slot="singleLabel" slot-scope="props">
+                      {{ props.option[getLocaleKey("nationality")] }}
+                    </template>
+
+                    <template slot="option" slot-scope="props">
+                      {{ props.option[getLocaleKey("nationality")] }}
+                    </template>
+                  </multiselect>
+                  <div
+                    class="custom-state-invalid icon"
+                    :class="{
+                      'is-invalid': doctorState.nationalityState == false,
+                    }"
+                  ></div>
+                </div>
+              </div>
+              <div class="profile-info-card-option">
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/doctor-bg.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("profile.expertise") + " - " + $t("admin.english") }}
+                </div>
+                <div
+                  class="profile-info-card-detail-value forceLtr"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <b-form-textarea
+                    v-model="doctor.expertise"
+                    :state="doctorState.expertiseState"
+                    :placeholder="$t('profile.expertise')"
+                    :disabled="!isEditing"
+                    no-resize
+                    rows="3"
+                    max-rows="3"
+                  ></b-form-textarea>
+                </div>
+              </div>
+              <div class="profile-info-card-option">
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/doctor-bg-sec.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("profile.expertise") + " - " + $t("admin.arabic") }}
+                </div>
+                <div
+                  class="profile-info-card-detail-value forceRtl"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <b-form-textarea
+                    v-model="doctor.expertiseAr"
+                    :state="doctorState.expertiseArState"
+                    :placeholder="
+                      $t('profile.expertise') + ' - ' + $t('admin.arabic')
+                    "
+                    :disabled="!isEditing"
+                    no-resize
+                    rows="3"
+                    max-rows="3"
+                  ></b-form-textarea>
+                </div>
+              </div>
+              <div class="profile-info-card-option">
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/family-bg.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("profile.consulting") + " - " + $t("admin.english") }}
+                </div>
+                <div
+                  class="profile-info-card-detail-value forceLtr"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <b-form-input
+                    v-model="doctor.consulting"
+                    :state="doctorState.consultingState"
+                    :placeholder="$t('profile.consulting')"
+                    :disabled="!isEditing"
+                  ></b-form-input>
+                </div>
+              </div>
+              <div class="profile-info-card-option">
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/family-bg-sec.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("profile.consulting") + " - " + $t("admin.arabic") }}
+                </div>
+                <div
+                  class="profile-info-card-detail-value forceRtl"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <b-form-input
+                    v-model="doctor.consultingAr"
+                    :state="doctorState.consultingArState"
+                    :placeholder="
+                      $t('profile.consulting') + ' - ' + $t('admin.arabic')
+                    "
+                    :disabled="!isEditing"
+                  ></b-form-input>
+                </div>
+              </div>
+              <div class="profile-info-card-option">
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/translate-bg.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("profile.languages") + " - " + $t("admin.arabic") }}
+                </div>
+                <div
+                  class="profile-info-card-detail-value forceRtl"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <b-form-input
+                    v-model="doctor.languagesAr"
+                    :state="doctorState.languagesArState"
+                    :placeholder="
+                      $t('profile.languages') + ' - ' + $t('admin.arabic')
+                    "
+                    :disabled="!isEditing"
+                  ></b-form-input>
+                </div>
+              </div>
+              <div class="profile-info-card-option">
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
+              </div>
+            </div>
+          </div>
           <div class="row">
             <div class="col-md-12 button-group">
               <button
@@ -539,14 +783,27 @@
                 }}
               </button>
               <button
-                v-else
                 class="btn btn-secondary"
-                @click="updateUserStatus"
+                @click="editFamilyMemberRequestStatus"
+                v-if="isStatusEditingAllowed && getSelectedFamilyMember.status"
               >
-                {{ $t("profile.updateProfile") }}
+                {{
+                  isEditingStatus
+                    ? $t("profile.updateProfile")
+                    : $t("profile.editProfile")
+                }}
               </button>
-              <button class="btn btn-tertiary" @click="cancelEditing">
-                {{ isEditing ? $t("cancel") : $t("back") }}
+              <button
+                class="btn"
+                :class="
+                  (isEditingAllowed || isStatusEditingAllowed) &&
+                  getSelectedFamilyMember.status
+                    ? 'btn-tertiary'
+                    : 'btn-secondary'
+                "
+                @click="cancelEditing"
+              >
+                {{ isEditing || isEditingStatus ? $t("cancel") : $t("back") }}
               </button>
             </div>
           </div>
@@ -558,74 +815,95 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { authService, userService } from "../../services";
+import { authService, familyMemberService, userService } from "../../services";
 export default {
   data() {
     return {
       user: null,
       isEditing: false,
+      isEditingStatus: false,
       address: "",
       addressState: null,
       phoneNumber: "",
       phoneNumberState: null,
+      mrnNumber: "",
+      mrnNumberState: null,
       userStatus: null,
       userStatusState: null,
+      userStatusOptions: ["pending", "approved", "rejected"],
       doctor: {
         clinics: [],
         speciality: {},
-        department: {},
-        degree: "",
         expertise: "",
+        expertiseAr: "",
         nationality: {},
         languages: "",
+        languagesAr: "",
         consulting: "",
+        consultingAr: "",
       },
       doctorState: {
         clinicsState: null,
         specialityState: null,
-        departmentState: null,
-        degreeState: null,
         expertiseState: null,
+        expertiseArState: null,
         nationalityState: null,
         languagesState: null,
+        languagesArState: null,
         consultingState: null,
+        consultingArState: null,
       },
       nationalities: [],
-      departments: [],
       clinics: [],
       specialities: [],
-      userStatusOptions: ["verified", "unverified", "blocked"],
       isEditingAllowed: false,
-      backLink: "",
+      isStatusEditingAllowed: false,
+      backRoute: "",
+      activeTab: "english",
+      forceDisable: false,
     };
   },
   mounted() {
-    if (this.$route.name.toLowerCase().includes("patient"))
-      this.backLink = "Patient Family Members";
-    else this.backLink = "Family Members List";
-    if (!this.getSelectedFamilyMember) {
-      this.navigateTo(this.backLink);
-      return;
-    }
+    this.forceDisable = false;
     if (process.env.NODE_ENV !== "production") {
       this.isEditingAllowed = !!localStorage.getItem("editProfile");
+    }
+    let routeName = this.$route.name.toLowerCase();
+    if (routeName.includes("patient")) {
+      this.backRoute = "Patient Family Members";
+    } else {
+      this.backRoute = "Family Members List";
+    }
+    if (!this.getSelectedFamilyMember) {
+      this.navigateTo(this.backRoute);
+      return;
+    }
+    if (!this.isSelectedUserDoctor) {
+      this.isStatusEditingAllowed = true;
+      // this.forceDisable = true;
     }
     this.initializeData();
     this.checkDropdownValues();
   },
   computed: {
-    ...mapGetters("familyMember", ["getSelectedFamilyMember"]),
+    ...mapGetters("familyMember", [
+      "getSelectedFamilyMember",
+      "getSelectedFamilyMemberRequest",
+    ]),
     validPhoneNumber() {
       let regex = /^(009665|9665|\+9665|05|5)([503649187])(\d{7})$/;
       let result = this.phoneNumber.match(regex);
       return !!(result && result.length);
     },
     isSelectedUserDoctor() {
-      return this.getSelectedFamilyMember.role_id == 4;
+      return this.$route.name.toLowerCase().includes("physician");
     },
   },
   methods: {
     ...mapActions("familyMember", ["updateSelectedFamilyMember"]),
+    changeTab(tab) {
+      this.activeTab = tab;
+    },
     changeProfilePicture(e) {
       let file = e.target.files[0];
       if (!file) {
@@ -656,94 +934,57 @@ export default {
       );
     },
     checkDropdownValues() {
-      this.setLoadingState(true);
-      authService.getNationalities().then(
-        (res) => {
-          if (res.data.status) {
-            let data = res.data.data;
-            if (data) {
-              this.nationalities = data.items;
+      if (this.isSelectedUserDoctor) {
+        this.setLoadingState(true);
+        Promise.all([
+          authService.getNationalities(),
+          authService.getClinics(),
+          authService.getSpecialities(),
+        ])
+          .then((res) => {
+            let nationalities = res[0];
+            let clinics = res[1];
+            let specialities = res[2];
+            if (nationalities.data.status) {
+              let data = nationalities.data.data;
+              if (data) {
+                this.nationalities = data.items;
+              }
+            } else {
+              this.failureToast(nationalities.data.message);
             }
-          } else {
-            this.failureToast(res.data.message);
-          }
-          this.setLoadingState(false);
-        },
-        (error) => {
-          if (!this.isAPIAborted(error))
-            this.failureToast(
-              error.response &&
-                error.response.data &&
-                error.response.data.message
-            );
-          this.setLoadingState(false);
-        }
-      );
-      this.setLoadingState(true);
-      authService.getDepartments().then(
-        (res) => {
-          if (res.data.status) {
-            let data = res.data.data;
-            if (data) {
-              this.departments = data.items;
+            if (clinics.data.status) {
+              let data = clinics.data.data;
+              if (data) {
+                this.clinics = data.items;
+              }
+            } else {
+              this.failureToast(clinics.data.message);
             }
-          } else {
-            this.failureToast(res.data.message);
-          }
-          this.setLoadingState(false);
-        },
-        (error) => {
-          if (!this.isAPIAborted(error))
-            this.failureToast(
-              error.response &&
-                error.response.data &&
-                error.response.data.message
-            );
-          this.setLoadingState(false);
-        }
-      );
-      this.setLoadingState(true);
-      authService.getClinics().then(
-        (res) => {
-          let response = res.data;
-          if (response.status) {
-            this.clinics = response.data.items;
-          } else {
-            this.failureToast(response.message);
-          }
-          this.setLoadingState(false);
-        },
-        (error) => {
-          if (!this.isAPIAborted(error))
-            this.failureToast(
-              error.response &&
-                error.response.data &&
-                error.response.data.message
-            );
-          this.setLoadingState(false);
-        }
-      );
-      this.setLoadingState(true);
-      authService.getSpecialities().then(
-        (res) => {
-          let response = res.data;
-          if (response.status) {
-            this.specialities = res.data.data.items;
-          } else {
-            this.failureToast(response.message);
-          }
-          this.setLoadingState(false);
-        },
-        (error) => {
-          if (!this.isAPIAborted(error))
-            this.failureToast(
-              error.response &&
-                error.response.data &&
-                error.response.data.message
-            );
-          this.setLoadingState(false);
-        }
-      );
+            if (specialities.data.status) {
+              let data = specialities.data.data;
+              if (data) {
+                this.specialities = data.items;
+              }
+            } else {
+              this.failureToast(specialities.data.message);
+            }
+          })
+          .catch((error) => {
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
+          })
+          .finally(() => {
+            this.setLoadingState(false);
+            this.getProfileData();
+          });
+      } else {
+        this.getProfileData();
+      }
     },
     formatNumber(number, input) {
       if (
@@ -755,12 +996,19 @@ export default {
       return number;
     },
     initializeData() {
-      this.getProfileData();
       this.resetData();
     },
     getProfileData() {
+      if (
+        this.getSelectedFamilyMember.role_id == 4 ||
+        !this.getSelectedFamilyMember.mrn_number
+      )
+        this.getDoctorProfile();
+      else this.getLoggedInUserData();
+    },
+    getDoctorProfile() {
       this.setLoadingState(true);
-      userService.getUsers("?id=" + this.getSelectedFamilyMember.id).then(
+      userService.getDoctorProfile(this.getSelectedFamilyMember.id).then(
         (res) => {
           if (res.data.status) {
             this.updateSelectedFamilyMember(res.data.data.items[0]);
@@ -781,35 +1029,71 @@ export default {
         }
       );
     },
+    getLoggedInUserData() {
+      this.setLoadingState(true);
+      userService
+        .getProfile(
+          this.getSelectedFamilyMember.role_id == 4 ? "doctor" : "patient",
+          this.getSelectedFamilyMember.role_id == 4
+            ? this.getSelectedFamilyMember.id
+            : this.getSelectedFamilyMember.mrn_number
+        )
+        .then(
+          (res) => {
+            if (res.data.status) {
+              this.updateSelectedFamilyMember(res.data.data);
+              this.resetData();
+            } else {
+              this.failureToast(res.data.message);
+            }
+            this.setLoadingState(false);
+          },
+          (error) => {
+            this.setLoadingState(false);
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
+          }
+        );
+    },
     resetData() {
       if (this.isSelectedUserDoctor) {
         this.doctor.clinics = this.getSelectedFamilyMember.clinics || [];
         this.doctor.speciality = this.getSelectedFamilyMember.speciality;
-        this.doctor.department = this.getSelectedFamilyMember.department;
-        this.doctor.degree = this.getSelectedFamilyMember.degree;
         this.doctor.nationality = this.getSelectedFamilyMember.nationality;
         this.doctor.expertise = this.getSelectedFamilyMember.expertise;
+        this.doctor.expertiseAr = this.getSelectedFamilyMember.expertise_ar;
         this.doctor.languages = this.getSelectedFamilyMember.languages;
+        this.doctor.languagesAr = this.getSelectedFamilyMember.languages_ar;
         this.doctor.consulting =
           this.getSelectedFamilyMember.consulting_age_group;
+        this.doctor.consultingAr =
+          this.getSelectedFamilyMember.consulting_age_group_ar;
         this.doctorState = {
           clinicsState: null,
           specialityState: null,
-          departmentState: null,
-          degreeState: null,
           expertiseState: null,
+          expertiseArState: null,
           nationalityState: null,
           languagesState: null,
+          languagesArState: null,
           consultingState: null,
+          consultingArState: null,
         };
       } else {
         this.address = this.getSelectedFamilyMember.location;
         this.phoneNumber = this.getSelectedFamilyMember.phone_number;
-        this.addressState = null;
+        this.mrnNumber = this.getSelectedFamilyMember.mrn_number;
+        this.userStatus = this.getSelectedFamilyMemberRequest.status;
         this.phoneNumberState = null;
-        this.userStatus = this.getSelectedFamilyMember.status;
+        this.mrnNumberState = null;
+        this.userStatusState = null;
       }
       this.isEditing = false;
+      this.isEditingStatus = false;
     },
     validateForm() {
       if (this.isSelectedUserDoctor) {
@@ -817,26 +1101,31 @@ export default {
           this.doctor.clinics != [] &&
           this.doctor.clinics.length > 0 &&
           !!this.doctor.clinics;
-        this.doctorState.specialityState =
-          this.doctor.speciality != {} && !!this.doctor.speciality;
-        this.doctorState.departmentState =
-          this.doctor.department != {} && !!this.doctor.department;
-        this.doctorState.degreeState =
-          this.doctor.degree != "" && !!this.doctor.degree;
         this.doctorState.expertiseState =
           this.doctor.expertise != "" && !!this.doctor.expertise;
-        this.doctorState.nationalityState =
-          this.doctor.nationality != {} && !!this.doctor.nationality;
+        this.doctorState.expertiseArState =
+          this.doctor.expertiseAr != "" && !!this.doctor.expertiseAr;
         this.doctorState.languagesState =
           this.doctor.languages != "" && !!this.doctor.languages;
+        this.doctorState.languagesArState =
+          this.doctor.languagesAr != "" && !!this.doctor.languagesAr;
         this.doctorState.consultingState =
           this.doctor.consulting != "" && !!this.doctor.consulting;
+        this.doctorState.consultingArState =
+          this.doctor.consultingAr != "" && !!this.doctor.consultingAr;
         return !Object.values(this.doctorState).includes(false);
       } else {
         this.addressState = this.address != "";
         this.phoneNumberState = this.validPhoneNumber;
         return this.addressState && this.phoneNumberState;
       }
+    },
+    validateStatus() {
+      this.userStatusState =
+        this.userStatus != "" &&
+        !!this.userStatus &&
+        this.userStatusOptions.includes(this.userStatus);
+      return this.userStatusState;
     },
     editProfile() {
       if (this.isEditing) {
@@ -846,26 +1135,12 @@ export default {
         let updateUserObj = {};
         if (this.isSelectedUserDoctor) {
           if (
+            this.getSelectedFamilyMember.clinics &&
+            this.doctor.clinics &&
             this.getSelectedFamilyMember.clinics.map((x) => x.id).join(",") !==
-            this.doctor.clinics.map((x) => x.id).join(",")
+              this.doctor.clinics.map((x) => x.id).join(",")
           ) {
             updateUserObj.clinics = this.doctor.clinics.map((x) => x.id);
-          }
-          if (
-            !this.getSelectedFamilyMember.speciality ||
-            this.getSelectedFamilyMember.speciality.id !==
-              this.doctor.speciality.id
-          ) {
-            updateUserObj.speciality_id = this.doctor.speciality.id;
-          }
-          if (
-            !this.getSelectedFamilyMember.department ||
-            this.getSelectedFamilyMember.department !== this.doctor.department
-          ) {
-            updateUserObj.department_id = this.doctor.department.id;
-          }
-          if (this.getSelectedFamilyMember.degree !== this.doctor.degree) {
-            updateUserObj.degree = this.doctor.degree;
           }
           if (
             this.getSelectedFamilyMember.expertise !== this.doctor.expertise
@@ -873,11 +1148,9 @@ export default {
             updateUserObj.expertise = this.doctor.expertise;
           }
           if (
-            !this.getSelectedFamilyMember.nationality ||
-            this.getSelectedFamilyMember.nationality.id !==
-              this.doctor.nationality.id
+            this.getSelectedFamilyMember.expertiseAr !== this.doctor.expertiseAr
           ) {
-            updateUserObj.nationality_id = this.doctor.nationality.id;
+            updateUserObj.expertise_ar = this.doctor.expertiseAr;
           }
           if (
             this.getSelectedFamilyMember.languages !== this.doctor.languages
@@ -885,10 +1158,27 @@ export default {
             updateUserObj.languages = this.doctor.languages;
           }
           if (
+            this.getSelectedFamilyMember.languagesAr !== this.doctor.languagesAr
+          ) {
+            updateUserObj.languages_ar = this.doctor.languagesAr;
+          }
+          if (
+            this.getSelectedFamilyMember.nationality_id !==
+            this.doctor.nationality.id
+          ) {
+            updateUserObj.nationality_id = this.doctor.nationality.id;
+          }
+          if (
             this.getSelectedFamilyMember.consulting_age_group !==
             this.doctor.consulting
           ) {
             updateUserObj.consulting_age_group = this.doctor.consulting;
+          }
+          if (
+            this.getSelectedFamilyMember.consulting_age_group_ar !==
+            this.doctor.consultingAr
+          ) {
+            updateUserObj.consulting_age_group_ar = this.doctor.consultingAr;
           }
         } else {
           updateUserObj = {
@@ -901,12 +1191,43 @@ export default {
         this.isEditing = true;
       }
     },
-    updateUserStatus() {
-      this.userStatusState = !!this.userStatus;
-      if (!this.userStatusState) {
-        return;
+    editFamilyMemberRequestStatus() {
+      if (this.isEditingStatus) {
+        if (!this.validateStatus()) {
+          return;
+        }
+        let updateUserObj = {
+          id: this.getSelectedFamilyMemberRequest.id,
+          status: this.userStatus,
+        };
+        this.updateFamilyMemberStatus(updateUserObj);
+      } else {
+        this.isEditingStatus = true;
       }
-      this.updateProfileInfo({ status: this.userStatus });
+    },
+    updateFamilyMemberStatus(payload) {
+      this.setLoadingState(true);
+      familyMemberService.updateFamilyMemberStatus(payload).then(
+        (res) => {
+          if (res.data.status) {
+            this.getSelectedFamilyMemberRequest.status = this.userStatus;
+            this.successToast(this.$t("profile.updateSuccess"));
+            this.resetData();
+          } else {
+            this.failureToast(res.data.message);
+          }
+          this.setLoadingState(false);
+        },
+        (error) => {
+          this.setLoadingState(false);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
     },
     updateProfileInfo(data) {
       this.setLoadingState(true);
@@ -960,10 +1281,10 @@ export default {
       );
     },
     cancelEditing() {
-      if (this.isEditing) {
+      if (this.isEditing || this.isEditingStatus) {
         this.resetData();
       } else {
-        this.navigateTo(this.backLink);
+        this.navigateTo(this.backRoute);
       }
     },
   },
@@ -973,23 +1294,28 @@ export default {
 <style lang="scss" scoped>
 .button-group {
   margin-top: 10rem;
+
   button {
     padding-block-start: 0.5rem;
     padding-block-end: 0.4rem;
     border-radius: 6px;
   }
+
   button.btn-secondary {
     font-size: 1.25rem;
     max-width: fit-content;
     min-width: 12.5rem;
   }
+
   button.btn-tertiary {
     max-width: 7.25rem !important;
     font-size: 1.125rem;
   }
 }
+
 .doctor-details-card-header-image {
   position: relative;
+
   label {
     position: absolute;
     bottom: -3.5rem;
@@ -1007,6 +1333,7 @@ export default {
     padding-bottom: 1rem;
     isolation: isolate;
     cursor: pointer;
+
     &::before {
       content: "";
       background: var(--theme-secondary);
@@ -1016,10 +1343,27 @@ export default {
       z-index: -1;
     }
   }
+
   &:hover {
     label {
       bottom: 0;
     }
+  }
+}
+
+.rating-container {
+  .star {
+    width: 1.5rem;
+    height: 1.5rem;
+    min-width: 1.5rem;
+    font-size: 1.5rem;
+  }
+
+  .rating-filled {
+    position: absolute;
+    display: flex;
+    overflow: hidden;
+    left: 0;
   }
 }
 </style>

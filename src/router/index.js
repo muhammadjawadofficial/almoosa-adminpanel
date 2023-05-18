@@ -74,6 +74,7 @@ import servicesPackagesForm from '../pages/services-packages/services-packages-f
 
 import familyMembersList from '../pages/family-members/family-members-list'
 import familyMembersProfile from '../pages/family-members/family-members-profile'
+import familyMembersForm from '../pages/family-members/family-members-form'
 
 import UsersModule from '../pages/users'
 import PatientList from '../pages/users/patient-list'
@@ -681,6 +682,14 @@ const routes = [
             component: familyMembersProfile,
             meta: {
               title: 'Family Members Profile | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "request",
+            name: 'Family Members Request',
+            component: familyMembersForm,
+            meta: {
+              title: 'Family Members Request | Almoosa Specialist Hospital',
             },
           },
         ]
