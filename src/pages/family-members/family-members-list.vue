@@ -27,7 +27,7 @@
       :items="items"
       :fields="tablefields"
       :current-page="currentPage"
-      :per-page="5"
+      :per-page="getPerPageSelection"
       class="ash-data-table"
     >
       <template #empty>
@@ -114,6 +114,7 @@ export default {
         { key: "action", label: "action" },
       ],
       items: [],
+      totalItems: [],
       userId: null,
     };
   },
@@ -131,7 +132,12 @@ export default {
   },
   watch: {
     searchQuery(query) {
-      this.fetchUsers();
+      this.items = this.totalItems.filter(
+        (x) =>
+          ("" + x.family_member_mrn).includes(query) ||
+          this.getFullName(x.dependent).toLowerCase().includes(query.toLowerCase())
+      );
+      this.totalRows = this.items.length;
     },
   },
   methods: {
@@ -158,6 +164,8 @@ export default {
           ...x,
         });
       });
+
+      this.totalItems = [...this.items];
     },
     fetchUsers() {
       if (this.userId) {
