@@ -23,6 +23,7 @@ import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import 'vue2-datepicker/locale/ar';
 import 'vue2-datepicker/locale/en';
+import "@lottiefiles/lottie-player";
 
 import VueAnalytics from 'vue-analytics';
 
