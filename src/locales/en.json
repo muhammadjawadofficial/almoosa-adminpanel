@@ -724,6 +724,9 @@
     "guardianMrn": "Guardian MRN",
     "familyMemberDeleteConfirm": "Are you sure you want to delete this family member?",
     "familyMemberDeleteSuccess": "Family member has been deleted successfully",
-    "enterGuardianMrn": "Enter Guardian MRN"
+    "enterGuardianMrn": "Enter Guardian MRN",
+    "ios": "iOS",
+    "android": "Android",
+    "web": "Web"
   }
 }

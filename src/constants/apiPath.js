@@ -65,7 +65,7 @@ export const apiPath = {
         appointmentWithReports: (id) => getApiObject("get", "appointments/reports?mrn_number=" + id, "v2"),
         appointment: (id, type) => getApiObject("get", "reports?appointment_id=" + id + "&type=" + type),
         reportsWithAppointments: (id) => getApiObject("get", "reports?appointment_id=" + id, "v2"),
-        appointmentStats: (query) => getApiObject("get", "reports/statistics/appointment" + query, "v2"),
+        dashboardStats: (query) => getApiObject("get", "reports/statistics" + query, "v2"),
     },
 
     user: {

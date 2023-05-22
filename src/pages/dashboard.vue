@@ -317,6 +317,22 @@
           </px-card>
         </div>
       </div>
+      <div class="row">
+        <div class="col-xl-4 col-md-12 box-col-12">
+          <px-card class="o-hidden">
+            <div class="card-body pb-0">
+              <h5>Platform Wise Stats</h5>
+            </div>
+            <div id="piechart" v-if="!reRenderPieChart">
+              <apexchart
+                type="pie"
+                :options="piechart.chartOptions"
+                :series="piechart.series"
+              ></apexchart>
+            </div>
+          </px-card>
+        </div>
+      </div>
       <!-- <div class="coming-soon-section">
         <div class="heading w600">
           <span class="font-secondary">{{ $t("comingSoon.coming") }}</span>
@@ -353,6 +369,7 @@ export default {
       clinics: [],
       selectedClinic: null,
       reRenderChart: false,
+      reRenderPieChart: false,
       chart1: {
         options: {
           chart: {
@@ -557,6 +574,37 @@ export default {
           },
         ],
       },
+      piechart: {
+        series: [],
+        chartOptions: {
+          chart: {
+            width: 380,
+            type: "pie",
+          },
+          labels: [],
+          responsive: [
+            {
+              breakpoint: 480,
+              options: {
+                chart: {
+                  width: 300,
+                },
+                legend: {
+                  position: "bottom",
+                  fontSize: "9px",
+                },
+              },
+            },
+          ],
+          colors: [
+            "#55b047",
+            "#2b4e66",
+            "#f8d62b",
+            "#fd7e14",
+            "#a927f9",
+          ],
+        },
+      },
     };
   },
   watch: {
@@ -682,7 +730,7 @@ export default {
 
       this.fetchDashboardData();
     },
-    fetchDashboardData() {
+    initializeLineChart() {
       let getNumber = (max = 100) => {
         return Math.floor(Math.random() * Math.floor(max));
       };
@@ -694,39 +742,59 @@ export default {
         }
         return arr;
       };
-
+      this.chart1.series[0].data = getRandomNumberArray();
+      this.chart2.series[0].data = getRandomNumberArray();
+      this.chart3.series[0].data = getRandomNumberArray();
+      if (!this.statsData.appointment.total) {
+        this.chart1.series[0].data = getRandomNumberArray(0);
+      }
+      if (!this.statsData.appointment.paid) {
+        this.chart2.series[0].data = getRandomNumberArray(0);
+      }
+      if (!this.statsData.appointment.unpaid) {
+        this.chart3.series[0].data = getRandomNumberArray(0);
+      }
+      this.reRenderChart = true;
+      setTimeout(() => {
+        this.reRenderChart = false;
+      }, 100);
+    },
+    initializePieChart(data) {
+      if (!data || !data.platform) return;
+      let platform = data.platform;
+      let series = [];
+      let labels = [];
+      Object.keys(platform).forEach((key) => {
+        if (key == "total" || key == "withoutPlatform") return;
+        labels.push(this.$t("admin." + key));
+        series.push(platform[key]);
+      });
+      this.piechart.series = [...series];
+      this.piechart.chartOptions.labels = [...labels];
+      this.reRenderPieChart = true;
+      setTimeout(() => {
+        this.reRenderPieChart = false;
+      }, 100);
+    },
+    fetchDashboardData() {
       // return;
       this.setLoadingState(true);
       reportService
-        .getAppointmentStats(
+        .getDashboardStats(
           "?from_date=" +
             this.fromDate +
             "&to_date=" +
             this.toDate +
             "&clinic_id=" +
-            this.selectedClinic.id
+            this.selectedClinic.id +
+            "&role_id=3&skip_date_filter=true"
         )
         .then(
           (response) => {
             if (response.data.status) {
               this.statsData = response.data.data;
-
-              this.chart1.series[0].data = getRandomNumberArray();
-              this.chart2.series[0].data = getRandomNumberArray();
-              this.chart3.series[0].data = getRandomNumberArray();
-              if (!this.statsData.appointment.total) {
-                this.chart1.series[0].data = getRandomNumberArray(0);
-              }
-              if (!this.statsData.appointment.paid) {
-                this.chart2.series[0].data = getRandomNumberArray(0);
-              }
-              if (!this.statsData.appointment.unpaid) {
-                this.chart3.series[0].data = getRandomNumberArray(0);
-              }
-              this.reRenderChart = true;
-              setTimeout(() => {
-                this.reRenderChart = false;
-              }, 100);
+              this.initializeLineChart();
+              this.initializePieChart(response.data.data);
             } else {
               this.failureToast(response.data.messsage);
             }
