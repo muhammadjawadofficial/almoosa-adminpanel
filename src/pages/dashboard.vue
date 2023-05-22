@@ -596,13 +596,7 @@ export default {
               },
             },
           ],
-          colors: [
-            "#55b047",
-            "#2b4e66",
-            "#f8d62b",
-            "#fd7e14",
-            "#a927f9",
-          ],
+          colors: ["#55b047", "#2b4e66", "#f8d62b", "#fd7e14", "#a927f9"],
         },
       },
     };
@@ -689,7 +683,7 @@ export default {
         this.defaultEnd = toDate;
       }
       this.dateRange = [this.fromDate, this.toDate];
-      this.fetchDashboardData();
+      if (!setDefault) this.fetchDashboardData("resetdates");
     },
     disabledBeforeTodayAndAfterAWeek(date) {
       const today = new Date();
@@ -709,7 +703,7 @@ export default {
       if (!this.fromDate || this.toDate) {
         this.showCalendar = false;
       }
-      this.fetchDashboardData();
+      this.fetchDashboardData("datechange");
     },
     loadDashboard() {
       this.loading = true;
@@ -726,7 +720,7 @@ export default {
         this.$router.replace(path);
       }
 
-      this.fetchDashboardData();
+      this.fetchDashboardData("loaddashbaord");
     },
     initializeLineChart() {
       let getNumber = (max = 100) => {
@@ -774,7 +768,8 @@ export default {
         this.reRenderPieChart = false;
       }, 100);
     },
-    fetchDashboardData() {
+    fetchDashboardData(clinic) {
+      console.log(clinic);
       // return;
       reportService
         .getDashboardStats(
