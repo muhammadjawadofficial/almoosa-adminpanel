@@ -119,7 +119,6 @@ export default {
   },
   methods: {
     updateRolePermissions(id) {
-      this.setLoadingState(true);
       let permissions = this.activePermissions
         .filter((item) => item.checked)
         .map((item) => item.id);
@@ -131,7 +130,6 @@ export default {
           } else {
             this.failureToast(res.data.message);
           }
-          this.setLoadingState(false);
         })
         .catch((error) => {
           if (!this.isAPIAborted(error))
@@ -140,7 +138,6 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
-          this.setLoadingState(false);
         });
     },
     resetPermissions() {
@@ -154,7 +151,6 @@ export default {
       ];
     },
     fetchDetails(id) {
-      this.setLoadingState(true);
       rolesPermissionsService
         .fetchRoleDetails(id)
         .then((res) => {
@@ -167,7 +163,6 @@ export default {
           } else {
             this.failureToast(res.data.message);
           }
-          this.setLoadingState(false);
         })
         .catch((error) => {
           if (!this.isAPIAborted(error))
@@ -176,13 +171,11 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
-          this.setLoadingState(false);
         });
     },
     fetchData() {
       this.roles = [];
       this.permissions = [];
-      this.setLoadingState(true);
       Promise.all([
         rolesPermissionsService.fetchRolesList(),
         rolesPermissionsService.fetchPermissionsList(),
@@ -217,7 +210,6 @@ export default {
             );
         })
         .finally(() => {
-          this.setLoadingState(false);
         });
     },
   },

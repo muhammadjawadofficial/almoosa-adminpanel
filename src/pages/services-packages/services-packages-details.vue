@@ -103,7 +103,6 @@ export default {
   },
   methods: {
     initializeData() {
-      this.setLoadingState(true);
       this.packageInfo = this.getSelectedPackage;
       this.packageDetails = [];
       let details = this.getSelectedPackage.service_details;
@@ -118,7 +117,6 @@ export default {
           });
         }
       }
-      this.setLoadingState(false);
     },
     editPackage() {
       this.navigateTo("Services Packages Edit");

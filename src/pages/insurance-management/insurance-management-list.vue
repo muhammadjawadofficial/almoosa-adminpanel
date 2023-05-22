@@ -150,8 +150,6 @@ export default {
         this.$t("admin.delete")
       ).then((res) => {
         if (res.value) {
-          this.setLoadingState(true);
-          this.setLoadingState(true);
           insuranceService.deleteInsurance(item.id).then(
             (response) => {
               if (response.data.status) {
@@ -163,10 +161,8 @@ export default {
               } else {
                 this.failureToast(response.data.messsage);
               }
-              this.setLoadingState(false);
             },
             (error) => {
-              this.setLoadingState(false);
               if (!this.isAPIAborted(error))
                 this.failureToast(
                   error.response &&
@@ -190,7 +186,6 @@ export default {
       this.totalRows = this.items.length;
     },
     fetchInsurances() {
-      this.setLoadingState(true);
       insuranceService.fetchAllInsurances("?status=" + this.activeTab).then(
         (response) => {
           if (response.data.status) {
@@ -199,10 +194,8 @@ export default {
           } else {
             this.failureToast(response.data.messsage);
           }
-          this.setLoadingState(false);
         },
         (error) => {
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&

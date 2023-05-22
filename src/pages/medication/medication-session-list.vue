@@ -98,7 +98,6 @@ export default {
     ...mapActions("myMedication", ["setSelectedMedicationSession"]),
     ...mapActions("appointment", ["setSelectedAppointment"]),
     fetchTimelines() {
-      this.setLoadingState(true);
       medicationService
         .getAppointmentMedication(this.getSelectedUser.mrn_number)
         .then(
@@ -110,10 +109,8 @@ export default {
             } else {
               this.failureToast(response.data.messsage);
             }
-            this.setLoadingState(false);
           },
           (error) => {
-            this.setLoadingState(false);
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&

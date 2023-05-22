@@ -175,7 +175,6 @@ export default {
       }
     },
     fetchPatientFamilyMembers() {
-      this.setLoadingState(true);
       familyMemberService
         .fetchAllFamilyMembers("?mrn_number=" + this.getSelectedUser.mrn_number)
         .then(
@@ -187,7 +186,6 @@ export default {
             } else {
               this.failureToast(response.data.message);
             }
-            this.setLoadingState(false);
           },
           (error) => {
             console.error(error);
@@ -197,12 +195,10 @@ export default {
                   error.response.data &&
                   error.response.data.message
               );
-            this.setLoadingState(false);
           }
         );
     },
     fetchAllFamilyMembers() {
-      this.setLoadingState(true);
       familyMemberService.fetchAllFamilyMembers().then(
         (response) => {
           if (response.data.status) {
@@ -213,11 +209,9 @@ export default {
             this.failureToast(response.data.messsage);
           }
           this.appointmentStatus = null;
-          this.setLoadingState(false);
         },
         (error) => {
           this.appointmentStatus = null;
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
@@ -235,7 +229,6 @@ export default {
         this.$t("admin.delete")
       ).then((res) => {
         if (res.value) {
-          this.setLoadingState(true);
           familyMemberService.deleteFamilyMemberRequest(request.id).then(
             (response) => {
               if (response.data.status) {
@@ -244,10 +237,8 @@ export default {
               } else {
                 this.failureToast(response.data.message);
               }
-              this.setLoadingState(false);
             },
             (error) => {
-              this.setLoadingState(false);
               if (!this.isAPIAborted(error))
                 this.failureToast(
                   error.response &&

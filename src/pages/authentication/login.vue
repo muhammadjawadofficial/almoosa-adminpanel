@@ -100,7 +100,6 @@ export default {
       this.doAdminLogin(payload);
     },
     doAdminLogin(payload) {
-      this.setLoadingState(true);
       authService.loginAdmin(payload).then(
         (response) => {
           if (response.data.status) {
@@ -111,7 +110,6 @@ export default {
           } else {
             this.failureToast(response.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
           if (!this.isAPIAborted(error))
@@ -120,7 +118,6 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
-          this.setLoadingState(false);
         }
       );
     },

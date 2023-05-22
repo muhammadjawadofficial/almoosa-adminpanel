@@ -137,11 +137,9 @@ export default {
         this.$t("admin.delete")
       ).then((res) => {
         if (res.value) {
-          this.setLoadingState(true);
           userService.deleteUser(item.id).then(
             (response) => {
               if (response.data.status) {
-                this.setLoadingState(false);
                 this.successIconModal(
                   this.$t("changesDone"),
                   this.$t("admin.userDeleteSuccess")
@@ -150,13 +148,11 @@ export default {
                 });
               } else {
                 this.failureToast(response.data.messsage);
-                this.setLoadingState(false);
               }
               this.appointmentStatus = null;
             },
             (error) => {
               this.appointmentStatus = null;
-              this.setLoadingState(false);
               if (!this.isAPIAborted(error))
                 this.failureToast(
                   error.response &&
@@ -192,7 +188,6 @@ export default {
     },
     fetchUsers(pageNumber = 1) {
       this.items = [];
-      this.setLoadingState(true);
       let query = "";
       if (this.sortBy) {
         query = "?sort=" + (this.sortDesc ? "-" : "") + this.sortBy;
@@ -216,11 +211,9 @@ export default {
             this.failureToast(response.data.messsage);
           }
           this.appointmentStatus = null;
-          this.setLoadingState(false);
         },
         (error) => {
           this.appointmentStatus = null;
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&

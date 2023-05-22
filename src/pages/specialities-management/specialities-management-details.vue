@@ -123,7 +123,6 @@ export default {
         return;
       }
 
-      this.setLoadingState(true);
       authService.uploadId(file).then(
         (res) => {
           if (res.data.status) {
@@ -132,7 +131,6 @@ export default {
           } else {
             this.failureToast(res.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
           if (!this.isAPIAborted(error))
@@ -141,12 +139,10 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
-          this.setLoadingState(false);
         }
       );
     },
     updateSpeciality() {
-      this.setLoadingState(true);
       specialityService
         .updateSpeciality(this.getSelectedSpecialitiesManagement.id, {
           ...this.getSelectedSpecialitiesManagement,
@@ -162,7 +158,6 @@ export default {
             } else {
               this.failureToast(response.data.message);
             }
-            this.setLoadingState(false);
           },
           (error) => {
             if (!this.isAPIAborted(error))
@@ -171,7 +166,6 @@ export default {
                   error.response.data &&
                   error.response.data.message
               );
-            this.setLoadingState(false);
           }
         );
     },

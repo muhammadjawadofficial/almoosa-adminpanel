@@ -100,7 +100,6 @@ export default {
       this.instructionsArrayAr = parsedDataAr.filter((x) => x != "");
     },
     fetchAppointmentInstruction() {
-      this.setLoadingState(true);
       Promise.all([
         appointmentService.fetchAppointmentInstructions(
           "?title=TELE_INSTRUCTIONS"
@@ -136,11 +135,9 @@ export default {
           // this.parseInstructionsIntoArray();
 
           this.appointmentStatus = null;
-          this.setLoadingState(false);
         })
         .catch((err) => {
           this.appointmentStatus = null;
-          this.setLoadingState(false);
           if (!this.isAPIAborted(err))
             this.failureToast(
               err.response && err.response.data && err.response.data.messsage
@@ -148,7 +145,6 @@ export default {
         });
     },
     updateAppointmentInstruction(id, instructions) {
-      this.setLoadingState(true);
       appointmentService.updateAppointmentInstructions(id, instructions).then(
         (response) => {
           if (response.data.status) {
@@ -157,11 +153,9 @@ export default {
             this.failureToast(response.data.messsage);
           }
           this.appointmentStatus = null;
-          this.setLoadingState(false);
         },
         (error) => {
           this.appointmentStatus = null;
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&

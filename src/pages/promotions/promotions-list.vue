@@ -119,7 +119,6 @@ export default {
         this.$t("admin.promoCodeDeleteConfirm")
       ).then((res) => {
         if (res.value) {
-          this.setLoadingState(true);
           promotionService.deletePromotion(promotion.id).then(
             (response) => {
               if (response.data.status) {
@@ -132,11 +131,9 @@ export default {
                 this.failureToast(response.data.messsage);
               }
               this.appointmentStatus = null;
-              this.setLoadingState(false);
             },
             (error) => {
               this.appointmentStatus = null;
-              this.setLoadingState(false);
               if (!this.isAPIAborted(error))
                 this.failureToast(
                   error.response &&
@@ -149,7 +146,6 @@ export default {
       });
     },
     fetchPromotions() {
-      this.setLoadingState(true);
       promotionService.fetchAllPromotions().then(
         (response) => {
           if (response.data.status) {
@@ -161,11 +157,9 @@ export default {
             this.failureToast(response.data.messsage);
           }
           this.appointmentStatus = null;
-          this.setLoadingState(false);
         },
         (error) => {
           this.appointmentStatus = null;
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&

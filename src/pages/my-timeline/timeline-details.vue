@@ -140,7 +140,6 @@ export default {
       else this.navigateBack();
     },
     fetchTimelineDetails() {
-      this.setLoadingState(true);
       timelineService
         .fetchTimelineDetails(this.mrn_number, this.appointmentId)
         .then(
@@ -188,10 +187,8 @@ export default {
             } else {
               this.failureToast(response.data.messsage);
             }
-            this.setLoadingState(false);
           },
           (error) => {
-            this.setLoadingState(false);
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&

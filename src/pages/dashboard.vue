@@ -613,7 +613,6 @@ export default {
     },
   },
   mounted() {
-    this.setLoadingState(true);
     authService
       .getClinics()
       .then((res) => {
@@ -634,7 +633,6 @@ export default {
           );
       })
       .finally(() => {
-        this.setLoadingState(false);
         this.resetDates(true);
       });
 
@@ -778,7 +776,6 @@ export default {
     },
     fetchDashboardData() {
       // return;
-      this.setLoadingState(true);
       reportService
         .getDashboardStats(
           "?from_date=" +
@@ -800,11 +797,9 @@ export default {
             }
             this.loading = false;
             this.appointmentStatus = null;
-            this.setLoadingState(false);
           },
           (error) => {
             this.loading = false;
-            this.setLoadingState(false);
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&

@@ -111,7 +111,6 @@ export default {
         this.$t("admin.promoGroupDeleteConfirm")
       ).then((res) => {
         if (res.value) {
-          this.setLoadingState(true);
           promotionService.deletePromoGroup(promoGroup.id).then(
             (response) => {
               if (response.data.status) {
@@ -124,11 +123,9 @@ export default {
                 this.failureToast(response.data.messsage);
               }
               this.appointmentStatus = null;
-              this.setLoadingState(false);
             },
             (error) => {
               this.appointmentStatus = null;
-              this.setLoadingState(false);
               if (!this.isAPIAborted(error))
                 this.failureToast(
                   error.response &&
@@ -141,7 +138,6 @@ export default {
       });
     },
     fetchPromoGroups() {
-      this.setLoadingState(true);
       this.items = [];
       promotionService.fetchAllPromoGroups().then(
         (response) => {
@@ -154,11 +150,9 @@ export default {
             this.failureToast(response.data.messsage);
           }
           this.appointmentStatus = null;
-          this.setLoadingState(false);
         },
         (error) => {
           this.appointmentStatus = null;
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&

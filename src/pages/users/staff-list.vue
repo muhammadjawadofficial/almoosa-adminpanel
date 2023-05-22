@@ -141,7 +141,6 @@ export default {
       this.filteredFields = this.tablefields.filter(
         (x) => !x.filtered || x.filtered == roleId
       );
-      this.setLoadingState(true);
       userService.getUsers("?role_id=" + roleId).then(
         (response) => {
           if (response.data.status) {
@@ -152,11 +151,9 @@ export default {
             this.failureToast(response.data.messsage);
           }
           this.appointmentStatus = null;
-          this.setLoadingState(false);
         },
         (error) => {
           this.appointmentStatus = null;
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&

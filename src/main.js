@@ -54,7 +54,7 @@ import { defaultLocale, localeOptions } from './constants/config';
 import './assets/scss/app.scss'
 
 import interceptor from './interceptor'
-interceptor();
+interceptor(store);
 
 Vue.use(VueFeather);
 Vue.use(BootstrapVue);

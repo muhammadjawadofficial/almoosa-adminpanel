@@ -218,7 +218,6 @@ export default {
         return;
       }
 
-      this.setLoadingState(true);
       authService.uploadId(file).then(
         (res) => {
           if (res.data.status) {
@@ -227,7 +226,6 @@ export default {
           } else {
             this.failureToast(res.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
           if (!this.isAPIAborted(error))
@@ -236,7 +234,6 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
-          this.setLoadingState(false);
         }
       );
     },
@@ -255,7 +252,6 @@ export default {
     },
     updateBanner() {
       if (!this.validateForm()) return;
-      this.setLoadingState(true);
       let payload = {
         text: this.text,
         text_ar: this.textAr,
@@ -271,7 +267,6 @@ export default {
             } else {
               this.failureToast(response.data.message);
             }
-            this.setLoadingState(false);
           },
           (error) => {
             if (!this.isAPIAborted(error))
@@ -280,13 +275,11 @@ export default {
                   error.response.data &&
                   error.response.data.message
               );
-            this.setLoadingState(false);
           }
         );
     },
     createBanner() {
       if (!this.validateForm()) return;
-      this.setLoadingState(true);
       let payload = {
         text: this.text,
         text_ar: this.textAr,
@@ -302,7 +295,6 @@ export default {
           } else {
             this.failureToast(response.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
           if (!this.isAPIAborted(error))
@@ -311,7 +303,6 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
-          this.setLoadingState(false);
         }
       );
     },

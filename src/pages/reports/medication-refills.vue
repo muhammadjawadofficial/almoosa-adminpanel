@@ -258,7 +258,6 @@ export default {
       console.log(this.searchQuery, "asldkasldkf");
     },
     fetchMedications() {
-      this.setLoadingState(true);
       medicationService.getMedicationRefills("?status=" + this.subTab).then(
         (response) => {
           if (response.data.status) {
@@ -269,11 +268,9 @@ export default {
             this.failureToast(response.data.messsage);
           }
           this.appointmentStatus = null;
-          this.setLoadingState(false);
         },
         (error) => {
           this.appointmentStatus = null;
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
@@ -291,7 +288,6 @@ export default {
         this.$t("admin.delete")
       ).then((res) => {
         if (res.value) {
-          this.setLoadingState(true);
           medicationService.deleteMedicationRefill(item.id).then(
             (response) => {
               if (response.data.status) {
@@ -306,11 +302,9 @@ export default {
                 this.failureToast(response.data.messsage);
               }
               this.appointmentStatus = null;
-              this.setLoadingState(false);
             },
             (error) => {
               this.appointmentStatus = null;
-              this.setLoadingState(false);
               if (!this.isAPIAborted(error))
                 this.failureToast(
                   error.response &&

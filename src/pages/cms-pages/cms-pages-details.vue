@@ -38,7 +38,6 @@ export default {
   },
   methods: {
     initializeData() {
-      this.setLoadingState(true);
       healthEducationService
         .fetchHealthEducationsDetails(this.$route.params.id)
         .then(
@@ -49,10 +48,8 @@ export default {
             } else {
               this.failureToast(response.data.messsage);
             }
-            this.setLoadingState(false);
           },
           (error) => {
-            this.setLoadingState(false);
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&

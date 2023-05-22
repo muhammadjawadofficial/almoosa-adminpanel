@@ -172,8 +172,6 @@ export default {
         this.$t("admin.delete")
       ).then((res) => {
         if (res.value) {
-          this.setLoadingState(true);
-          this.setLoadingState(true);
           servicesPackagesService.deletePackage(item.id).then(
             (response) => {
               if (response.data.status) {
@@ -187,11 +185,9 @@ export default {
                 this.failureToast(response.data.messsage);
               }
               this.appointmentStatus = null;
-              this.setLoadingState(false);
             },
             (error) => {
               this.appointmentStatus = null;
-              this.setLoadingState(false);
               if (!this.isAPIAborted(error))
                 this.failureToast(
                   error.response &&
@@ -223,7 +219,6 @@ export default {
       });
     },
     fetchPackages() {
-      this.setLoadingState(true);
       servicesPackagesService.fetchPackages().then(
         (response) => {
           if (response.data.status) {
@@ -234,11 +229,9 @@ export default {
             this.failureToast(response.data.messsage);
           }
           this.appointmentStatus = null;
-          this.setLoadingState(false);
         },
         (error) => {
           this.appointmentStatus = null;
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&

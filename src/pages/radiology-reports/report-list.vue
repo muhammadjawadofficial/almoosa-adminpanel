@@ -121,7 +121,6 @@ export default {
         this.navigateTo(this.backRoute);
         return;
       }
-      this.setLoadingState(true);
       reportService.getReportsWithAppointments(this.appointmentId).then(
         (response) => {
           if (response.data.status) {
@@ -133,10 +132,8 @@ export default {
           } else {
             this.failureToast(response.data.messsage);
           }
-          this.setLoadingState(false);
         },
         (error) => {
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&

@@ -237,7 +237,6 @@ export default {
       if (this.fileToUpload.length > 1) {
         this.$refs.fileUpload.removeFile(this.fileToUpload[0]);
       }
-      this.setLoadingState(true);
       authService.uploadId(file).then(
         (res) => {
           if (res.data.status) {
@@ -246,7 +245,6 @@ export default {
           } else {
             this.failureToast(res.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
           if (!this.isAPIAborted(error))
@@ -255,7 +253,6 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
-          this.setLoadingState(false);
         }
       );
     },
@@ -293,7 +290,6 @@ export default {
         thumbnail_id: this.packageForm.thumbnail_id,
         service_details: JSON.stringify(parsedDetails),
       };
-      this.setLoadingState(true);
       servicesPackagesService.addNewPackage(newPackage).then(
         (response) => {
           if (response.data.status) {
@@ -302,7 +298,6 @@ export default {
           } else {
             this.failureToast(response.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
           if (!this.isAPIAborted(error))
@@ -311,7 +306,6 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
-          this.setLoadingState(false);
         }
       );
     },
@@ -332,7 +326,6 @@ export default {
         thumbnail_id: this.packageForm.thumbnail_id,
         service_details: JSON.stringify(parsedDetails),
       };
-      this.setLoadingState(true);
       servicesPackagesService
         .updatePackage(this.getSelectedPackage.id, newPackage)
         .then(
@@ -343,7 +336,6 @@ export default {
             } else {
               this.failureToast(response.data.message);
             }
-            this.setLoadingState(false);
           },
           (error) => {
             if (!this.isAPIAborted(error))
@@ -352,7 +344,6 @@ export default {
                   error.response.data &&
                   error.response.data.message
               );
-            this.setLoadingState(false);
           }
         );
     },

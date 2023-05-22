@@ -126,7 +126,6 @@ export default {
     updateMedicationRefill(status = null) {
       this.selectedStatusState = !!this.selectedStatus;
       if (!this.selectedStatusState) return;
-      this.setLoadingState(true);
       medicationService
         .updateMedicationRefill(this.getSelectedMedication.id, {
           status: status || this.selectedStatus,
@@ -139,10 +138,8 @@ export default {
             } else {
               this.failureToast(response.data.messsage);
             }
-            this.setLoadingState(false);
           },
           (error) => {
-            this.setLoadingState(false);
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&

@@ -185,7 +185,6 @@ export default {
   },
   methods: {
     updateInsuranceRequest() {
-      this.setLoadingState(true);
       insuranceService
         .updateInsurances(this.getSelectedInsuranceManagement.id, {
           status: this.selectedStatus,
@@ -200,7 +199,6 @@ export default {
             } else {
               this.failureToast(response.data.message);
             }
-            this.setLoadingState(false);
           },
           (error) => {
             if (!this.isAPIAborted(error))
@@ -209,7 +207,6 @@ export default {
                   error.response.data &&
                   error.response.data.message
               );
-            this.setLoadingState(false);
           }
         );
     },

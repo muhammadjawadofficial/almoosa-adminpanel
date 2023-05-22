@@ -165,7 +165,6 @@ export default {
   },
   methods: {
     getInsurances() {
-      this.setLoadingState(true);
       Promise.all([
         insuranceService.fetchInsurances(this.userId),
         insuranceService.fetchInsuranceServices(this.userId),
@@ -193,7 +192,6 @@ export default {
             );
         })
         .finally(() => {
-          this.setLoadingState(false);
         });
     },
     getStatusClass(statusTemp) {

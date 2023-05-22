@@ -113,7 +113,6 @@ export default {
       this.fetchReports();
     },
     fetchReports() {
-      this.setLoadingState(true);
       reportService.fetchRadiologyReports(this.appointmentId).then(
         (response) => {
           if (response.data.status) {
@@ -123,11 +122,9 @@ export default {
             this.failureToast(response.data.messsage);
           }
           this.appointmentStatus = null;
-          this.setLoadingState(false);
         },
         (error) => {
           this.appointmentStatus = null;
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&

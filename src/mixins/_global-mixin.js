@@ -196,7 +196,6 @@ export default {
                         return selectedRating != null
                     } else {
                         let success = false;
-                        this.setLoadingState(true);
                         appointmentService.ratePhysician(doctor_id, selectedRating).then(
                             (response) => {
                                 if (response.data.status) {
@@ -206,11 +205,9 @@ export default {
                                 } else {
                                     this.failureToast(response.data.message);
                                 }
-                                this.setLoadingState(false);
                             },
                             (error) => {
                                 if (!this.isAPIAborted(error)) this.failureToast(error.response && error.response.data.message);
-                                this.setLoadingState(false);
                             }
                         );
                         return success && selectedRating != null && selectedRating

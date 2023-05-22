@@ -123,7 +123,6 @@ export default {
       this.totalRows = this.items.length;
     },
     fetchSpecialities() {
-      this.setLoadingState(true);
       authService.getSpecialitiesV1().then(
         (response) => {
           if (response.data.status) {
@@ -132,10 +131,8 @@ export default {
           } else {
             this.failureToast(response.data.messsage);
           }
-          this.setLoadingState(false);
         },
         (error) => {
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&

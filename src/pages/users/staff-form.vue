@@ -163,7 +163,6 @@ export default {
   methods: {
     ...mapActions("user", ["setOtp", "setUserId", "setAuthState"]),
     checkDropdownValues() {
-      this.setLoadingState(true);
       Promise.all([rolesPermissionsService.fetchRolesList()])
         .then((res) => {
           if (res[0].data.status) {
@@ -174,7 +173,6 @@ export default {
           } else {
             this.failureToast(res[0].data.message);
           }
-          this.setLoadingState(false);
         })
         .catch((error) => {
           console.error(error);
@@ -184,7 +182,6 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
-          this.setLoadingState(false);
         });
     },
     formatNumber(number, input) {
@@ -212,7 +209,6 @@ export default {
       }
       this.registerForm["id"] = +this.userId;
       this.registerForm.role_id = this.selectedRole.id;
-      this.setLoadingState(true);
       authService.addStaffMember(this.registerForm).then(
         (response) => {
           if (response.data.status) {
@@ -225,12 +221,10 @@ export default {
           } else {
             this.failureToast(response.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
           console.error(error);
           this.failureToast(error.response.data.message);
-          this.setLoadingState(false);
         }
       );
     },

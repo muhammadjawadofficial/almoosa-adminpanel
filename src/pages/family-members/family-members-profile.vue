@@ -909,7 +909,6 @@ export default {
       if (!file) {
         return;
       }
-      this.setLoadingState(true);
       authService.uploadId(file).then(
         (res) => {
           if (res.data.status) {
@@ -920,7 +919,6 @@ export default {
           } else {
             this.failureToast(res.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
           if (!this.isAPIAborted(error))
@@ -929,13 +927,11 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
-          this.setLoadingState(false);
         }
       );
     },
     checkDropdownValues() {
       if (this.isSelectedUserDoctor) {
-        this.setLoadingState(true);
         Promise.all([
           authService.getNationalities(),
           authService.getClinics(),
@@ -979,7 +975,6 @@ export default {
               );
           })
           .finally(() => {
-            this.setLoadingState(false);
             this.getProfileData();
           });
       } else {
@@ -1007,7 +1002,6 @@ export default {
       else this.getLoggedInUserData();
     },
     getDoctorProfile() {
-      this.setLoadingState(true);
       userService.getDoctorProfile(this.getSelectedFamilyMember.id).then(
         (res) => {
           if (res.data.status) {
@@ -1016,10 +1010,8 @@ export default {
           } else {
             this.failureToast(res.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
@@ -1030,7 +1022,6 @@ export default {
       );
     },
     getLoggedInUserData() {
-      this.setLoadingState(true);
       userService
         .getProfile(
           this.getSelectedFamilyMember.role_id == 4 ? "doctor" : "patient",
@@ -1046,10 +1037,8 @@ export default {
             } else {
               this.failureToast(res.data.message);
             }
-            this.setLoadingState(false);
           },
           (error) => {
-            this.setLoadingState(false);
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
@@ -1206,7 +1195,6 @@ export default {
       }
     },
     updateFamilyMemberStatus(payload) {
-      this.setLoadingState(true);
       familyMemberService.updateFamilyMemberStatus(payload).then(
         (res) => {
           if (res.data.status) {
@@ -1216,10 +1204,8 @@ export default {
           } else {
             this.failureToast(res.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
@@ -1230,7 +1216,6 @@ export default {
       );
     },
     updateProfileInfo(data) {
-      this.setLoadingState(true);
       userService.updateProfile(this.getSelectedFamilyMember.id, data).then(
         (res) => {
           if (res.data.status) {
@@ -1240,10 +1225,8 @@ export default {
           } else {
             this.failureToast(res.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
@@ -1254,7 +1237,6 @@ export default {
       );
     },
     updateProfilePicture(data, data_id) {
-      this.setLoadingState(true);
       userService.updateProfile(this.getSelectedFamilyMember.id, data_id).then(
         (res) => {
           if (res.data.status) {
@@ -1267,10 +1249,8 @@ export default {
           } else {
             this.failureToast(res.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&

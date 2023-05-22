@@ -257,7 +257,6 @@ export default {
       if (!fetchType) {
         fetchType = this.activeTab;
       }
-      this.setLoadingState(true);
       let query = "";
       if (fetchType) {
         query += "?type=" + fetchType.toUpperCase();
@@ -301,11 +300,9 @@ export default {
             this.failureToast(response.data.messsage);
           }
           this.appointmentStatus = null;
-          this.setLoadingState(false);
         },
         (error) => {
           this.appointmentStatus = null;
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&

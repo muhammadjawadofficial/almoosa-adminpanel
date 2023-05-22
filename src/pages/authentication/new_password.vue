@@ -131,7 +131,6 @@ export default {
         otp_code: this.otp,
         password: this.password,
       };
-      this.setLoadingState(true);
       authService.resetPassword(payload).then(
         (response) => {
           if (response.data.status) {
@@ -144,10 +143,8 @@ export default {
           } else {
             this.failureToast(response.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
-          this.setLoadingState(false);
           console.error(error);
         }
       );

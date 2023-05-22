@@ -105,7 +105,6 @@ export default {
   methods: {
     ...mapActions("labwork", ["setSelectedLabWork"]),
     fetchAppointments() {
-      this.setLoadingState(true);
       reportService
         .getAppointmentsWithReports(this.getSelectedUser.mrn_number, "lab")
         .then(
@@ -117,10 +116,8 @@ export default {
             } else {
               this.failureToast(response.data.messsage);
             }
-            this.setLoadingState(false);
           },
           (error) => {
-            this.setLoadingState(false);
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&

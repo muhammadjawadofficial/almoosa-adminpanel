@@ -131,7 +131,6 @@ export default {
     downloadReport() {
       let perPage = this.totalRows || this.getPerPageSelection;
       this.totalItems = [];
-      this.setLoadingState(true);
       let query = "&query=&page=1";
       if (perPage) {
         query += "&limit=" + perPage;
@@ -144,10 +143,8 @@ export default {
           } else {
             this.failureToast(response.data.messsage);
           }
-          this.setLoadingState(false);
         },
         (error) => {
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
@@ -181,7 +178,6 @@ export default {
     },
     fetchUsers(pageNumber = 1, perPage = this.getPerPageSelection) {
       this.items = [];
-      this.setLoadingState(true);
       let query = "";
       query += "&query=" + this.searchQuery;
       if (this.sortBy) {
@@ -202,10 +198,8 @@ export default {
           } else {
             this.failureToast(response.data.messsage);
           }
-          this.setLoadingState(false);
         },
         (error) => {
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&

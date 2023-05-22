@@ -183,7 +183,6 @@ export default {
   },
   methods: {
     initializeData() {
-      this.setLoadingState(true);
       cmsPagesService.fetchCmsPagesDetails(this.getSelectedCmsPage.id).then(
         (response) => {
           if (response.data.status) {
@@ -199,10 +198,8 @@ export default {
           } else {
             this.failureToast(response.data.messsage);
           }
-          this.setLoadingState(false);
         },
         (error) => {
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
@@ -229,7 +226,6 @@ export default {
       if (!this.validateForm()) {
         return;
       }
-      this.setLoadingState(true);
       let cmsPageArticle = {
         ...this.cmsPageForm,
       };
@@ -241,7 +237,6 @@ export default {
           } else {
             this.failureToast(response.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
           if (!this.isAPIAborted(error))
@@ -250,7 +245,6 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
-          this.setLoadingState(false);
         }
       );
     },
@@ -259,7 +253,6 @@ export default {
       if (!this.validateForm()) {
         return;
       }
-      this.setLoadingState(true);
       let cmsPageArticle = {
         ...this.cmsPageForm,
       };
@@ -270,7 +263,6 @@ export default {
           } else {
             this.failureToast(response.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
           if (!this.isAPIAborted(error))
@@ -279,7 +271,6 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
-          this.setLoadingState(false);
         }
       );
     },

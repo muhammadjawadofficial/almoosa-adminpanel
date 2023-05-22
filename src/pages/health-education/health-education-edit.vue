@@ -248,7 +248,6 @@ export default {
   },
   methods: {
     initializeData() {
-      this.setLoadingState(true);
       healthEducationService
         .fetchHealthEducationsDetails(this.getSelectedHealthEducation.id)
         .then(
@@ -299,10 +298,8 @@ export default {
             } else {
               this.failureToast(response.data.messsage);
             }
-            this.setLoadingState(false);
           },
           (error) => {
-            this.setLoadingState(false);
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
@@ -340,7 +337,6 @@ export default {
         return;
       }
 
-      this.setLoadingState(true);
       authService.uploadId(file).then(
         (res) => {
           if (res.data.status) {
@@ -351,7 +347,6 @@ export default {
           } else {
             this.failureToast(res.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
           if (!this.isAPIAborted(error))
@@ -360,7 +355,6 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
-          this.setLoadingState(false);
         }
       );
     },
@@ -384,7 +378,6 @@ export default {
       if (!this.validateForm()) {
         return;
       }
-      this.setLoadingState(true);
       let healthEducationArticle = {
         ...this.healthEducationForm,
       };
@@ -398,7 +391,6 @@ export default {
             } else {
               this.failureToast(response.data.message);
             }
-            this.setLoadingState(false);
           },
           (error) => {
             if (!this.isAPIAborted(error))
@@ -407,7 +399,6 @@ export default {
                   error.response.data &&
                   error.response.data.message
               );
-            this.setLoadingState(false);
           }
         );
     },
@@ -416,7 +407,6 @@ export default {
       if (!this.validateForm()) {
         return;
       }
-      this.setLoadingState(true);
       let healthEducationArticle = {
         ...this.healthEducationForm,
       };
@@ -432,7 +422,6 @@ export default {
             } else {
               this.failureToast(response.data.message);
             }
-            this.setLoadingState(false);
           },
           (error) => {
             if (!this.isAPIAborted(error))
@@ -441,7 +430,6 @@ export default {
                   error.response.data &&
                   error.response.data.message
               );
-            this.setLoadingState(false);
           }
         );
     },

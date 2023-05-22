@@ -115,7 +115,6 @@ export default {
     },
     fetchUsers(pageNumber = 1) {
       this.items = [];
-      this.setLoadingState(true);
       let query = "";
       if (this.sortBy) {
         query = "&sort_by=" + this.sortBy;
@@ -144,11 +143,9 @@ export default {
             this.failureToast(response.data.messsage);
           }
           this.appointmentStatus = null;
-          this.setLoadingState(false);
         },
         (error) => {
           this.appointmentStatus = null;
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&

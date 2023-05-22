@@ -377,7 +377,6 @@ export default {
       return date > today;
     },
     checkDropdownValues() {
-      this.setLoadingState(true);
       Promise.all([
         authService.getNationalities(),
         rolesPermissionsService.fetchRolesList(),
@@ -400,7 +399,6 @@ export default {
           } else {
             this.failureToast(res[1].data.message);
           }
-          this.setLoadingState(false);
         })
         .catch((error) => {
           console.error(error);
@@ -410,7 +408,6 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
-          this.setLoadingState(false);
         });
     },
     formatNumber(number, input) {
@@ -433,7 +430,6 @@ export default {
         this.$refs.fileUpload.removeFile(this.fileToUpload[0]);
       }
 
-      this.setLoadingState(true);
       authService.uploadId(file).then(
         (res) => {
           if (res.data.status) {
@@ -443,7 +439,6 @@ export default {
           } else {
             this.failureToast(res.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
           console.error(error);
@@ -453,7 +448,6 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
-          this.setLoadingState(false);
         }
       );
     },
@@ -485,7 +479,6 @@ export default {
       if (typeof this.registerForm.nationality_id == "object") {
         this.registerForm.nationality_id = this.registerForm.nationality_id.id;
       }
-      this.setLoadingState(true);
       authService.addStaffMember(this.registerForm).then(
         (response) => {
           if (response.data.status) {
@@ -498,12 +491,10 @@ export default {
           } else {
             this.failureToast(response.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
           console.error(error);
           this.failureToast(error.response.data.message);
-          this.setLoadingState(false);
         }
       );
     },

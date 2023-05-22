@@ -107,7 +107,6 @@ export default {
   methods: {
     ...mapActions("radiologyReport", ["setSelectedRadiologyReport"]),
     fetchAppointments() {
-      this.setLoadingState(true);
       reportService
         .getAppointmentsWithReports(
           this.getSelectedUser.mrn_number,
@@ -122,10 +121,8 @@ export default {
             } else {
               this.failureToast(response.data.messsage);
             }
-            this.setLoadingState(false);
           },
           (error) => {
-            this.setLoadingState(false);
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
