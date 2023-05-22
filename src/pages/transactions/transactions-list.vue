@@ -21,7 +21,6 @@
       borderless
       :items="items"
       :fields="tablefields"
-      :current-page="currentPage"
       :per-page="5"
       :sort-by="sortBy"
       :sort-desc="sortDesc"
@@ -62,7 +61,11 @@
             <span class="text">{{ data.value || "N/A" }}</span>
           </div>
         </template>
-        <div v-else-if="data.field.long" :title="data.value" class="truncate-table-field">
+        <div
+          v-else-if="data.field.long"
+          :title="data.value"
+          class="truncate-table-field"
+        >
           {{ data.value || "N/A" }}
         </div>
         <template v-else>{{ data.value || "N/A" }}</template>
@@ -73,6 +76,7 @@
       :total-rows="totalRows"
       :per-page="getPerPageSelection"
       class="my-0 justify-content-end"
+      @change="fetchUsers"
       v-if="getPerPageSelection"
     ></b-pagination>
     <b-pagination v-else class="my-0"> </b-pagination>
@@ -89,26 +93,67 @@ export default {
       getPerPageSelection: 5,
       sortBy: "id",
       sortDesc: true,
+      sortKey: "payments.id",
       tablefields: [
-        { key: "id", label: "id", sortable: true },
-        { key: "gateway_id", label: "gatewayId" },
-        { key: "amount", label: "amount", sortable: true },
-        { key: "appointment_id", label: "appointmentId", sortable: true },
-        { key: "mrn", label: "mrn" },
-        { key: "consultingDoctor", label: "consultingDoctor" },
-        { key: "created_at", label: "createdAt" },
-        { key: "updated_at", label: "updatedAt" },
-        { key: "status", label: "status", sortable: true },
+        { key: "id", label: "id", sortable: true, sortPre: "payments.id" },
+        {
+          key: "gateway_id",
+          label: "gatewayId",
+          sortable: true,
+          sortPre: "payments.gateway_id",
+        },
+        {
+          key: "amount",
+          label: "amount",
+          sortable: true,
+          sortPre: "payments.amount",
+        },
+        {
+          key: "appointment_id",
+          label: "appointmentId",
+          sortable: true,
+          sortPre: "payments.appointment_id",
+        },
+        {
+          key: "mrn",
+          label: "mrn",
+          sortable: true,
+          sortPre: "patient.mrn_number",
+        },
+        {
+          key: "consultingDoctor",
+          label: "consultingDoctor",
+          sortable: true,
+          sortPre: "doctor.first_name",
+        },
+        {
+          key: "created_at",
+          label: "createdAt",
+          sortable: true,
+          sortPre: "payments.created_at",
+        },
+        {
+          key: "updated_at",
+          label: "updatedAt",
+          sortable: true,
+          sortPre: "payments.updated_at",
+        },
+        {
+          key: "status",
+          label: "status",
+          sortable: true,
+          sortPre: "payments.status",
+        },
         {
           key: "transaction_status",
           label: "transaction_status",
           sortable: true,
+          sortPre: "payments.transaction_status",
         },
-        { key: "sp_request", label: "sp_request", sortable: true, long: true },
+        { key: "sp_request", label: "sp_request", long: true },
         {
           key: "sp_response",
           label: "sp_response",
-          sortable: true,
           long: true,
         },
       ],
@@ -121,18 +166,15 @@ export default {
     this.fetchUsers();
   },
   watch: {
-    searchQuery(query) {
-      this.items = this.totalItems.filter(
-        (x) =>
-          ("" + x.appointment_id).includes(query) ||
-          ("" + x.mrn).includes(query)
-      );
-      this.totalRows = this.items.length;
+    searchQuery() {
+      this.fetchUsers();
     },
   },
   methods: {
     sortUsers(filter) {
       this.sortDesc = filter.sortDesc;
+      let field = this.tablefields.find((x) => x.key == filter.sortBy);
+      this.sortKey = field.sortPre || "";
       this.sortBy = filter.sortBy;
       this.fetchUsers();
     },
@@ -151,22 +193,24 @@ export default {
     fetchUsers(pageNumber = 1) {
       this.items = [];
       this.setLoadingState(true);
-      let query = "";
-      if (this.sortBy) {
-        query = "?sort=" + (this.sortDesc ? "-" : "") + this.sortBy;
+      let query = "?query=" + this.searchQuery;
+      if (this.sortKey) {
+        query +=
+          "&sort=" +
+          (this.sortDesc ? "DESC" : "ASC") +
+          "&orderBy=" +
+          this.sortKey;
       }
-      // if (this.getPerPageSelection) {
-      //   query += "&limit=" + this.getPerPageSelection;
-      // }
-      // if (pageNumber) {
-      //   query += "&page=" + pageNumber;
-      // }
+      query += "&limit=" + this.getPerPageSelection;
+      if (pageNumber) {
+        query += "&page=" + pageNumber;
+      }
       transactionsService.fetchTransactionList(query).then(
         (response) => {
           if (response.data.status) {
             this.parseData(response.data.data.items);
             this.currentPage = pageNumber;
-            this.totalRows = this.items.length;
+            this.totalRows = response.data.data.total_records;
           } else {
             this.failureToast(response.data.messsage);
           }
