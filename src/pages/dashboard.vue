@@ -683,7 +683,7 @@ export default {
         this.defaultEnd = toDate;
       }
       this.dateRange = [this.fromDate, this.toDate];
-      if (!setDefault) this.fetchDashboardData("resetdates");
+      this.fetchDashboardData();
     },
     disabledBeforeTodayAndAfterAWeek(date) {
       const today = new Date();
@@ -703,7 +703,7 @@ export default {
       if (!this.fromDate || this.toDate) {
         this.showCalendar = false;
       }
-      this.fetchDashboardData("datechange");
+      this.fetchDashboardData();
     },
     loadDashboard() {
       this.loading = true;
@@ -720,7 +720,7 @@ export default {
         this.$router.replace(path);
       }
 
-      this.fetchDashboardData("loaddashbaord");
+      // this.fetchDashboardData();
     },
     initializeLineChart() {
       let getNumber = (max = 100) => {
@@ -769,7 +769,6 @@ export default {
       }, 100);
     },
     fetchDashboardData(clinic) {
-      console.log(clinic);
       // return;
       reportService
         .getDashboardStats(
