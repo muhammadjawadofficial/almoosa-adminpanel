@@ -727,6 +727,8 @@
     "enterGuardianMrn": "Enter Guardian MRN",
     "ios": "iOS",
     "android": "Android",
-    "web": "Web"
+    "web": "Web",
+    "age": "Age",
+    "years": "Years"
   }
 }

@@ -75,6 +75,9 @@
             <span class="text">{{ getFullName(data.item.guardian) }}</span>
           </div>
         </template>
+        <template v-else-if="data.field.key == 'age' && data.value">
+          {{ translateNumber(data.value) + " " + $t("years") }}
+        </template>
         <template v-else>{{ translateNumber(data.value) }}</template>
       </template>
     </b-table>
@@ -109,6 +112,7 @@ export default {
           sortable: true,
         },
         { key: "family_member_mrn", label: "familyMemberMrn", sortable: true },
+        { key: "age", label: "age", sortable: true },
         { key: "phone", label: "phoneNumber", sortable: true },
         { key: "status", label: "status", sortable: true },
         { key: "action", label: "action" },
@@ -135,7 +139,9 @@ export default {
       this.items = this.totalItems.filter(
         (x) =>
           ("" + x.family_member_mrn).includes(query) ||
-          this.getFullName(x.dependent).toLowerCase().includes(query.toLowerCase())
+          this.getFullName(x.dependent)
+            .toLowerCase()
+            .includes(query.toLowerCase())
       );
       this.totalRows = this.items.length;
     },
@@ -157,6 +163,10 @@ export default {
         this.items.push({
           id: x.id,
           family_member_mrn: x.dependent.mrn_number || "N/A",
+          age:
+            x.dependent && x.dependent.dob
+              ? this.getYears(x.dependent.dob)
+              : "N/A",
           guardian_mrn: x.guardian.mrn_number || "N/A",
           email: x.dependent.email_address || "N/A",
           phone: x.dependent.phone_number || "N/A",

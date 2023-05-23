@@ -718,6 +718,8 @@
     "guardianMrn": "رقم السجل الطبي للوصي",
     "familyMemberDeleteConfirm": "هل أنت متأكد أنك تريد حذف فرد الأسرة؟",
     "familyMemberDeleteSuccess": "تم حذف فرد الأسرة بنجاح",
-    "enterGuardianMrn": "أدخل رقم السجل الطبي للوصي"
+    "enterGuardianMrn": "أدخل رقم السجل الطبي للوصي",
+    "age": "عمر",
+    "years": "سنوات"
   }
 }
