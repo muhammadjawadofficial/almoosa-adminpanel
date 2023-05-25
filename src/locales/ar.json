@@ -720,6 +720,12 @@
     "familyMemberDeleteSuccess": "تم حذف فرد الأسرة بنجاح",
     "enterGuardianMrn": "أدخل رقم السجل الطبي للوصي",
     "age": "عمر",
-    "years": "سنوات"
+    "years": "سنوات",
+    "familyMemberDocument": "مستند فرد الأسرة",
+    "uploadFamilyMemberDocument": "تحميل مستند فرد الأسرة",
+    "noDocumentUploaded": "لم يتم تحميل أي مستند",
+    "relation": "علاقة",
+    "selectRelation": "حدد العلاقة",
+    "documentUploaded": "تم تحميل المستند"
   }
 }

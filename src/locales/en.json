@@ -729,6 +729,12 @@
     "android": "Android",
     "web": "Web",
     "age": "Age",
-    "years": "Years"
+    "years": "Years",
+    "familyMemberDocument": "Family Member Document",
+    "uploadFamilyMemberDocument": "Click Here to Upload Family Member Document",
+    "noDocumentUploaded": "No Document Uploaded",
+    "relation": "Relation",
+    "selectRelation": "Select Relation",
+    "documentUploaded": "Document Uploaded"
   }
 }

@@ -83,6 +83,7 @@ export const apiPath = {
         specialities: getApiObject("get", "specialities", "v2"),
         specialitiesV1: getApiObject("get", "specialities"),
         uploadId: getApiObject("post", "mediafiles/upload"),
+        uploadPdf: getApiObject("post", "mediafiles/pdf"),
         addStaffMember: getApiObject("post", "auth/staff/register"),
     },
 
@@ -120,6 +121,7 @@ export const apiPath = {
     },
 
     familyMembers: {
+        fetchRelations: getApiObject("get", "family-member-relation/get/all", "v2"),
         fetch: (id) => getApiObject("get", "users?guardian_id=" + id),
         fetchAll: (query) => getApiObject("get", "family-members/get/all" + (query || ''), "v2"),
         add: getApiObject("post", "family-members/add", "v2"),

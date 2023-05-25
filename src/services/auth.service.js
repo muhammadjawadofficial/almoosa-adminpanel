@@ -7,6 +7,7 @@ export const authService = {
     login,
     loginDoctor,
     uploadId,
+    uploadPdf,
     register,
     resendOtp,
     verifyOtp,
@@ -70,6 +71,15 @@ function uploadId(file) {
         data
     })
 }
+function uploadPdf(file) {
+    let data = new FormData();
+    data.append('file', file);
+    return axios({
+        method: apiPath.user.uploadPdf.method,
+        url: apiPath.user.uploadPdf.url,
+        data
+    })
+}
 function register(data) {
     return axios({
         method: apiPath.register.patient.method,
@@ -77,7 +87,7 @@ function register(data) {
         data
     })
 }
-function addStaffMember(data){
+function addStaffMember(data) {
     return axios({
         method: apiPath.user.addStaffMember.method,
         url: apiPath.user.addStaffMember.url,

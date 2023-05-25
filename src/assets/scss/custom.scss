@@ -35,7 +35,14 @@
         margin-inline-start: 1rem;
     }
 }
-
+.iframe-container {
+    iframe {
+        pointer-events: none;
+    }
+    * {
+        cursor: pointer;
+    }
+}
 .reload-icon-container {
     color: var(--theme-default);
     display: flex;
@@ -1360,6 +1367,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     > textarea {
                         border-color: $secondary-color;
                         padding-inline-start: 0.5rem;
+                    }
+                }
+                &.inactive {
+                    .iframe-container {
+                        pointer-events: none;
                     }
                 }
                 > .multiselect {

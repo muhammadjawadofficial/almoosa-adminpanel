@@ -358,10 +358,7 @@
                 />
               </div>
             </div>
-            <div
-              class="profile-info-card"
-              v-if="getSelectedFamilyMember.status"
-            >
+            <div class="profile-info-card">
               <div class="profile-info-card-logo">
                 <img src="../../assets/images/heart-vitals-bg.svg" alt="" />
               </div>
@@ -408,6 +405,116 @@
                 class="profile-info-card-option"
               >
                 <img src="../../assets/images/pencil.svg" alt="" />
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/family-bg.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("admin.relation") }}
+                </div>
+                <div
+                  class="profile-info-card-detail-value"
+                  :class="{ inactive: !isEditing && !isEditingStatus }"
+                >
+                  <multiselect
+                    v-model="selectedRelation"
+                    :options="relations"
+                    :preselectFirst="true"
+                    :placeholder="$t('admin.selectRelation')"
+                    :selectLabel="$t('admin.selectLabel')"
+                    :selectedLabel="$t('admin.selectedLabel')"
+                    :deselectLabel="$t('admin.deselectLabel')"
+                    :disabled="!isEditing && !isEditingStatus"
+                  >
+                    <template slot="singleLabel" slot-scope="props">
+                      {{ props.option[getLocaleKey("relation")] }}
+                    </template>
+                    <template slot="option" slot-scope="props">
+                      <div class="option__desc">
+                        <span class="option__title">
+                          {{ props.option[getLocaleKey("relation")] }}
+                        </span>
+                      </div>
+                    </template>
+                  </multiselect>
+                  <div
+                    class="custom-state-invalid icon"
+                    :class="{
+                      'is-invalid': selectedRelationState == false,
+                    }"
+                  ></div>
+                </div>
+              </div>
+              <div
+                v-if="isEditing || isEditingStatus"
+                class="profile-info-card-option"
+              >
+                <img src="../../assets/images/pencil.svg" alt="" />
+              </div>
+            </div>
+            <div class="w-100">
+              <div class="profile-info-card">
+                <div class="profile-info-card-logo">
+                  <img src="../../assets/images/active-problems.svg" alt="" />
+                </div>
+                <div class="profile-info-card-detail">
+                  <div class="profile-info-card-detail-title">
+                    {{ $t("admin.familyMemberDocument") }}
+                    <i
+                      v-if="documentToUpload"
+                      class="fa fa-external-link"
+                      @click="openDocument"
+                    ></i>
+                  </div>
+                  <div
+                    class="profile-info-card-detail-value"
+                    :class="{ inactive: !isEditing && !isEditingStatus }"
+                  >
+                    <div class="iframe-container text-center">
+                      <label for="user-profile-picture-upload">
+                        <div
+                          class="text-muted w200 center"
+                          v-if="
+                            !documentToUpload && !isEditing && !isEditingStatus
+                          "
+                        >
+                          {{ $t("admin.noDocumentUploaded") }}
+                        </div>
+                        <div v-else-if="isEditing || isEditingStatus">
+                          {{ $t("insurance.clickToUpload") }}
+                        </div>
+                        <iframe
+                          v-if="documentToUpload"
+                          :src="getImageUrl(documentToUpload)"
+                          frameborder="0"
+                          @click.stop="openDocument"
+                        ></iframe>
+                        <input
+                          type="file"
+                          @change="fileUpload"
+                          id="user-profile-picture-upload"
+                          class="d-none"
+                          v-if="!hideFileInput"
+                        />
+                      </label>
+                      <div
+                        class="custom-state-invalid icon"
+                        :class="{
+                          'is-invalid': documentIdState == false,
+                        }"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  v-if="isEditing || isEditingStatus"
+                  class="profile-info-card-option"
+                >
+                  <img src="../../assets/images/pencil.svg" alt="" />
+                </div>
               </div>
             </div>
             <div
@@ -830,6 +937,8 @@ export default {
       mrnNumberState: null,
       userStatus: null,
       userStatusState: null,
+      documentId: null,
+      documentIdState: null,
       userStatusOptions: ["pending", "approved", "rejected"],
       doctor: {
         clinics: [],
@@ -861,6 +970,18 @@ export default {
       backRoute: "",
       activeTab: "english",
       forceDisable: false,
+      validationdropzoneOptions: {
+        url: "http://localhost:8080",
+        thumbnailWidth: 150,
+        acceptedFiles: ["application/pdf"],
+        maxFiles: 1,
+        dictDefaultMessage: "",
+      },
+      documentToUpload: null,
+      relations: [],
+      selectedRelation: null,
+      selectedRelationState: null,
+      hideFileInput: false,
     };
   },
   mounted() {
@@ -903,6 +1024,31 @@ export default {
     ...mapActions("familyMember", ["updateSelectedFamilyMember"]),
     changeTab(tab) {
       this.activeTab = tab;
+    },
+    fileUpload(e) {
+      let file = e.target.files[0];
+      authService.uploadPdf(file).then(
+        (res) => {
+          if (res.data.status) {
+            this.documentId = res.data.data.id;
+            this.documentToUpload = res.data.data;
+            this.successToast(this.$t("admin.documentUploaded"));
+          } else {
+            this.failureToast(res.data.message);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
+    openDocument() {
+      window.open(this.getImageUrl(this.documentToUpload), "_blank");
     },
     changeProfilePicture(e) {
       let file = e.target.files[0];
@@ -978,7 +1124,30 @@ export default {
             this.getProfileData();
           });
       } else {
-        this.getProfileData();
+        console.log("running");
+        Promise.all([familyMemberService.fetchFamilyMemberRelations()])
+          .then((res) => {
+            let relations = res[0];
+            if (relations.data.status) {
+              let data = relations.data.data;
+              if (data) {
+                this.relations = data.items;
+              }
+            } else {
+              this.failureToast(relations.data.message);
+            }
+          })
+          .catch((error) => {
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
+          })
+          .finally(() => {
+            this.getProfileData();
+          });
       }
     },
     formatNumber(number, input) {
@@ -1080,6 +1249,22 @@ export default {
         this.phoneNumberState = null;
         this.mrnNumberState = null;
         this.userStatusState = null;
+        this.selectedRelation = this.getSelectedFamilyMemberRequest.relation;
+        this.documentToUpload = null;
+        this.documentId = null;
+        this.documentIdState = null;
+        this.selectedRelationState = null;
+        let thumbnail = this.getSelectedFamilyMemberRequest.document;
+        if (thumbnail) {
+          this.documentId = this.getSelectedFamilyMemberRequest.document_id;
+          let image = thumbnail;
+          this.documentToUpload = image;
+        } else {
+          this.hideFileInput = true;
+          setTimeout(() => {
+            this.hideFileInput = false;
+          }, 100);
+        }
       }
       this.isEditing = false;
       this.isEditingStatus = false;
@@ -1109,12 +1294,18 @@ export default {
         return this.addressState && this.phoneNumberState;
       }
     },
-    validateStatus() {
+    validateFamilyMemberUpdateForm() {
       this.userStatusState =
         this.userStatus != "" &&
         !!this.userStatus &&
         this.userStatusOptions.includes(this.userStatus);
-      return this.userStatusState;
+      this.documentIdState = this.documentId != null;
+      this.selectedRelationState = this.selectedRelation != null;
+      return (
+        this.userStatusState &&
+        this.documentIdState &&
+        this.selectedRelationState
+      );
     },
     editProfile() {
       if (this.isEditing) {
@@ -1182,24 +1373,37 @@ export default {
     },
     editFamilyMemberRequestStatus() {
       if (this.isEditingStatus) {
-        if (!this.validateStatus()) {
+        if (!this.validateFamilyMemberUpdateForm()) {
           return;
         }
         let updateUserObj = {
           id: this.getSelectedFamilyMemberRequest.id,
+          guardian_id: this.getSelectedFamilyMemberRequest.guardian_id,
+          document_id: this.documentId,
+          relation_id: this.selectedRelation.id,
+          phone_number: this.getSelectedFamilyMember.phone_number,
+          saudi_id: this.getSelectedFamilyMember.saudi_id,
+          iqama: this.getSelectedFamilyMember.iqama,
           status: this.userStatus,
         };
-        this.updateFamilyMemberStatus(updateUserObj);
+        this.updateFamilyMemberRequest(updateUserObj);
       } else {
         this.isEditingStatus = true;
       }
     },
-    updateFamilyMemberStatus(payload) {
-      familyMemberService.updateFamilyMemberStatus(payload).then(
+    updateFamilyMemberRequest(payload) {
+      familyMemberService.updateFamilyMember(payload).then(
         (res) => {
           if (res.data.status) {
             this.getSelectedFamilyMemberRequest.status = this.userStatus;
             this.successToast(this.$t("profile.updateSuccess"));
+            this.getSelectedFamilyMemberRequest.document =
+              this.documentToUpload;
+            this.getSelectedFamilyMemberRequest.relation =
+              this.selectedRelation;
+            this.getSelectedFamilyMemberRequest.document_id = this.documentId;
+            this.getSelectedFamilyMemberRequest.relation_id =
+              this.selectedRelation.id;
             this.resetData();
           } else {
             this.failureToast(res.data.message);
