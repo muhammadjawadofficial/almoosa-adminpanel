@@ -280,6 +280,31 @@
             "path": "/family-members"
         },
         {
+            "title": "Family Relations",
+            "title_ar": "علاقات الأسرة",
+            "icon": "family-fill-svg",
+            "type": "sub",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "permission": "Family Members",
+            "children": [
+                {
+                    "title": "List",
+                    "title_ar": "قائمة",
+                    "type": "link",
+                    "path": "/family-relations/list"
+                },
+                {
+                    "title": "Create",
+                    "title_ar": "خلق",
+                    "type": "link",
+                    "path": "/family-relations/create"
+                }
+            ]
+        },
+        {
             "title": "Transactions",
             "title_ar": "المعاملات",
             "icon": "cash-svg",

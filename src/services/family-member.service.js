@@ -3,6 +3,9 @@ import { apiPath } from "../constants/apiPath";
 
 export const familyMemberService = {
     fetchFamilyMemberRelations,
+    addFamilyMemberRelation,
+    updateFamilyMemberRelation,
+    deleteFamilyMemberRelation,
     fetchFamilyMembers,
     fetchAllFamilyMembers,
     addFamilyMember,
@@ -15,6 +18,26 @@ function fetchFamilyMemberRelations() {
     return axios({
         method: apiPath.familyMembers.fetchRelations.method,
         url: apiPath.familyMembers.fetchRelations.url,
+    })
+}
+function addFamilyMemberRelation(data) {
+    return axios({
+        method: apiPath.familyMembers.addRelation.method,
+        url: apiPath.familyMembers.addRelation.url,
+        data
+    })
+}
+function updateFamilyMemberRelation(data) {
+    return axios({
+        method: apiPath.familyMembers.updateRelation.method,
+        url: apiPath.familyMembers.updateRelation.url,
+        data
+    })
+}
+function deleteFamilyMemberRelation(id) {
+    return axios({
+        method: apiPath.familyMembers.deleteRelation(id).method,
+        url: apiPath.familyMembers.deleteRelation(id).url,
     })
 }
 

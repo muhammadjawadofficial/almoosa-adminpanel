@@ -726,6 +726,13 @@
     "noDocumentUploaded": "لم يتم تحميل أي مستند",
     "relation": "علاقة",
     "selectRelation": "حدد العلاقة",
-    "documentUploaded": "تم تحميل المستند"
+    "documentUploaded": "تم تحميل المستند",
+    "addRelation": "إضافة علاقة",
+    "updateRelation": "تحديث العلاقة",
+    "deleteRelation": "حذف العلاقة",
+    "relationDeleteConfirm": "هل أنت متأكد أنك تريد حذف هذه العلاقة؟",
+    "relationDeleteSuccess": "تم حذف العلاقة بنجاح",
+    "relationAddedSuccess": "تم إنشاء العلاقة بنجاح",
+    "relationUpdatedSuccess": "تم تحديث العلاقة بنجاح"
   }
 }

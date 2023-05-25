@@ -76,6 +76,9 @@ import familyMembersList from '../pages/family-members/family-members-list'
 import familyMembersProfile from '../pages/family-members/family-members-profile'
 import familyMembersForm from '../pages/family-members/family-members-form'
 
+import familyRelationsList from '../pages/family-relations/family-relations-list'
+import familyRelationsForm from '../pages/family-relations/family-relations-form'
+
 import UsersModule from '../pages/users'
 import PatientList from '../pages/users/patient-list'
 import PhysicianList from '../pages/users/physician-list'
@@ -690,6 +693,37 @@ const routes = [
             component: familyMembersForm,
             meta: {
               title: 'Family Members Request | Almoosa Specialist Hospital',
+            },
+          },
+        ]
+      },
+      {
+        path: 'family-relations',
+        component: RouterViewModule,
+        children: [
+          { path: '', name: "Family Relations", redirect: { name: 'Family Relations List' } },
+          {
+            path: "create",
+            name: 'Family Relations Create',
+            component: familyRelationsForm,
+            meta: {
+              title: 'Family Relations Create | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "list/edit",
+            name: 'Family Relations Edit',
+            component: familyRelationsForm,
+            meta: {
+              title: 'Family Relations Edit | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "list",
+            name: 'Family Relations List',
+            component: familyRelationsList,
+            meta: {
+              title: 'Family Relations List | Almoosa Specialist Hospital',
             },
           },
         ]
