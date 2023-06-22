@@ -62,7 +62,12 @@
         <template v-else-if="data.field.key == 'family_member_name'">
           <div class="user-name-with-image">
             <div class="image">
-              <img :src="getImageUrl(data.item.dependent.photo)" alt="user" />
+              <img
+                :src="
+                  getImageUrl(data.item.dependent && data.item.dependent.photo)
+                "
+                alt="user"
+              />
             </div>
             <span class="text">{{ getFullName(data.item.dependent) }}</span>
           </div>
@@ -70,7 +75,12 @@
         <template v-else-if="data.field.key == 'guardian_name'">
           <div class="user-name-with-image">
             <div class="image">
-              <img :src="getImageUrl(data.item.guardian.photo)" alt="user" />
+              <img
+                :src="
+                  getImageUrl(data.item.guardian && data.item.guardian.photo)
+                "
+                alt="user"
+              />
             </div>
             <span class="text">{{ getFullName(data.item.guardian) }}</span>
           </div>
@@ -162,19 +172,19 @@ export default {
       data.forEach((x) => {
         this.items.push({
           id: x.id,
-          family_member_mrn: x.dependent.mrn_number || "N/A",
+          family_member_mrn: (x.dependent && x.dependent.mrn_number) || "N/A",
           age:
             x.dependent && x.dependent.dob
               ? this.getYears(x.dependent.dob)
               : "N/A",
-          guardian_mrn: x.guardian.mrn_number || "N/A",
-          email: x.dependent.email_address || "N/A",
-          phone: x.dependent.phone_number || "N/A",
+          guardian_mrn: (x.guardian && x.guardian.mrn_number) || "N/A",
+          email: (x.dependent && x.dependent.email_address) || "N/A",
+          phone: (x.dependent && x.dependent.phone_number) || "N/A",
           status: x.status || "N/A",
           ...x,
         });
       });
-
+      this.totalRows = this.items.length;
       this.totalItems = [...this.items];
     },
     fetchUsers() {
@@ -192,7 +202,6 @@ export default {
             if (response.data.status) {
               this.parseData(response.data.data.items);
               this.currentPage = 1;
-              this.totalRows = this.items.length;
             } else {
               this.failureToast(response.data.message);
             }
@@ -214,7 +223,6 @@ export default {
           if (response.data.status) {
             this.parseData(response.data.data.items);
             this.currentPage = 1;
-            this.totalRows = this.items.length;
           } else {
             this.failureToast(response.data.messsage);
           }
