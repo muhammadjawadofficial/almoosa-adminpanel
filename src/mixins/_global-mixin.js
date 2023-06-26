@@ -1,12 +1,14 @@
 import { mapGetters } from 'vuex';
 import { appointmentService, userService } from '../services';
 import { axios } from '../services/axios';
+import constants from '../constants/constants';
 
 export default {
     data() {
         return {
             restartEnabled: false,
-            checkRoleFromUser: false
+            checkRoleFromUser: false,
+            constants
         }
     },
     filters: {

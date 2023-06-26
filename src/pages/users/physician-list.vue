@@ -13,6 +13,48 @@
           debounce="1000"
         ></b-form-input>
       </div>
+
+      <vue-excel-xlsx
+        ref="export_to_excel_details"
+        class="export-button"
+        :data="totalItems"
+        :columns="detailFields"
+        :file-name="'physician-report'"
+        :file-type="'xlsx'"
+        :sheet-name="'physician-report-sheet'"
+      >
+      </vue-excel-xlsx>
+      <button
+        v-if="getUserPermissions.includes(constants.REPORTS_MANAGEMENT)"
+        class="download-icon ml-auto"
+        @click="downloadReport('details')"
+      >
+        <span class="d-sm-block d-none">
+          {{ $t("download") }} {{ $t("admin.details") }}
+        </span>
+        <i class="fa fa-download" aria-hidden="true"></i>
+      </button>
+
+      <vue-excel-xlsx
+        ref="export_to_excel_rating"
+        class="export-button"
+        :data="totalItems"
+        :columns="ratingFields"
+        :file-name="'physician-rating'"
+        :file-type="'xlsx'"
+        :sheet-name="'physician-rating-sheet'"
+      >
+      </vue-excel-xlsx>
+      <button
+        v-if="getUserPermissions.includes(constants.REPORTS_MANAGEMENT)"
+        class="download-icon ml-auto"
+        @click="downloadReport('rating')"
+      >
+        <span class="d-sm-block d-none">
+          {{ $t("download") }} {{ $t("admin.rating") }}
+        </span>
+        <i class="fa fa-download" aria-hidden="true"></i>
+      </button>
     </div>
 
     <b-table
@@ -81,6 +123,41 @@ export default {
       totalRows: 1,
       currentPage: 1,
       getPerPageSelection: 5,
+      ratingFields: [
+        { field: "id", label: "Physician Id", sortable: true },
+        { field: "physicianName", label: "Physician Name" },
+        { field: "speciality", label: "Speciality" },
+        { field: "gender", label: "Gender", sortable: true },
+        { field: "email", label: "Email Address" },
+        { field: "phone_number", label: "Phone Number" },
+        { field: "rating", label: "Rating" },
+      ],
+      detailFields: [
+        { field: "id", label: "Doctor ID", sortable: true },
+        { field: "first_name", label: "First Name" },
+        { field: "first_name_ar", label: "First Name Ar" },
+        { field: "middle_name", label: "Middle Name" },
+        { field: "middle_name_ar", label: "Middle Name Ar" },
+        { field: "family_name", label: "Family Name" },
+        { field: "family_name_ar", label: "Family Name Ar" },
+        { field: "specialityEn", label: "Speciality" },
+        { field: "specialityAr", label: "Speciality Ar" },
+        { field: "gender", label: "Gender", sortable: true },
+        { field: "dob", label: "DOB" },
+        { field: "email", label: "Email" },
+        { field: "phone_number", label: "Phone Number" },
+        { field: "clinicsEn", label: "Clinics" },
+        { field: "clinicsAr", label: "Clinics Ar" },
+        { field: "nationalityEn", label: "Nationality" },
+        { field: "nationalityAr", label: "Nationality Ar" },
+        { field: "languages", label: "Languages" },
+        { field: "languages_ar", label: "Languages Ar" },
+        { field: "expertise", label: "Expertise" },
+        { field: "expertise_ar", label: "Expertise Ar" },
+        { field: "consulting_age_group", label: "Consulting Age Groups" },
+        { field: "consulting_age_group_ar", label: "Consulting Age Groups Ar" },
+        { field: "photoLink", label: "Photo Link" },
+      ],
       tablefields: [
         { key: "id", label: "id", sortable: true },
         { key: "physicianName", label: "physicianName" },
@@ -90,6 +167,7 @@ export default {
         { key: "phone_number", label: "phoneNumber" },
       ],
       items: [],
+      totalItems: [],
     };
   },
   mounted() {
@@ -102,14 +180,39 @@ export default {
   },
   methods: {
     ...mapActions("user", ["setSelectedUser"]),
+    downloadReport(type) {
+      let perPage = this.totalRows || this.getPerPageSelection;
+      this.totalItems = [];
+      let query = "&query=&page=1";
+      if (perPage) {
+        query += "&limit=" + perPage;
+      }
+      userService.getUsers("/search?role_id=4" + query).then(
+        (response) => {
+          if (response.data.status) {
+            this.parseData(response.data.data.items, this.totalItems);
+            this.$refs["export_to_excel_" + type].exportExcel();
+          } else {
+            this.failureToast(response.data.messsage);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
     rowClicked(e) {
       this.setSelectedUser(e);
       this.navigateTo("Physician Profile");
     },
-    parseData(data) {
-      this.items = [];
+    parseData(data, items) {
       data.forEach((x) => {
-        this.items.push({
+        items.push({
           ...x,
           id: x.id,
           physicianName: this.getFullName(x),
@@ -117,6 +220,15 @@ export default {
           email: x.email_address,
           phoneNumber: x.phone_number,
           status: x.status,
+          nationalityEn: x.nationality_id ? x.nationality.nationality : "",
+          nationalityAr: x.nationality_id ? x.nationality.nationality_ar : "",
+          specialityEn: x.speciality ? x.speciality.title : "",
+          specialityAr: x.speciality ? x.speciality.title_ar : "",
+          clinicsEn: x.clinics ? x.clinics.map((x) => x.title).join(", ") : "",
+          clinicsAr: x.clinics
+            ? x.clinics.map((x) => x.title_ar).join(", ")
+            : "",
+          photoLink: x.photo_id ? this.getImageUrl(x.photo) : "",
         });
       });
     },
@@ -141,7 +253,7 @@ export default {
       userService.getUsers("/search?role_id=4" + query).then(
         (response) => {
           if (response.data.status) {
-            this.parseData(response.data.data.items);
+            this.parseData(response.data.data.items, this.items);
             this.currentPage = pageNumber;
             this.totalRows = response.data.data.total_records;
           } else {

@@ -98,8 +98,7 @@
 </template>
 
 <script>
-import { authService, familyMemberService } from "../../services";
-import constants from "../../constants/constants";
+import { familyMemberService } from "../../services";
 import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
@@ -116,7 +115,6 @@ export default {
       formSubmitted: false,
       userId: "",
       guardianMrn: "",
-      constants,
       loading: false,
       selectedOption: null,
       selectedItem: {},

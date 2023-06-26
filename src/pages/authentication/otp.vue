@@ -49,7 +49,6 @@
 
 <script>
 import { authService, userService } from "../../services";
-import constants from "../../constants/constants";
 import { mapActions, mapGetters } from "vuex";
 export default {
   data() {

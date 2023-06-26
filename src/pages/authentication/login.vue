@@ -62,7 +62,6 @@
 
 <script>
 import { authService, userService } from "../../services";
-import constants from "../../constants/constants";
 import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
@@ -71,7 +70,6 @@ export default {
       password: "",
       usernameState: null,
       passwordState: null,
-      constants,
       showPassword: false,
       rememberMe: false,
     };

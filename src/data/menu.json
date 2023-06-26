@@ -336,7 +336,7 @@
             "badgeType": "primary",
             "badgeValue": "",
             "active": false,
-            "disabled": false,
+            "disabled": true,
             "permission": "Reports Management",
             "children": [
                 {
