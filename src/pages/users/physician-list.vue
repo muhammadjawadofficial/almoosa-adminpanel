@@ -131,6 +131,7 @@ export default {
         { field: "email", label: "Email Address" },
         { field: "phone_number", label: "Phone Number" },
         { field: "rating", label: "Rating" },
+        { field: "rating_count", label: "Rating Count" },
       ],
       detailFields: [
         { field: "id", label: "Doctor ID", sortable: true },
@@ -181,7 +182,7 @@ export default {
   methods: {
     ...mapActions("user", ["setSelectedUser"]),
     downloadReport(type) {
-      let perPage = this.totalRows || this.getPerPageSelection;
+      let perPage = this.totalRows;
       this.totalItems = [];
       let query = "&query=&page=1";
       if (perPage) {
