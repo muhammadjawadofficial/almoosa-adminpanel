@@ -93,7 +93,7 @@
               <div class="card-body pb-0">
                 <div class="media">
                   <div class="media-body">
-                    <h5>Total Appointments</h5>
+                    <h5>{{ $t("admin.totalAppointments") }}</h5>
                     <h4>{{ statsData.appointment.total || 0 }}</h4>
                   </div>
                 </div>
@@ -118,7 +118,7 @@
               <div class="card-body pb-0">
                 <div class="media">
                   <div class="media-body">
-                    <h5>Paid Appointments</h5>
+                    <h5>{{ $t("admin.paidAppointments") }}</h5>
                     <h4>{{ statsData.appointment.paid || 0 }}</h4>
                   </div>
                 </div>
@@ -146,7 +146,7 @@
               <div class="card-body pb-0">
                 <div class="media">
                   <div class="media-body">
-                    <h5>Unpaid Appointments</h5>
+                    <h5>{{ $t("admin.unpaidAppointments") }}</h5>
                     <h4>{{ statsData.appointment.unpaid || 0 }}</h4>
                   </div>
                 </div>
@@ -172,7 +172,7 @@
             <div slot="with-padding">
               <div class="media static-top-widget">
                 <div class="media-body">
-                  <h6 class="font-roboto">Cancelled Appointments</h6>
+                  <h6>{{ $t("admin.cancelledAppointments") }}</h6>
                   <h4 class="mb-0 counter">
                     {{ statsData.appointment.cancelled || 0 }}
                   </h4>
@@ -201,7 +201,7 @@
             <div slot="with-padding">
               <div class="media static-top-widget">
                 <div class="media-body">
-                  <h6 class="font-roboto">Rescheduled Appointments</h6>
+                  <h6>{{ $t("admin.rescheduledAppointments") }}</h6>
                   <h4 class="mb-0 counter">
                     {{ statsData.appointment.rescheduled || 0 }}
                   </h4>
@@ -230,7 +230,7 @@
             <div slot="with-padding">
               <div class="media static-top-widget">
                 <div class="media-body">
-                  <h6 class="font-roboto">Registered Users</h6>
+                  <h6>{{ $t("admin.registeredUsers") }}</h6>
                   <h4 class="mb-0 counter">
                     {{ statsData.users.registered || 0 }}
                   </h4>
@@ -259,7 +259,7 @@
             <div slot="with-padding">
               <div class="media static-top-widget">
                 <div class="media-body">
-                  <h6 class="font-roboto">Refill Requests</h6>
+                  <h6>{{ $t("admin.refillRequests") }}</h6>
                   <h4 class="mb-0 counter">
                     {{ statsData.medication.refill || 0 }}
                   </h4>
@@ -290,7 +290,7 @@
             <div slot="with-padding">
               <div class="media static-top-widget">
                 <div class="media-body">
-                  <h6 class="font-roboto">Delivery Requests</h6>
+                  <h6>{{ $t("admin.deliveryRequests") }}</h6>
                   <h4 class="mb-0 counter">
                     {{ statsData.medication.delivery || 0 }}
                   </h4>
@@ -316,12 +316,43 @@
             </div>
           </px-card>
         </div>
+        <div class="col-sm-6 col-xl-4 col-lg-6">
+          <px-card class="static-top-widget-card">
+            <div slot="with-padding">
+              <div class="media static-top-widget">
+                <div class="media-body">
+                  <h6>{{ $t("admin.insuranceRequests") }}</h6>
+                  <h4 class="mb-0 counter">
+                    {{ statsData.insuranceRequest || 0 }}
+                  </h4>
+                </div>
+                <div style="width: 41px">
+                  <pill-fill-svg />
+                </div>
+              </div>
+              <div class="progress-widget">
+                <div class="progress sm-progress-bar progress-animate">
+                  <div
+                    class="progress-gradient-danger"
+                    role="progressbar"
+                    :style="'width: ' + statsData.insuranceRequest + '%'"
+                    aria-valuenow="75"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    <span class="animate-circle"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </px-card>
+        </div>
       </div>
       <div class="row">
         <div class="col-xl-4 col-md-12 box-col-12">
           <px-card class="o-hidden">
             <div class="card-body pb-0">
-              <h5>Platform Wise Stats</h5>
+              <h5>{{ $t("admin.platformWiseStats") }}</h5>
             </div>
             <div id="piechart" v-if="!reRenderPieChart">
               <apexchart
@@ -658,7 +689,7 @@ export default {
     calculateDeliveryPercentage() {
       let obj = this.statsData.medication;
       if (!obj) return 0;
-      let total = +obj.delivery + +obj.delivery;
+      let total = +obj.delivery + +obj.refill;
       if (total < 1) return 0;
       return (obj.delivery / total) * 100;
     },
@@ -768,40 +799,49 @@ export default {
         this.reRenderPieChart = false;
       }, 100);
     },
-    fetchDashboardData(clinic) {
-      // return;
-      reportService
-        .getDashboardStats(
-          "?from_date=" +
-            this.fromDate +
-            "&to_date=" +
-            this.toDate +
-            "&clinic_id=" +
-            this.selectedClinic.id +
-            "&role_id=3&skip_date_filter=true"
-        )
-        .then(
-          (response) => {
-            if (response.data.status) {
-              this.statsData = response.data.data;
-              this.initializeLineChart();
-              this.initializePieChart(response.data.data);
-            } else {
-              this.failureToast(response.data.messsage);
-            }
-            this.loading = false;
-            this.appointmentStatus = null;
-          },
-          (error) => {
-            this.loading = false;
-            if (!this.isAPIAborted(error))
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
+    fetchDashboardData() {
+      let toDateObj = new Date(this.toDate);
+      let toDatePadded = this.dateFormatter(
+        toDateObj.setDate(toDateObj.getDate() + 1),
+        "YYYY-MM-DD"
+      );
+      let query =
+        "?from_date=" +
+        this.fromDate +
+        "&to_date=" +
+        toDatePadded +
+        "&clinic_id=" +
+        this.selectedClinic.id +
+        "&role_id=3&skip_date_filter=true";
+      Promise.all([
+        reportService.getAppointmentStats(query),
+        reportService.getDashboardStats(query),
+        reportService.getPlatformStats(query),
+      ])
+        .then((res) => {
+          let response = res[0];
+          if (response.data.status) {
+            this.statsData = { ...res[0].data.data, ...res[1].data.data };
+            this.initializeLineChart();
+          } else {
+            this.failureToast(response.data.messsage);
           }
-        );
+          if (res[2].data.status) {
+            this.platformData = res[2].data.data;
+            this.initializePieChart(this.platformData);
+          }
+          this.loading = false;
+          this.appointmentStatus = null;
+        })
+        .catch((error) => {
+          this.loading = false;
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        });
     },
   },
 };

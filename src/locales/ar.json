@@ -733,6 +733,16 @@
     "relationDeleteConfirm": "هل أنت متأكد أنك تريد حذف هذه العلاقة؟",
     "relationDeleteSuccess": "تم حذف العلاقة بنجاح",
     "relationAddedSuccess": "تم إنشاء العلاقة بنجاح",
-    "relationUpdatedSuccess": "تم تحديث العلاقة بنجاح"
+    "relationUpdatedSuccess": "تم تحديث العلاقة بنجاح",
+    "totalAppointments": "إجمالي المواعيد",
+    "paidAppointments": "المواعيد المدفوعة",
+    "unpaidAppointments": "المواعيد غير المدفوعة",
+    "cancelledAppointments": "المواعيد الملغاة",
+    "rescheduledAppointments": "المواعيد المؤجلة",
+    "registeredUsers": "المستخدمين المسجلين",
+    "refillRequests": "طلبات إعادة التعبئة",
+    "deliveryRequests": "طلبات التوصيل",
+    "insuranceRequests": "طلبات التأمين",
+    "platformWiseStats": "إحصائيات حسب المنصة"
   }
 }
