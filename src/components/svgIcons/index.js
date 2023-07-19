@@ -1,53 +1,53 @@
 import Vue from 'vue'
 
-import newBadgeSvg from './new-badge-svg.vue'
-import usernameSvg from './username-svg.vue'
-import mrnSvg from './mrn-svg.vue'
-import passwordSvg from './password-svg.vue'
-import locationSvg from './location-svg.vue'
-import calendarSvg from './calendar-svg.vue'
-import otpSvg from './otp-svg.vue'
-import bellFillSvg from './bell-fill-svg.vue'
-import userSvg from './user-svg.vue'
-import userFillSvg from './user-fill-svg.vue'
-import lockSvg from './lock-svg.vue'
-import changeCommentSvg from './change-comment-svg.vue'
-import reminderSvg from './reminder-svg.vue'
-import atom from './modules/atom'
-import calendar from './modules/calendar'
-import callHelp from './modules/call-help'
-import doctorLaptop from './modules/doctor-laptop'
-import doctor from './modules/doctor'
-import family from './modules/family'
-import healthShield from './modules/health-shield'
-import briefcase from './modules/briefcase'
-import heartCheckup from './modules/heart-checkup'
-import lab from './modules/lab'
-import laptop from './modules/laptop'
-import medicalJar from './modules/medical-jar'
-import promotions from './modules/promotions'
-import symptom from './modules/symptom'
-import timeline from './modules/timeline'
-import userReport from './modules/user-report'
-import userTag from './modules/user-tag'
-import dashboardSvg from './modules/dashboard-svg.vue'
-import heartReport from './modules/heart-report-svg.vue'
-import calendarFill from './modules/calendar-fill.vue'
-import hospital from './modules/hospital.vue'
-import shield from './modules/shield.vue'
-import clipboard from './modules/clipboard.vue'
-import walletSvg from './payment-method/wallet-svg.vue'
-import appleSvg from './payment-method/apple-svg.vue'
-import cashSvg from './payment-method/cash-svg.vue'
-import insuranceSvg from './payment-method/insurance-svg.vue'
-import labBgSvg from './lab-bg-svg.vue'
-import bellBgSvg from './bell-bg-svg.vue'
-import shieldBgSvg from './shield-bg-svg.vue'
-import pillBgSvg from './pill-bg-svg.vue'
-import atomFillSvg from './atom-fill-svg.vue'
-import briefcaseFillSvg from './briefcase-fill-svg.vue'
-import pillFillSvg from './pill-fill-svg.vue'
-import familyFillSvg from './family-fill.vue'
+const newBadgeSvg = () => import('./new-badge-svg.vue')
+const usernameSvg = () => import('./username-svg.vue')
+const mrnSvg = () => import('./mrn-svg.vue')
+const passwordSvg = () => import('./password-svg.vue')
+const locationSvg = () => import('./location-svg.vue')
+const calendarSvg = () => import('./calendar-svg.vue')
+const otpSvg = () => import('./otp-svg.vue')
+const bellFillSvg = () => import('./bell-fill-svg.vue')
+const userSvg = () => import('./user-svg.vue')
+const userFillSvg = () => import('./user-fill-svg.vue')
+const lockSvg = () => import('./lock-svg.vue')
+const changeCommentSvg = () => import('./change-comment-svg.vue')
+const reminderSvg = () => import('./reminder-svg.vue')
+const atom = () => import('./modules/atom')
+const calendar = () => import('./modules/calendar')
+const callHelp = () => import('./modules/call-help')
+const doctorLaptop = () => import('./modules/doctor-laptop')
+const doctor = () => import('./modules/doctor')
+const family = () => import('./modules/family')
+const healthShield = () => import('./modules/health-shield')
+const briefcase = () => import('./modules/briefcase')
+const heartCheckup = () => import('./modules/heart-checkup')
+const lab = () => import('./modules/lab')
+const laptop = () => import('./modules/laptop')
+const medicalJar = () => import('./modules/medical-jar')
+const promotions = () => import('./modules/promotions')
+const symptom = () => import('./modules/symptom')
+const timeline = () => import('./modules/timeline')
+const userReport = () => import('./modules/user-report')
+const userTag = () => import('./modules/user-tag')
+const dashboardSvg = () => import('./modules/dashboard-svg.vue')
+const heartReport = () => import('./modules/heart-report-svg.vue')
+const calendarFill = () => import('./modules/calendar-fill.vue')
+const hospital = () => import('./modules/hospital.vue')
+const shield = () => import('./modules/shield.vue')
+const clipboard = () => import('./modules/clipboard.vue')
+const walletSvg = () => import('./payment-method/wallet-svg.vue')
+const appleSvg = () => import('./payment-method/apple-svg.vue')
+const cashSvg = () => import('./payment-method/cash-svg.vue')
+const insuranceSvg = () => import('./payment-method/insurance-svg.vue')
+const labBgSvg = () => import('./lab-bg-svg.vue')
+const bellBgSvg = () => import('./bell-bg-svg.vue')
+const shieldBgSvg = () => import('./shield-bg-svg.vue')
+const pillBgSvg = () => import('./pill-bg-svg.vue')
+const atomFillSvg = () => import('./atom-fill-svg.vue')
+const briefcaseFillSvg = () => import('./briefcase-fill-svg.vue')
+const pillFillSvg = () => import('./pill-fill-svg.vue')
+const familyFillSvg = () => import('./family-fill.vue')
 
 Vue.component('new-badge-svg', newBadgeSvg)
 Vue.component('username-svg', usernameSvg)
