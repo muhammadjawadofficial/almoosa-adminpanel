@@ -1,109 +1,109 @@
 import Vue from 'vue'
 import Router from "vue-router";
 
-import Body from '../components/body'
-import AuthBody from '../components/auth_body'
-import AuthBodyAdmin from '../components/auth_body_patient'
-import Login from '../pages/authentication/login';
-import NewPassword from '../pages/authentication/new_password';
-import OTP from '../pages/authentication/otp';
-import ForgotPassword from '../pages/authentication/forgot_password';
+const Body = () => import('../components/body')
+const AuthBody = () => import('../components/auth_body')
+const AuthBodyAdmin = () => import('../components/auth_body_patient')
+const Login = () => import('../pages/authentication/login')
+const NewPassword = () => import('../pages/authentication/new_password')
+const OTP = () => import('../pages/authentication/otp')
+const ForgotPassword = () => import('../pages/authentication/forgot_password')
 
-import Dashboard from '../pages/dashboard'
+const Dashboard = () => import('../pages/dashboard')
 
-import PharmacistDashboard from '../pages/pharmacist/dashboard'
-import PharmacistMedicationDetails from '../pages/pharmacist/refill-request-details'
+const PharmacistDashboard = () => import('../pages/pharmacist/dashboard')
+const PharmacistMedicationDetails = () => import('../pages/pharmacist/refill-request-details')
 
-import RouterViewModule from '../pages/reusable/module'
+const RouterViewModule = () => import('../pages/reusable/module')
 
-import AppointmentModule from '../pages/appointment'
-import ViewAppointment from '../pages/appointment/view-appointments'
-import AppointmentHistory from '../pages/appointment/appointment-history'
-import AppointmentHistoryDetails from '../pages/appointment/appointment-history-details'
-import AppointmentInstructions from '../pages/appointment/appointment-instructions'
+const AppointmentModule = () => import('../pages/appointment')
+const ViewAppointment = () => import('../pages/appointment/view-appointments')
+const AppointmentHistory = () => import('../pages/appointment/appointment-history')
+const AppointmentHistoryDetails = () => import('../pages/appointment/appointment-history-details')
+const AppointmentInstructions = () => import('../pages/appointment/appointment-instructions')
 
-import myTimelineModule from '../pages/my-timeline'
-import myTimelineDetails from '../pages/my-timeline/timeline-details'
-import myTimelineList from '../pages/my-timeline/timeline-list'
+const myTimelineModule = () => import('../pages/my-timeline')
+const myTimelineDetails = () => import('../pages/my-timeline/timeline-details')
+const myTimelineList = () => import('../pages/my-timeline/timeline-list')
 
-import labWorksModule from '../pages/lab-works'
-import labWorksReports from '../pages/lab-works/report-list'
-import labWorksSessions from '../pages/lab-works/doctor-list'
+const labWorksModule = () => import('../pages/lab-works')
+const labWorksReports = () => import('../pages/lab-works/report-list')
+const labWorksSessions = () => import('../pages/lab-works/doctor-list')
 
-import radiologyReportModule from '../pages/radiology-reports'
-import radiologyReportReports from '../pages/radiology-reports/report-list'
-import radiologyReportSessions from '../pages/radiology-reports/doctor-list'
+const radiologyReportModule = () => import('../pages/radiology-reports')
+const radiologyReportReports = () => import('../pages/radiology-reports/report-list')
+const radiologyReportSessions = () => import('../pages/radiology-reports/doctor-list')
 
-import insuranceModule from '../pages/insurance'
-import insuranceMyMedical from '../pages/insurance/my-medical-insurance'
-import addNewInsurance from '../pages/insurance/add-new-insurance'
+const insuranceModule = () => import('../pages/insurance')
+const insuranceMyMedical = () => import('../pages/insurance/my-medical-insurance')
+const addNewInsurance = () => import('../pages/insurance/add-new-insurance')
 
-import insuranceManagementModule from '../pages/insurance-management'
-import insuranceManagementList from '../pages/insurance-management/insurance-management-list'
-import insuranceManagementDetails from '../pages/insurance-management/insurance-management-details'
+const insuranceManagementModule = () => import('../pages/insurance-management')
+const insuranceManagementList = () => import('../pages/insurance-management/insurance-management-list')
+const insuranceManagementDetails = () => import('../pages/insurance-management/insurance-management-details')
 
-import specialitiesManagementModule from '../pages/specialities-management'
-import specialitiesManagementList from '../pages/specialities-management/specialities-management-list'
-import specialitiesManagementDetails from '../pages/specialities-management/specialities-management-details'
+const specialitiesManagementModule = () => import('../pages/specialities-management')
+const specialitiesManagementList = () => import('../pages/specialities-management/specialities-management-list')
+const specialitiesManagementDetails = () => import('../pages/specialities-management/specialities-management-details')
 
-import bannerManagementModule from '../pages/banner-management'
-import bannerManagementList from '../pages/banner-management/banner-management-list'
-import bannerManagementDetails from '../pages/banner-management/banner-management-details'
+const bannerManagementModule = () => import('../pages/banner-management')
+const bannerManagementList = () => import('../pages/banner-management/banner-management-list')
+const bannerManagementDetails = () => import('../pages/banner-management/banner-management-details')
 
-import myMedicationModule from '../pages/medication'
-import myMedicationSessions from '../pages/medication/medication-session-list'
-import myMedicationList from '../pages/medication/medication-list'
-import myMedicationDetails from '../pages/medication/medication-detail'
-import medicationRefills from '../pages/medication/medication-refills'
-import editMedicationDetails from '../pages/medication/edit-medication-detail'
+const myMedicationModule = () => import('../pages/medication')
+const myMedicationSessions = () => import('../pages/medication/medication-session-list')
+const myMedicationList = () => import('../pages/medication/medication-list')
+const myMedicationDetails = () => import('../pages/medication/medication-detail')
+const medicationRefills = () => import('../pages/medication/medication-refills')
+const editMedicationDetails = () => import('../pages/medication/edit-medication-detail')
 
-import healthEducationModule from '../pages/health-education'
-import healthEducationList from '../pages/health-education/health-education-list'
-import healthEducationDetails from '../pages/health-education/health-education-details'
-import healthEducationEdit from '../pages/health-education/health-education-edit'
+const healthEducationModule = () => import('../pages/health-education')
+const healthEducationList = () => import('../pages/health-education/health-education-list')
+const healthEducationDetails = () => import('../pages/health-education/health-education-details')
+const healthEducationEdit = () => import('../pages/health-education/health-education-edit')
 
-import cmsPagesModule from '../pages/cms-pages'
-import cmsPagesList from '../pages/cms-pages/cms-pages-list'
-import cmsPagesDetails from '../pages/cms-pages/cms-pages-details'
-import cmsPagesEdit from '../pages/cms-pages/cms-pages-edit'
+const cmsPagesModule = () => import('../pages/cms-pages')
+const cmsPagesList = () => import('../pages/cms-pages/cms-pages-list')
+const cmsPagesDetails = () => import('../pages/cms-pages/cms-pages-details')
+const cmsPagesEdit = () => import('../pages/cms-pages/cms-pages-edit')
 
-import servicesPackagesModule from '../pages/services-packages'
-import servicesPackagesList from '../pages/services-packages/services-packages-list'
-import servicesPackagesDetails from '../pages/services-packages/services-packages-details'
-import servicesPackagesForm from '../pages/services-packages/services-packages-form'
+const servicesPackagesModule = () => import('../pages/services-packages')
+const servicesPackagesList = () => import('../pages/services-packages/services-packages-list')
+const servicesPackagesDetails = () => import('../pages/services-packages/services-packages-details')
+const servicesPackagesForm = () => import('../pages/services-packages/services-packages-form')
 
-import familyMembersList from '../pages/family-members/family-members-list'
-import familyMembersProfile from '../pages/family-members/family-members-profile'
-import familyMembersForm from '../pages/family-members/family-members-form'
+const familyMembersList = () => import('../pages/family-members/family-members-list')
+const familyMembersProfile = () => import('../pages/family-members/family-members-profile')
+const familyMembersForm = () => import('../pages/family-members/family-members-form')
 
-import familyRelationsList from '../pages/family-relations/family-relations-list'
-import familyRelationsForm from '../pages/family-relations/family-relations-form'
+const familyRelationsList = () => import('../pages/family-relations/family-relations-list')
+const familyRelationsForm = () => import('../pages/family-relations/family-relations-form')
 
-import UsersModule from '../pages/users'
-import PatientList from '../pages/users/patient-list'
-import PhysicianList from '../pages/users/physician-list'
-import StaffList from '../pages/users/staff-list'
-import StaffForm from '../pages/users/staff-form'
-import StaffProfile from '../pages/users/staff-profile'
-import UserDetails from '../pages/users/user-details'
-import UserProfile from '../pages/users/user-profile'
+const UsersModule = () => import('../pages/users')
+const PatientList = () => import('../pages/users/patient-list')
+const PhysicianList = () => import('../pages/users/physician-list')
+const StaffList = () => import('../pages/users/staff-list')
+const StaffForm = () => import('../pages/users/staff-form')
+const StaffProfile = () => import('../pages/users/staff-profile')
+const UserDetails = () => import('../pages/users/user-details')
+const UserProfile = () => import('../pages/users/user-profile')
 
-import promotionsModule from '../pages/promotions'
-import promotionsList from '../pages/promotions/promotions-list'
-import promotionsGroups from '../pages/promotions/promo-groups-list'
-import promotionsGroupsCreate from '../pages/promotions/promo-groups-form'
-import promotionsDetails from '../pages/promotions/promotions-details'
-import promotionsForm from '../pages/promotions/promotions-form'
+const promotionsModule = () => import('../pages/promotions')
+const promotionsList = () => import('../pages/promotions/promotions-list')
+const promotionsGroups = () => import('../pages/promotions/promo-groups-list')
+const promotionsGroupsCreate = () => import('../pages/promotions/promo-groups-form')
+const promotionsDetails = () => import('../pages/promotions/promotions-details')
+const promotionsForm = () => import('../pages/promotions/promotions-form')
 
-import TransactionsList from '../pages/transactions/transactions-list'
+const TransactionsList = () => import('../pages/transactions/transactions-list')
 
-import RolesList from '../pages/roles-permissions/roles-list'
+const RolesList = () => import('../pages/roles-permissions/roles-list')
 
-import PhysicianRating from '../pages/reports/physician-rating'
-import NewPatientRequest from '../pages/reports/new-patient-request'
-import InsuranceRequest from '../pages/reports/insurance-request'
-import PhysicianReport from '../pages/reports/physician-list'
-import MedicationRefills from '../pages/reports/medication-refills'
+const PhysicianRating = () => import('../pages/reports/physician-rating')
+const NewPatientRequest = () => import('../pages/reports/new-patient-request')
+const InsuranceRequest = () => import('../pages/reports/insurance-request')
+const PhysicianReport = () => import('../pages/reports/physician-list')
+const MedicationRefills = () => import('../pages/reports/medication-refills')
 
 import { userService } from '../services';
 
