@@ -17,14 +17,18 @@
       <vue-excel-xlsx
         ref="export_to_excel"
         class="export-button"
-        :data="items"
+        :data="totalItems"
         :columns="fields"
         :file-name="'medication-refills'"
         :file-type="'xlsx'"
         :sheet-name="'medication-refills-sheet'"
       >
       </vue-excel-xlsx>
-      <button class="download-icon ml-auto" @click="downloadReport()">
+      <button
+        class="download-icon ml-auto"
+        :class="{ disabled: !items.length }"
+        @click="downloadReport()"
+      >
         <span class="d-sm-block d-none">{{ $t("download") }}</span>
         <i class="fa fa-download" aria-hidden="true"></i>
       </button>
@@ -213,6 +217,7 @@ export default {
   methods: {
     ...mapActions("myMedication", ["setSelectedMedication"]),
     downloadReport() {
+      if (!this.totalItems.length) return;
       this.$refs.export_to_excel.exportExcel();
     },
     rowClicked(e) {

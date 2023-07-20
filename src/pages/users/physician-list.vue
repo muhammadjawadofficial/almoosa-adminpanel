@@ -27,6 +27,7 @@
       <button
         v-if="getUserPermissions.includes(constants.REPORTS_MANAGEMENT)"
         class="download-icon ml-auto"
+        :class="{ disabled: !totalItems.length }"
         @click="downloadReport('details')"
       >
         <span class="d-sm-block d-none">
@@ -188,6 +189,7 @@ export default {
   methods: {
     ...mapActions("user", ["setSelectedUser"]),
     downloadReport(type) {
+      if (!this.totalItems.length) return;
       let perPage = this.totalRows;
       this.totalItems = [];
       let query = "&query=&page=1";

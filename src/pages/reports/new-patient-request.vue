@@ -24,7 +24,11 @@
         :sheet-name="'new-patient-request-sheet'"
       >
       </vue-excel-xlsx>
-      <button class="download-icon ml-auto" @click="downloadReport()">
+      <button
+        class="download-icon ml-auto"
+        :class="{ disabled: !items.length }"
+        @click="downloadReport()"
+      >
         <span class="d-sm-block d-none">{{ $t("download") }}</span>
         <i class="fa fa-download" aria-hidden="true"></i>
       </button>
@@ -157,6 +161,7 @@ export default {
       this.navigateTo("Patient Profile");
     },
     downloadReport() {
+      if (!this.items.length) return;
       this.$refs.export_to_excel.exportExcel();
     },
     deleteUser(item) {

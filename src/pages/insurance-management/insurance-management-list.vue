@@ -27,6 +27,7 @@
       <button
         v-if="getUserPermissions.includes(constants.REPORTS_MANAGEMENT)"
         class="download-icon ml-auto"
+        :class="{ disabled: !items.length }"
         @click="downloadReport()"
       >
         <span class="d-sm-block d-none">{{ $t("download") }}</span>
@@ -167,6 +168,7 @@ export default {
   methods: {
     ...mapActions("insuranceManagement", ["setSelectedInsuranceManagement"]),
     downloadReport() {
+      if (!this.items.length) return;
       this.$refs.export_to_excel.exportExcel();
     },
     changeTab(type) {
