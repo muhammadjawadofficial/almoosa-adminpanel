@@ -752,6 +752,9 @@
     "refillRequests": "Refill Requests",
     "deliveryRequests": "Delivery Requests",
     "insuranceRequests": "Insurance Requests",
-    "platformWiseStats": "Platform Wise Stats"
+    "platformWiseStats": "Platform Wise Stats",
+    "averageEngagementTime": "Average Engagement Time",
+    "minutes": "min",
+    "seconds": "sec"
   }
 }

@@ -8,7 +8,8 @@ export const reportService = {
     getReportsWithAppointments,
     getDashboardStats,
     getAppointmentStats,
-    getPlatformStats
+    getPlatformStats,
+    getAnalyticsStats
 }
 
 function getAppointmentsWithReports(id, type) {
@@ -56,5 +57,13 @@ function getPlatformStats(query) {
     return axios({
         method: apiPath.reports.platformStats(query).method,
         url: apiPath.reports.platformStats(query).url,
+    })
+}
+
+function getAnalyticsStats(data) {
+    return axios({
+        method: apiPath.reports.analyticsStats.method,
+        url: apiPath.reports.analyticsStats.url,
+        data
     })
 }

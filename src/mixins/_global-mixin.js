@@ -393,7 +393,19 @@ export default {
             }
             return this.translateNumber(parsedString);
         },
-        dateFormatter(date, format = 'MMMM Do YYYY, h:mm A', utc = false) {
+        parseDateString(dateString, dateFormat = "YYYY-MM-DD", utc = false) {
+            if (utc) {
+                return this.moment.utc(dateString, dateFormat).toDate();
+            }
+            return this.moment(dateString, dateFormat).toDate();
+        },
+        dateFormatter(date, format = 'MMMM Do YYYY, h:mm A', utc = false, locale = null) {
+            if (locale) {
+                if (utc) {
+                    return this.moment(date).locale(locale).utc().format(format);
+                }
+                return this.moment(date).locale(locale).format(format);
+            }
             if (utc) {
                 return this.moment(date).utc().format(format);
             }

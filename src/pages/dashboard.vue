@@ -86,7 +86,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row" v-if="statsData.appointment">
         <div class="col-xl-4 col-md-12 box-col-12">
           <px-card class="o-hidden">
             <div class="chart-widget-top">
@@ -167,7 +167,47 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-sm-6 col-xl-4 col-lg-6">
+        <div class="col-md-12 box-col-12">
+          <px-card class="o-hidden">
+            <div class="chart-widget-top">
+              <div class="card-body pb-0">
+                <div class="media">
+                  <div class="media-body">
+                    <b-tabs
+                      pills
+                      slot="header"
+                      class="tabbed-card"
+                      v-model="activeReport"
+                      v-if="false"
+                    >
+                      <b-tab secondary title="Average Engagement Time"></b-tab>
+                      <b-tab title="Engaged Sessions Per User"></b-tab>
+                      <b-tab title="Average Engagement Per Session"></b-tab>
+                    </b-tabs>
+                    <h5>{{ $t("admin.averageEngagementTime") }}</h5>
+                    <h4>
+                      {{ parseTime(averageEngagementTime) }}
+                    </h4>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div id="engagementChart">
+                  <apexchart
+                    v-if="!reRenderEngagement"
+                    type="area"
+                    height="350"
+                    :options="userEngagementChart.options"
+                    :series="userEngagementChart.series"
+                  ></apexchart>
+                </div>
+              </div>
+            </div>
+          </px-card>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 col-xl-4 col-lg-6" v-if="statsData.appointment">
           <px-card class="static-top-widget-card">
             <div slot="with-padding">
               <div class="media static-top-widget">
@@ -196,7 +236,7 @@
             </div>
           </px-card>
         </div>
-        <div class="col-sm-6 col-xl-4 col-lg-6">
+        <div class="col-sm-6 col-xl-4 col-lg-6" v-if="statsData.appointment">
           <px-card class="static-top-widget-card">
             <div slot="with-padding">
               <div class="media static-top-widget">
@@ -225,7 +265,7 @@
             </div>
           </px-card>
         </div>
-        <div class="col-sm-6 col-xl-4 col-lg-6">
+        <div class="col-sm-6 col-xl-4 col-lg-6" v-if="statsData.users">
           <px-card class="static-top-widget-card">
             <div slot="with-padding">
               <div class="media static-top-widget">
@@ -254,7 +294,7 @@
             </div>
           </px-card>
         </div>
-        <div class="col-sm-6 col-xl-4 col-lg-6">
+        <div class="col-sm-6 col-xl-4 col-lg-6" v-if="statsData.medication">
           <px-card class="static-top-widget-card">
             <div slot="with-padding">
               <div class="media static-top-widget">
@@ -285,7 +325,7 @@
             </div>
           </px-card>
         </div>
-        <div class="col-sm-6 col-xl-4 col-lg-6">
+        <div class="col-sm-6 col-xl-4 col-lg-6" v-if="statsData.medication">
           <px-card class="static-top-widget-card">
             <div slot="with-padding">
               <div class="media static-top-widget">
@@ -316,7 +356,10 @@
             </div>
           </px-card>
         </div>
-        <div class="col-sm-6 col-xl-4 col-lg-6">
+        <div
+          class="col-sm-6 col-xl-4 col-lg-6"
+          v-if="statsData.insuranceRequest"
+        >
           <px-card class="static-top-widget-card">
             <div slot="with-padding">
               <div class="media static-top-widget">
@@ -630,11 +673,74 @@ export default {
           colors: ["#55b047", "#2b4e66", "#f8d62b", "#fd7e14", "#a927f9"],
         },
       },
+      reRenderEngagement: false,
+      averageEngagementTime: null,
+      analyticsData: null,
+      activeReport: 0,
+      userEngagementChart: {
+        options: {
+          chart: {
+            width: 510,
+            height: 340,
+            type: "line",
+            toolbar: {
+              show: false,
+            },
+            zoom: {
+              enabled: false,
+            },
+          },
+          colors: [primary],
+          dataLabels: {
+            enabled: false,
+          },
+          stroke: {
+            curve: "straight",
+            width: 2,
+          },
+          xaxis: {
+            type: "date",
+            tooltip: {
+              enabled: false,
+            },
+            categories: [],
+          },
+          yaxis: {
+            show: false,
+            min: 0,
+          },
+          tooltip: {
+            x: {
+              format: "dd MMM yyyy",
+            },
+            y: {
+              formatter: (val) => {
+                return this.parseTime(val);
+              },
+            },
+          },
+          grid: {
+            show: false,
+            padding: {
+              bottom: -60,
+            },
+          },
+        },
+        series: [
+          {
+            name: "",
+            data: [],
+          },
+        ],
+      },
     };
   },
   watch: {
     getMenuItems() {
       this.loadDashboard();
+    },
+    activeReport(val) {
+      this.initializeEngagementChart(this.analyticsData, val);
     },
   },
   mounted() {
@@ -698,13 +804,26 @@ export default {
     // countTo,
   },
   methods: {
+    parseTime(val) {
+      if (!val) return "N/A";
+
+      let minutes = Math.floor(val);
+      let seconds = Math.floor((val - minutes) * 60);
+
+      if (minutes < 10) minutes = "0" + minutes;
+      if (seconds < 10) seconds = "0" + seconds;
+
+      return minutes + "m " + seconds + "s";
+    },
     resetDates(setDefault = false) {
       let now = new Date();
-      const toDate = this.dateFormatter(now, "YYYY-MM-DD");
+      const toDate = this.dateFormatter(now, "YYYY-MM-DD", false, "en");
       now = new Date();
       const fromDate = this.dateFormatter(
         now.setMonth(now.getMonth() - 1),
-        "YYYY-MM-DD"
+        "YYYY-MM-DD",
+        false,
+        "en"
       );
 
       this.fromDate = fromDate;
@@ -782,6 +901,43 @@ export default {
         this.reRenderChart = false;
       }, 100);
     },
+    initializeEngagementChart(data, type = 0) {
+      let analyticsData = data.items[0].rows;
+      let selectedData = analyticsData
+        .map((item) => {
+          return {
+            date: this.dateFormatter(
+              this.parseDateString(item.dimensionValues[0].value),
+              "YYYY-MM-DD",
+              false,
+              "en"
+            ),
+            value: +item.metricValues[4 + type].value,
+          };
+        })
+        .sort((a, b) => {
+          return new Date(a.date) - new Date(b.date);
+        });
+
+      let series = selectedData.map((item) => {
+        return item.value;
+      });
+
+      let categories = selectedData.map((item) => {
+        return item.date;
+      });
+
+      this.userEngagementChart.series[0].data = series;
+      this.userEngagementChart.options.xaxis.categories = categories;
+
+      this.averageEngagementTime =
+        data.items[0].totals[0].metricValues[4 + type].value;
+
+      this.reRenderEngagement = true;
+      setTimeout(() => {
+        this.reRenderEngagement = false;
+      }, 100);
+    },
     initializePieChart(data) {
       if (!data || !data.platform) return;
       let platform = data.platform;
@@ -803,7 +959,9 @@ export default {
       let toDateObj = new Date(this.toDate);
       let toDatePadded = this.dateFormatter(
         toDateObj.setDate(toDateObj.getDate() + 1),
-        "YYYY-MM-DD"
+        "YYYY-MM-DD",
+        false,
+        "en"
       );
       let query =
         "?from_date=" +
@@ -813,10 +971,20 @@ export default {
         "&clinic_id=" +
         this.selectedClinic.id +
         "&role_id=3&skip_date_filter=true";
+
+      let analyticsPayload = {
+        dateRanges: [
+          {
+            startDate: this.fromDate,
+            endDate: this.toDate,
+          },
+        ],
+      };
       Promise.all([
         reportService.getAppointmentStats(query),
         reportService.getDashboardStats(query),
         reportService.getPlatformStats(query),
+        reportService.getAnalyticsStats(analyticsPayload),
       ])
         .then((res) => {
           let response = res[0];
@@ -829,6 +997,13 @@ export default {
           if (res[2].data.status) {
             this.platformData = res[2].data.data;
             this.initializePieChart(this.platformData);
+          }
+          if (res[3].data.status) {
+            this.analyticsData = res[3].data.data;
+            this.initializeEngagementChart(
+              this.analyticsData,
+              this.activeReport
+            );
           }
           this.loading = false;
           this.appointmentStatus = null;
@@ -904,5 +1079,13 @@ export default {
     width: 35%;
     min-width: 200px;
   }
+}
+
+.chart-widget-top:deep(.tabbed-card ul) {
+  top: 1.25rem;
+}
+
+#engagementChart {
+  min-height: 190px;
 }
 </style>

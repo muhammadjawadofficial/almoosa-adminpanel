@@ -743,6 +743,9 @@
     "refillRequests": "طلبات إعادة التعبئة",
     "deliveryRequests": "طلبات التوصيل",
     "insuranceRequests": "طلبات التأمين",
-    "platformWiseStats": "إحصائيات حسب المنصة"
+    "platformWiseStats": "إحصائيات حسب المنصة",
+    "averageEngagementTime": "متوسط ​​وقت المشاركة",
+    "minutes": "دقائق",
+    "seconds": "ثواني"
   }
 }
