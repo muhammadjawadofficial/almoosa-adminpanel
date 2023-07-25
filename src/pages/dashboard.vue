@@ -703,6 +703,9 @@ export default {
             tooltip: {
               enabled: false,
             },
+            labels: {
+              rotate: -55
+            },
             categories: [],
           },
           yaxis: {
@@ -722,7 +725,8 @@ export default {
           grid: {
             show: false,
             padding: {
-              bottom: -60,
+              top: 30,
+              left: 40
             },
           },
         },
@@ -927,13 +931,14 @@ export default {
         return item.date;
       });
 
-      this.userEngagementChart.series[0].data = series;
-      this.userEngagementChart.options.xaxis.categories = categories;
+      this.reRenderEngagement = true;
+
+      this.userEngagementChart.series[0].data = [...series];
+      this.userEngagementChart.options.xaxis.categories = [...categories];
 
       this.averageEngagementTime =
         data.items[0].totals[0].metricValues[4 + type].value;
 
-      this.reRenderEngagement = true;
       setTimeout(() => {
         this.reRenderEngagement = false;
       }, 100);
@@ -956,6 +961,7 @@ export default {
       }, 100);
     },
     fetchDashboardData() {
+      this.loading = true;
       let toDateObj = new Date(this.toDate);
       let toDatePadded = this.dateFormatter(
         toDateObj.setDate(toDateObj.getDate() + 1),
@@ -1000,10 +1006,7 @@ export default {
           }
           if (res[3].data.status) {
             this.analyticsData = res[3].data.data;
-            this.initializeEngagementChart(
-              this.analyticsData,
-              this.activeReport
-            );
+            this.initializeEngagementChart(res[3].data.data, this.activeReport);
           }
           this.loading = false;
           this.appointmentStatus = null;
