@@ -1,6 +1,25 @@
 <template>
-  <div class="doctor-list-container standard-width">
+  <div class="standard-width">
     <div class="filter-container">
+      <vue-excel-xlsx
+        ref="export_to_excel"
+        class="export-button"
+        :data="filteredItems"
+        :columns="fields"
+        :file-name="'new-patient-request'"
+        :file-type="'xlsx'"
+        :sheet-name="'new-patient-request-sheet'"
+      >
+      </vue-excel-xlsx>
+      <button
+        v-if="getUserPermissions.includes(constants.REPORTS_MANAGEMENT)"
+        class="download-icon download-patient-request-list-button ml-auto"
+        :class="{ disabled: !items.length }"
+        @click="downloadReport()"
+      >
+        <span class="d-sm-block d-none">{{ $t("download") }}</span>
+        <i class="fa fa-download" aria-hidden="true"></i>
+      </button>
     </div>
     <b-table
       class="ash-data-table clickable"
@@ -60,6 +79,7 @@
 <script>
 import { mapActions } from "vuex";
 import { userService } from "../../services";
+
 export default {
   props: {
     searchQuery: {
@@ -74,6 +94,23 @@ export default {
       totalRows: 1,
       currentPage: 1,
       getPerPageSelection: 5,
+      fields: [
+        { field: "first_name", label: "First Name" },
+        { field: "middle_name", label: "Middle Name" },
+        { field: "family_name", label: "Family Name" },
+        { field: "gender", label: "Gender" },
+        { field: "identity_number", label: "Saudi/Iqama ID" },
+        { field: "dob", label: "Date of Birth" },
+        { field: "phoneNumber", label: "Primary Phone Number" },
+        { field: "secondary_phone_number", label: "Secondary Phone Number" },
+        { field: "email", label: "Email Address" },
+        { field: "area", label: "Area" },
+        { field: "city", label: "City" },
+        { field: "district", label: "District" },
+        { field: "patientNationality", label: "Nationality" },
+        { field: "patientNationalityAr", label: "Nationality Ar" },
+        { field: "card", label: "Saudi/Iqama ID Photo" },
+      ],
       tablefields: [
         // { key: "id", label: "id", sortable: true },
         { key: "patientName", label: "patientName" },
@@ -150,6 +187,10 @@ export default {
       this.activeTab = tab;
       this.fetchUsers();
     },
+    downloadReport() {
+      if (!this.items.length) return;
+      this.$refs.export_to_excel.exportExcel();
+    },
     parseData(data) {
       this.items = [];
       data.forEach((x) => {
@@ -163,6 +204,11 @@ export default {
           email: x.email_address,
           phoneNumber: x.phone_number,
           status: x.status,
+          card: x.card_id ? this.getImageUrl(x.card) : "",
+          patientNationality: x.nationality ? x.nationality.nationality : "",
+          patientNationalityAr: x.nationality
+            ? x.nationality.nationality_ar
+            : "",
         });
       });
       if (this.searchQuery) {
@@ -225,4 +271,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.download-patient-request-list-button {
+  position: absolute;
+  top: 2rem;
+  right: 0;
+}
+</style>

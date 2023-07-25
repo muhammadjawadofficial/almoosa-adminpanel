@@ -90,6 +90,7 @@ export default {
   },
   methods: {
     changeTab(tab) {
+      if (tab == this.activeTab) return;
       this.activeTab = tab;
       this.changeRouteParam();
     },

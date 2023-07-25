@@ -108,7 +108,6 @@
 
 <script>
 import { authService, rolesPermissionsService } from "../../services";
-import constants from "../../constants/constants";
 import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
@@ -129,7 +128,6 @@ export default {
       rolesList: [],
       formSubmitted: false,
       userId: "",
-      constants,
       loading: false,
       selectedOption: null,
       selectedItem: {},

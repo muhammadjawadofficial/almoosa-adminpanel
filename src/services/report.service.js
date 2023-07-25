@@ -6,7 +6,10 @@ export const reportService = {
     fetchLabReports,
     fetchRadiologyReports,
     getReportsWithAppointments,
-    getDashboardStats
+    getDashboardStats,
+    getAppointmentStats,
+    getPlatformStats,
+    getAnalyticsStats
 }
 
 function getAppointmentsWithReports(id, type) {
@@ -40,5 +43,27 @@ function getDashboardStats(query) {
     return axios({
         method: apiPath.reports.dashboardStats(query).method,
         url: apiPath.reports.dashboardStats(query).url,
+    })
+}
+
+function getAppointmentStats(query) {
+    return axios({
+        method: apiPath.reports.appointmentStats(query).method,
+        url: apiPath.reports.appointmentStats(query).url,
+    })
+}
+
+function getPlatformStats(query) {
+    return axios({
+        method: apiPath.reports.platformStats(query).method,
+        url: apiPath.reports.platformStats(query).url,
+    })
+}
+
+function getAnalyticsStats(data) {
+    return axios({
+        method: apiPath.reports.analyticsStats.method,
+        url: apiPath.reports.analyticsStats.url,
+        data
     })
 }

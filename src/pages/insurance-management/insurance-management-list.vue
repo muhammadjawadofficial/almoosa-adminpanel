@@ -13,6 +13,26 @@
           debounce="1000"
         ></b-form-input>
       </div>
+
+      <vue-excel-xlsx
+        ref="export_to_excel"
+        class="export-button"
+        :data="items"
+        :columns="fields"
+        :file-name="'insurance-request'"
+        :file-type="'xlsx'"
+        :sheet-name="'insurance-request-sheet'"
+      >
+      </vue-excel-xlsx>
+      <button
+        v-if="getUserPermissions.includes(constants.REPORTS_MANAGEMENT)"
+        class="download-icon ml-auto"
+        :class="{ disabled: !items.length }"
+        @click="downloadReport()"
+      >
+        <span class="d-sm-block d-none">{{ $t("download") }}</span>
+        <i class="fa fa-download" aria-hidden="true"></i>
+      </button>
     </div>
     <div class="filter-container">
       <div class="toggle-options mt-0">
@@ -114,6 +134,19 @@ export default {
         { key: "status", label: "status", sortable: true },
         { key: "action", label: "action" },
       ],
+      fields: [
+        { field: "id", label: "Request Id" },
+        { field: "company_name", label: "Company Name" },
+        { field: "patient_mrn_number", label: "Patient MRN" },
+        { field: "patient_first_name", label: "Patient First Name" },
+        { field: "patient_first_name_ar", label: "Patient First Name Ar" },
+        { field: "patient_middle_name", label: "Patient Middle Name" },
+        { field: "patient_middle_name_ar", label: "Patient Middle Name Ar" },
+        { field: "patient_family_name", label: "Patient Family Name" },
+        { field: "patient_family_name_ar", label: "Patient Family Name Ar" },
+        { field: "card_link", label: "Insurance Card Photo" },
+        { field: "status", label: "Status" },
+      ],
       items: [],
       filteredItems: [],
       sortBy: "",
@@ -134,6 +167,10 @@ export default {
   },
   methods: {
     ...mapActions("insuranceManagement", ["setSelectedInsuranceManagement"]),
+    downloadReport() {
+      if (!this.items.length) return;
+      this.$refs.export_to_excel.exportExcel();
+    },
     changeTab(type) {
       this.activeTab = type;
       this.fetchInsurances(1, type);
@@ -179,6 +216,16 @@ export default {
       data.forEach((x) => {
         this.items.push({
           id: x.id,
+          card_link: x.insurance_card_id
+            ? this.getImageUrl(x.insurance_card)
+            : "",
+          patient_mrn_number: (x.patient && x.patient.mrn_number) || "",
+          patient_first_name: (x.patient && x.patient.first_name) || "",
+          patient_first_name_ar: (x.patient && x.patient.first_name_ar) || "",
+          patient_middle_name: (x.patient && x.patient.middle_name) || "",
+          patient_middle_name_ar: (x.patient && x.patient.middle_name_ar) || "",
+          patient_family_name: (x.patient && x.patient.family_name) || "",
+          patient_family_name_ar: (x.patient && x.patient.family_name_ar) || "",
           ...x,
         });
       });

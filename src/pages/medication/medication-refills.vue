@@ -13,6 +13,26 @@
           debounce="1000"
         ></b-form-input>
       </div>
+
+      <vue-excel-xlsx
+        ref="export_to_excel"
+        class="export-button"
+        :data="totalItems"
+        :columns="fields"
+        :file-name="'medication-refills'"
+        :file-type="'xlsx'"
+        :sheet-name="'medication-refills-sheet'"
+      >
+      </vue-excel-xlsx>
+      <button
+        v-if="getUserPermissions.includes(constants.REPORTS_MANAGEMENT)"
+        class="download-icon ml-auto"
+        :class="{ disabled: !totalItems.length }"
+        @click="downloadReport()"
+      >
+        <span class="d-sm-block d-none">{{ $t("download") }}</span>
+        <i class="fa fa-download" aria-hidden="true"></i>
+      </button>
     </div>
     <div class="filter-container">
       <div class="toggle-options">
@@ -151,6 +171,34 @@ export default {
         },
         { key: "action", label: "action" },
       ],
+      fields: [
+        { field: "id", label: "Request ID" },
+        {
+          field: "patient_name",
+          label: "Patient Name",
+        },
+        {
+          field: "patient_name_ar",
+          label: "Patient Name Ar",
+        },
+        {
+          field: "doctor_name",
+          label: "Physician Name",
+        },
+        {
+          field: "doctor_name_ar",
+          label: "Physician Name Ar",
+        },
+        { field: "phone_number", label: "Phone Number" },
+        {
+          field: "speciality",
+          label: "Speciality",
+        },
+        {
+          field: "medicationRefillRequested",
+          label: "Status",
+        },
+      ],
       items: [],
       totalItems: [],
       showDatePicker: true,
@@ -170,6 +218,10 @@ export default {
   },
   methods: {
     ...mapActions("myMedication", ["setSelectedMedication"]),
+    downloadReport() {
+      if (!this.totalItems.length) return;
+      this.$refs.export_to_excel.exportExcel();
+    },
     rowClicked(e) {
       this.setSelectedMedication(e);
       this.navigateTo("All Medication Details");
@@ -210,7 +262,6 @@ export default {
       });
       this.totalItems = [...this.items];
       this.filterList(this.searchQuery);
-      console.log(this.searchQuery, 'asldkasldkf')
     },
     fetchMedications() {
       medicationService.getMedicationRefills("?status=" + this.subTab).then(

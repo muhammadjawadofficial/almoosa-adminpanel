@@ -2,24 +2,14 @@ import Vue from 'vue'
 import App from './App.vue'
 import BootstrapVue from 'bootstrap-vue'
 import router from './router'
-import Breadcrumbs from './components/bread_crumbs'
-import BackNavigation from './components/back-navigation'
 import { store } from './store';
 import VueFeather from 'vue-feather';
 import VueI18n from 'vue-i18n';
 import VueSweetalert2 from 'vue-sweetalert2';
 import Toasted from 'vue-toasted';
-import VueApexCharts from 'vue-apexcharts';
 import VueExcelXlsx from "vue-excel-xlsx";
 import moment from 'moment'
-import PerPage from "./components/per_page"
-import ASHDatePicker from "./components/ash_datepicker"
-import Multiselect from "vue-multiselect";
-import vue2Dropzone from 'vue2-dropzone';
 import "./components/svgIcons"
-import OtpInput from "@bachdgvn/vue-otp-input";
-import PxCard from './components/Pxcard.vue'
-import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import 'vue2-datepicker/locale/ar';
 import 'vue2-datepicker/locale/en';
@@ -38,6 +28,17 @@ Vue.use(VueAnalytics, {
 
 Vue.prototype.moment = moment
 
+const VueApexCharts = () => import('vue-apexcharts');
+const OtpInput = () => import("@bachdgvn/vue-otp-input");
+const PxCard = () => import('./components/Pxcard.vue');
+const DatePicker = () => import('vue2-datepicker');
+const vue2Dropzone = () => import('vue2-dropzone');
+const PerPage = () => import("./components/per_page");
+const ASHDatePicker = () => import("./components/ash_datepicker");
+const Multiselect = () => import("vue-multiselect");
+const Breadcrumbs = () => import('./components/bread_crumbs');
+const BackNavigation = () => import('./components/back-navigation');
+
 Vue.component("v-otp-input", OtpInput);
 Vue.component(PxCard.name, PxCard)
 Vue.component("vueDropzone", vue2Dropzone)
@@ -45,6 +46,10 @@ Vue.component('perpage', PerPage)
 Vue.component('ash-datepicker', ASHDatePicker)
 Vue.component('multiselect', Multiselect)
 Vue.component('date-picker', DatePicker)
+Vue.component('apexchart', VueApexCharts);
+Vue.component('Breadcrumbs', Breadcrumbs)
+Vue.component('back-navigation', BackNavigation)
+
 
 // Multi Language Add
 import en from './locales/en.json';
@@ -62,7 +67,6 @@ Vue.use(BootstrapVue);
 Vue.use(VueExcelXlsx);
 Vue.use(VueI18n);
 Vue.use(VueSweetalert2);
-Vue.component('apexchart', VueApexCharts);
 Vue.use(Toasted, {
   iconPack: 'fontawesome'
 });
@@ -70,9 +74,6 @@ Vue.use(Toasted, {
 import GlobalMixin from './mixins/_global-mixin'
 
 Vue.mixin(GlobalMixin)
-
-Vue.component('Breadcrumbs', Breadcrumbs)
-Vue.component('back-navigation', BackNavigation)
 
 const messages = { en: en, ar: ar };
 const locale = (localStorage.getItem('currentLanguage') && localeOptions.filter(x => x.id === localStorage.getItem('currentLanguage')).length > 0) ? localStorage.getItem('currentLanguage') : defaultLocale;

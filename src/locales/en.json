@@ -742,6 +742,19 @@
     "relationDeleteConfirm": "Are you sure you want to delete this relation?",
     "relationDeleteSuccess": "Relation has been deleted successfully",
     "relationAddedSuccess": "Relation has been added successfully",
-    "relationUpdatedSuccess": "Relation has been updated successfully"
+    "relationUpdatedSuccess": "Relation has been updated successfully",
+    "totalAppointments": "Total Appointments",
+    "paidAppointments": "Paid Appointments",
+    "unpaidAppointments": "Unpaid Appointments",
+    "cancelledAppointments": "Cancelled Appointments",
+    "rescheduledAppointments": "Rescheduled Appointments",
+    "registeredUsers": "Registered Users",
+    "refillRequests": "Refill Requests",
+    "deliveryRequests": "Delivery Requests",
+    "insuranceRequests": "Insurance Requests",
+    "platformWiseStats": "Platform Wise Stats",
+    "averageEngagementTime": "Average Engagement Time",
+    "minutes": "min",
+    "seconds": "sec"
   }
 }

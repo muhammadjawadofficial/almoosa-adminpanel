@@ -24,7 +24,11 @@
         :sheet-name="'insurance-request-sheet'"
       >
       </vue-excel-xlsx>
-      <button class="download-icon ml-auto" @click="downloadReport()">
+      <button
+        class="download-icon ml-auto"
+        :class="{ disabled: !items.length }"
+        @click="downloadReport()"
+      >
         <span class="d-sm-block d-none">{{ $t("download") }}</span>
         <i class="fa fa-download" aria-hidden="true"></i>
       </button>
@@ -126,13 +130,13 @@ export default {
       fields: [
         { field: "id", label: "Request Id" },
         { field: "company_name", label: "Company Name" },
-        { field: "patient.mrn_number", label: "Patient MRN" },
-        { field: "patient.first_name", label: "Patient First Name" },
-        { field: "patient.first_name_ar", label: "Patient First Name Ar" },
-        { field: "patient.middle_name", label: "Patient Middle Name" },
-        { field: "patient.middle_name_ar", label: "Patient Middle Name Ar" },
-        { field: "patient.family_name", label: "Patient Family Name" },
-        { field: "patient.family_name_ar", label: "Patient Family Name Ar" },
+        { field: "mrn_number", label: "Patient MRN" },
+        { field: "first_name", label: "Patient First Name" },
+        { field: "first_name_ar", label: "Patient First Name Ar" },
+        { field: "middle_name", label: "Patient Middle Name" },
+        { field: "middle_name_ar", label: "Patient Middle Name Ar" },
+        { field: "family_name", label: "Patient Family Name" },
+        { field: "family_name_ar", label: "Patient Family Name Ar" },
         { field: "card_link", label: "Insurance Card Photo" },
         { field: "status", label: "Status" },
       ],
@@ -167,6 +171,7 @@ export default {
       this.fetchInsurances(1, type);
     },
     downloadReport() {
+      if (!this.items.length) return;
       this.$refs.export_to_excel.exportExcel();
     },
     editInsurance(row) {
@@ -210,6 +215,13 @@ export default {
       data.forEach((x) => {
         this.items.push({
           id: x.id,
+          mrn_number: (x.patient && x.patient.mrn_number) || "",
+          first_name: (x.patient && x.patient.first_name) || "",
+          first_name_ar: (x.patient && x.patient.first_name_ar) || "",
+          middle_name: (x.patient && x.patient.middle_name) || "",
+          middle_name_ar: (x.patient && x.patient.middle_name_ar) || "",
+          family_name: (x.patient && x.patient.family_name) || "",
+          family_name_ar: (x.patient && x.patient.family_name_ar) || "",
           card_link: x.insurance_card_id
             ? this.getImageUrl(x.insurance_card)
             : "",

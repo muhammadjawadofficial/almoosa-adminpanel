@@ -24,7 +24,11 @@
         :sheet-name="'physician-rating-sheet'"
       >
       </vue-excel-xlsx>
-      <button class="download-icon ml-auto" @click="downloadReport()">
+      <button
+        class="download-icon ml-auto"
+        :class="{ disabled: !totalItems.length }"
+        @click="downloadReport()"
+      >
         <span class="d-sm-block d-none">{{ $t("download") }}</span>
         <i class="fa fa-download" aria-hidden="true"></i>
       </button>
@@ -98,12 +102,19 @@ export default {
       getPerPageSelection: 5,
       fields: [
         { field: "id", label: "Physician Id", sortable: true },
-        { field: "physicianName", label: "Physician Name" },
-        { field: "speciality", label: "Speciality" },
+        { field: "first_name", label: "First Name" },
+        { field: "first_name_ar", label: "First Name Ar" },
+        { field: "middle_name", label: "Middle Name" },
+        { field: "middle_name_ar", label: "Middle Name Ar" },
+        { field: "family_name", label: "Family Name" },
+        { field: "family_name_ar", label: "Family Name Ar" },
+        { field: "specialityEn", label: "Speciality" },
+        { field: "specialityAr", label: "Speciality Ar" },
         { field: "gender", label: "Gender", sortable: true },
         { field: "email", label: "Email Address" },
         { field: "phone_number", label: "Phone Number" },
         { field: "rating", label: "Rating" },
+        { field: "rating_count", label: "Rating Count" },
       ],
       tablefields: [
         { key: "id", label: "id", sortable: true },
@@ -129,6 +140,7 @@ export default {
   methods: {
     ...mapActions("user", ["setSelectedUser"]),
     downloadReport() {
+      if (!this.totalItems.length) return;
       let perPage = this.totalRows || this.getPerPageSelection;
       this.totalItems = [];
       let query = "&query=&page=1";
