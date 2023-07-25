@@ -40,7 +40,7 @@ const Breadcrumbs = () => import('./components/bread_crumbs');
 const BackNavigation = () => import('./components/back-navigation');
 
 Vue.component("v-otp-input", OtpInput);
-Vue.component(PxCard.name, PxCard)
+Vue.component('px-card', PxCard)
 Vue.component("vueDropzone", vue2Dropzone)
 Vue.component('perpage', PerPage)
 Vue.component('ash-datepicker', ASHDatePicker)

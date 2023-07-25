@@ -24,11 +24,7 @@
         :sheet-name="'physician-report-sheet'"
       >
       </vue-excel-xlsx>
-      <button
-        class="download-icon ml-auto"
-        :class="{ disabled: !totalItems.length }"
-        @click="downloadReport()"
-      >
+      <button class="download-icon ml-auto" @click="downloadReport()">
         <span class="d-sm-block d-none">{{ $t("download") }}</span>
         <i class="fa fa-download" aria-hidden="true"></i>
       </button>
@@ -148,7 +144,6 @@ export default {
   methods: {
     ...mapActions("user", ["setSelectedUser"]),
     downloadReport() {
-      if (!this.totalItems.length) return;
       let perPage = this.totalRows || this.getPerPageSelection;
       this.totalItems = [];
       let query = "&query=&page=1";
