@@ -25,7 +25,12 @@ export const userService = {
     getDuplicatedUsers,
     getPatients,
     getDoctors,
-    deleteUser
+    deleteUser,
+    setFCMToken,
+    getFCMToken,
+    removeFCMToken,
+    changeLanguage,
+    logout
 };
 
 import axios from "axios";
@@ -38,6 +43,8 @@ const preferredLayout = 'user-layout';
 const userRole = 'userRole';
 
 const paymentToBeBook = 'booking'
+
+const fcmToken = 'fcmToken';
 
 function isAuthenticatedUser() {
     return !!localStorage.getItem(jwtTokenKey);
@@ -157,5 +164,29 @@ function deleteUser(id) {
     return axios({
         method: apiPath.user.deleteUser(id).method,
         url: apiPath.user.deleteUser(id).url,
+    })
+}
+function setFCMToken(token) {
+    localStorage.setItem(fcmToken, token);
+}
+function getFCMToken() {
+    return localStorage.getItem(fcmToken);
+}
+function removeFCMToken() {
+    return localStorage.removeItem(fcmToken);
+}
+function changeLanguage(lang) {
+    return axios({
+        method: apiPath.user.changeLanguage.method,
+        url: apiPath.user.changeLanguage.url,
+        data: {
+            "language": lang
+        }
+    })
+}
+function logout() {
+    return axios({
+        method: apiPath.user.logout.method,
+        url: apiPath.user.logout.url,
     })
 }

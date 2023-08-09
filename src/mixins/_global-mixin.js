@@ -520,5 +520,42 @@ export default {
         isAPIAborted(error) {
             return axios.isCancel(error)
         },
+        async setFCMToken() {
+            if (this.$messaging) {
+                // await this.removeFCMToken();
+                this.$messaging.onTokenRefresh(async () => {
+                    await this.initializeFCMToken();
+                })
+                await this.initializeFCMToken();
+            }
+        },
+        async initializeFCMToken() {
+            try {
+                await this.$messaging.deleteToken({
+                    vapidKey:
+                        "BNLgxwZ2Lmx4lq30n9wEMDap0N7geVOFe9Rq3FTGxm5bQ-TPP3tnabS2mmO_xkcbCslllkKusQiJUBeX3r0ecSk",
+                });
+                let currentToken = await this.$messaging.getToken({
+                    vapidKey:
+                        "BNLgxwZ2Lmx4lq30n9wEMDap0N7geVOFe9Rq3FTGxm5bQ-TPP3tnabS2mmO_xkcbCslllkKusQiJUBeX3r0ecSk",
+                });
+                if (currentToken) {
+                    userService.setFCMToken(currentToken);
+                    console.log("client token");
+                    console.log(currentToken);
+                }
+            } catch (error) {
+                console.log("An error occurred while retrieving token. ", error);
+            }
+        },
+        getFCMToken() {
+            return userService.getFCMToken();
+        },
+        async removeFCMToken() {
+            if (this.$messaging) {
+                await this.$messaging.deleteToken();
+                userService.removeFCMToken();
+            }
+        },
     },
 }

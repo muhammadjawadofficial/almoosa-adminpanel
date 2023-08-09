@@ -88,6 +88,8 @@ export const apiPath = {
         uploadId: getApiObject("post", "mediafiles/upload"),
         uploadPdf: getApiObject("post", "mediafiles/pdf"),
         addStaffMember: getApiObject("post", "auth/staff/register"),
+        changeLanguage: getApiObject("post", "user/change-language"),
+        logout: getApiObject("post", "user/logout"),
     },
 
     speciality: {
