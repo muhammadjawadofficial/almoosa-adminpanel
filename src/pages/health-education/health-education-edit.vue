@@ -121,7 +121,7 @@
           <div
             :class="{
               'dropzone is-invalid': formSubmitted
-                ? !healthEducationFormState.thumbnail_id
+                ? healthEducationFormState.thumbnail_id == false
                 : null,
             }"
           ></div>
@@ -148,7 +148,7 @@
           <div
             :class="{
               'dropzone is-invalid': formSubmitted
-                ? !healthEducationFormState.banner_id
+                ? healthEducationFormState.banner_id == false
                 : null,
             }"
           ></div>
@@ -465,6 +465,7 @@ export default {
       this.bannerToUpload = [];
       this.$refs.thumbnailFileUpload.removeAllFiles();
       this.$refs.bannerFileUpload.removeAllFiles();
+      this.healthEducationId = null;
     },
   },
 };
