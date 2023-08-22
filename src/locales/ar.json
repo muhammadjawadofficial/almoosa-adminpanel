@@ -150,7 +150,8 @@
     "changeLanguage": "تغيير اللغة",
     "viewProfile": "الملف التعريفي",
     "changePassword": "تغير كلمة المرور",
-    "switchMyProfile": "قم بالتبديل إلى ملف التعريف الخاص بي"
+    "switchMyProfile": "قم بالتبديل إلى ملف التعريف الخاص بي",
+    "markAllRead": "اجعلها مقروءة"
   },
   "dashboard": {
     "helpMillions": "نخدم بشغف، ونقود التحول المجتمعي من خلال تقديم خدمات صحية فعالة",
