@@ -25,7 +25,8 @@ export const userService = {
     getDuplicatedUsers,
     getPatients,
     getDoctors,
-    deleteUser
+    deleteUser,
+    updateDoctorProfile
 };
 
 import axios from "axios";
@@ -114,6 +115,13 @@ function updateProfile(userId, profile) {
     return axios({
         method: apiPath.user.updateProfile(userId).method,
         url: apiPath.user.updateProfile(userId).url,
+        data: profile
+    })
+}
+function updateDoctorProfile(userId, profile) {
+    return axios({
+        method: apiPath.user.updateDoctorProfile(userId).method,
+        url: apiPath.user.updateDoctorProfile(userId).url,
         data: profile
     })
 }

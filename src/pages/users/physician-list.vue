@@ -124,7 +124,7 @@ export default {
       currentPage: 1,
       getPerPageSelection: 5,
       ratingFields: [
-        { field: "id", label: "Physician Id", sortable: true },
+        { field: "id", label: "Physician Id" },
         { field: "first_name", label: "First Name" },
         { field: "first_name_ar", label: "First Name Ar" },
         { field: "middle_name", label: "Middle Name" },
@@ -133,14 +133,14 @@ export default {
         { field: "family_name_ar", label: "Family Name Ar" },
         { field: "specialityEn", label: "Speciality" },
         { field: "specialityAr", label: "Speciality Ar" },
-        { field: "gender", label: "Gender", sortable: true },
+        { field: "gender", label: "Gender" },
         { field: "email", label: "Email Address" },
         { field: "phone_number", label: "Phone Number" },
         { field: "rating", label: "Rating" },
         { field: "rating_count", label: "Rating Count" },
       ],
       detailFields: [
-        { field: "id", label: "Doctor ID", sortable: true },
+        { field: "id", label: "Doctor ID" },
         { field: "first_name", label: "First Name" },
         { field: "first_name_ar", label: "First Name Ar" },
         { field: "middle_name", label: "Middle Name" },
@@ -149,7 +149,7 @@ export default {
         { field: "family_name_ar", label: "Family Name Ar" },
         { field: "specialityEn", label: "Speciality" },
         { field: "specialityAr", label: "Speciality Ar" },
-        { field: "gender", label: "Gender", sortable: true },
+        { field: "gender", label: "Gender" },
         { field: "dob", label: "DOB" },
         { field: "email", label: "Email" },
         { field: "phone_number", label: "Phone Number" },
@@ -166,10 +166,10 @@ export default {
         { field: "photoLink", label: "Photo Link" },
       ],
       tablefields: [
-        { key: "id", label: "id", sortable: true },
+        { key: "id", label: "id" },
         { key: "physicianName", label: "physicianName" },
         { key: "speciality", label: "speciality" },
-        { key: "gender", label: "gender", sortable: true },
+        { key: "gender", label: "gender" },
         { key: "email", label: "email" },
         { key: "phone_number", label: "phoneNumber" },
       ],
@@ -247,22 +247,28 @@ export default {
     fetchUsers(pageNumber = 1) {
       this.items = [];
       let query = "";
-      query += "&query=" + this.searchQuery;
+      //check if all alphabets
+      if (this.searchQuery.match(/^[0-9]+$/)) {
+        query += "&mr_number=" + this.searchQuery;
+      } else {
+        query += "&name=" + this.searchQuery;
+      }
+      query += "&sort_direction=" + (this.sortDesc ? "DESC" : "ASC");
       if (this.sortBy) {
-        query += "&sort=" + (this.sortDesc ? "-" : "") + this.sortBy;
+        query += "&sort_by=" + this.sortBy;
       }
       if (this.getPerPageSelection) {
-        query += "&limit=" + this.getPerPageSelection;
+        query += "&per_page=" + this.getPerPageSelection;
       }
       if (pageNumber) {
-        query += "&page=" + pageNumber;
+        query += "&page_number=" + pageNumber;
       }
-      userService.getUsers("/search?role_id=4" + query).then(
+      userService.getDoctors("?role=DOCTOR" + query).then(
         (response) => {
           if (response.data.status) {
             this.parseData(response.data.data.items, this.items);
             this.currentPage = pageNumber;
-            this.totalRows = response.data.data.total_records;
+            this.totalRows = this.items[0].total_records;
           } else {
             this.failureToast(response.data.messsage);
           }

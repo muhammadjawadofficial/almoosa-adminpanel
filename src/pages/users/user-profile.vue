@@ -1113,10 +1113,11 @@ export default {
         let updateUserObj = {};
         if (this.isSelectedUserDoctor) {
           if (
-            this.getSelectedUser.clinics &&
-            this.doctor.clinics &&
-            this.getSelectedUser.clinics.map((x) => x.id).join(",") !==
-              this.doctor.clinics.map((x) => x.id).join(",")
+            (this.getSelectedUser.clinics &&
+              this.doctor.clinics &&
+              this.getSelectedUser.clinics.map((x) => x.id).join(",") !==
+                this.doctor.clinics.map((x) => x.id).join(",")) ||
+            !this.getSelectedUser.clinics
           ) {
             updateUserObj.clinics = this.doctor.clinics.map((x) => x.id);
           }
@@ -1174,7 +1175,11 @@ export default {
       }
     },
     updateProfileInfo(data) {
-      userService.updateProfile(this.getSelectedUser.id, data).then(
+      const promise = this.isSelectedUserDoctor
+        ? userService.updateDoctorProfile(this.getSelectedUser.id, data)
+        : userService.updateProfile(this.getSelectedUser.id, data);
+
+      promise.then(
         (res) => {
           if (res.data.status) {
             this.getProfileData();
@@ -1195,7 +1200,11 @@ export default {
       );
     },
     updateProfilePicture(data, data_id) {
-      userService.updateProfile(this.getSelectedUser.id, data_id).then(
+      const promise = this.isSelectedUserDoctor
+        ? userService.updateDoctorProfile(this.getSelectedUser.id, data_id)
+        : userService.updateProfile(this.getSelectedUser.id, data_id);
+
+      promise.then(
         (res) => {
           if (res.data.status) {
             let obj = { ...data };
