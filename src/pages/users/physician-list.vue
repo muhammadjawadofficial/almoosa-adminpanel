@@ -93,8 +93,8 @@
             <span class="text">{{ getFullName(data.item) }}</span>
           </div>
         </template>
-        <template v-else-if="data.field.key == 'speciality' && data.value">
-          {{ data.value[getLocaleKey("title")] }}
+        <template v-else-if="data.field.key == 'speciality_id' && data.value">
+          {{ parseSpeciality(data.value) }}
         </template>
         <template v-else>{{ data.value || "N/A" }}</template>
       </template>
@@ -113,7 +113,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import { userService } from "../../services";
+import { authService, userService } from "../../services";
 export default {
   data() {
     return {
@@ -168,17 +168,27 @@ export default {
       tablefields: [
         { key: "id", label: "id" },
         { key: "physicianName", label: "physicianName" },
-        { key: "speciality", label: "speciality" },
+        { key: "speciality_id", label: "speciality" },
         { key: "gender", label: "gender" },
         { key: "email", label: "email" },
         { key: "phone_number", label: "phoneNumber" },
       ],
       items: [],
       totalItems: [],
+      specialities: [],
     };
   },
   mounted() {
+    this.fetchSpecialities();
     this.fetchUsers();
+  },
+  computed: {
+    parseSpeciality() {
+      return (id) => {
+        let speciality = this.specialities.find((x) => x.id == id);
+        return speciality ? speciality.title : id;
+      };
+    },
   },
   watch: {
     searchQuery() {
@@ -214,6 +224,15 @@ export default {
       );
     },
     rowClicked(e) {
+      let speciality = this.specialities.find((x) => x.id == e.speciality_id);
+      if (!speciality) {
+        this.failureIconModal(
+          this.$t("failure"),
+          this.$t("admin.specialityNotFound"),
+          'm-payment-failure'
+        );
+        return;
+      }
       this.setSelectedUser(e);
       this.navigateTo("Physician Profile");
     },
@@ -243,6 +262,25 @@ export default {
       this.sortDesc = filter.sortDesc;
       this.sortBy = filter.sortBy;
       this.fetchUsers();
+    },
+    fetchSpecialities() {
+      authService.getSpecialities().then(
+        (response) => {
+          if (response.data.status) {
+            this.specialities = response.data.data.items;
+          } else {
+            this.failureToast(response.data.messsage);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
     },
     fetchUsers(pageNumber = 1) {
       this.items = [];
