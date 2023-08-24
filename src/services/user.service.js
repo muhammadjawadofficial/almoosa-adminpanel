@@ -21,6 +21,7 @@ export const userService = {
     updateProfile,
     getProfile,
     getDoctorProfile,
+    getOrCreateDoctorProfile,
     getUsers,
     getDuplicatedUsers,
     getPatients,
@@ -135,6 +136,12 @@ function getDoctorProfile(id) {
     return axios({
         method: apiPath.user.getDoctorProfile(id).method,
         url: apiPath.user.getDoctorProfile(id).url,
+    })
+}
+function getOrCreateDoctorProfile(id) {
+    return axios({
+        method: apiPath.user.getOrCreateDoctorProfile(id).method,
+        url: apiPath.user.getOrCreateDoctorProfile(id).url,
     })
 }
 function getUsers(query) {

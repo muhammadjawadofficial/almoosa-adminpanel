@@ -75,6 +75,7 @@ export const apiPath = {
         updateProfile: (id) => getApiObject("patch", "users/" + id),
         updateDoctorProfile: (id) => getApiObject("patch", "admin/doctors/" + id),
         getProfile: (profile, mrn) => getApiObject("get", "auth/patient/profile?mrn_number=" + mrn, "v2"),
+        getOrCreateDoctorProfile: (id) => getApiObject("get", "admin/doctors/" + id, "v2"),
         getDoctorProfile: (id) => getApiObject("get", "users?id=" + id),
         fetchUsers: (query) => getApiObject("get", "users" + query),
         deleteUser: (id) => getApiObject("delete", "users/" + id),

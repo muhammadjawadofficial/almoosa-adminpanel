@@ -990,15 +990,15 @@ export default {
       this.resetData();
     },
     getProfileData() {
-      if (this.getSelectedUser.role_id == 4 || !this.getSelectedUser.mrn_number)
+      if (this.isSelectedUserDoctor || this.getSelectedUser.role_id == 4 || !this.getSelectedUser.mrn_number)
         this.getDoctorProfile();
       else this.getLoggedInUserData();
     },
     getDoctorProfile() {
-      userService.getDoctorProfile(this.getSelectedUser.id).then(
+      userService.getOrCreateDoctorProfile(this.getSelectedUser.id).then(
         (res) => {
           if (res.data.status) {
-            this.updateSelectedUser(res.data.data.items[0]);
+            this.updateSelectedUser(res.data.data);
             this.resetData();
           } else {
             this.failureToast(res.data.message);
