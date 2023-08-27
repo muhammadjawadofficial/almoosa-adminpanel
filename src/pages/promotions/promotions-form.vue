@@ -152,7 +152,7 @@
             @vdropzone-thumbnail="checkFileDimensions"
             @vdropzone-removed-file="removeFile"
             :options="validationdropzoneOptions"
-            ref="fileUpload"
+            ref="promoImageToUpload"
             id="validationdropzone"
             class="dropzone digits custom-file-upload"
           >
@@ -254,9 +254,9 @@ export default {
         this.editable = false;
       }
 
-      this.$refs.fileUpload.removeAllFiles();
       this.fileToUpload = [];
-
+      this.$refs.promoImageToUpload.removeAllFiles();
+      
       if (this.editable) {
         this.promotionForm.title = this.getSelectedPromotion.title;
         this.promotionForm.discount_percent =
@@ -285,7 +285,7 @@ export default {
             name: image.filename,
             type: image.mimetype,
           };
-          this.$refs.fileUpload.manuallyAddFile(
+          this.$refs.promoImageToUpload.manuallyAddFile(
             file,
             this.getImageUrl(this.getSelectedPromotion.image)
           );
@@ -334,7 +334,7 @@ export default {
       if (file.manuallyAdded) return;
       if (file.width != 1920 || file.height != 450) {
         this.failureToast("Upload Image Of Size: 1920x450");
-        this.$refs.fileUpload.removeAllFiles();
+        this.$refs.promoImageToUpload.removeAllFiles();
         this.fileToUpload = [];
         return;
       }
@@ -343,7 +343,7 @@ export default {
     fileUpload(file) {
       this.fileToUpload.push(file);
       if (this.fileToUpload.length > 1) {
-        this.$refs.fileUpload.removeFile(this.fileToUpload[0]);
+        this.$refs.promoImageToUpload.removeFile(this.fileToUpload[0]);
       }
 
       authService.uploadId(file).then(

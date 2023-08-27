@@ -5,7 +5,9 @@
       {{ $t("login.codeSentMessage") }}
     </div>
     <div class="sub-heading font-primary w500">
-      {{ translateNumber(phone) }} {{ email ? "& " + email : "" }}
+      {{ phone ? translateNumber(phone) : "" }}
+      {{ phone && email ? "&" : "" }}
+      {{ email ? email : "" }}
     </div>
     <div class="login-form">
       <div class="row">
@@ -48,6 +50,7 @@
 </template>
 
 <script>
+import constants from "../../constants/constants";
 import { authService, userService } from "../../services";
 import { mapActions, mapGetters } from "vuex";
 export default {
