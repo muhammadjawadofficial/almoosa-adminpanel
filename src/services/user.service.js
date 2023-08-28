@@ -21,6 +21,7 @@ export const userService = {
     updateProfile,
     getProfile,
     getDoctorProfile,
+    getOrCreateDoctorProfile,
     getUsers,
     getDuplicatedUsers,
     getPatients,
@@ -30,7 +31,8 @@ export const userService = {
     getFCMToken,
     removeFCMToken,
     changeLanguage,
-    logout
+    logout,
+    updateDoctorProfile
 };
 
 import axios from "axios";
@@ -124,6 +126,13 @@ function updateProfile(userId, profile) {
         data: profile
     })
 }
+function updateDoctorProfile(userId, profile) {
+    return axios({
+        method: apiPath.user.updateDoctorProfile(userId).method,
+        url: apiPath.user.updateDoctorProfile(userId).url,
+        data: profile
+    })
+}
 function getProfile(profile, mrn) {
     return axios({
         method: apiPath.user.getProfile(profile, mrn).method,
@@ -134,6 +143,12 @@ function getDoctorProfile(id) {
     return axios({
         method: apiPath.user.getDoctorProfile(id).method,
         url: apiPath.user.getDoctorProfile(id).url,
+    })
+}
+function getOrCreateDoctorProfile(id) {
+    return axios({
+        method: apiPath.user.getOrCreateDoctorProfile(id).method,
+        url: apiPath.user.getOrCreateDoctorProfile(id).url,
     })
 }
 function getUsers(query) {

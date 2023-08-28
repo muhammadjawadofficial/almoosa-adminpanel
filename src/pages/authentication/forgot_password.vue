@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import constants from "../../constants/constants";
 import { authService } from "../../services";
 import { mapActions } from "vuex";
 export default {
