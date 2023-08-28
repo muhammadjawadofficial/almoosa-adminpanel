@@ -264,7 +264,7 @@ export default {
       this.fetchUsers();
     },
     fetchSpecialities() {
-      authService.getSpecialities().then(
+      authService.getSpecialitiesV1().then(
         (response) => {
           if (response.data.status) {
             this.specialities = response.data.data.items;
