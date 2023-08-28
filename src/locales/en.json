@@ -756,6 +756,7 @@
     "platformWiseStats": "Platform Wise Stats",
     "averageEngagementTime": "Average Engagement Time",
     "minutes": "min",
-    "seconds": "sec"
+    "seconds": "sec",
+    "specialityNotFound": "Unable to find the speciality. Please add speciality in order to update this doctor."
   }
 }

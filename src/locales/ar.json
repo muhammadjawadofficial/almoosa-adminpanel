@@ -747,6 +747,7 @@
     "platformWiseStats": "إحصائيات حسب المنصة",
     "averageEngagementTime": "متوسط ​​وقت المشاركة",
     "minutes": "دقائق",
-    "seconds": "ثواني"
+    "seconds": "ثواني",
+    "specialityNotFound": "تعذر العثور على التخصص. يرجى إضافة التخصص من أجل تحديث هذا الطبيب."
   }
 }
