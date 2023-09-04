@@ -46,6 +46,11 @@
               </span>
             </p>
           </li>
+          <div v-if="notifications.length < total" class="text-center">
+            <a class="btn btn-primary mt-3" @click.stop="loadMore">
+              {{ $t("admin.loadMore") }}
+            </a>
+          </div>
         </template>
         <div v-else class="no-data pt-0">{{ $t("header.noData") }}</div>
         <!-- <li><a class="" href=""></a></li> -->
@@ -62,6 +67,11 @@ export default {
     return {
       notification: false,
       notifications: [],
+      showProfileDropdown: false,
+      total: 0,
+      unread: 0,
+      page: 1,
+      limit: 10,
     };
   },
   computed: {
@@ -84,13 +94,16 @@ export default {
         return "warning";
       }
     },
-    async fetchNotifications() {
-      let query = `?id=${this.getUserInfo.id}&limit=10&page=1&orderBy=id&orderType=DESC`;
+    async fetchNotifications(page = 1) {
+      if (page == 1) this.notifications = [];
+      let query = `?id=${this.getUserInfo.id}&limit=${this.limit}&page=${page}&orderBy=id&orderType=DESC`;
       try {
         let response = await userService.fetchNotifications(query);
         if (response.data.status) {
-          let notifications = response.data.data.notifications;
-          this.notifications = notifications;
+          let res = response.data.data;
+          this.notifications.push(...res.notifications);
+          this.total = res.count;
+          this.unread = res.unReadCount;
         }
       } catch (error) {
         if (!this.isAPIAborted(error))
@@ -122,6 +135,10 @@ export default {
             error.response && error.response.data && error.response.data.message
           );
       }
+    },
+    loadMore() {
+      this.page++;
+      this.fetchNotifications(this.page);
     },
   },
   mounted() {
