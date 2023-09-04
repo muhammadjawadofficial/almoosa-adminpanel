@@ -864,9 +864,7 @@ export default {
     let routeName = this.$route.name.toLowerCase();
     let routeTab = this.$route.params.tab;
     if (routeName.includes("patient")) {
-      if (routeTab.toLowerCase().includes("request"))
-        this.backRoute = "Patient List";
-      else this.backRoute = "Patient Details";
+      this.backRoute = "Patient List";
     } else if (routeName.includes("physician")) {
       this.backRoute = "Physician List";
       this.isEditingAllowed = true;
@@ -990,11 +988,36 @@ export default {
       this.resetData();
     },
     getProfileData() {
-      if (this.isSelectedUserDoctor || this.getSelectedUser.role_id == 4 || !this.getSelectedUser.mrn_number)
-        this.getDoctorProfile();
+      if (this.isSelectedUserDoctor || this.getSelectedUser.role_id == 4)
+        this.getOrCreateDoctorProfile();
+      else if (
+        !this.getSelectedUser.mrn_number ||
+        ["unverified", "blocked"].includes(this.getSelectedUser.status)
+      )
+        this.getProfile();
       else this.getLoggedInUserData();
     },
-    getDoctorProfile() {
+    getProfile() {
+      userService.getDoctorProfile(this.getSelectedUser.id).then(
+        (res) => {
+          if (res.data.status) {
+            this.updateSelectedUser(res.data.data.items[0]);
+            this.resetData();
+          } else {
+            this.failureToast(res.data.message);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
+    getOrCreateDoctorProfile() {
       userService.getOrCreateDoctorProfile(this.getSelectedUser.id).then(
         (res) => {
           if (res.data.status) {
@@ -1169,6 +1192,7 @@ export default {
           mrn_number: this.mrnNumber,
           status: this.userStatus,
         };
+        this.updateSelectedUser(updateUserObj);
         this.updateProfileInfo(updateUserObj);
       } else {
         this.isEditingMRN = true;
@@ -1231,7 +1255,8 @@ export default {
       if (this.isEditing || this.isEditingMRN) {
         this.resetData();
       } else {
-        this.navigateTo(this.backRoute);
+        let params = this.$route.params;
+        this.navigateTo(this.backRoute, params);
       }
     },
   },
