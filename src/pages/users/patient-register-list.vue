@@ -69,7 +69,7 @@ export default {
       currentPage: 1,
       getPerPageSelection: 5,
       tablefields: [
-        { key: "id", label: "id", sortable: true },
+        // { key: "id", label: "id", sortable: true },
         { key: "patientName", label: "patientName" },
         { key: "mrn_number", label: "mrn", sortable: true },
         { key: "identity_number", label: "identity_number" },
@@ -98,7 +98,7 @@ export default {
       data.forEach((x) => {
         this.items.push({
           ...x,
-          id: x.row_number,
+          // id: x.row_number,
           patientName: this.getFullName(x),
           patient_photo: x.photo,
           mrn_number: x.mrn_number,
