@@ -3,9 +3,9 @@
     <div class="notification-box">
       <!-- <feather type="bell" @click="notification_open()"></feather> -->
       <img class="" src="../assets/images/header/bell.png" alt="bell" />
-      <span v-if="notifications.length" class="badge badge-pill badge-danger">{{
-        notifications.length
-      }}</span>
+      <span v-if="getUnreadCount" class="badge badge-pill badge-danger">
+        {{ getUnreadCount }}
+      </span>
     </div>
     <div
       class="onhover-show-div notification-dropdown"
@@ -14,8 +14,13 @@
       <div class="mb-0 dropdown-title w500">
         {{ $t("header.notifications") }}
       </div>
-      <div class="dropdown-sub-title px-3 pt-3 pb-0">
-        {{ $t("header.today") }}
+      <div
+        class="dropdown-sub-title px-3 pt-3 pb-0 text-right"
+        v-if="getUnreadCount > 0"
+      >
+        <span class="pointer" @click="markAllAsRead">
+          {{ $t("header.markAllRead") }}
+        </span>
       </div>
       <ul>
         <template v-if="notifications.length">
@@ -25,16 +30,27 @@
             v-for="(notification, index) in notifications"
             :key="'notification-' + index"
           >
-            <div class="icon"><bell-fill-svg /></div>
+            <div class="icon" :class="{ unread: !notification.seen }">
+              <bell-fill-svg />
+            </div>
             <p>
-              <span class="multi-line-ellipse">{{ notification.title }} </span>
-              <span class="multi-line-ellipse">{{ notification.body }} </span>
+              <span class="multi-line-ellipse">
+                {{ notification[getLocaleKey("title", "_en")] }}
+              </span>
+              <span class="multi-line-ellipse">
+                {{ notification[getLocaleKey("message", "_en")] }}
+              </span>
               <span class="time-warning">
                 <reminder-svg />
-                {{ formatNotificationTime(notification.datetime) }}</span
-              >
+                {{ formatNotificationTime(notification.created_at) }}
+              </span>
             </p>
           </li>
+          <div v-if="notifications.length < total" class="text-center">
+            <a class="btn btn-primary mt-3" @click.stop="loadMore">
+              {{ $t("admin.loadMore") }}
+            </a>
+          </div>
         </template>
         <div v-else class="no-data pt-0">{{ $t("header.noData") }}</div>
         <!-- <li><a class="" href=""></a></li> -->
@@ -44,13 +60,24 @@
 </template>
 
 <script>
+import { userService } from "../services";
 export default {
   name: "Notifications",
   data() {
     return {
       notification: false,
       notifications: [],
+      showProfileDropdown: false,
+      total: 0,
+      unread: 0,
+      page: 1,
+      limit: 10,
     };
+  },
+  computed: {
+    getUnreadCount() {
+      return this.notifications.filter((x) => !x.seen).length;
+    },
   },
   methods: {
     notification_open() {
@@ -67,14 +94,67 @@ export default {
         return "warning";
       }
     },
+    async fetchNotifications(page = 1) {
+      if (page == 1) this.notifications = [];
+      let query = `?id=${this.getUserInfo.id}&limit=${this.limit}&page=${page}&orderBy=id&orderType=DESC`;
+      try {
+        let response = await userService.fetchNotifications(query);
+        if (response.data.status) {
+          let res = response.data.data;
+          this.notifications.push(...res.notifications);
+          this.total = res.count;
+          this.unread = res.unReadCount;
+        }
+      } catch (error) {
+        if (!this.isAPIAborted(error))
+          this.failureToast(
+            error.response && error.response.data && error.response.data.message
+          );
+      }
+    },
+    async markAllAsRead() {
+      try {
+        let payload = {
+          userId: this.getUserInfo.id,
+          readAll: true,
+        };
+        let response = await userService.markAllAsRead(payload);
+        if (response.data.status) {
+          this.notifications = [
+            ...this.notifications.map((x) => {
+              x.seen = true;
+              return x;
+            }),
+          ];
+        } else {
+          this.failureToast(response.data.message);
+        }
+      } catch (error) {
+        if (!this.isAPIAborted(error))
+          this.failureToast(
+            error.response && error.response.data && error.response.data.message
+          );
+      }
+    },
+    loadMore() {
+      this.page++;
+      this.fetchNotifications(this.page);
+    },
   },
   mounted() {
     navigator.serviceWorker.addEventListener("message", (event) => {
+      let notification =
+        event.data && event.data.data && event.data.data.metadata;
+      if (!notification) {
+        return;
+      }
+      notification = JSON.parse(notification);
       this.notifications.unshift({
-        ...event.data.notification,
-        datetime: new Date(),
+        ...notification,
+        created_at: new Date(),
       });
     });
+    this.fetchNotifications();
   },
 };
 </script>
