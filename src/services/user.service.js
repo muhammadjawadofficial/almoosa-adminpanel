@@ -32,6 +32,8 @@ export const userService = {
     removeFCMToken,
     changeLanguage,
     logout,
+    fetchNotifications,
+    markAllAsRead,
     updateDoctorProfile
 };
 
@@ -203,5 +205,18 @@ function logout() {
     return axios({
         method: apiPath.user.logout.method,
         url: apiPath.user.logout.url,
+    })
+}
+function fetchNotifications(query) {
+    return axios({
+        method: apiPath.user.fetchNotifications(query).method,
+        url: apiPath.user.fetchNotifications(query).url,
+    })
+}
+function markAllAsRead(data) {
+    return axios({
+        method: apiPath.user.markAllAsRead.method,
+        url: apiPath.user.markAllAsRead.url,
+        data
     })
 }

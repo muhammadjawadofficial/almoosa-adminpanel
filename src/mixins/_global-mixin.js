@@ -19,7 +19,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters("user", ["getUserRole", "getIsGuest", "getLoading", "getUserPermissions"]),
+        ...mapGetters("user", ["getUserRole", "getUserInfo", "getIsGuest", "getLoading", "getUserPermissions"]),
         isDoctor() {
             let roleLS = this.getLSRole();
             let roleS = this.getUserRole;

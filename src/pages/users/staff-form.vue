@@ -109,6 +109,7 @@
 <script>
 import { authService, rolesPermissionsService } from "../../services";
 import { mapActions, mapGetters } from "vuex";
+import constants from "../../constants/constants";
 export default {
   data() {
     return {
@@ -147,10 +148,16 @@ export default {
     },
     validPhoneNumber() {
       if (this.formSubmitted) {
-        // let regex = /^(009665|9665|\+9665|05|5)([503649187])(\d{7})$/;
-        let regex = /^(05)([503649187])(\d{7})$/;
+        let regex = /^[0-9]+$/;
         let result = this.registerForm.phone_number.match(regex);
-        return !!(result && result.length);
+        return (
+          !!this.registerForm.phone_number &&
+          result &&
+          this.registerForm.phone_number.length >=
+            constants.validation.phoneNumber.min &&
+          this.registerForm.phone_number.length <=
+            constants.validation.phoneNumber.max
+        );
       }
       return false;
     },
