@@ -60,9 +60,14 @@ export default {
     },
     validPhoneNumber() {
       if (this.formSubmitted) {
-        let regex = /^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$/;
+        let regex = /^[0-9]+$/;
         let result = this.username.match(regex);
-        return !!(result && result.length);
+        return (
+          !!this.username &&
+          result &&
+          this.username.length >= constants.validation.phoneNumber.min &&
+          this.username.length <= constants.validation.phoneNumber.max
+        );
       }
       return false;
     },

@@ -7,6 +7,24 @@ export default {
         forgotPassword: "forgotPassword",
         loginOtp: "authLoginOtp"
     },
+    validation: {
+        iqama: {
+            min: 8,
+            max: 15
+        },
+        saudi: {
+            min: 10,
+            max: 10
+        },
+        mrn: {
+            min: 7,
+            max: 7
+        },
+        phoneNumber: {
+            min: 10,
+            max: 15
+        }
+    },
     FAMILY_MEMBERS: "Family Members",
     APPOINTMENTS: "Appointments",
     HEALTH_EDUCATION: "Health Education",
