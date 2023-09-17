@@ -141,6 +141,12 @@
                             "path": "/promotions/create"
                         }
                     ]
+                },
+                {
+                    "title": "First Free Appointment",
+                    "title_ar": "الموعد الأول مجانا",
+                    "type": "link",
+                    "path": "/promotions/first-free-appointment"
                 }
             ]
         },
