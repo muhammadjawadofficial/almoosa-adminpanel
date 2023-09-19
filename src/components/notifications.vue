@@ -3,8 +3,8 @@
     <div class="notification-box">
       <!-- <feather type="bell" @click="notification_open()"></feather> -->
       <img class="" src="../assets/images/header/bell.png" alt="bell" />
-      <span v-if="getUnreadCount" class="badge badge-pill badge-danger">
-        {{ getUnreadCount }}
+      <span v-if="unread" class="badge badge-pill badge-danger">
+        {{ unread }}
       </span>
     </div>
     <div
@@ -16,7 +16,7 @@
       </div>
       <div
         class="dropdown-sub-title px-3 pt-3 pb-0 text-right"
-        v-if="getUnreadCount > 0"
+        v-if="unread > 0"
       >
         <span class="pointer" @click="markAllAsRead">
           {{ $t("header.markAllRead") }}
@@ -153,6 +153,7 @@ export default {
         ...notification,
         created_at: new Date(),
       });
+      this.unread++;
     });
     this.fetchNotifications();
   },
