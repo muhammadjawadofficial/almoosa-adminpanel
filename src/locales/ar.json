@@ -747,6 +747,9 @@
     "averageEngagementTime": "متوسط ​​وقت المشاركة",
     "minutes": "دقائق",
     "seconds": "ثواني",
-    "specialityNotFound": "تعذر العثور على التخصص. يرجى إضافة التخصص من أجل تحديث هذا الطبيب."
+    "specialityNotFound": "تعذر العثور على التخصص. يرجى إضافة التخصص من أجل تحديث هذا الطبيب.",
+    "loadMore": "تحميل المزيد",
+    "cancelled": "ألغيت",
+    "searchByStatusAppointmentIdMRNPromoCode": "البحث حسب حالة الموعد أو معرف الموعد أو رقم السجل الطبي أو رمز الترويج"
   }
 }

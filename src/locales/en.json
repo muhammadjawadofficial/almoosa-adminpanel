@@ -756,6 +756,9 @@
     "averageEngagementTime": "Average Engagement Time",
     "minutes": "min",
     "seconds": "sec",
-    "specialityNotFound": "Unable to find the speciality. Please add speciality in order to update this doctor."
+    "specialityNotFound": "Unable to find the speciality. Please add speciality in order to update this doctor.",
+    "loadMore": "Load More",
+    "cancelled": "Cancelled",
+    "searchByStatusAppointmentIdMRNPromoCode": "Search by Status / Appointment ID / MRN / Promo Code"
   }
 }
