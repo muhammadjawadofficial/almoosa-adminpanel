@@ -1615,6 +1615,7 @@
 
                 .sidebar-list {
                   .sidebar-title {
+                    text-decoration: none;
                     &.active {
                       ~ .sidebar-submenu {
                         display: none;
