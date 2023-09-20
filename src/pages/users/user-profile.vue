@@ -323,6 +323,26 @@
                 </div>
               </div>
             </div>
+            <div class="profile-info-card" v-if="getSelectedUser.created_at">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/MRN.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("admin.createdAt") }}
+                </div>
+                <div class="profile-info-card-detail-value">
+                  {{
+                    translateNumber(
+                      getLongDateAndTimeFromDate(
+                        getSelectedUser.created_at,
+                        true
+                      )
+                    )
+                  }}
+                </div>
+              </div>
+            </div>
             <div class="profile-info-card">
               <div class="profile-info-card-logo">
                 <img src="../../assets/images/MRN.svg" alt="" />
@@ -808,7 +828,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import constants from '../../constants/constants';
+import constants from "../../constants/constants";
 import { authService, userService } from "../../services";
 export default {
   data() {
