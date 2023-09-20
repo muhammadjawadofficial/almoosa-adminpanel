@@ -12,7 +12,8 @@ export const promotionService = {
     updatePromoGroupDetails,
     updatePromoGroupUsers,
     createPromoGroup,
-    deletePromoGroup
+    deletePromoGroup,
+    getFirstFreeAppointmentReport
 }
 
 function fetchPromotions() {
@@ -86,6 +87,13 @@ function updatePromoGroupUsers(data) {
     return axios({
         method: apiPath.promotions.updatePromoGroupUsers.method,
         url: apiPath.promotions.updatePromoGroupUsers.url,
+        data
+    })
+}
+function getFirstFreeAppointmentReport(data) {
+    return axios({
+        method: apiPath.promotions.firstFreeAppointmentReport.method,
+        url: apiPath.promotions.firstFreeAppointmentReport.url,
         data
     })
 }

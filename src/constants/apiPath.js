@@ -41,6 +41,7 @@ export const apiPath = {
         deletePromoGroups: (id) => getApiObject("delete", "promo-groups/" + id),
         updatePromoGroupDetails: (id) => getApiObject("patch", "promo-groups/" + id),
         updatePromoGroupUsers: getApiObject("post", "users/promo-group"),
+        firstFreeAppointmentReport: getApiObject("post", "reports/first_free_appointment"),
     },
 
     insurance: {
