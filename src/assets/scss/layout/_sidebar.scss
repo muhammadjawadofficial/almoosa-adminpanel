@@ -266,9 +266,6 @@
               margin-top: 3px;
             }
             svg {
-              // vertical-align: $header-wrapper-nav-icon-align;
-              // width: $header-wrapper-nav-icon-size;
-              // height: 17px;
 
               path {
                 color: $header-wrapper-nav-icon-color;
@@ -791,8 +788,6 @@
           left: unset;
 
           li {
-            // background-color: #f9f9f9;
-            // border-radius: 5px;
             // &:last-child {
             //   text-align: center;
             //   background-color: transparent;
@@ -3626,7 +3621,6 @@
 .margin-top {
   margin-top: 2.5rem;
 }
-
 
 @media screen and (max-width: 767px) {
   .sidebar-wrapper {
