@@ -7,25 +7,34 @@
         {{ unread }}
       </span>
     </div>
-    <div class="onhover-show-div notification-dropdown" :class="{ active: notification }">
+    <div
+      class="onhover-show-div notification-dropdown"
+      :class="{ active: notification }"
+    >
       <div class="mb-0 dropdown-title w500">
         {{ $t("header.notifications") }}
         <span>
-
           <h6 @click="routeToNotifications" class="float-right see-all">
             {{ $t("header.seeAllNotifications") }}
           </h6>
         </span>
       </div>
-      <div class="dropdown-sub-title px-3 pt-3 pb-0 text-right" v-if="unread > 0">
+      <div
+        class="dropdown-sub-title px-3 pt-3 pb-0 text-right"
+        v-if="unread > 0"
+      >
         <span class="pointer" @click="markAllAsRead">
           {{ $t("header.markAllRead") }}
         </span>
       </div>
       <ul class="notification-svg">
         <template v-if="notifications.length">
-          <li class="notification-row" :class="getNotificationRowClass(index)"
-            v-for="(notification, index) in notifications" :key="'notification-' + index">
+          <li
+            class="notification-row"
+            :class="getNotificationRowClass(index)"
+            v-for="(notification, index) in notifications"
+            :key="'notification-' + index"
+          >
             <div class="icon" :class="{ unread: !notification.seen }">
               <bell-fill-svg />
             </div>
@@ -43,10 +52,16 @@
             </p>
           </li>
 
-          <div v-if="notifications.length < total" class="margin-top d-flex justify-content-center"
-            :disabled="getLoading">
-            <a class="btn btn-primary position-absolute" @click.stop="loadMore"
-              :class="{ 'disabled-button': getLoading }">
+          <div
+            v-if="notifications.length < total"
+            class="margin-top d-flex justify-content-center"
+            :disabled="getLoading"
+          >
+            <a
+              class="btn btn-primary position-absolute"
+              @click.stop="loadMore"
+              :class="{ 'disabled-button': getLoading }"
+            >
               {{ $t("admin.loadMore") }}
             </a>
           </div>
@@ -125,6 +140,7 @@ export default {
               return x;
             }),
           ];
+          this.unread = 0;
         } else {
           this.failureToast(response.data.message);
         }
@@ -142,8 +158,7 @@ export default {
       this.page++;
       try {
         await this.fetchNotifications(this.page);
-      }
-      catch (error) {
+      } catch (error) {
         if (!this.isAPIAborted(error))
           this.failureToast(
             error.response && error.response.data && error.response.data.message
@@ -182,6 +197,6 @@ export default {
 .disabled-button {
   filter: grayscale();
   pointer-events: none;
-  cursor: not-allowed; 
+  cursor: not-allowed;
 }
 </style>
