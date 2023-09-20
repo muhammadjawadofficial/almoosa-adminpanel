@@ -105,6 +105,7 @@ const NewPatientRequest = () => import('../pages/reports/new-patient-request')
 const InsuranceRequest = () => import('../pages/reports/insurance-request')
 const PhysicianReport = () => import('../pages/reports/physician-list')
 const MedicationRefills = () => import('../pages/reports/medication-refills')
+const seeAllNotifications = () => import('../pages/see-all-notifications')
 
 import { userService } from '../services';
 
@@ -890,6 +891,14 @@ const routes = [
             },
           },
         ]
+      },
+      {
+        path: "see-all-notifications",
+        name: "All Notifications",
+        component: seeAllNotifications,
+        meta: {
+          title: "All Notifications | Almoosa Health Group",
+        },
       },
     ]
   },
