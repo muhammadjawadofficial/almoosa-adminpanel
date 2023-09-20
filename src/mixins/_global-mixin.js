@@ -433,7 +433,7 @@ export default {
             return this.dateFormatter(date, "YYYY" + separator + "MM" + separator + "DD")
         },
         formatNotificationTime(date, utc = false) {
-            return this.dateFormatter(date, 'MMMM YYYY - hh:mm A', utc)
+            return this.dateFormatter(date, 'DD MMMM YYYY - hh:mm A', utc)
         },
         isDateSame(date1, date2) {
             let fdate1 = this.formatDate(new Date(date1));

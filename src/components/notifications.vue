@@ -42,7 +42,7 @@
               </span>
               <span class="time-warning">
                 <reminder-svg />
-                {{ formatNotificationTime(notification.created_at) }}
+                {{ formatNotificationTime(notification.created_at, true) }}
               </span>
             </p>
           </li>
