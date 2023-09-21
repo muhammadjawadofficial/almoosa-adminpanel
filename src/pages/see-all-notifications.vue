@@ -5,8 +5,8 @@
         </div>
         <hr>
 
-        <ul class="notification-svg">
-            <li class="notification-row" :class="getNotificationRowClass(index)"
+        <ul class="notification-svg notification-ul">
+            <li class="notification-row notification-li" :class="getNotificationRowClass(index)"
                 v-for="(notification, index) in notifications" :key="'notification-' + index">
                 <div class="icon" >
                     <bell-fill-svg />
@@ -139,12 +139,11 @@ export default {
 };
 </script>
 
-<style lang="scss">
-ul {
+<style lang="scss" scoped>
+.notification-ul {
   padding: 0.938rem;
 }
-
-li {
+.notification-li {
   padding: 0.938rem;
 
   p {
@@ -167,6 +166,8 @@ li {
   }
 
 }
+
+
 .notification-label {
     padding: 2rem 0 0 1rem;
 }
