@@ -166,8 +166,6 @@ export default {
   }
 
 }
-
-
 .notification-label {
     padding: 2rem 0 0 1rem;
 }
