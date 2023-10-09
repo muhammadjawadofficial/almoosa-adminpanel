@@ -613,6 +613,7 @@
     "price": "Price",
     "createdAt": "Created At",
     "updatedAt": "Updated At",
+    "updatedBy": "Updated By",
     "serviceName": "Service Name",
     "serviceDescription": "Service Description",
     "uploadThumbnail": "Upload Thumbnail",
