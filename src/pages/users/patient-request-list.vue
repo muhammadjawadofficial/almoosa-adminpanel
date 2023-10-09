@@ -62,6 +62,21 @@
             <span class="text">{{ data.value }}</span>
           </div>
         </template>
+        <template v-else-if="data.field.key == 'updated_by' && data.value">
+          <div class="user-name-with-image">
+            <span class="text">
+              ({{ data.value.id }}) {{ getFullName(data.value) }}</span
+            >
+          </div>
+        </template>
+        <template
+          v-else-if="
+            data.field.key.toLowerCase().includes('updated_at') ||
+            data.field.key.toLowerCase().includes('created_at')
+          "
+        >
+          {{ getLongDateAndTimeFromDate(data.value, true) }}
+        </template>
         <template v-else>{{ data.value || "N/A" }}</template>
       </template>
     </b-table>
@@ -112,11 +127,14 @@ export default {
         { field: "card", label: "Saudi/Iqama ID Photo" },
       ],
       tablefields: [
-        // { key: "id", label: "id", sortable: true },
+        { key: "id", label: "id", sortable: true },
         { key: "patientName", label: "patientName" },
         { key: "identity_number", label: "identity_number" },
         { key: "phoneNumber", label: "phoneNumber" },
         { key: "status", label: "status" },
+        { key: "created_at", label: "createdAt" },
+        { key: "updated_at", label: "updatedAt" },
+        { key: "updated_by", label: "updatedBy" },
         { key: "action", label: "action" },
       ],
       items: [],

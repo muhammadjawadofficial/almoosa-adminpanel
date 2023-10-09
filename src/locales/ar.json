@@ -611,6 +611,7 @@
     "price": "سعر",
     "createdAt": "أنشئت في",
     "updatedAt": "تم التحديث في",
+    "updatedBy": "تم التحديث بواسطة",
     "serviceName": "اسم الخدمة",
     "serviceDescription": "وصف الخدمة",
     "uploadThumbnail": "تحميل الصورة المصغرة",

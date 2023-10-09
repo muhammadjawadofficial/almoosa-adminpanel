@@ -343,6 +343,40 @@
                 </div>
               </div>
             </div>
+            <div class="profile-info-card" v-if="getSelectedUser.updated_at">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/MRN.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("admin.updatedAt") }}
+                </div>
+                <div class="profile-info-card-detail-value">
+                  {{
+                    translateNumber(
+                      getLongDateAndTimeFromDate(
+                        getSelectedUser.updated_at,
+                        true
+                      )
+                    )
+                  }}
+                </div>
+              </div>
+            </div>
+            <div class="profile-info-card" v-if="getSelectedUser.updated_by">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/MRN.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("admin.updatedBy") }}
+                </div>
+                <div class="profile-info-card-detail-value">
+                  ({{ getSelectedUser.updated_by.id }})
+                  {{ getFullName(getSelectedUser.updated_by) }}
+                </div>
+              </div>
+            </div>
             <div class="profile-info-card">
               <div class="profile-info-card-logo">
                 <img src="../../assets/images/MRN.svg" alt="" />
