@@ -499,12 +499,23 @@ export default {
                 return true;
             }
         },
-        getFullName(user, prepend = "") {
+        getFullName(user, prepend = "", inLang = '') {
             if (!user) {
                 return 'N/A'
             }
+            
+            let forcedLocale = inLang == 'en' ? '' : '_ar';
+            let firstNameKey = 'first_name';
+            let middleNameKey = 'middle_name';
+            let familyNameKey = 'family_name';
+
+            let translatedFirstNameKey = inLang ? firstNameKey + forcedLocale : this.getLocaleKey(firstNameKey);
+            let translatedMiddleNameKey = inLang ? middleNameKey + forcedLocale : this.getLocaleKey(firstNameKey);
+            let translatedFamilyNameKey = inLang ? familyNameKey + forcedLocale : this.getLocaleKey(firstNameKey);
+
             let parseName = (name) => name ? name + " " : "";
-            let fullName = parseName(user[this.getLocaleKey('first_name')]) + parseName(user[this.getLocaleKey('middle_name')]) + parseName(user[this.getLocaleKey('family_name')]);
+            let fullName = parseName(user[translatedFirstNameKey]) + parseName(user[translatedMiddleNameKey]) + parseName(user[translatedFamilyNameKey]);
+            
             if (!fullName) {
                 fullName = parseName(user.first_name) + parseName(user.middle_name) + parseName(user.family_name)
             }

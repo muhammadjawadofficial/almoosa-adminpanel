@@ -597,6 +597,7 @@
     "variation": "Variation",
     "description": "Description",
     "refillRequest": "Refill Request",
+    "createdAt": "Refill Request",
     "requested": "Requested",
     "notRequested": "Not Requested",
     "pending": "Pending",
