@@ -40,7 +40,7 @@
 
       <template #head()="data">{{ $t("admin." + data.label) }} </template>
 
-      <template #cell()="data" class="mb-2">
+      <template #cell()="data">
         <template v-if="data.field.key == 'action'">
           <div class="action-buttons">
             <feather class="pointer" type="edit" @click.stop="editInsurance(data.item)"></feather>
