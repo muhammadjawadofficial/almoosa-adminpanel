@@ -510,8 +510,8 @@ export default {
             let familyNameKey = 'family_name';
 
             let translatedFirstNameKey = inLang ? firstNameKey + forcedLocale : this.getLocaleKey(firstNameKey);
-            let translatedMiddleNameKey = inLang ? middleNameKey + forcedLocale : this.getLocaleKey(firstNameKey);
-            let translatedFamilyNameKey = inLang ? familyNameKey + forcedLocale : this.getLocaleKey(firstNameKey);
+            let translatedMiddleNameKey = inLang ? middleNameKey + forcedLocale : this.getLocaleKey(middleNameKey);
+            let translatedFamilyNameKey = inLang ? familyNameKey + forcedLocale : this.getLocaleKey(familyNameKey);
 
             let parseName = (name) => name ? name + " " : "";
             let fullName = parseName(user[translatedFirstNameKey]) + parseName(user[translatedMiddleNameKey]) + parseName(user[translatedFamilyNameKey]);
