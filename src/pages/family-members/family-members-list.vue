@@ -19,11 +19,11 @@
         ></b-form-input>
       </div>
     </div>
-
     <b-table
       show-empty
       stacked="md"
       borderless
+      responsive
       :items="items"
       :fields="tablefields"
       :current-page="currentPage"
@@ -136,8 +136,8 @@ export default {
         { key: "age", label: "age", sortable: true },
         { key: "phone", label: "phoneNumber", sortable: true },
         { key: "status", label: "status", sortable: true },
-        { key: "created_at", label: "createdAt" },
-        { key: "updated_at", label: "updatedAt" },
+        { key: "created_at", label: "createdAt", sortable: true },
+        { key: "updated_at", label: "updatedAt" , sortable: true},
         { key: "updated_by", label: "updatedBy" },
         { key: "action", label: "action" },
       ],
@@ -214,7 +214,9 @@ export default {
         .then(
           (response) => {
             if (response.data.status) {
+              
               this.parseData(response.data.data.items);
+              
               this.currentPage = 1;
             } else {
               this.failureToast(response.data.message);

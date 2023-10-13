@@ -64,6 +64,7 @@
       show-empty
       stacked="md"
       borderless
+      responsive
       :items="filteredItems"
       :fields="tablefields"
       :current-page="currentPage"
@@ -143,8 +144,8 @@ export default {
         { key: "id", label: "id", sortable: true },
         { key: "company_name", label: "companyName", sortable: true },
         { key: "status", label: "status", sortable: true },
-        { key: "created_at", label: "createdAt" },
-        { key: "updated_at", label: "updatedAt" },
+        { key: "created_at", label: "createdAt", sortable: true },
+        { key: "updated_at", label: "updatedAt", sortable: true },
         { key: "updated_by", label: "updatedBy" },
         { key: "action", label: "action" },
       ],

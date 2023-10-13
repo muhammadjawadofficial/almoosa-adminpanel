@@ -43,9 +43,8 @@
         </div>
       </div>
     </div>
-
-    <b-table show-empty stacked="md" borderless :items="items" :fields="tablefields" :current-page="currentPage"
-      :per-page="5" class="ash-data-table">
+    <b-table show-empty responsive stacked="md" borderless :items="items" :fields="tablefields"
+      :current-page="currentPage" :per-page="5" class="ash-data-table">
       <template #empty>
         <div class="text-center my-2">{{ $t("noRecordToShow") }}</div>
       </template>
@@ -128,17 +127,19 @@ export default {
         {
           key: "created_at",
           label: "createdAt",
-          sortable: true,
+          sortable: true
+
         },
         {
           key: "updated_at",
           label: "updatedAt",
-          sortable: true,
+          sortable: true
+
         },
         {
           key: "updated_by",
           label: "updatedBy",
-          sortable: true,
+
         },
         { key: "action", label: "action" },
       ],
@@ -244,6 +245,7 @@ export default {
       medicationService.getMedicationRefills("?status=" + this.subTab).then(
         (response) => {
           if (response.data.status) {
+            console.log(response.data.data.items)
             this.parseData(response.data.data.items);
             this.currentPage = 1;
             this.totalRows = this.items.length;
