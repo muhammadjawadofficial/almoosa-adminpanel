@@ -5,89 +5,46 @@
         <i class="fa fa-search" aria-hidden="true"></i>
       </div>
       <div class="search-input">
-        <b-form-input
-          :placeholder="$t('admin.searchInsurance')"
-          id="type-search"
-          type="search"
-          v-model="searchQuery"
-          debounce="1000"
-        ></b-form-input>
+        <b-form-input :placeholder="$t('admin.searchInsurance')" id="type-search" type="search" v-model="searchQuery"
+          debounce="1000"></b-form-input>
       </div>
 
-      <vue-excel-xlsx
-        ref="export_to_excel"
-        class="export-button"
-        :data="items"
-        :columns="fields"
-        :file-name="'insurance-request'"
-        :file-type="'xlsx'"
-        :sheet-name="'insurance-request-sheet'"
-      >
+      <vue-excel-xlsx ref="export_to_excel" class="export-button" :data="items" :columns="fields"
+        :file-name="'insurance-request'" :file-type="'xlsx'" :sheet-name="'insurance-request-sheet'">
       </vue-excel-xlsx>
-      <button
-        class="download-icon ml-auto"
-        :class="{ disabled: !items.length }"
-        @click="downloadReport()"
-      >
+      <button class="download-icon ml-auto" :class="{ disabled: !items.length }" @click="downloadReport()">
         <span class="d-sm-block d-none">{{ $t("download") }}</span>
         <i class="fa fa-download" aria-hidden="true"></i>
       </button>
     </div>
     <div class="filter-container">
       <div class="toggle-options mt-0">
-        <div
-          class="toggle-options--single"
-          :class="{ active: activeTab == 'Sent for approval' }"
-          @click="changeTab('Sent for approval')"
-        >
+        <div class="toggle-options--single" :class="{ active: activeTab == 'Sent for approval' }"
+          @click="changeTab('Sent for approval')">
           {{ $t("admin.pending") }}
         </div>
-        <div
-          class="toggle-options--single"
-          :class="{ active: activeTab == 'approved' }"
-          @click="changeTab('approved')"
-        >
+        <div class="toggle-options--single" :class="{ active: activeTab == 'approved' }" @click="changeTab('approved')">
           {{ $t("admin.approved") }}
         </div>
-        <div
-          class="toggle-options--single"
-          :class="{ active: activeTab == 'rejected' }"
-          @click="changeTab('rejected')"
-        >
+        <div class="toggle-options--single" :class="{ active: activeTab == 'rejected' }" @click="changeTab('rejected')">
           {{ $t("admin.rejected") }}
         </div>
       </div>
     </div>
 
-    <b-table
-      show-empty
-      stacked="md"
-      borderless
-      :items="filteredItems"
-      :fields="tablefields"
-      :current-page="currentPage"
-      :per-page="5"
-      class="ash-data-table"
-    >
+    <b-table show-empty stacked="md" borderless responsive :items="filteredItems" :fields="tablefields"
+      :current-page="currentPage" :per-page="5" class="ash-data-table">
       <template #empty>
         <div class="text-center my-2">{{ $t("noRecordToShow") }}</div>
       </template>
 
       <template #head()="data">{{ $t("admin." + data.label) }} </template>
 
-      <template #cell()="data">
+      <template #cell()="data" class="mb-2">
         <template v-if="data.field.key == 'action'">
           <div class="action-buttons">
-            <feather
-              class="pointer"
-              type="edit"
-              @click.stop="editInsurance(data.item)"
-            ></feather>
-            <feather
-              class="pointer"
-              type="trash"
-              @click.stop="deleteInsurance(data.item)"
-            ></feather>
+            <feather class="pointer" type="edit" @click.stop="editInsurance(data.item)"></feather>
+            <feather class="pointer" type="trash" @click.stop="deleteInsurance(data.item)"></feather>
           </div>
         </template>
         <template v-else-if="data.field.key == 'thumbnail'">
@@ -103,16 +60,22 @@
         <template v-else-if="data.field.key == 'status'">
           {{ $t("admin." + data.value.toLowerCase()) }}
         </template>
-        <template v-else>{{ data.value }}</template>
+        <template v-else-if="data.field.key == 'updated_by' && data.value">
+          <div class="user-name-with-image">
+            <span class="text">
+              ({{ data.value.id }}) {{ getFullName(data.value,) }}</span>
+          </div>
+        </template>
+        <template v-else-if="data.field.key.toLowerCase().includes('updated_at') ||
+          data.field.key.toLowerCase().includes('created_at')
+          ">
+          {{ getLongDateAndTimeFromDate(data.value, true) }}
+        </template>
+        <template v-else>{{ data.value || "N/A" }}</template>
       </template>
     </b-table>
-    <b-pagination
-      v-model="currentPage"
-      :total-rows="totalRows"
-      :per-page="getPerPageSelection"
-      class="my-0 justify-content-end"
-      v-if="getPerPageSelection"
-    ></b-pagination>
+    <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="getPerPageSelection"
+      class="my-0 justify-content-end" v-if="getPerPageSelection"></b-pagination>
     <b-pagination v-else class="my-0"> </b-pagination>
   </div>
 </template>
@@ -139,12 +102,18 @@ export default {
         { field: "family_name_ar", label: "Patient Family Name Ar" },
         { field: "card_link", label: "Insurance Card Photo" },
         { field: "status", label: "Status" },
+        { field: "created_at_formatted", label: "Created At" },
+        { field: "updated_at_formatted", label: "Updated At" },
+        { field: "updated_by_user", label: "Updated By" },
       ],
       tablefields: [
         { key: "id", label: "id", sortable: true },
         { key: "company_name", label: "companyName", sortable: true },
         { key: "patient.mrn_number", label: "mrn", sortable: true },
         { key: "status", label: "status", sortable: true },
+        { key: "created_at", label: "createdAt",sortable: true },
+        { key: "updated_at", label: "updatedAt",sortable: true },
+        { key: "updated_by", label: "updatedBy" },
       ],
       items: [],
       filteredItems: [],
@@ -202,8 +171,8 @@ export default {
               if (!this.isAPIAborted(error))
                 this.failureToast(
                   error.response &&
-                    error.response.data &&
-                    error.response.data.message
+                  error.response.data &&
+                  error.response.data.message
                 );
             }
           );
@@ -214,6 +183,7 @@ export default {
       this.items = [];
       data.forEach((x) => {
         this.items.push({
+          ...x,
           id: x.id,
           mrn_number: (x.patient && x.patient.mrn_number) || "",
           first_name: (x.patient && x.patient.first_name) || "",
@@ -225,7 +195,9 @@ export default {
           card_link: x.insurance_card_id
             ? this.getImageUrl(x.insurance_card)
             : "",
-          ...x,
+          created_at_formatted: this.getLongDateAndTimeFromDate(x.created_at),
+          updated_at_formatted: this.getLongDateAndTimeFromDate(x.updated_at),
+          updated_by_user: x.updated_by ? `(${x.updated_by.id}) ${this.getFullName(x.updated_by, '', 'en')}` : "",
         });
       });
       this.filteredItems = this.items;
@@ -245,8 +217,8 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-                error.response.data &&
-                error.response.data.message
+              error.response.data &&
+              error.response.data.message
             );
         }
       );

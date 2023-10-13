@@ -1903,7 +1903,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     display: flex;
     border-radius: 50vw;
     width: fit-content;
-    margin-block: 2rem;
+    margin-block: 1rem;
     background-color: $tertiary-color;
     & &--single {
         padding: 0.6rem;
@@ -2098,6 +2098,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    overflow: auto;
+    margin-block: 1rem;
+
 }
 .filters-dropdown {
     cursor: pointer;
@@ -2259,6 +2262,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         tr {
             position: relative;
             isolation: isolate;
+            margin-bottom: 1rem !important;
             &::after,
             &::before {
                 content: "";

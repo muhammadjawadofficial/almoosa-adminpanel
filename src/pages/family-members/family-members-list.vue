@@ -19,11 +19,11 @@
         ></b-form-input>
       </div>
     </div>
-
     <b-table
       show-empty
       stacked="md"
       borderless
+      responsive
       :items="items"
       :fields="tablefields"
       :current-page="currentPage"
@@ -88,7 +88,18 @@
         <template v-else-if="data.field.key == 'age' && data.value">
           {{ translateNumber(data.value) + " " + $t("years") }}
         </template>
-        <template v-else>{{ translateNumber(data.value) }}</template>
+        <template v-else-if="data.field.key == 'updated_by' && data.value">
+          <div class="user-name-with-image">
+            <span class="text">
+              ({{ data.value.id }}) {{ getFullName(data.value,) }}</span>
+          </div>
+        </template>
+        <template v-else-if="data.field.key.toLowerCase().includes('updated_at') ||
+          data.field.key.toLowerCase().includes('created_at')
+          ">
+          {{ getLongDateAndTimeFromDate(data.value, true) }}
+        </template>
+        <template v-else>{{ data.value || "N/A" }}</template>
       </template>
     </b-table>
     <b-pagination
@@ -125,6 +136,9 @@ export default {
         { key: "age", label: "age", sortable: true },
         { key: "phone", label: "phoneNumber", sortable: true },
         { key: "status", label: "status", sortable: true },
+        { key: "created_at", label: "createdAt", sortable: true },
+        { key: "updated_at", label: "updatedAt" , sortable: true},
+        { key: "updated_by", label: "updatedBy" },
         { key: "action", label: "action" },
       ],
       items: [],
@@ -200,7 +214,9 @@ export default {
         .then(
           (response) => {
             if (response.data.status) {
+              
               this.parseData(response.data.data.items);
+              
               this.currentPage = 1;
             } else {
               this.failureToast(response.data.message);

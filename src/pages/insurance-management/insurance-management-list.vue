@@ -64,6 +64,7 @@
       show-empty
       stacked="md"
       borderless
+      responsive
       :items="filteredItems"
       :fields="tablefields"
       :current-page="currentPage"
@@ -104,7 +105,18 @@
         <template v-else-if="data.field.key == 'status'">
           {{ $t("admin." + data.value.toLowerCase()) }}
         </template>
-        <template v-else>{{ data.value }}</template>
+        <template v-else-if="data.field.key == 'updated_by' && data.value">
+          <div class="user-name-with-image">
+            <span class="text">
+              ({{ data.value.id }}) {{ getFullName(data.value,) }}</span>
+          </div>
+        </template>
+        <template v-else-if="data.field.key.toLowerCase().includes('updated_at') ||
+          data.field.key.toLowerCase().includes('created_at')
+          ">
+          {{ getLongDateAndTimeFromDate(data.value, true) }}
+        </template>
+        <template v-else>{{ data.value || "N/A" }}</template>
       </template>
     </b-table>
     <b-pagination
@@ -132,6 +144,9 @@ export default {
         { key: "id", label: "id", sortable: true },
         { key: "company_name", label: "companyName", sortable: true },
         { key: "status", label: "status", sortable: true },
+        { key: "created_at", label: "createdAt", sortable: true },
+        { key: "updated_at", label: "updatedAt", sortable: true },
+        { key: "updated_by", label: "updatedBy" },
         { key: "action", label: "action" },
       ],
       fields: [
@@ -146,6 +161,9 @@ export default {
         { field: "patient_family_name_ar", label: "Patient Family Name Ar" },
         { field: "card_link", label: "Insurance Card Photo" },
         { field: "status", label: "Status" },
+        { field: "created_at_formatted", label: "Created At" },
+        { field: "updated_at_formatted", label: "Updated At" },
+        { field: "updated_by_user", label: "Updated By" },
       ],
       items: [],
       filteredItems: [],
@@ -215,6 +233,7 @@ export default {
       this.items = [];
       data.forEach((x) => {
         this.items.push({
+          ...x,
           id: x.id,
           card_link: x.insurance_card_id
             ? this.getImageUrl(x.insurance_card)
@@ -226,7 +245,9 @@ export default {
           patient_middle_name_ar: (x.patient && x.patient.middle_name_ar) || "",
           patient_family_name: (x.patient && x.patient.family_name) || "",
           patient_family_name_ar: (x.patient && x.patient.family_name_ar) || "",
-          ...x,
+          created_at_formatted: this.getLongDateAndTimeFromDate(x.created_at),
+          updated_at_formatted: this.getLongDateAndTimeFromDate(x.updated_at),
+          updated_by_user: x.updated_by ? `(${x.updated_by.id}) ${this.getFullName(x.updated_by, '', 'en')}` : "",
         });
       });
       this.filteredItems = this.items;

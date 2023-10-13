@@ -33,11 +33,13 @@
         <i class="fa fa-download" aria-hidden="true"></i>
       </button>
     </div>
+    
     <b-table
       class="ash-data-table"
       show-empty
       stacked="md"
       borderless
+      responsive
       :items="filteredItems"
       :fields="tablefields"
       :current-page="currentPage"
@@ -76,9 +78,21 @@
             <span class="text">{{ data.value }}</span>
           </div>
         </template>
+        <template v-else-if="data.field.key == 'updated_by' && data.value">
+          <div class="user-name-with-image">
+            <span class="text">
+              ({{ data.value.id }}) {{ getFullName(data.value,) }}</span>
+          </div>
+        </template>
+        <template v-else-if="data.field.key.toLowerCase().includes('updated_at') ||
+          data.field.key.toLowerCase().includes('created_at')
+          ">
+          {{ getLongDateAndTimeFromDate(data.value, true) }}
+        </template>
         <template v-else>{{ data.value || "N/A" }}</template>
       </template>
     </b-table>
+  
     <b-pagination
       v-model="currentPage"
       :total-rows="totalRows"
@@ -123,6 +137,9 @@ export default {
         { field: "patientNationality", label: "Nationality" },
         { field: "patientNationalityAr", label: "Nationality Ar" },
         { field: "card", label: "Saudi/Iqama ID Photo" },
+        { field: "created_at_formatted", label: "Created At" },
+        { field: "updated_at_formatted", label: "Updated At" },
+        { field: "updated_by_user", label: "Updated By" },
       ],
       tablefields: [
         // { key: "id", label: "id", sortable: true },
@@ -130,6 +147,9 @@ export default {
         { key: "identity_number", label: "identity_number" },
         { key: "phoneNumber", label: "phoneNumber" },
         { key: "nationality", label: "nationality" },
+        { key: "created_at", label: "createdAt" },
+        { key: "updated_at", label: "updatedAt" },
+        { key: "updated_by", label: "updatedBy" },
       ],
       items: [],
       filteredItems: [],
@@ -220,6 +240,9 @@ export default {
           patientNationalityAr: x.nationality
             ? x.nationality.nationality_ar
             : "",
+            created_at_formatted: this.getLongDateAndTimeFromDate(x.created_at),
+          updated_at_formatted: this.getLongDateAndTimeFromDate(x.updated_at),
+          updated_by_user: x.updated_by ? `(${x.updated_by.id}) ${this.getFullName(x.updated_by, '', 'en')}` : "",
         });
       });
       if (this.searchQuery) {
