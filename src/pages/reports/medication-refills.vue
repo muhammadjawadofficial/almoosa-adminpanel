@@ -117,17 +117,21 @@
           {{ data.item[getLocaleKey(data.field.key)] }}
         </template>
         <template v-else-if="data.field.key == 'updated_by' && data.value">
-            <div class="user-name-with-image">
-              <span class="text">
-                ({{ data.value.id }}) {{ getFullName(data.value,) }}</span>
-            </div>
-          </template>
-          <template v-else-if="data.field.key.toLowerCase().includes('updated_at') ||
+          <div class="user-name-with-image">
+            <span class="text">
+              ({{ data.value.id }}) {{ getFullName(data.value) }}</span
+            >
+          </div>
+        </template>
+        <template
+          v-else-if="
+            data.field.key.toLowerCase().includes('updated_at') ||
             data.field.key.toLowerCase().includes('created_at')
-            ">
-            {{ getLongDateAndTimeFromDate(data.value, true) }}
-          </template>
-          <template v-else>{{ data.value || "N/A" }}</template>
+          "
+        >
+          {{ getLongDateAndTimeFromDate(data.value, true) }}
+        </template>
+        <template v-else>{{ data.value || "N/A" }}</template>
       </template>
     </b-table>
     <b-pagination
@@ -285,9 +289,17 @@ export default {
           medicationRefillRequested: x.status,
           speciality: x.clinic ? x.clinic.title : "",
           speciality_ar: x.clinic ? x.clinic.title_ar : "",
-          created_at_formatted: this.getLongDateAndTimeFromDate(x.created_at),
-          updated_at_formatted: this.getLongDateAndTimeFromDate(x.updated_at),
-          updated_by_user: x.updated_by ? `(${x.updated_by.id}) ${this.getFullName(x.updated_by, '', 'en')}` : "",
+          created_at_formatted: this.getLongDateAndTimeFromDate(
+            x.created_at,
+            true
+          ),
+          updated_at_formatted: this.getLongDateAndTimeFromDate(
+            x.updated_at,
+            true
+          ),
+          updated_by_user: x.updated_by
+            ? `(${x.updated_by.id}) ${this.getFullName(x.updated_by, "", "en")}`
+            : "",
         });
       });
       this.totalItems = [...this.items];

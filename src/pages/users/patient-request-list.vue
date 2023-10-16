@@ -1,19 +1,40 @@
 <template>
   <div class="standard-width">
     <div class="filter-container">
-      <vue-excel-xlsx ref="export_to_excel" class="export-button" :data="filteredItems" :columns="fields"
-        :file-name="'new-patient-request'" :file-type="'xlsx'" :sheet-name="'new-patient-request-sheet'">
+      <vue-excel-xlsx
+        ref="export_to_excel"
+        class="export-button"
+        :data="filteredItems"
+        :columns="fields"
+        :file-name="'new-patient-request'"
+        :file-type="'xlsx'"
+        :sheet-name="'new-patient-request-sheet'"
+      >
       </vue-excel-xlsx>
-      <button v-if="getUserPermissions.includes(constants.REPORTS_MANAGEMENT)"
-        class="download-icon download-patient-request-list-button ml-auto" :class="{ disabled: !items.length }"
-        @click="downloadReport()">
+      <button
+        v-if="getUserPermissions.includes(constants.REPORTS_MANAGEMENT)"
+        class="download-icon download-patient-request-list-button ml-auto"
+        :class="{ disabled: !items.length }"
+        @click="downloadReport()"
+      >
         <span class="d-sm-block d-none">{{ $t("download") }}</span>
         <i class="fa fa-download" aria-hidden="true"></i>
       </button>
     </div>
-    <b-table class="ash-data-table clickable" show-empty stacked="md" borderless :items="filteredItems"
-      :fields="tablefields" :current-page="currentPage" :per-page="5" :sort-by="sortBy" :sort-desc="sortDesc"
-      @row-clicked="rowClicked" @sort-changed="sortUsers">
+    <b-table
+      class="ash-data-table clickable"
+      show-empty
+      stacked="md"
+      borderless
+      :items="filteredItems"
+      :fields="tablefields"
+      :current-page="currentPage"
+      :per-page="5"
+      :sort-by="sortBy"
+      :sort-desc="sortDesc"
+      @row-clicked="rowClicked"
+      @sort-changed="sortUsers"
+    >
       <template #empty>
         <div class="text-center my-2">{{ $t("noRecordToShow") }}</div>
       </template>
@@ -26,7 +47,11 @@
         </template>
         <template v-else-if="data.field.key == 'action'">
           <div class="action-buttons">
-            <feather @click.stop="deleteUser(data.item)" class="pointer" type="trash"></feather>
+            <feather
+              @click.stop="deleteUser(data.item)"
+              class="pointer"
+              type="trash"
+            ></feather>
           </div>
         </template>
         <template v-else-if="data.field.key == 'patientName'">
@@ -40,19 +65,28 @@
         <template v-else-if="data.field.key == 'updated_by' && data.value">
           <div class="user-name-with-image">
             <span class="text">
-              ({{ data.value.id }}) {{ getFullName(data.value,) }}</span>
+              ({{ data.value.id }}) {{ getFullName(data.value) }}</span
+            >
           </div>
         </template>
-        <template v-else-if="data.field.key.toLowerCase().includes('updated_at') ||
-          data.field.key.toLowerCase().includes('created_at')
-          ">
+        <template
+          v-else-if="
+            data.field.key.toLowerCase().includes('updated_at') ||
+            data.field.key.toLowerCase().includes('created_at')
+          "
+        >
           {{ getLongDateAndTimeFromDate(data.value, true) }}
         </template>
         <template v-else>{{ data.value || "N/A" }}</template>
       </template>
     </b-table>
-    <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="getPerPageSelection"
-      class="my-0 justify-content-end" v-if="getPerPageSelection"></b-pagination>
+    <b-pagination
+      v-model="currentPage"
+      :total-rows="totalRows"
+      :per-page="getPerPageSelection"
+      class="my-0 justify-content-end"
+      v-if="getPerPageSelection"
+    ></b-pagination>
     <b-pagination v-else class="my-0"> </b-pagination>
   </div>
 </template>
@@ -162,8 +196,8 @@ export default {
               if (!this.isAPIAborted(error))
                 this.failureToast(
                   error.response &&
-                  error.response.data &&
-                  error.response.data.message
+                    error.response.data &&
+                    error.response.data.message
                 );
             }
           );
@@ -196,9 +230,17 @@ export default {
           patientNationalityAr: x.nationality
             ? x.nationality.nationality_ar
             : "",
-          created_at_formatted: this.getLongDateAndTimeFromDate(x.created_at),
-          updated_at_formatted: this.getLongDateAndTimeFromDate(x.updated_at),
-          updated_by_user: x.updated_by ? `(${x.updated_by.id}) ${this.getFullName(x.updated_by, '', 'en')}` : "",
+          created_at_formatted: this.getLongDateAndTimeFromDate(
+            x.created_at,
+            true
+          ),
+          updated_at_formatted: this.getLongDateAndTimeFromDate(
+            x.updated_at,
+            true
+          ),
+          updated_by_user: x.updated_by
+            ? `(${x.updated_by.id}) ${this.getFullName(x.updated_by, "", "en")}`
+            : "",
         });
       });
       if (this.searchQuery) {
@@ -223,7 +265,6 @@ export default {
         this.currentPage = totalPage;
       }
     },
-
 
     sortUsers(filter) {
       this.sortDesc = filter.sortDesc;
@@ -253,8 +294,8 @@ export default {
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
-                error.response.data &&
-                error.response.data.message
+                  error.response.data &&
+                  error.response.data.message
               );
           }
         );

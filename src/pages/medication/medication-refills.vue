@@ -5,46 +5,89 @@
         <i class="fa fa-search" aria-hidden="true"></i>
       </div>
       <div class="search-input">
-        <b-form-input :placeholder="$t('admin.searchByMrn')" id="type-search" type="search" v-model="searchQuery"
-          debounce="1000"></b-form-input>
+        <b-form-input
+          :placeholder="$t('admin.searchByMrn')"
+          id="type-search"
+          type="search"
+          v-model="searchQuery"
+          debounce="1000"
+        ></b-form-input>
       </div>
 
-      <vue-excel-xlsx ref="export_to_excel" class="export-button" :data="totalItems" :columns="fields"
-        :file-name="'medication-refills'" :file-type="'xlsx'" :sheet-name="'medication-refills-sheet'">
+      <vue-excel-xlsx
+        ref="export_to_excel"
+        class="export-button"
+        :data="totalItems"
+        :columns="fields"
+        :file-name="'medication-refills'"
+        :file-type="'xlsx'"
+        :sheet-name="'medication-refills-sheet'"
+      >
       </vue-excel-xlsx>
-      <button v-if="getUserPermissions.includes(constants.REPORTS_MANAGEMENT)" class="download-icon ml-auto"
-        :class="{ disabled: !totalItems.length }" @click="downloadReport()">
+      <button
+        v-if="getUserPermissions.includes(constants.REPORTS_MANAGEMENT)"
+        class="download-icon ml-auto"
+        :class="{ disabled: !totalItems.length }"
+        @click="downloadReport()"
+      >
         <span class="d-sm-block d-none">{{ $t("download") }}</span>
         <i class="fa fa-download" aria-hidden="true"></i>
       </button>
     </div>
     <div class="filter-container">
       <div class="toggle-options">
-        <div class="toggle-options--single" :class="{ active: activeTab == 'refillRequest' }"
-          @click="changeTab('refillRequest')">
+        <div
+          class="toggle-options--single"
+          :class="{ active: activeTab == 'refillRequest' }"
+          @click="changeTab('refillRequest')"
+        >
           {{ $t("admin.refillRequest") }}
         </div>
-        <div class="toggle-options--single" :class="{ active: activeTab == 'deliveryRequest' }"
-          @click="changeTab('deliveryRequest')">
+        <div
+          class="toggle-options--single"
+          :class="{ active: activeTab == 'deliveryRequest' }"
+          @click="changeTab('deliveryRequest')"
+        >
           {{ $t("admin.deliveryRequest") }}
         </div>
       </div>
     </div>
     <div class="filters-container">
       <div class="toggle-options mt-0">
-        <div class="toggle-options--single" :class="{ active: subTab == 'pending' }" @click="changeSubTab('pending')">
+        <div
+          class="toggle-options--single"
+          :class="{ active: subTab == 'pending' }"
+          @click="changeSubTab('pending')"
+        >
           {{ $t("admin.pending") }}
         </div>
-        <div class="toggle-options--single" :class="{ active: subTab == 'approved' }" @click="changeSubTab('approved')">
+        <div
+          class="toggle-options--single"
+          :class="{ active: subTab == 'approved' }"
+          @click="changeSubTab('approved')"
+        >
           {{ $t("admin.approved") }}
         </div>
-        <div class="toggle-options--single" :class="{ active: subTab == 'rejected' }" @click="changeSubTab('rejected')">
+        <div
+          class="toggle-options--single"
+          :class="{ active: subTab == 'rejected' }"
+          @click="changeSubTab('rejected')"
+        >
           {{ $t("admin.rejected") }}
         </div>
       </div>
     </div>
-    <b-table show-empty responsive stacked="md" borderless :items="items" :fields="tablefields"
-      :current-page="currentPage" :per-page="5" class="ash-data-table">
+    <b-table
+      show-empty
+      responsive
+      stacked="md"
+      borderless
+      :items="items"
+      :fields="tablefields"
+      :current-page="currentPage"
+      :per-page="5"
+      class="ash-data-table"
+    >
       <template #empty>
         <div class="text-center my-2">{{ $t("noRecordToShow") }}</div>
       </template>
@@ -57,8 +100,16 @@
         </template>
         <template v-else-if="data.field.key == 'action'">
           <div class="action-buttons">
-            <feather class="pointer" type="edit" @click.stop="rowClicked(data.item)"></feather>
-            <feather class="pointer" type="trash" @click.stop="deleteMedicationRefill(data.item)"></feather>
+            <feather
+              class="pointer"
+              type="edit"
+              @click.stop="rowClicked(data.item)"
+            ></feather>
+            <feather
+              class="pointer"
+              type="trash"
+              @click.stop="deleteMedicationRefill(data.item)"
+            ></feather>
           </div>
         </template>
         <template v-else-if="data.field.translate && data.value">
@@ -68,19 +119,28 @@
         <template v-else-if="data.field.key == 'updated_by' && data.value">
           <div class="user-name-with-image">
             <span class="text">
-              ({{ data.value.id }}) {{ getFullName(data.value,) }}</span>
+              ({{ data.value.id }}) {{ getFullName(data.value) }}</span
+            >
           </div>
         </template>
-        <template v-else-if="data.field.key.toLowerCase().includes('updated_at') ||
-          data.field.key.toLowerCase().includes('created_at')
-          ">
+        <template
+          v-else-if="
+            data.field.key.toLowerCase().includes('updated_at') ||
+            data.field.key.toLowerCase().includes('created_at')
+          "
+        >
           {{ getLongDateAndTimeFromDate(data.value, true) }}
         </template>
         <template v-else>{{ data.value || "N/A" }}</template>
       </template>
     </b-table>
-    <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="getPerPageSelection"
-      class="my-0 justify-content-end" v-if="getPerPageSelection"></b-pagination>
+    <b-pagination
+      v-model="currentPage"
+      :total-rows="totalRows"
+      :per-page="getPerPageSelection"
+      class="my-0 justify-content-end"
+      v-if="getPerPageSelection"
+    ></b-pagination>
     <b-pagination v-else class="my-0"> </b-pagination>
   </div>
 </template>
@@ -127,19 +187,16 @@ export default {
         {
           key: "created_at",
           label: "createdAt",
-          sortable: true
-
+          sortable: true,
         },
         {
           key: "updated_at",
           label: "updatedAt",
-          sortable: true
-
+          sortable: true,
         },
         {
           key: "updated_by",
           label: "updatedBy",
-
         },
         { key: "action", label: "action" },
       ],
@@ -233,9 +290,17 @@ export default {
           medicationRefillRequested: x.status,
           speciality: x.clinic ? x.clinic.title : "",
           speciality_ar: x.clinic ? x.clinic.title_ar : "",
-          created_at_formatted: this.getLongDateAndTimeFromDate(x.created_at),
-          updated_at_formatted: this.getLongDateAndTimeFromDate(x.updated_at),
-          updated_by_user: x.updated_by ? `(${x.updated_by.id}) ${this.getFullName(x.updated_by, '', 'en')}` : "",
+          created_at_formatted: this.getLongDateAndTimeFromDate(
+            x.created_at,
+            true
+          ),
+          updated_at_formatted: this.getLongDateAndTimeFromDate(
+            x.updated_at,
+            true
+          ),
+          updated_by_user: x.updated_by
+            ? `(${x.updated_by.id}) ${this.getFullName(x.updated_by, "", "en")}`
+            : "",
         });
       });
       this.totalItems = [...this.items];
@@ -245,7 +310,7 @@ export default {
       medicationService.getMedicationRefills("?status=" + this.subTab).then(
         (response) => {
           if (response.data.status) {
-            console.log(response.data.data.items)
+            console.log(response.data.data.items);
             this.parseData(response.data.data.items);
             this.currentPage = 1;
             this.totalRows = this.items.length;
@@ -259,8 +324,8 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-              error.response.data &&
-              error.response.data.message
+                error.response.data &&
+                error.response.data.message
             );
         }
       );
@@ -293,8 +358,8 @@ export default {
               if (!this.isAPIAborted(error))
                 this.failureToast(
                   error.response &&
-                  error.response.data &&
-                  error.response.data.message
+                    error.response.data &&
+                    error.response.data.message
                 );
             }
           );

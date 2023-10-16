@@ -108,12 +108,16 @@
         <template v-else-if="data.field.key == 'updated_by' && data.value">
           <div class="user-name-with-image">
             <span class="text">
-              ({{ data.value.id }}) {{ getFullName(data.value,) }}</span>
+              ({{ data.value.id }}) {{ getFullName(data.value) }}</span
+            >
           </div>
         </template>
-        <template v-else-if="data.field.key.toLowerCase().includes('updated_at') ||
-          data.field.key.toLowerCase().includes('created_at')
-          ">
+        <template
+          v-else-if="
+            data.field.key.toLowerCase().includes('updated_at') ||
+            data.field.key.toLowerCase().includes('created_at')
+          "
+        >
           {{ getLongDateAndTimeFromDate(data.value, true) }}
         </template>
         <template v-else>{{ data.value || "N/A" }}</template>
@@ -245,9 +249,17 @@ export default {
           patient_middle_name_ar: (x.patient && x.patient.middle_name_ar) || "",
           patient_family_name: (x.patient && x.patient.family_name) || "",
           patient_family_name_ar: (x.patient && x.patient.family_name_ar) || "",
-          created_at_formatted: this.getLongDateAndTimeFromDate(x.created_at),
-          updated_at_formatted: this.getLongDateAndTimeFromDate(x.updated_at),
-          updated_by_user: x.updated_by ? `(${x.updated_by.id}) ${this.getFullName(x.updated_by, '', 'en')}` : "",
+          created_at_formatted: this.getLongDateAndTimeFromDate(
+            x.created_at,
+            true
+          ),
+          updated_at_formatted: this.getLongDateAndTimeFromDate(
+            x.updated_at,
+            true
+          ),
+          updated_by_user: x.updated_by
+            ? `(${x.updated_by.id}) ${this.getFullName(x.updated_by, "", "en")}`
+            : "",
         });
       });
       this.filteredItems = this.items;
