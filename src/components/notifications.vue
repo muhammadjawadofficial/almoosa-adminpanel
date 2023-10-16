@@ -177,9 +177,10 @@ export default {
         return;
       }
       notification = JSON.parse(notification);
+      let currentDateTime = this.getDateTimeWithoutTimezone();
       this.notifications.unshift({
         ...notification,
-        created_at: new Date(),
+        created_at: currentDateTime,
       });
       this.unread++;
     });

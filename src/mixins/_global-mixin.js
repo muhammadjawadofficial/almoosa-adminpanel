@@ -399,6 +399,12 @@ export default {
             }
             return this.moment(dateString, dateFormat).toDate();
         },
+        getDateTimeWithoutTimezone() {
+            let format = "YYYY-MM-DDTHH:mm:ss";
+            let utcTimezone = ".000Z";
+            let date = this.moment().format(format) + utcTimezone;
+            return date;
+        },
         dateFormatter(date, format = 'MMMM Do YYYY, h:mm A', utc = false, locale = null) {
             if (locale) {
                 if (utc) {
@@ -503,7 +509,7 @@ export default {
             if (!user) {
                 return 'N/A'
             }
-            
+
             let forcedLocale = inLang == 'en' ? '' : '_ar';
             let firstNameKey = 'first_name';
             let middleNameKey = 'middle_name';
@@ -515,7 +521,7 @@ export default {
 
             let parseName = (name) => name ? name + " " : "";
             let fullName = parseName(user[translatedFirstNameKey]) + parseName(user[translatedMiddleNameKey]) + parseName(user[translatedFamilyNameKey]);
-            
+
             if (!fullName) {
                 fullName = parseName(user.first_name) + parseName(user.middle_name) + parseName(user.family_name)
             }
