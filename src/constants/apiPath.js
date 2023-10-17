@@ -159,5 +159,10 @@ export const apiPath = {
         save: getApiObject("post", "banner"),
         update: (id) => getApiObject("patch", "banner/" + id),
         delete: (id) => getApiObject("delete", "banner/" + id),
+    },
+    
+    noticationsManagement: {
+        fetchAll: () => getApiObject("get", "notification-msg"),
+        update: (id) => getApiObject("patch", "notification-msg/" + id),
     }
 };

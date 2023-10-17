@@ -376,6 +376,25 @@
                     "path": "/reports/medication-refills"
                 }
             ]
+        },
+        {
+            "title": "Notifications",
+            "title_ar": "إشعارات",
+            "type": "sub",
+            "icon": "bell-fill-svg",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "permission": "Notification Management",
+            "children": [
+                {
+                    "title": "Messages",
+                    "title_ar": "قائمة",
+                    "type": "link",
+                    "path": "/notifications/list"
+                }
+            ]
         }
     ]
 }

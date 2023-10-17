@@ -106,6 +106,8 @@ const InsuranceRequest = () => import('../pages/reports/insurance-request')
 const PhysicianReport = () => import('../pages/reports/physician-list')
 const MedicationRefills = () => import('../pages/reports/medication-refills')
 const seeAllNotifications = () => import('../pages/see-all-notifications')
+const notificationsLists = () => import('../pages/notifications/notifications-management-list')
+const notificationsDetail = () => import('../pages/notifications/notifications-management-details')
 
 import { userService } from '../services';
 
@@ -890,6 +892,31 @@ const routes = [
               title: 'Medication Refills | Almoosa Specialist Hospital',
             },
           },
+        ]
+      },
+       // notificationsLists
+      {
+        path: 'notifications',
+        component: RouterViewModule,
+        children: [
+          { path: '', name: "Notifications", redirect: { name: 'Notifications List' } },
+          {
+            path: "list",
+            name: 'Notifications List',
+            component: notificationsLists,
+            meta: {
+              title: 'Notifications List | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "list/update",
+            name: 'Notification Update',
+            component: notificationsDetail,
+            meta: {
+              title: 'Notification Update | Almoosa Specialist Hospital',
+            },
+          },
+          
         ]
       },
       {
