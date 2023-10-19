@@ -178,6 +178,7 @@ export default {
       this.sortBy = filter.sortBy;
       this.fetchUsers();
     },
+    
     parseData(data) {
       this.items = [];
       data.forEach((x) => {
@@ -190,6 +191,7 @@ export default {
       });
       this.totalItems = [...this.items];
     },
+
     fetchUsers(pageNumber = 1) {
       this.items = [];
       let query = "?query=" + this.searchQuery;

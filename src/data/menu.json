@@ -393,6 +393,12 @@
                     "title_ar": "قائمة",
                     "type": "link",
                     "path": "/notifications/list"
+                },
+                {
+                    "title": "Nottifications Details",
+                    "title_ar": "تفاصيل الإخطارات",
+                    "type": "link",
+                    "path": "/notifications/users-details"
                 }
             ]
         }

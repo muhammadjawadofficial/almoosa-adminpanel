@@ -48,13 +48,13 @@
           <template v-else-if="data.field.key == 'updated_by' && data.value">
           <div class="user-name-with-image">
             <span class="text">
-              ({{ data.value.id }}) {{ getFullName(data.value,) }}</span>
+              ({{ data.value.id }}) {{ getFullName(data.value,true) }}</span>
           </div>
         </template>
         <template v-else-if="data.field.key.toLowerCase().includes('updated_at') ||
           data.field.key.toLowerCase().includes('created_at')
           ">
-          {{ getLongDateAndTimeFromDate(data.value, true) }}
+          {{data.value && getLongDateAndTimeFromDate(data.value,true) || "N/A" }}
         </template>
           <template v-else>{{ data.value || "N/A" }}</template>
         </template>

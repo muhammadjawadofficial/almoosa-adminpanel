@@ -163,6 +163,7 @@ export const apiPath = {
     
     noticationsManagement: {
         fetchAll: () => getApiObject("get", "notification-msg"),
+        fetchAllUsersNotifications: (query) => getApiObject("get", "notifications" + query),
         update: (id) => getApiObject("patch", "notification-msg/" + id),
     }
 };

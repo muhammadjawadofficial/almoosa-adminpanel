@@ -108,6 +108,7 @@ const MedicationRefills = () => import('../pages/reports/medication-refills')
 const seeAllNotifications = () => import('../pages/see-all-notifications')
 const notificationsLists = () => import('../pages/notifications/notifications-management-list')
 const notificationsDetail = () => import('../pages/notifications/notifications-management-details')
+const notificationsUsersDetail = () => import('../pages/notifications/notifications-users')
 
 import { userService } from '../services';
 
@@ -914,6 +915,14 @@ const routes = [
             component: notificationsDetail,
             meta: {
               title: 'Notification Update | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "users-details",
+            name: 'Notifications Users',
+            component: notificationsUsersDetail,
+            meta: {
+              title: 'Notifications Users Details | Almoosa Specialist Hospital',
             },
           },
           
