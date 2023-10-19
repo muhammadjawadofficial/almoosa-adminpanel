@@ -1130,7 +1130,6 @@ export default {
             this.getProfileData();
           });
       } else {
-        console.log("running");
         Promise.all([familyMemberService.fetchFamilyMemberRelations()])
           .then((res) => {
             let relations = res[0];
@@ -1305,11 +1304,16 @@ export default {
         this.userStatus != "" &&
         !!this.userStatus &&
         this.userStatusOptions.includes(this.userStatus);
-      this.documentIdState = this.documentId != null;
+
+      let isUnderAge =
+        this.getSelectedFamilyMember.dob &&
+        this.getYears(this.getSelectedFamilyMember.dob) < 18;
+      if (isUnderAge) this.documentIdState = null;
+      else this.documentIdState = this.documentId != null;
       this.selectedRelationState = this.selectedRelation != null;
       return (
         this.userStatusState &&
-        this.documentIdState &&
+        (isUnderAge || this.documentIdState) &&
         this.selectedRelationState
       );
     },
