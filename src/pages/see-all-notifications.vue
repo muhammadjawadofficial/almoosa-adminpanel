@@ -5,9 +5,9 @@
     </div>
     <hr />
 
-    <ul class="notification-svg">
+    <ul class="notification-svg notification-ul">
       <li
-        class="notification-row"
+        class="notification-row notification-li"
         :class="getNotificationRowClass(index)"
         v-for="(notification, index) in notifications"
         :key="'notification-' + index"
@@ -33,7 +33,7 @@
     </ul>
 
     <div
-      v-if="noMoreNotifications"
+      v-if="!totalNotifications"
       class="mb-1 d-flex justify-content-center no-notification"
     >
       {{ $t("header.noNotifications") }}
@@ -146,12 +146,11 @@ export default {
 };
 </script>
 
-<style lang="scss">
-ul {
+<style lang="scss" scoped>
+.notification-ul {
   padding: 0.938rem;
 }
-
-li {
+.notification-li {
   padding: 0.938rem;
 
   p {
