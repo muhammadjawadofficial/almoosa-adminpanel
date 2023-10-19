@@ -385,7 +385,7 @@
             "badgeType": "primary",
             "badgeValue": "",
             "active": false,
-            "disabled": false,
+            "disabled": true,
             "permission": "Notification Management",
             "children": [
                 {
