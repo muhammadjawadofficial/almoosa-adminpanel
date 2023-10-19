@@ -91,6 +91,10 @@ export const apiPath = {
         uploadId: getApiObject("post", "mediafiles/upload"),
         uploadPdf: getApiObject("post", "mediafiles/pdf"),
         addStaffMember: getApiObject("post", "auth/staff/register"),
+        changeLanguage: getApiObject("post", "user/change-language"),
+        logout: getApiObject("post", "user/logout"),
+        fetchNotifications: (query) => getApiObject("get", "notifications/fetch" + query),
+        markAllAsRead: getApiObject("patch", "notifications/read"),
     },
 
     speciality: {
@@ -155,5 +159,11 @@ export const apiPath = {
         save: getApiObject("post", "banner"),
         update: (id) => getApiObject("patch", "banner/" + id),
         delete: (id) => getApiObject("delete", "banner/" + id),
+    },
+    
+    noticationsManagement: {
+        fetchAll: () => getApiObject("get", "notification-msg"),
+        fetchAllUsersNotifications: (query) => getApiObject("get", "notifications" + query),
+        update: (id) => getApiObject("patch", "notification-msg/" + id),
     }
 };

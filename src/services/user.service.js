@@ -27,6 +27,13 @@ export const userService = {
     getPatients,
     getDoctors,
     deleteUser,
+    setFCMToken,
+    getFCMToken,
+    removeFCMToken,
+    changeLanguage,
+    logout,
+    fetchNotifications,
+    markAllAsRead,
     updateDoctorProfile
 };
 
@@ -40,6 +47,8 @@ const preferredLayout = 'user-layout';
 const userRole = 'userRole';
 
 const paymentToBeBook = 'booking'
+
+const fcmToken = 'fcmToken';
 
 function isAuthenticatedUser() {
     return !!localStorage.getItem(jwtTokenKey);
@@ -172,5 +181,42 @@ function deleteUser(id) {
     return axios({
         method: apiPath.user.deleteUser(id).method,
         url: apiPath.user.deleteUser(id).url,
+    })
+}
+function setFCMToken(token) {
+    localStorage.setItem(fcmToken, token);
+}
+function getFCMToken() {
+    return localStorage.getItem(fcmToken);
+}
+function removeFCMToken() {
+    return localStorage.removeItem(fcmToken);
+}
+function changeLanguage(lang) {
+    return axios({
+        method: apiPath.user.changeLanguage.method,
+        url: apiPath.user.changeLanguage.url,
+        data: {
+            "language": lang
+        }
+    })
+}
+function logout() {
+    return axios({
+        method: apiPath.user.logout.method,
+        url: apiPath.user.logout.url,
+    })
+}
+function fetchNotifications(query) {
+    return axios({
+        method: apiPath.user.fetchNotifications(query).method,
+        url: apiPath.user.fetchNotifications(query).url,
+    })
+}
+function markAllAsRead(data) {
+    return axios({
+        method: apiPath.user.markAllAsRead.method,
+        url: apiPath.user.markAllAsRead.url,
+        data
     })
 }

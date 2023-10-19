@@ -148,7 +148,7 @@ export default {
     this.currentRouteName = this.$route.name;
   },
   methods: {
-    ...mapActions("user", ["removeUserInfo"]),
+    ...mapActions("user", ["removeUserInfo", "updateUserInfo"]),
     toggle_sidebar() {
       this.$store.dispatch("menu/opensidebar");
     },
@@ -223,21 +223,30 @@ export default {
       this.mixLayout = val;
       this.$store.dispatch("layout/setLayout", val);
     },
-    toggleLayout(layout) {
+    async toggleLayout(layout) {
       if (layout) {
         this.layoutType = layout;
       } else {
         this.layoutType = this.layoutType == "ltr" ? "rtl" : "ltr";
       }
       let isArabic = this.layoutType == "rtl";
-      this.$store.dispatch("layout/setLayoutType", this.layoutType);
-      this.$i18n.locale = isArabic ? "ar" : "en";
-      userService.setSelectedLayout(this.layoutType);
+      const currentAppLang = isArabic ? "ar" : "en";
+      try {
+        if (this.getUserInfo.app_language != currentAppLang)
+          await this.changeLanguage(currentAppLang);
+        this.$i18n.locale = currentAppLang;
+        this.$store.dispatch("layout/setLayoutType", this.layoutType);
+        userService.setSelectedLayout(this.layoutType);
+      } catch (error) {
+        this.failureToast();
+      }
     },
-    logout() {
+    async logout() {
       this.$root.$refs.appointmentModule &&
         this.$root.$refs.appointmentModule.destroyObjects();
+      await userService.logout();
       this.removeUserInfo();
+      this.removeFCMToken();
       if (this.$messaging) this.$messaging.deleteToken();
       this.navigateTo({ name: "Login Dashboard" });
     },
@@ -248,6 +257,12 @@ export default {
       if (!this.isSideBarOpen && !this.isSideBarSticky) this.toggle_sidebar();
       this.setNavActive({ path });
       this.$router.push(path);
+    },
+    async changeLanguage(currentAppLang) {
+      await userService.changeLanguage(currentAppLang);
+      this.updateUserInfo({
+        app_language: currentAppLang,
+      });
     },
   },
   watch: {

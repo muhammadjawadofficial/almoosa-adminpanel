@@ -81,6 +81,7 @@
       show-empty
       stacked="md"
       borderless
+      responsive
       :items="items"
       :fields="tablefields"
       :current-page="currentPage"
@@ -114,6 +115,21 @@
         <template v-else-if="data.field.translate && data.value">
           {{ data.field.key.toLowerCase().includes("doctor") ? $t("dr") : "" }}
           {{ data.item[getLocaleKey(data.field.key)] }}
+        </template>
+        <template v-else-if="data.field.key == 'updated_by' && data.value">
+          <div class="user-name-with-image">
+            <span class="text">
+              ({{ data.value.id }}) {{ getFullName(data.value) }}</span
+            >
+          </div>
+        </template>
+        <template
+          v-else-if="
+            data.field.key.toLowerCase().includes('updated_at') ||
+            data.field.key.toLowerCase().includes('created_at')
+          "
+        >
+          {{ getLongDateAndTimeFromDate(data.value, true) }}
         </template>
         <template v-else>{{ data.value || "N/A" }}</template>
       </template>
@@ -168,6 +184,20 @@ export default {
           label: "refillRequest",
           sortable: true,
         },
+        {
+          key: "created_at",
+          label: "createdAt",
+          sortable: true,
+        },
+        {
+          key: "updated_at",
+          label: "updatedAt",
+          sortable: true,
+        },
+        {
+          key: "updated_by",
+          label: "updatedBy",
+        },
       ],
       fields: [
         { field: "id", label: "Request ID" },
@@ -196,6 +226,9 @@ export default {
           field: "medicationRefillRequested",
           label: "Status",
         },
+        { field: "created_at_formatted", label: "Created At" },
+        { field: "updated_at_formatted", label: "Updated At" },
+        { field: "updated_by_user", label: "Updated By" },
       ],
       items: [],
       totalItems: [],
@@ -252,10 +285,21 @@ export default {
         if (this.activeTab == "refillRequest" && x.is_delivery) return;
         if (this.activeTab == "deliveryRequest" && !x.is_delivery) return;
         this.items.push({
+          ...x,
           medicationRefillRequested: x.status,
           speciality: x.clinic ? x.clinic.title : "",
           speciality_ar: x.clinic ? x.clinic.title_ar : "",
-          ...x,
+          created_at_formatted: this.getLongDateAndTimeFromDate(
+            x.created_at,
+            true
+          ),
+          updated_at_formatted: this.getLongDateAndTimeFromDate(
+            x.updated_at,
+            true
+          ),
+          updated_by_user: x.updated_by
+            ? `(${x.updated_by.id}) ${this.getFullName(x.updated_by, "", "en")}`
+            : "",
         });
       });
       this.totalItems = [...this.items];

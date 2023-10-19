@@ -87,9 +87,9 @@
         </template>
         <template v-else-if="data.field.key == 'physicianName'">
           <div class="user-name-with-image">
-            <div class="image">
+            <!-- <div class="image">
               <img :src="getImageUrl(data.item.patient_photo)" alt="user" />
-            </div>
+            </div> -->
             <span class="text">{{ getFullName(data.item) }}</span>
           </div>
         </template>
@@ -186,7 +186,7 @@ export default {
     parseSpeciality() {
       return (id) => {
         let speciality = this.specialities.find((x) => x.id == id);
-        return speciality ? speciality.title : id;
+        return speciality ? speciality[this.getLocaleKey('title')] : id;
       };
     },
   },

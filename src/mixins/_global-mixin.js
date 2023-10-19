@@ -19,7 +19,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters("user", ["getUserRole", "getIsGuest", "getLoading", "getUserPermissions"]),
+        ...mapGetters("user", ["getUserRole", "getUserInfo", "getIsGuest", "getLoading", "getUserPermissions"]),
         isDoctor() {
             let roleLS = this.getLSRole();
             let roleS = this.getUserRole;
@@ -399,6 +399,12 @@ export default {
             }
             return this.moment(dateString, dateFormat).toDate();
         },
+        getDateTimeWithoutTimezone() {
+            let format = "YYYY-MM-DDTHH:mm:ss";
+            let utcTimezone = ".000Z";
+            let date = this.moment().format(format) + utcTimezone;
+            return date;
+        },
         dateFormatter(date, format = 'MMMM Do YYYY, h:mm A', utc = false, locale = null) {
             if (locale) {
                 if (utc) {
@@ -433,7 +439,7 @@ export default {
             return this.dateFormatter(date, "YYYY" + separator + "MM" + separator + "DD")
         },
         formatNotificationTime(date, utc = false) {
-            return this.dateFormatter(date, 'MMMM YYYY - hh:mm A', utc)
+            return this.dateFormatter(date, 'DD MMMM YYYY - hh:mm A', utc)
         },
         isDateSame(date1, date2) {
             let fdate1 = this.formatDate(new Date(date1));
@@ -499,12 +505,23 @@ export default {
                 return true;
             }
         },
-        getFullName(user, prepend = "") {
+        getFullName(user, prepend = "", inLang = '') {
             if (!user) {
                 return 'N/A'
             }
+
+            let forcedLocale = inLang == 'en' ? '' : '_ar';
+            let firstNameKey = 'first_name';
+            let middleNameKey = 'middle_name';
+            let familyNameKey = 'family_name';
+
+            let translatedFirstNameKey = inLang ? firstNameKey + forcedLocale : this.getLocaleKey(firstNameKey);
+            let translatedMiddleNameKey = inLang ? middleNameKey + forcedLocale : this.getLocaleKey(middleNameKey);
+            let translatedFamilyNameKey = inLang ? familyNameKey + forcedLocale : this.getLocaleKey(familyNameKey);
+
             let parseName = (name) => name ? name + " " : "";
-            let fullName = parseName(user[this.getLocaleKey('first_name')]) + parseName(user[this.getLocaleKey('middle_name')]) + parseName(user[this.getLocaleKey('family_name')]);
+            let fullName = parseName(user[translatedFirstNameKey]) + parseName(user[translatedMiddleNameKey]) + parseName(user[translatedFamilyNameKey]);
+
             if (!fullName) {
                 fullName = parseName(user.first_name) + parseName(user.middle_name) + parseName(user.family_name)
             }
@@ -519,6 +536,43 @@ export default {
         },
         isAPIAborted(error) {
             return axios.isCancel(error)
+        },
+        async setFCMToken() {
+            if (this.$messaging) {
+                // await this.removeFCMToken();
+                this.$messaging.onTokenRefresh(async () => {
+                    await this.initializeFCMToken();
+                })
+                await this.initializeFCMToken();
+            }
+        },
+        async initializeFCMToken() {
+            try {
+                await this.$messaging.deleteToken({
+                    vapidKey:
+                        "BNLgxwZ2Lmx4lq30n9wEMDap0N7geVOFe9Rq3FTGxm5bQ-TPP3tnabS2mmO_xkcbCslllkKusQiJUBeX3r0ecSk",
+                });
+                let currentToken = await this.$messaging.getToken({
+                    vapidKey:
+                        "BNLgxwZ2Lmx4lq30n9wEMDap0N7geVOFe9Rq3FTGxm5bQ-TPP3tnabS2mmO_xkcbCslllkKusQiJUBeX3r0ecSk",
+                });
+                if (currentToken) {
+                    userService.setFCMToken(currentToken);
+                    console.log("client token");
+                    console.log(currentToken);
+                }
+            } catch (error) {
+                console.log("An error occurred while retrieving token. ", error);
+            }
+        },
+        getFCMToken() {
+            return userService.getFCMToken();
+        },
+        async removeFCMToken() {
+            if (this.$messaging) {
+                await this.$messaging.deleteToken();
+                userService.removeFCMToken();
+            }
         },
     },
 }

@@ -62,6 +62,21 @@
             <span class="text">{{ data.value }}</span>
           </div>
         </template>
+        <template v-else-if="data.field.key == 'updated_by' && data.value">
+          <div class="user-name-with-image">
+            <span class="text">
+              ({{ data.value.id }}) {{ getFullName(data.value) }}</span
+            >
+          </div>
+        </template>
+        <template
+          v-else-if="
+            data.field.key.toLowerCase().includes('updated_at') ||
+            data.field.key.toLowerCase().includes('created_at')
+          "
+        >
+          {{ getLongDateAndTimeFromDate(data.value, true) }}
+        </template>
         <template v-else>{{ data.value || "N/A" }}</template>
       </template>
     </b-table>
@@ -110,13 +125,19 @@ export default {
         { field: "patientNationality", label: "Nationality" },
         { field: "patientNationalityAr", label: "Nationality Ar" },
         { field: "card", label: "Saudi/Iqama ID Photo" },
+        { field: "created_at_formatted", label: "Created At" },
+        { field: "updated_at_formatted", label: "Updated At" },
+        { field: "updated_by_user", label: "Updated By" },
       ],
       tablefields: [
-        // { key: "id", label: "id", sortable: true },
+        { key: "id", label: "id", sortable: true },
         { key: "patientName", label: "patientName" },
         { key: "identity_number", label: "identity_number" },
         { key: "phoneNumber", label: "phoneNumber" },
         { key: "status", label: "status" },
+        { key: "created_at", label: "createdAt" },
+        { key: "updated_at", label: "updatedAt" },
+        { key: "updated_by", label: "updatedBy" },
         { key: "action", label: "action" },
       ],
       items: [],
@@ -209,6 +230,17 @@ export default {
           patientNationalityAr: x.nationality
             ? x.nationality.nationality_ar
             : "",
+          created_at_formatted: this.getLongDateAndTimeFromDate(
+            x.created_at,
+            true
+          ),
+          updated_at_formatted: this.getLongDateAndTimeFromDate(
+            x.updated_at,
+            true
+          ),
+          updated_by_user: x.updated_by
+            ? `(${x.updated_by.id}) ${this.getFullName(x.updated_by, "", "en")}`
+            : "",
         });
       });
       if (this.searchQuery) {
@@ -233,6 +265,7 @@ export default {
         this.currentPage = totalPage;
       }
     },
+
     sortUsers(filter) {
       this.sortDesc = filter.sortDesc;
       this.sortBy = filter.sortBy;

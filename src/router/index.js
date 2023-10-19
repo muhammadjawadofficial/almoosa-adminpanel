@@ -105,6 +105,10 @@ const NewPatientRequest = () => import('../pages/reports/new-patient-request')
 const InsuranceRequest = () => import('../pages/reports/insurance-request')
 const PhysicianReport = () => import('../pages/reports/physician-list')
 const MedicationRefills = () => import('../pages/reports/medication-refills')
+const seeAllNotifications = () => import('../pages/see-all-notifications')
+const notificationsLists = () => import('../pages/notifications/notifications-management-list')
+const notificationsDetail = () => import('../pages/notifications/notifications-management-details')
+const notificationsUsersDetail = () => import('../pages/notifications/notifications-users')
 
 import { userService } from '../services';
 
@@ -890,6 +894,47 @@ const routes = [
             },
           },
         ]
+      },
+       // notificationsLists
+      {
+        path: 'notifications',
+        component: RouterViewModule,
+        children: [
+          { path: '', name: "Notifications", redirect: { name: 'Notifications List' } },
+          {
+            path: "list",
+            name: 'Notifications List',
+            component: notificationsLists,
+            meta: {
+              title: 'Notifications List | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "list/update",
+            name: 'Notification Update',
+            component: notificationsDetail,
+            meta: {
+              title: 'Notification Update | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "users-details",
+            name: 'Notifications Users',
+            component: notificationsUsersDetail,
+            meta: {
+              title: 'Notifications Users Details | Almoosa Specialist Hospital',
+            },
+          },
+          
+        ]
+      },
+      {
+        path: "see-all-notifications",
+        name: "All Notifications",
+        component: seeAllNotifications,
+        meta: {
+          title: "All Notifications | Almoosa Health Group",
+        },
       },
     ]
   },

@@ -143,6 +143,8 @@ export default {
       );
     },
     updateSpeciality() {
+      this.formSubmitted = true;
+      if (!this.iconId) return;
       specialityService
         .updateSpeciality(this.getSelectedSpecialitiesManagement.id, {
           ...this.getSelectedSpecialitiesManagement,

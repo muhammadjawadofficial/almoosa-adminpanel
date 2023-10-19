@@ -259,6 +259,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import constants from '../../constants/constants';
 import { authService, userService } from "../../services";
 export default {
   data() {
@@ -329,9 +330,14 @@ export default {
   computed: {
     ...mapGetters("user", ["getSelectedUser"]),
     validPhoneNumber() {
-      let regex = /^(009665|9665|\+9665|05|5)([503649187])(\d{7})$/;
+      let regex = /^[0-9]+$/;
       let result = this.phoneNumber.match(regex);
-      return !!(result && result.length);
+      return (
+        !!this.phoneNumber &&
+        result &&
+        this.phoneNumber.length >= constants.validation.phoneNumber.min &&
+        this.phoneNumber.length <= constants.validation.phoneNumber.max
+      );
     },
     isSelectedUserDoctor() {
       return this.$route.name.toLowerCase().includes("physician");

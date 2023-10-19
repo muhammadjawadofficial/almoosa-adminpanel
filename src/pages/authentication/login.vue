@@ -85,16 +85,24 @@ export default {
       this.passwordState = this.password != "";
       return this.usernameState && this.passwordState;
     },
-    doLogin() {
+    async doLogin() {
       if (!this.validateForm()) {
         return;
       }
+
+      // showing loader before initializing the token
+      this.setLoadingState(true);
+      await this.setFCMToken();
+      const fcm_token = userService.getFCMToken();
+
       let payload = {
         username: this.username,
         password: this.password,
         field_name: "email_address",
         is_admin: true,
       };
+      if (fcm_token) payload.fcm_token = fcm_token;
+
       this.doAdminLogin(payload);
     },
     doAdminLogin(payload) {

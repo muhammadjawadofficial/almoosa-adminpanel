@@ -922,6 +922,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import constants from '../../constants/constants';
 import { authService, familyMemberService, userService } from "../../services";
 export default {
   data() {
@@ -1012,9 +1013,14 @@ export default {
       "getSelectedFamilyMemberRequest",
     ]),
     validPhoneNumber() {
-      let regex = /^(009665|9665|\+9665|05|5)([503649187])(\d{7})$/;
+      let regex = /^[0-9]+$/;
       let result = this.phoneNumber.match(regex);
-      return !!(result && result.length);
+      return (
+        !!this.phoneNumber &&
+        result &&
+        this.phoneNumber.length >= constants.validation.phoneNumber.min &&
+        this.phoneNumber.length <= constants.validation.phoneNumber.max
+      );
     },
     isSelectedUserDoctor() {
       return this.$route.name.toLowerCase().includes("physician");
@@ -1124,7 +1130,6 @@ export default {
             this.getProfileData();
           });
       } else {
-        console.log("running");
         Promise.all([familyMemberService.fetchFamilyMemberRelations()])
           .then((res) => {
             let relations = res[0];
@@ -1299,11 +1304,16 @@ export default {
         this.userStatus != "" &&
         !!this.userStatus &&
         this.userStatusOptions.includes(this.userStatus);
-      this.documentIdState = this.documentId != null;
+
+      let isUnderAge =
+        this.getSelectedFamilyMember.dob &&
+        this.getYears(this.getSelectedFamilyMember.dob) < 18;
+      if (isUnderAge) this.documentIdState = null;
+      else this.documentIdState = this.documentId != null;
       this.selectedRelationState = this.selectedRelation != null;
       return (
         this.userStatusState &&
-        this.documentIdState &&
+        (isUnderAge || this.documentIdState) &&
         this.selectedRelationState
       );
     },

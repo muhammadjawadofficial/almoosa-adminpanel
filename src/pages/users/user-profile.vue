@@ -323,6 +323,60 @@
                 </div>
               </div>
             </div>
+            <div class="profile-info-card" v-if="getSelectedUser.created_at">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/MRN.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("admin.createdAt") }}
+                </div>
+                <div class="profile-info-card-detail-value">
+                  {{
+                    translateNumber(
+                      getLongDateAndTimeFromDate(
+                        getSelectedUser.created_at,
+                        true
+                      )
+                    )
+                  }}
+                </div>
+              </div>
+            </div>
+            <div class="profile-info-card" v-if="getSelectedUser.updated_at">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/MRN.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("admin.updatedAt") }}
+                </div>
+                <div class="profile-info-card-detail-value">
+                  {{
+                    translateNumber(
+                      getLongDateAndTimeFromDate(
+                        getSelectedUser.updated_at,
+                        true
+                      )
+                    )
+                  }}
+                </div>
+              </div>
+            </div>
+            <div class="profile-info-card" v-if="getSelectedUser.updated_by">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/MRN.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("admin.updatedBy") }}
+                </div>
+                <div class="profile-info-card-detail-value">
+                  ({{ getSelectedUser.updated_by.id }})
+                  {{ getFullName(getSelectedUser.updated_by) }}
+                </div>
+              </div>
+            </div>
             <div class="profile-info-card">
               <div class="profile-info-card-logo">
                 <img src="../../assets/images/MRN.svg" alt="" />
@@ -808,6 +862,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import constants from "../../constants/constants";
 import { authService, userService } from "../../services";
 export default {
   data() {
@@ -864,9 +919,7 @@ export default {
     let routeName = this.$route.name.toLowerCase();
     let routeTab = this.$route.params.tab;
     if (routeName.includes("patient")) {
-      if (routeTab.toLowerCase().includes("request"))
-        this.backRoute = "Patient List";
-      else this.backRoute = "Patient Details";
+      this.backRoute = "Patient List";
     } else if (routeName.includes("physician")) {
       this.backRoute = "Physician List";
       this.isEditingAllowed = true;
@@ -887,9 +940,14 @@ export default {
   computed: {
     ...mapGetters("user", ["getSelectedUser"]),
     validPhoneNumber() {
-      let regex = /^(009665|9665|\+9665|05|5)([503649187])(\d{7})$/;
+      let regex = /^[0-9]+$/;
       let result = this.phoneNumber.match(regex);
-      return !!(result && result.length);
+      return (
+        !!this.phoneNumber &&
+        result &&
+        this.phoneNumber.length >= constants.validation.phoneNumber.min &&
+        this.phoneNumber.length <= constants.validation.phoneNumber.max
+      );
     },
     isSelectedUserDoctor() {
       return this.$route.name.toLowerCase().includes("physician");
@@ -990,11 +1048,36 @@ export default {
       this.resetData();
     },
     getProfileData() {
-      if (this.isSelectedUserDoctor || this.getSelectedUser.role_id == 4 || !this.getSelectedUser.mrn_number)
-        this.getDoctorProfile();
+      if (this.isSelectedUserDoctor || this.getSelectedUser.role_id == 4)
+        this.getOrCreateDoctorProfile();
+      else if (
+        !this.getSelectedUser.mrn_number ||
+        ["unverified", "blocked"].includes(this.getSelectedUser.status)
+      )
+        this.getProfile();
       else this.getLoggedInUserData();
     },
-    getDoctorProfile() {
+    getProfile() {
+      userService.getDoctorProfile(this.getSelectedUser.id).then(
+        (res) => {
+          if (res.data.status) {
+            this.updateSelectedUser(res.data.data.items[0]);
+            this.resetData();
+          } else {
+            this.failureToast(res.data.message);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
+    getOrCreateDoctorProfile() {
       userService.getOrCreateDoctorProfile(this.getSelectedUser.id).then(
         (res) => {
           if (res.data.status) {
@@ -1169,6 +1252,7 @@ export default {
           mrn_number: this.mrnNumber,
           status: this.userStatus,
         };
+        this.updateSelectedUser(updateUserObj);
         this.updateProfileInfo(updateUserObj);
       } else {
         this.isEditingMRN = true;
@@ -1231,7 +1315,8 @@ export default {
       if (this.isEditing || this.isEditingMRN) {
         this.resetData();
       } else {
-        this.navigateTo(this.backRoute);
+        let params = this.$route.params;
+        this.navigateTo(this.backRoute, params);
       }
     },
   },
