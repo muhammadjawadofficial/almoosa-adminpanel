@@ -126,7 +126,7 @@
                     "badgeType": "primary",
                     "badgeValue": "",
                     "active": false,
-                    "disabled": false,
+                    "disabled": true,
                     "children": [
                         {
                             "title": "List",
@@ -139,6 +139,29 @@
                             "title_ar": "خلق",
                             "type": "link",
                             "path": "/promotions/create"
+                        }
+                    ]
+                },
+                {
+                    "title": "Promo Code",
+                    "title_ar": "رمز ترويجي",
+                    "type": "sub",
+                    "badgeType": "primary",
+                    "badgeValue": "",
+                    "active": false,
+                    "disabled": false,
+                    "children": [
+                        {
+                            "title": "List",
+                            "title_ar": "قائمة",
+                            "type": "link",
+                            "path": "/promotions/code/list"
+                        },
+                        {
+                            "title": "Create",
+                            "title_ar": "خلق",
+                            "type": "link",
+                            "path": "/promotions/code/create"
                         }
                     ]
                 },

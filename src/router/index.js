@@ -94,6 +94,8 @@ const promotionsGroups = () => import('../pages/promotions/promo-groups-list')
 const promotionsGroupsCreate = () => import('../pages/promotions/promo-groups-form')
 const promotionsDetails = () => import('../pages/promotions/promotions-details')
 const promotionsForm = () => import('../pages/promotions/promotions-form')
+const promotionListCode = () => import('../pages/promotions/promotion-list-code')
+const promotionCreateCode = () => import('../pages/promotions/promotion-create-code')
 const firstFreeAppointmentReport = () => import('../pages/promotions/first-free-appointment-list')
 
 const TransactionsList = () => import('../pages/transactions/transactions-list')
@@ -675,6 +677,30 @@ const routes = [
             component: firstFreeAppointmentReport,
             meta: {
               title: 'First Free Appointment Report | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "code/list",
+            name: 'Promotion List',
+            component: promotionListCode,
+            meta: {
+              title: 'Promotions Details | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "code/create",
+            name: 'Promotions Code Create',
+            component: promotionCreateCode,
+            meta: {
+              title: 'Promotions Create | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "code/list/edit",
+            name: 'Promotions Code Edit',
+            component: promotionCreateCode,
+            meta: {
+              title: 'Promotions Edit | Almoosa Specialist Hospital',
             },
           },
         ]

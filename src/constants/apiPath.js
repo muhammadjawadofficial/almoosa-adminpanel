@@ -42,6 +42,10 @@ export const apiPath = {
         updatePromoGroupDetails: (id) => getApiObject("patch", "promo-groups/" + id),
         updatePromoGroupUsers: getApiObject("post", "users/promo-group"),
         firstFreeAppointmentReport: getApiObject("post", "reports/first_free_appointment"),
+        fetchAllPromotions: getApiObject("get", "promotions","v2"),
+        createPromotions: getApiObject("post", "promotions","v2"),
+        updatePromotions: (id) => getApiObject("patch", "promotions/" + id,"v2"),
+        deletePromotions: (id) => getApiObject("delete", "promotions/" + id ,"v2"),
     },
 
     insurance: {
@@ -79,6 +83,7 @@ export const apiPath = {
         getOrCreateDoctorProfile: (id) => getApiObject("get", "admin/doctors/" + id, "v2"),
         getDoctorProfile: (id) => getApiObject("get", "users?id=" + id),
         fetchUsers: (query) => getApiObject("get", "users" + query),
+        searchUsers: (query) => getApiObject("get", "users/search" + query),
         deleteUser: (id) => getApiObject("delete", "users/" + id),
         fetchDuplicatedUsers: (query) => getApiObject("get", "users/duplicate" + query),
         fetchPatients: (query) => getApiObject("get", "admin/patients" + query, "v2"),
