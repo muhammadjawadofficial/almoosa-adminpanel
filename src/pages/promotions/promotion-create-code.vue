@@ -1,73 +1,139 @@
 <template>
   <div class="add-promotion-container standard-width page-body-container">
-    <back-navigation :title="editable ? $t('admin.editPromotion') : $t('admin.addPromotion')" :showBack="false" />
+    <back-navigation
+      :title="editable ? $t('admin.editPromotion') : $t('admin.addPromotion')"
+      :showBack="false"
+    />
     <div class="row mt-3">
       <div class="col-md-6">
         <b-input-group class="custom-login-input-groups forceLtr">
-          <b-form-input v-model="promotionForm.title" :state="promotionFormState.title"
-            :placeholder="$t('admin.title')"></b-form-input>
+          <b-form-input
+            v-model="promotionForm.title"
+            :state="promotionFormState.title"
+            :placeholder="$t('admin.title')"
+          ></b-form-input>
         </b-input-group>
       </div>
       <div class="col-md-6">
         <b-input-group class="custom-login-input-groups forceRtl">
-          <b-form-input v-model="promotionForm.title_ar" :state="promotionFormState.title_ar"
-            :placeholder="$t('admin.titleAr')"></b-form-input>
+          <b-form-input
+            v-model="promotionForm.title_ar"
+            :state="promotionFormState.title_ar"
+            :placeholder="$t('admin.titleAr')"
+          ></b-form-input>
         </b-input-group>
       </div>
       <div class="col-md-6">
         <b-input-group class="custom-login-input-groups forceLtr">
-          <b-form-textarea id="textarea" v-model="promotionForm.details" :state="promotionFormState.details"
-            :placeholder="$t('admin.details')" rows="3" max-rows="5"></b-form-textarea>
+          <b-form-textarea
+            id="textarea"
+            v-model="promotionForm.details"
+            :state="promotionFormState.details"
+            :placeholder="$t('admin.details')"
+            rows="3"
+            max-rows="5"
+          ></b-form-textarea>
         </b-input-group>
       </div>
       <div class="col-md-6">
         <b-input-group class="custom-login-input-groups forceRtl">
-          <b-form-textarea id="textarea" v-model="promotionForm.details_ar" :state="promotionFormState.details_ar"
-            :placeholder="$t('admin.detailsAr')" rows="3" max-rows="5"></b-form-textarea>
+          <b-form-textarea
+            id="textarea"
+            v-model="promotionForm.details_ar"
+            :state="promotionFormState.details_ar"
+            :placeholder="$t('admin.detailsAr')"
+            rows="3"
+            max-rows="5"
+          ></b-form-textarea>
         </b-input-group>
       </div>
       <div class="col-md-4">
         <b-input-group class="custom-login-input-groups">
-          <multiselect v-model="promotionForm.discount_type" :options="discountType"
-            :placeholder="$t('admin.discountType')"></multiselect>
-          <div class="custom-state-invalid icon" :class="{
-            'is-invalid': promotionFormState.discount_type == false,
-          }"></div>
+          <multiselect
+            v-model="promotionForm.discount_type"
+            :options="discountType"
+            :placeholder="$t('admin.discountType')"
+            :selectLabel="$t('selectLabel')"
+            :selectedLabel="$t('selectedLabel')"
+            :deselectLabel="$t('deselectLabel')"
+          >
+            <template slot="singleLabel" slot-scope="props">
+              {{ $t("admin." + props.option) }}
+            </template>
+            <template slot="option" slot-scope="props">
+              {{ $t("admin." + props.option) }}
+            </template>
+          </multiselect>
+          <div
+            class="custom-state-invalid icon"
+            :class="{
+              'is-invalid': promotionFormState.discount_type == false,
+            }"
+          ></div>
         </b-input-group>
       </div>
       <div class="col-md-4">
         <b-input-group class="custom-login-input-groups">
-          <b-form-input type="text" v-model="promotionForm.discount" :state="promotionFormState.discount"
-            :placeholder="$t('admin.discount')"></b-form-input>
+          <b-form-input
+            type="text"
+            v-model="promotionForm.discount"
+            :state="promotionFormState.discount"
+            :placeholder="$t('admin.discount')"
+          ></b-form-input>
         </b-input-group>
       </div>
       <div class="col-md-4">
         <b-input-group class="custom-login-input-groups">
-          <b-form-input type="text" v-model="promotionForm.promo_code" :state="promotionFormState.promo_code"
-            :placeholder="$t('admin.promoCode')"></b-form-input>
+          <b-form-input
+            type="text"
+            v-model="promotionForm.promo_code"
+            :state="promotionFormState.promo_code"
+            :placeholder="$t('admin.promoCode')"
+          ></b-form-input>
         </b-input-group>
       </div>
       <div class="col-md-12">
         <b-input-group class="custom-login-input-groups">
-          <b-form-input type="text" v-model="promotionForm.survey_link" :state="promotionFormState.survey_link"
-            :placeholder="$t('admin.surveyLink')"></b-form-input>
+          <b-form-input
+            type="text"
+            v-model="promotionForm.survey_link"
+            :state="promotionFormState.survey_link"
+            :placeholder="$t('admin.surveyLink')"
+          ></b-form-input>
         </b-input-group>
       </div>
       <div class="col-md-4">
         <b-input-group class="custom-login-input-groups">
-          <b-form-input type="text" v-model="promotionForm.usage_count_per_user"
-            :state="promotionFormState.usage_count_per_user" :placeholder="$t('admin.usageOfCount')"></b-form-input>
+          <b-form-input
+            type="text"
+            v-model="promotionForm.usage_count_per_user"
+            :state="promotionFormState.usage_count_per_user"
+            :placeholder="$t('admin.usageOfCount')"
+          ></b-form-input>
         </b-input-group>
       </div>
       <div class="col-md-4">
         <b-input-group class="custom-login-input-groups">
-          <b-form-input type="text" :value="promotionForm.start_date" :state="promotionFormState.start_date"
-            :placeholder="$t('admin.startDate')" @click.stop="showStartDateCalendar = !showStartDateCalendar"
-            readonly></b-form-input>
-          <date-picker :append-to-body="false" v-model="promotionForm.start_date" format="YYYY-MM-DD"
-            :popup-style="{ top: 'calc(100% - 5px)', left: 0, right: 0 }" popup-class="hideSecondCalendar"
-            value-type="format" class="ash-datepicker" :lang="getCurrentLang()" :open="showStartDateCalendar"
-            @input="showStartDateCalendar = false">
+          <b-form-input
+            type="text"
+            :value="promotionForm.start_date"
+            :state="promotionFormState.start_date"
+            :placeholder="$t('admin.startDate')"
+            @click.stop="showStartDateCalendar = !showStartDateCalendar"
+            readonly
+          ></b-form-input>
+          <date-picker
+            :append-to-body="false"
+            v-model="promotionForm.start_date"
+            format="YYYY-MM-DD"
+            :popup-style="{ top: 'calc(100% - 5px)', left: 0, right: 0 }"
+            popup-class="hideSecondCalendar"
+            value-type="format"
+            class="ash-datepicker"
+            :lang="getCurrentLang()"
+            :open="showStartDateCalendar"
+            @input="showStartDateCalendar = false"
+          >
             <template #icon-calendar>
               <img src="../../assets/images/calendar.svg" alt="" />
             </template>
@@ -76,13 +142,26 @@
       </div>
       <div class="col-md-4">
         <b-input-group class="custom-login-input-groups">
-          <b-form-input type="text" :value="promotionForm.expiry_date" :state="promotionFormState.expiry_date"
-            :placeholder="$t('admin.expiryDate')" @click.stop="showEndDateCalendar = !showEndDateCalendar"
-            readonly></b-form-input>
-          <date-picker :append-to-body="false" v-model="promotionForm.expiry_date" format="YYYY-MM-DD"
-            :popup-style="{ top: 'calc(100% - 5px)', left: 0, right: 0 }" popup-class="hideSecondCalendar"
-            value-type="format" class="ash-datepicker" :lang="getCurrentLang()" :open="showEndDateCalendar"
-            @input="showEndDateCalendar = false">
+          <b-form-input
+            type="text"
+            :value="promotionForm.expiry_date"
+            :state="promotionFormState.expiry_date"
+            :placeholder="$t('admin.expiryDate')"
+            @click.stop="showEndDateCalendar = !showEndDateCalendar"
+            readonly
+          ></b-form-input>
+          <date-picker
+            :append-to-body="false"
+            v-model="promotionForm.expiry_date"
+            format="YYYY-MM-DD"
+            :popup-style="{ top: 'calc(100% - 5px)', left: 0, right: 0 }"
+            popup-class="hideSecondCalendar"
+            value-type="format"
+            class="ash-datepicker"
+            :lang="getCurrentLang()"
+            :open="showEndDateCalendar"
+            @input="showEndDateCalendar = false"
+          >
             <template #icon-calendar>
               <img src="../../assets/images/calendar.svg" alt="" />
             </template>
@@ -91,31 +170,53 @@
       </div>
       <!-- allUser -->
       <div class="col-md-3 mt-3 inputChecker">
-        <input id="allUsers" type="checkbox" class="checkboxInput" v-model="promotionForm.is_for_all_users"
-          value="Bike" />
+        <input
+          id="allUsers"
+          type="checkbox"
+          class="checkboxInput"
+          v-model="promotionForm.is_for_all_users"
+          value="Bike"
+        />
         <label for="allUsers">{{ $t("admin.allUsers") }}</label>
       </div>
       <div class="col-md-3 mt-3 inputChecker">
-        <input id="allSpecialities" type="checkbox" v-model="promotionForm.is_for_all_specialities" value="Bike" />
+        <input
+          id="allSpecialities"
+          type="checkbox"
+          v-model="promotionForm.is_for_all_specialities"
+          value="Bike"
+        />
         <label for="allSpecialities">{{ $t("admin.allSpecialities") }}</label>
       </div>
       <div class="col-md-3 mt-3 inputChecker">
-        <input id="virtualappointment" type="checkbox" v-model="promotionForm.is_virtual_appointment_promo"
-          value="Bike" />
+        <input
+          id="virtualappointment"
+          type="checkbox"
+          v-model="promotionForm.is_virtual_appointment_promo"
+          value="Bike"
+        />
         <label for="virtualappointment">{{
           $t("admin.virtualappointment")
         }}</label>
       </div>
 
       <div class="col-md-3 mt-3 inputChecker">
-        <input id="onsiteAppointment" type="checkbox" v-model="promotionForm.is_onsite_appointment_promo" />
+        <input
+          id="onsiteAppointment"
+          type="checkbox"
+          v-model="promotionForm.is_onsite_appointment_promo"
+        />
         <label for="onsiteAppointment">{{
           $t("admin.onsiteAppointment")
         }}</label>
       </div>
 
       <div class="col-md-3 mt-3 inputChecker">
-        <input id="allPackages" type="checkbox" v-model="promotionForm.is_for_all_packages" />
+        <input
+          id="allPackages"
+          type="checkbox"
+          v-model="promotionForm.is_for_all_packages"
+        />
         <label for="allPackages">{{ $t("admin.allPackages") }}</label>
       </div>
 
@@ -129,34 +230,68 @@
       <div class="col-md-3 mt-3 inputSwitch" style="display: flex; gap: 1rem">
         <span>{{ $t("admin.active") }}</span>
         <label class="switch" for="isActive">
-          <input type="checkbox" id="isActive" v-model="promotionForm.is_active" />
+          <input
+            type="checkbox"
+            id="isActive"
+            v-model="promotionForm.is_active"
+          />
           <span class="slider round"></span>
         </label>
       </div>
-      <div v-if="!promotionForm.is_for_all_users" class="col-md-10 checkBoxInput"
-        style="display: flex; gap: 10px; align-items: center">
+      <div
+        v-if="!promotionForm.is_for_all_users"
+        class="col-md-10 checkBoxInput"
+        style="display: flex; gap: 10px; align-items: center"
+      >
         <div style="flex-grow: 1">
           <b-input-group class="custom-login-input-groups">
-            <multiselect class="tags-spacing small-tags" v-model="items" :options="allUsers"
-              :placeholder="$t('admin.allUsers')" track-by="mrn_number" multiple label="label" :close-on-select="false"
-              :clear-on-select="false" :internal-search="false" @search-change="searchUsers">
+            <multiselect
+              class="tags-spacing small-tags"
+              v-model="items"
+              :options="allUsers"
+              :placeholder="$t('admin.allUsers')"
+              track-by="mrn_number"
+              multiple
+              label="label"
+              :close-on-select="false"
+              :clear-on-select="false"
+              :internal-search="false"
+              @search-change="searchUsers"
+            >
             </multiselect>
-            <div class="custom-state-invalid icon" :class="{
-              'is-invalid': promotionFormState.promo_group_id == false,
-            }"></div>
+            <div
+              class="custom-state-invalid icon"
+              :class="{
+                'is-invalid': promotionFormState.promo_group_id == false,
+              }"
+            ></div>
           </b-input-group>
         </div>
       </div>
-      <div v-if="!promotionForm.is_for_all_specialities" class="col-md-10 checkBoxInput"
-        style="display: flex; gap: 10px; align-items: center">
+      <div
+        v-if="!promotionForm.is_for_all_specialities"
+        class="col-md-10 checkBoxInput"
+        style="display: flex; gap: 10px; align-items: center"
+      >
         <div style="flex-grow: 1">
           <b-input-group class="custom-login-input-groups">
-            <multiselect class="tags-spacing" v-model="selectedSpecialities" :options="specialities"
-              :placeholder="$t('admin.allSpecialities')" track-by="id" multiple label="title" :close-on-select="false">
+            <multiselect
+              class="tags-spacing"
+              v-model="selectedSpecialities"
+              :options="specialities"
+              :placeholder="$t('admin.allSpecialities')"
+              track-by="id"
+              multiple
+              label="title"
+              :close-on-select="false"
+            >
             </multiselect>
-            <div class="custom-state-invalid icon" :class="{
-              'is-invalid': promotionFormState.promo_group_id == false,
-            }"></div>
+            <div
+              class="custom-state-invalid icon"
+              :class="{
+                'is-invalid': promotionFormState.promo_group_id == false,
+              }"
+            ></div>
           </b-input-group>
         </div>
       </div>
@@ -170,13 +305,21 @@
           <div class="upload-text text-muted w200 center" v-else>
             {{ $t("admin.uploadPromotionBanner") }}
           </div>
-          <vue-dropzone v-if="showUpload" @vdropzone-thumbnail="checkFileDimensions" @vdropzone-removed-file="removeFile"
-            :options="validationdropzoneOptions" ref="promoImageToUpload" id="validationdropzone"
-            class="dropzone digits custom-file-upload">
+          <vue-dropzone
+            v-if="showUpload"
+            @vdropzone-thumbnail="checkFileDimensions"
+            @vdropzone-removed-file="removeFile"
+            :options="validationdropzoneOptions"
+            ref="promoImageToUpload"
+            id="validationdropzone"
+            class="dropzone digits custom-file-upload"
+          >
           </vue-dropzone>
-          <div :class="{
-            'dropzone is-invalid': promotionFormState.image_id == false,
-          }"></div>
+          <div
+            :class="{
+              'dropzone is-invalid': promotionFormState.image_id == false,
+            }"
+          ></div>
         </div>
       </div>
     </div>
@@ -187,7 +330,11 @@
           <button class="btn btn-primary" @click="createUpdatePromotion">
             {{ $t("admin." + (editable ? "update" : "create")) }}
           </button>
-          <button class="btn btn-tertiary" v-if="editable" @click="navigateBack()">
+          <button
+            class="btn btn-tertiary"
+            v-if="editable"
+            @click="navigateBack()"
+          >
             {{ $t("back") }}
           </button>
         </div>
@@ -234,7 +381,7 @@ export default {
         is_show: false,
         is_active: false,
         user_ids: [],
-        specialities_ids: []
+        specialities_ids: [],
       },
 
       promotionFormState: {
@@ -258,7 +405,7 @@ export default {
         is_show: false,
         is_active: false,
         user_ids: [],
-        specialities_ids: []
+        specialities_ids: [],
       },
       formSubmitted: false,
 
@@ -273,10 +420,7 @@ export default {
       editable: false,
       showStartDateCalendar: false,
       showEndDateCalendar: false,
-      discountType: [
-        this.$t("admin.percentage"),
-        this.$t("admin.amount"),
-      ],
+      discountType: ["percentage", "amount"],
     };
   },
   computed: {
@@ -311,10 +455,8 @@ export default {
 
       this.fileToUpload = [];
       if (this.$refs.promoImageToUpload) {
-
         this.$refs.promoImageToUpload.removeAllFiles();
       }
-      console.log('Data comeing from store', this.getSelectedPromotionCode);
       if (this.editable) {
         this.promotionForm.title = this.getSelectedPromotionCode.title;
         this.promotionForm.title_ar = this.getSelectedPromotionCode.title_ar;
@@ -433,8 +575,8 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-              error.response.data &&
-              error.response.data.message
+                error.response.data &&
+                error.response.data.message
             );
         }
       );
@@ -508,14 +650,12 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-              error.response.data &&
-              error.response.data.message
+                error.response.data &&
+                error.response.data.message
             );
         }
       );
     }, 500),
-
-
 
     fetchSpecialities() {
       authService.getSpecialities().then(
@@ -531,8 +671,8 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-              error.response.data &&
-              error.response.data.message
+                error.response.data &&
+                error.response.data.message
             );
         }
       );
@@ -550,13 +690,16 @@ export default {
         this.promotionForm.user_ids =
           this.items && this.items.length ? this.items.map((x) => x.id) : [];
       }
-      if (this.promotionForm.is_for_all_specialities) this.promotionForm.specialities_ids = [];
+      if (this.promotionForm.is_for_all_specialities)
+        this.promotionForm.specialities_ids = [];
       else {
         this.promotionForm.specialities_ids =
-          this.selectedSpecialities && this.selectedSpecialities.length ? this.selectedSpecialities.map((x) => x.id) : [];
+          this.selectedSpecialities && this.selectedSpecialities.length
+            ? this.selectedSpecialities.map((x) => x.id)
+            : [];
       }
       if (!this.editable) {
-        console.log("data", this.promotionForm)
+        console.log("data", this.promotionForm);
         promotionCodeService.createPromotions(this.promotionForm).then(
           (response) => {
             if (response.data.status) {
@@ -570,14 +713,17 @@ export default {
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
-                error.response.data &&
-                error.response.data.message
+                  error.response.data &&
+                  error.response.data.message
               );
           }
         );
       } else {
         promotionCodeService
-          .updatePromotions(this.getSelectedPromotionCode.id, this.promotionForm)
+          .updatePromotions(
+            this.getSelectedPromotionCode.id,
+            this.promotionForm
+          )
           .then(
             (response) => {
               if (response.data.status) {
@@ -591,8 +737,8 @@ export default {
               if (!this.isAPIAborted(error))
                 this.failureToast(
                   error.response &&
-                  error.response.data &&
-                  error.response.data.message
+                    error.response.data &&
+                    error.response.data.message
                 );
             }
           );
@@ -704,15 +850,15 @@ export default {
   transition: 0.4s;
 }
 
-input:checked+.slider {
+input:checked + .slider {
   background-color: #5daf00;
 }
 
-input:focus+.slider {
+input:focus + .slider {
   box-shadow: 0 0 1px #2196f3;
 }
 
-input:checked+.slider:before {
+input:checked + .slider:before {
   -webkit-transform: translateX(24px);
   -ms-transform: translateX(24px);
   transform: translateX(24px);
