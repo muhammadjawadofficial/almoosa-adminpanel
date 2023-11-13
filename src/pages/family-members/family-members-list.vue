@@ -11,7 +11,7 @@
       </div>
       <div class="search-input">
         <b-form-input
-          :placeholder="$t('admin.searchFamilyMemberByNameMrn')"
+          :placeholder="$t('admin.searchFamilyMemberByMrn')"
           id="type-search"
           type="search"
           v-model="searchQuery"
@@ -21,14 +21,16 @@
     </div>
     <b-table
       show-empty
+      responsive
       stacked="md"
       borderless
-      responsive
       :items="items"
       :fields="tablefields"
-      :current-page="currentPage"
-      :per-page="getPerPageSelection"
-      class="ash-data-table"
+      :per-page="5"
+      :sort-by="sortBy"
+      :sort-desc="sortDesc"
+      @sort-changed="sortUsers"
+      class="ash-data-table mt-3"
     >
       <template #empty>
         <div class="text-center my-2">{{ $t("noRecordToShow") }}</div>
@@ -42,11 +44,6 @@
         </template>
         <template v-else-if="data.field.key == 'action'">
           <div class="action-buttons">
-            <!-- <feather
-              @click.stop="editRequest(data.item)"
-              class="pointer"
-              type="settings"
-            ></feather> -->
             <feather
               @click.stop="rowClicked(data.item)"
               class="pointer"
@@ -91,11 +88,14 @@
         <template v-else-if="data.field.key == 'updated_by' && data.value">
           <div class="user-name-with-image">
             <span class="text">
-              ({{ data.value.id }}) {{ getFullName(data.value,) }}</span>
+              ({{ data.value.id }}) {{ getFullName(data.value) }}
+            </span>
           </div>
         </template>
-        <template v-else-if="data.field.key.toLowerCase().includes('updated_at') ||
-          data.field.key.toLowerCase().includes('created_at')
+        <template
+          v-else-if="
+            data.field.key.toLowerCase().includes('updated_at') ||
+            data.field.key.toLowerCase().includes('created_at')
           ">
           {{ getLongDateAndTimeFromDate(data.value, true) }}
         </template>
@@ -106,6 +106,7 @@
       v-model="currentPage"
       :total-rows="totalRows"
       :per-page="getPerPageSelection"
+      @change="fetchAllFamilyMembers"
       class="my-0 justify-content-end"
       v-if="getPerPageSelection"
     ></b-pagination>
@@ -119,25 +120,27 @@ import { familyMemberService } from "../../services";
 export default {
   data() {
     return {
+      sortBy: "id",
+      sortDesc: true,
       searchQuery: "",
+      sortKey: "id",
       totalRows: 1,
       currentPage: 1,
       getPerPageSelection: 5,
       tablefields: [
         { key: "id", label: "id", sortable: true },
-        { key: "guardian_name", label: "guardianName", sortable: true },
-        { key: "guardian_mrn", label: "guardianMrn", sortable: true },
+        { key: "guardian_name", label: "guardianName" },
+        { key: "guardian_mrn", label: "guardianMrn" },
         {
           key: "family_member_name",
           label: "familyMemberName",
-          sortable: true,
         },
-        { key: "family_member_mrn", label: "familyMemberMrn", sortable: true },
-        { key: "age", label: "age", sortable: true },
-        { key: "phone", label: "phoneNumber", sortable: true },
+        { key: "family_member_mrn", label: "familyMemberMrn" },
+        { key: "age", label: "age" },
+        { key: "phone", label: "phoneNumber" },
         { key: "status", label: "status", sortable: true },
         { key: "created_at", label: "createdAt", sortable: true },
-        { key: "updated_at", label: "updatedAt" , sortable: true},
+        { key: "updated_at", label: "updatedAt", sortable: true },
         { key: "updated_by", label: "updatedBy" },
         { key: "action", label: "action" },
       ],
@@ -159,15 +162,8 @@ export default {
     this.fetchUsers();
   },
   watch: {
-    searchQuery(query) {
-      this.items = this.totalItems.filter(
-        (x) =>
-          ("" + x.family_member_mrn).includes(query) ||
-          this.getFullName(x.dependent)
-            .toLowerCase()
-            .includes(query.toLowerCase())
-      );
-      this.totalRows = this.items.length;
+    searchQuery() {
+      this.fetchAllFamilyMembers();
     },
   },
   methods: {
@@ -180,6 +176,12 @@ export default {
       this.setSelectedFamilyMemberRequest(e);
       if (this.userId) this.navigateTo("Patient Family Member Profile");
       else this.navigateTo("Family Members Profile");
+    },
+    sortUsers(filter) {
+      console.log("jhdasfasdgfkjgaf", filter);
+      this.sortDesc = filter.sortDesc;
+      this.sortBy = filter.sortBy;
+      this.fetchAllFamilyMembers();
     },
     parseData(data) {
       this.items = [];
@@ -216,7 +218,7 @@ export default {
             if (response.data.status) {
               
               this.parseData(response.data.data.items);
-              
+
               this.currentPage = 1;
             } else {
               this.failureToast(response.data.message);
@@ -233,12 +235,26 @@ export default {
           }
         );
     },
-    fetchAllFamilyMembers() {
-      familyMemberService.fetchAllFamilyMembers().then(
+    fetchAllFamilyMembers(pageNumber = 1) {
+      this.items = [];
+      let query = "?query=" + this.searchQuery;
+      if (this.sortKey) {
+        query +=
+          "&sort=" +
+          (this.sortDesc ? "DESC" : "ASC") +
+          "&orderBy=" +
+          this.sortKey;
+      }
+      query += "&limit=" + this.getPerPageSelection;
+      if (pageNumber) {
+        query += "&page=" + pageNumber;
+      }
+      familyMemberService.fetchAllFamilyMembers(query).then(
         (response) => {
           if (response.data.status) {
             this.parseData(response.data.data.items);
-            this.currentPage = 1;
+            this.currentPage = pageNumber;
+            this.totalRows = response.data.data.total_records;
           } else {
             this.failureToast(response.data.messsage);
           }
@@ -293,5 +309,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
