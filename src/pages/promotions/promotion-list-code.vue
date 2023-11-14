@@ -32,15 +32,15 @@
           {{ data.value ? $t('all'): `${translateNumber(data.item.user_ids.length)} ${$t('admin.users')}` }}
         </template>
         <template v-else-if="data.field.key.includes('all_specialities')">
-          {{ data.value ? $t('all'): `${translateNumber(data.item.user_ids.length)} ${$t('admin.specialites')}` }}
+          {{ data.value ? $t('all'): `${translateNumber(data.item.specialities_ids.length)} ${$t('admin.specialites')}` }}
         </template>
         <template v-else-if="data.field.status">
           {{ data.value ? $t('admin.yes'): $t('admin.no') }}
         </template>
         <template v-else-if="data.field.key.includes('_by_name')">
-          {{ data.value }}
+          {{ data.value  }}
         </template>
-        <template v-else>{{ data.value }}</template>
+        <template v-else>{{ data.value || "N/A" }}</template>
       </template>
     </b-table>
     <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="getPerPageSelection"
@@ -117,8 +117,8 @@ export default {
         data.forEach((x) => {
           this.items.push({
             id: x.id,
-            created_by_name: x.created_by ? `(${x.created_by.id}) ${this.getFullName(x.created_by, '', 'en')}` : "",
-            updated_by_name: x.updated_by ? `(${x.updated_by.id}) ${this.getFullName(x.updated_by, '', 'en')}` : "",
+            created_by_name: x.created_by ? `(${x.created_by.id}) ${this.getFullName(x.created_by, '', 'en')}` : "N/A",
+            updated_by_name: x.updated_by ? `(${x.updated_by.id}) ${this.getFullName(x.updated_by, '', 'en')}` : "N/A",
             ...x,
           });
         });

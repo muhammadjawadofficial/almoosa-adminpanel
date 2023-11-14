@@ -105,7 +105,7 @@
       <div class="col-md-4">
         <b-input-group class="custom-login-input-groups">
           <b-form-input
-            type="text"
+            type="number"
             v-model="promotionForm.usage_count_per_user"
             :state="promotionFormState.usage_count_per_user"
             :placeholder="$t('admin.usageOfCount')"
