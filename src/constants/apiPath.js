@@ -42,10 +42,10 @@ export const apiPath = {
         updatePromoGroupDetails: (id) => getApiObject("patch", "promo-groups/" + id),
         updatePromoGroupUsers: getApiObject("post", "users/promo-group"),
         firstFreeAppointmentReport: getApiObject("post", "reports/first_free_appointment"),
-        fetchAllPromotions: getApiObject("get", "promotions","v2"),
-        createPromotions: getApiObject("post", "promotions","v2"),
-        updatePromotions: (id) => getApiObject("patch", "promotions/" + id,"v2"),
-        deletePromotions: (id) => getApiObject("delete", "promotions/" + id ,"v2"),
+        fetchAllPromotions: getApiObject("get", "promotions", "v2"),
+        createPromotions: getApiObject("post", "promotions", "v2"),
+        updatePromotions: (id) => getApiObject("patch", "promotions/" + id, "v2"),
+        deletePromotions: (id) => getApiObject("delete", "promotions/" + id, "v2"),
     },
 
     insurance: {
@@ -165,10 +165,14 @@ export const apiPath = {
         update: (id) => getApiObject("patch", "banner/" + id),
         delete: (id) => getApiObject("delete", "banner/" + id),
     },
-    
+
     noticationsManagement: {
         fetchAll: () => getApiObject("get", "notification-msg"),
         fetchAllUsersNotifications: (query) => getApiObject("get", "notifications" + query),
         update: (id) => getApiObject("patch", "notification-msg/" + id),
-    }
+    },
+
+    systemConfig: {
+        fetchSystemConfig: (query) => getApiObject("get", "system-settings" + query),
+    },
 };

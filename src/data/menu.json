@@ -93,7 +93,7 @@
             "badgeType": "primary",
             "badgeValue": "",
             "active": false,
-            "disabled": false,
+            "disabled": true,
             "permission": "Promotions and Loyalty Points",
             "children": [
                 {

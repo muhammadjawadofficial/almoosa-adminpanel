@@ -47,7 +47,7 @@
           ></b-form-textarea>
         </b-input-group>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-4" v-if="isConfigurable">
         <b-input-group class="custom-login-input-groups">
           <multiselect
             v-model="promotionForm.discount_type"
@@ -72,7 +72,7 @@
           ></div>
         </b-input-group>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-6">
         <b-input-group class="custom-login-input-groups">
           <b-form-input
             type="text"
@@ -82,7 +82,7 @@
           ></b-form-input>
         </b-input-group>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-6">
         <b-input-group class="custom-login-input-groups">
           <b-form-input
             type="text"
@@ -179,122 +179,121 @@
         />
         <label for="allUsers">{{ $t("admin.allUsers") }}</label>
       </div>
-      <div class="col-md-3 mt-3 inputChecker">
-        <input
-          id="allSpecialities"
-          type="checkbox"
-          v-model="promotionForm.is_for_all_specialities"
-          value="Bike"
-        />
-        <label for="allSpecialities">{{ $t("admin.allSpecialities") }}</label>
-      </div>
-      <div class="col-md-3 mt-3 inputChecker">
-        <input
-          id="virtualappointment"
-          type="checkbox"
-          v-model="promotionForm.is_virtual_appointment_promo"
-          value="Bike"
-        />
-        <label for="virtualappointment">{{
-          $t("admin.virtualappointment")
-        }}</label>
-      </div>
-
-      <div class="col-md-3 mt-3 inputChecker">
-        <input
-          id="onsiteAppointment"
-          type="checkbox"
-          v-model="promotionForm.is_onsite_appointment_promo"
-        />
-        <label for="onsiteAppointment">{{
-          $t("admin.onsiteAppointment")
-        }}</label>
-      </div>
-
-      <div class="col-md-3 mt-3 inputChecker">
-        <input
-          id="allPackages"
-          type="checkbox"
-          v-model="promotionForm.is_for_all_packages"
-        />
-        <label for="allPackages">{{ $t("admin.allPackages") }}</label>
-      </div>
-
-      <div class="col-md-3 mt-3 inputSwitch" style="display: flex; gap: 1rem">
-        <span>{{ $t("admin.show") }}</span>
-        <label class="switch">
-          <input type="checkbox" v-model="promotionForm.is_show" />
-          <span class="slider round"></span>
-        </label>
-      </div>
-      <div class="col-md-3 mt-3 inputSwitch" style="display: flex; gap: 1rem">
-        <span>{{ $t("admin.active") }}</span>
-        <label class="switch" for="isActive">
+      <template>
+        <div class="col-md-3 mt-3 inputChecker" v-if="isConfigurable">
           <input
+            id="allSpecialities"
             type="checkbox"
-            id="isActive"
-            v-model="promotionForm.is_active"
+            v-model="promotionForm.is_for_all_specialities"
+            value="Bike"
           />
-          <span class="slider round"></span>
-        </label>
-      </div>
-      <div
-        v-if="!promotionForm.is_for_all_users"
-        class="col-md-10 checkBoxInput"
-        style="display: flex; gap: 10px; align-items: center"
-      >
-        <div style="flex-grow: 1">
-          <b-input-group class="custom-login-input-groups">
-            <multiselect
-              class="tags-spacing small-tags"
-              v-model="items"
-              :options="allUsers"
-              :placeholder="$t('admin.allUsers')"
-              track-by="mrn_number"
-              multiple
-              label="label"
-              :close-on-select="false"
-              :clear-on-select="false"
-              :internal-search="false"
-              @search-change="searchUsers"
-            >
-            </multiselect>
-            <div
-              class="custom-state-invalid icon"
-              :class="{
-                'is-invalid': promotionFormState.promo_group_id == false,
-              }"
-            ></div>
-          </b-input-group>
+          <label for="allSpecialities">{{ $t("admin.allSpecialities") }}</label>
         </div>
-      </div>
-      <div
-        v-if="!promotionForm.is_for_all_specialities"
-        class="col-md-10 checkBoxInput"
-        style="display: flex; gap: 10px; align-items: center"
-      >
-        <div style="flex-grow: 1">
-          <b-input-group class="custom-login-input-groups">
-            <multiselect
-              class="tags-spacing"
-              v-model="selectedSpecialities"
-              :options="specialities"
-              :placeholder="$t('admin.allSpecialities')"
-              track-by="id"
-              multiple
-              label="title"
-              :close-on-select="false"
-            >
-            </multiselect>
-            <div
-              class="custom-state-invalid icon"
-              :class="{
-                'is-invalid': promotionFormState.promo_group_id == false,
-              }"
-            ></div>
-          </b-input-group>
+        <div class="col-md-3 mt-3 inputChecker" v-if="isConfigurable">
+          <input
+            id="virtualappointment"
+            type="checkbox"
+            v-model="promotionForm.is_virtual_appointment_promo"
+            value="Bike"
+          />
+          <label for="virtualappointment">{{
+            $t("admin.virtualappointment")
+          }}</label>
         </div>
-      </div>
+        <div class="col-md-3 mt-3 inputChecker" v-if="isConfigurable">
+          <input
+            id="onsiteAppointment"
+            type="checkbox"
+            v-model="promotionForm.is_onsite_appointment_promo"
+          />
+          <label for="onsiteAppointment">{{
+            $t("admin.onsiteAppointment")
+          }}</label>
+        </div>
+        <div class="col-md-3 mt-3 inputChecker" v-if="isConfigurable">
+          <input
+            id="allPackages"
+            type="checkbox"
+            v-model="promotionForm.is_for_all_packages"
+          />
+          <label for="allPackages">{{ $t("admin.allPackages") }}</label>
+        </div>
+        <div class="col-md-3 mt-3 inputSwitch" style="display: flex; gap: 1rem">
+          <span>{{ $t("admin.influencerPromo") }}</span>
+          <label class="switch">
+            <input type="checkbox" v-model="promotionForm.is_show" />
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <div class="col-md-3 mt-3 inputSwitch" v-if="isConfigurable" style="display: flex; gap: 1rem">
+          <span>{{ $t("admin.active") }}</span>
+          <label class="switch" for="isActive">
+            <input
+              type="checkbox"
+              id="isActive"
+              v-model="promotionForm.is_active"
+            />
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <div
+          v-if="!promotionForm.is_for_all_users"
+          class="col-md-10 checkBoxInput"
+          style="display: flex; gap: 10px; align-items: center"
+        >
+          <div style="flex-grow: 1">
+            <b-input-group class="custom-login-input-groups">
+              <multiselect
+                class="tags-spacing small-tags"
+                v-model="items"
+                :options="allUsers"
+                :placeholder="$t('admin.allUsers')"
+                track-by="mrn_number"
+                multiple
+                label="label"
+                :close-on-select="false"
+                :clear-on-select="false"
+                :internal-search="false"
+                @search-change="searchUsers"
+              >
+              </multiselect>
+              <div
+                class="custom-state-invalid icon"
+                :class="{
+                  'is-invalid': promotionFormState.promo_group_id == false,
+                }"
+              ></div>
+            </b-input-group>
+          </div>
+        </div>
+        <div
+          v-if="!promotionForm.is_for_all_specialities && isConfigurable"
+          class="col-md-10 checkBoxInput"
+          style="display: flex; gap: 10px; align-items: center"
+        >
+          <div style="flex-grow: 1">
+            <b-input-group class="custom-login-input-groups">
+              <multiselect
+                class="tags-spacing"
+                v-model="selectedSpecialities"
+                :options="specialities"
+                :placeholder="$t('admin.allSpecialities')"
+                track-by="id"
+                multiple
+                label="title"
+                :close-on-select="false"
+              >
+              </multiselect>
+              <div
+                class="custom-state-invalid icon"
+                :class="{
+                  'is-invalid': promotionFormState.promo_group_id == false,
+                }"
+              ></div>
+            </b-input-group>
+          </div>
+        </div>
+      </template>
     </div>
     <div class="row">
       <div class="col-md-6">
@@ -360,6 +359,7 @@ export default {
       showUpload: true,
       selectedPromotion: null,
       searchQuery: "",
+      isConfigurable: false,
       promotionForm: {
         title: "",
         title_ar: "",
@@ -368,7 +368,7 @@ export default {
         start_date: "",
         expiry_date: "",
         discount: "",
-        discount_type: "",
+        discount_type: "percentage",
         promo_code: "",
         usage_count_per_user: null,
         image_id: null,
@@ -519,7 +519,7 @@ export default {
         this.promotionForm.details_ar = "";
         this.promotionForm.usage_count_per_user = "";
         this.promotionForm.discount = "";
-        this.promotionForm.discount_type = "";
+        this.promotionForm.discount_type = "percentage";
         this.promotionForm.promo_code = "";
         this.promotionForm.start_date = "";
         this.promotionForm.expiry_date = "";
@@ -534,6 +534,15 @@ export default {
         this.promotionForm.is_onsite_appointment_promo = false;
         this.items = [];
         this.selectedSpecialities = [];
+      }
+      if(this.isConfigurable){
+        this.promotionForm.is_active = true;
+        this.promotionForm.is_show = true;
+        this.promotionForm.is_for_all_packages = true;
+        this.promotionForm.is_for_all_specialities = true;
+        this.promotionForm.is_for_all_users = true;
+        this.promotionForm.is_virtual_appointment_promo = true;
+        this.promotionForm.is_onsite_appointment_promo = true;
       }
     },
 
