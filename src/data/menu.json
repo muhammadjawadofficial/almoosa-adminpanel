@@ -93,55 +93,9 @@
             "badgeType": "primary",
             "badgeValue": "",
             "active": false,
-            "disabled": true,
+            "disabled": false,
             "permission": "Promotions and Loyalty Points",
             "children": [
-                {
-                    "title": "Promo Groups",
-                    "title_ar": "مجموعات ترويجية",
-                    "type": "sub",
-                    "badgeType": "primary",
-                    "badgeValue": "",
-                    "active": false,
-                    "disabled": false,
-                    "children": [
-                        {
-                            "title": "List",
-                            "title_ar": "قائمة",
-                            "type": "link",
-                            "path": "/promotions/groups/list"
-                        },
-                        {
-                            "title": "Create",
-                            "title_ar": "خلق",
-                            "type": "link",
-                            "path": "/promotions/groups/create"
-                        }
-                    ]
-                },
-                {
-                    "title": "Promo Codes",
-                    "title_ar": "الرموز الترويجية",
-                    "type": "sub",
-                    "badgeType": "primary",
-                    "badgeValue": "",
-                    "active": false,
-                    "disabled": true,
-                    "children": [
-                        {
-                            "title": "List",
-                            "title_ar": "قائمة",
-                            "type": "link",
-                            "path": "/promotions/list"
-                        },
-                        {
-                            "title": "Create",
-                            "title_ar": "خلق",
-                            "type": "link",
-                            "path": "/promotions/create"
-                        }
-                    ]
-                },
                 {
                     "title": "Promo Code",
                     "title_ar": "رمز ترويجي",

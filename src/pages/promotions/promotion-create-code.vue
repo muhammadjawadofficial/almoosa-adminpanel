@@ -219,13 +219,17 @@
           <label for="allPackages">{{ $t("admin.allPackages") }}</label>
         </div>
         <div class="col-md-3 mt-3 inputSwitch" style="display: flex; gap: 1rem">
-          <span>{{ $t("admin.influencerPromo") }}</span>
+          <span>{{ $t("admin.showInList") }}</span>
           <label class="switch">
             <input type="checkbox" v-model="promotionForm.is_show" />
             <span class="slider round"></span>
           </label>
         </div>
-        <div class="col-md-3 mt-3 inputSwitch" v-if="isConfigurable" style="display: flex; gap: 1rem">
+        <div
+          class="col-md-3 mt-3 inputSwitch"
+          v-if="isConfigurable"
+          style="display: flex; gap: 1rem"
+        >
           <span>{{ $t("admin.active") }}</span>
           <label class="switch" for="isActive">
             <input
@@ -534,15 +538,15 @@ export default {
         this.promotionForm.is_onsite_appointment_promo = false;
         this.items = [];
         this.selectedSpecialities = [];
-      }
-      if(this.isConfigurable){
-        this.promotionForm.is_active = true;
-        this.promotionForm.is_show = true;
-        this.promotionForm.is_for_all_packages = true;
-        this.promotionForm.is_for_all_specialities = true;
-        this.promotionForm.is_for_all_users = true;
-        this.promotionForm.is_virtual_appointment_promo = true;
-        this.promotionForm.is_onsite_appointment_promo = true;
+        if (!this.isConfigurable) {
+          this.promotionForm.is_active = true;
+          this.promotionForm.is_show = true;
+          this.promotionForm.is_for_all_packages = true;
+          this.promotionForm.is_for_all_specialities = true;
+          this.promotionForm.is_for_all_users = true;
+          this.promotionForm.is_virtual_appointment_promo = true;
+          this.promotionForm.is_onsite_appointment_promo = true;
+        }
       }
     },
 
@@ -779,6 +783,9 @@ export default {
 .inputChecker {
   display: inline-flex;
   gap: 1.5rem;
+  * {
+    cursor: pointer;
+  }
 }
 
 .checkBoxInput input[type="checkbox"] {
@@ -789,7 +796,6 @@ export default {
 }
 
 .inputChecker input[type="checkbox"] {
-  margin: 4px 0 0;
   line-height: normal;
   width: 20px;
   height: 20px;
