@@ -102,7 +102,7 @@
           ></b-form-input>
         </b-input-group>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-4" v-if="isConfigurable">
         <b-input-group class="custom-login-input-groups">
           <b-form-input
             type="number"
@@ -112,7 +112,7 @@
           ></b-form-input>
         </b-input-group>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-4" v-if="isConfigurable">
         <b-input-group class="custom-login-input-groups">
           <b-form-input
             type="text"
@@ -169,6 +169,7 @@
         </b-input-group>
       </div>
       <!-- allUser -->
+      <div class="col-md-12"></div>
       <div class="col-md-3 mt-3 inputChecker">
         <input
           id="allUsers"
@@ -372,7 +373,7 @@ export default {
         start_date: "",
         expiry_date: "",
         discount: "",
-        discount_type: "percentage",
+        discount_type: "",
         promo_code: "",
         usage_count_per_user: null,
         image_id: null,
@@ -523,7 +524,7 @@ export default {
         this.promotionForm.details_ar = "";
         this.promotionForm.usage_count_per_user = "";
         this.promotionForm.discount = "";
-        this.promotionForm.discount_type = "percentage";
+        this.promotionForm.discount_type = "";
         this.promotionForm.promo_code = "";
         this.promotionForm.start_date = "";
         this.promotionForm.expiry_date = "";
@@ -546,6 +547,12 @@ export default {
           this.promotionForm.is_for_all_users = true;
           this.promotionForm.is_virtual_appointment_promo = true;
           this.promotionForm.is_onsite_appointment_promo = true;
+          this.promotionForm.discount_type = "percentage";
+          this.promotionForm.usage_count_per_user = 9999;
+          this.promotionForm.start_date = this.dateFormatter(
+            new Date(),
+            "YYYY-MM-DD"
+          );
         }
       }
     },

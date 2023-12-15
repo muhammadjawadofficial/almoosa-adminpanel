@@ -72,7 +72,7 @@ export default {
         // { key: "is_for_all_packages", label: "allPackages", sortable: true, status: true },
         { key: "is_show", label: "show", sortable: true, status: true },
         // { key: "is_active", label: "active", sortable: true, status: true },
-        { key: "start_date", label: "startDate", sortable: true },
+        // { key: "start_date", label: "startDate", sortable: true },
         { key: "expiry_date", label: "endDate", sortable: true },
         { key: "created_by_name", label: "createdBy", sortable: true },
         { key: "updated_by_name", label: "updatedBy", sortable: true },
