@@ -161,9 +161,14 @@
             :lang="getCurrentLang()"
             :open="showEndDateCalendar"
             @input="showEndDateCalendar = false"
+            :disabled-date="disabledBeforeTodayAndAfterAWeek"
           >
             <template #icon-calendar>
-              <img src="../../assets/images/calendar.svg" alt="" />
+              <img
+                src="../../assets/images/calendar.svg"
+                alt=""
+                @click="showEndDateCalendar = !showEndDateCalendar"
+              />
             </template>
           </date-picker>
         </b-input-group>
@@ -252,7 +257,7 @@
                 class="tags-spacing small-tags"
                 v-model="items"
                 :options="allUsers"
-                :placeholder="$t('admin.allUsers')"
+                :placeholder="$t('admin.searchUsers')"
                 track-by="mrn_number"
                 multiple
                 label="label"
@@ -261,6 +266,19 @@
                 :internal-search="false"
                 @search-change="searchUsers"
               >
+                <template slot="noOptions">
+                  {{ $t("admin.enterAtLeast4Characters") }}
+                </template>
+                <template slot="noResult">
+                  {{
+                    $t(
+                      "admin." +
+                        (searchQuery.length > 3
+                          ? "noUserFound"
+                          : "enterAtLeast4Characters")
+                    )
+                  }}
+                </template>
               </multiselect>
               <div
                 class="custom-state-invalid icon"
@@ -447,6 +465,12 @@ export default {
   },
 
   methods: {
+    disabledBeforeTodayAndAfterAWeek(date) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      return date < today;
+    },
     checkAccess() {
       if (this.$route.name.toLowerCase().includes("edit")) {
         if (this.getSelectedPromotionCode && this.getSelectedPromotionCode.id) {
@@ -652,10 +676,10 @@ export default {
         this.allUsers = [];
       }
     },
-
     fetchUsers: debounce(function () {
       let query = "?status=verified&role_id=3&page=1&query=" + this.searchQuery;
       this.allUsers = [];
+      if (!(this.searchQuery && this.searchQuery.length > 3)) return;
       userService.searchUsers(query).then(
         (response) => {
           if (response.data.status) {
@@ -675,7 +699,7 @@ export default {
             );
         }
       );
-    }, 500),
+    }, 1000),
 
     fetchSpecialities() {
       authService.getSpecialities().then(
