@@ -195,7 +195,8 @@ export default {
           ("" + x.family_member_mrn).includes(query) ||
           this.getFullName(x.dependent)
             .toLowerCase()
-            .includes(query.toLowerCase())
+            .includes(query.toLowerCase()) ||
+          ("" + x.family_member_phone).includes(query)
       );
       this.totalRows = this.items.length;
     },
@@ -226,6 +227,9 @@ export default {
               ? this.getYears(x.dependent.dob)
               : "N/A",
           guardian_mrn: (x.guardian && x.guardian.mrn_number) || "N/A",
+          family_member_phone:
+            (x.dependent && x.dependent.phone_number) || "N/A",
+          guardian_phone: (x.guardian && x.guardian.phone_number) || "N/A",
           email: (x.dependent && x.dependent.email_address) || "N/A",
           phone: (x.dependent && x.dependent.phone_number) || "N/A",
           status: x.status || "N/A",
@@ -239,7 +243,7 @@ export default {
       if (this.userId) {
         this.fetchPatientFamilyMembers();
       } else {
-        this.fetchAllFamilyMembers();
+        this.fetchAllFamilyMembers("pending");
       }
     },
     fetchPatientFamilyMembers() {
