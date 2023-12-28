@@ -264,14 +264,27 @@
         {
             "title": "Services & Packages",
             "title_ar": "الخدمات والحزم",
-            "type": "link",
+            "type": "sub",
             "icon": "briefcase-fill-svg",
             "badgeType": "primary",
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "permission": "Services & Packages",
-            "path": "/services-packages/list"
+            "permission": "CMS Pages",
+            "children": [
+                {
+                    "title": "List",
+                    "title_ar": "قائمة",
+                    "type": "link",
+                    "path": "/services-packages/list"
+                },
+                {
+                    "title": "Create",
+                    "title_ar": "خلق",
+                    "type": "link",
+                    "path": "/services-packages/create"
+                }
+            ]
         },
         {
             "title": "Family Members",
