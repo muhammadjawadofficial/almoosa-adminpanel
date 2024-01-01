@@ -19,6 +19,31 @@
         ></b-form-input>
       </div>
     </div>
+    <div class="filter-container" v-if="!this.userId">
+      <div class="toggle-options mb-0">
+        <div
+          class="toggle-options--single"
+          :class="{ active: activeTab == 'pending' }"
+          @click="changeTab('pending')"
+        >
+          {{ $t("admin.pending") }}
+        </div>
+        <div
+          class="toggle-options--single"
+          :class="{ active: activeTab == 'approved' }"
+          @click="changeTab('approved')"
+        >
+          {{ $t("admin.approved") }}
+        </div>
+        <div
+          class="toggle-options--single"
+          :class="{ active: activeTab == 'rejected' }"
+          @click="changeTab('rejected')"
+        >
+          {{ $t("admin.rejected") }}
+        </div>
+      </div>
+    </div>
     <b-table
       show-empty
       stacked="md"
@@ -91,12 +116,16 @@
         <template v-else-if="data.field.key == 'updated_by' && data.value">
           <div class="user-name-with-image">
             <span class="text">
-              ({{ data.value.id }}) {{ getFullName(data.value,) }}</span>
+              ({{ data.value.id }}) {{ getFullName(data.value) }}</span
+            >
           </div>
         </template>
-        <template v-else-if="data.field.key.toLowerCase().includes('updated_at') ||
-          data.field.key.toLowerCase().includes('created_at')
-          ">
+        <template
+          v-else-if="
+            data.field.key.toLowerCase().includes('updated_at') ||
+            data.field.key.toLowerCase().includes('created_at')
+          "
+        >
           {{ getLongDateAndTimeFromDate(data.value, true) }}
         </template>
         <template v-else>{{ data.value || "N/A" }}</template>
@@ -137,13 +166,14 @@ export default {
         { key: "phone", label: "phoneNumber", sortable: true },
         { key: "status", label: "status", sortable: true },
         { key: "created_at", label: "createdAt", sortable: true },
-        { key: "updated_at", label: "updatedAt" , sortable: true},
+        { key: "updated_at", label: "updatedAt", sortable: true },
         { key: "updated_by", label: "updatedBy" },
         { key: "action", label: "action" },
       ],
       items: [],
       totalItems: [],
       userId: null,
+      activeTab: "",
     };
   },
   computed: {
@@ -165,7 +195,8 @@ export default {
           ("" + x.family_member_mrn).includes(query) ||
           this.getFullName(x.dependent)
             .toLowerCase()
-            .includes(query.toLowerCase())
+            .includes(query.toLowerCase()) ||
+          ("" + x.family_member_phone).includes(query)
       );
       this.totalRows = this.items.length;
     },
@@ -175,6 +206,10 @@ export default {
       "setSelectedFamilyMember",
       "setSelectedFamilyMemberRequest",
     ]),
+    changeTab(type) {
+      this.activeTab = type;
+      this.fetchAllFamilyMembers(type);
+    },
     rowClicked(e) {
       this.setSelectedFamilyMember(e.dependent);
       this.setSelectedFamilyMemberRequest(e);
@@ -192,6 +227,9 @@ export default {
               ? this.getYears(x.dependent.dob)
               : "N/A",
           guardian_mrn: (x.guardian && x.guardian.mrn_number) || "N/A",
+          family_member_phone:
+            (x.dependent && x.dependent.phone_number) || "N/A",
+          guardian_phone: (x.guardian && x.guardian.phone_number) || "N/A",
           email: (x.dependent && x.dependent.email_address) || "N/A",
           phone: (x.dependent && x.dependent.phone_number) || "N/A",
           status: x.status || "N/A",
@@ -205,7 +243,7 @@ export default {
       if (this.userId) {
         this.fetchPatientFamilyMembers();
       } else {
-        this.fetchAllFamilyMembers();
+        this.fetchAllFamilyMembers("pending");
       }
     },
     fetchPatientFamilyMembers() {
@@ -214,9 +252,8 @@ export default {
         .then(
           (response) => {
             if (response.data.status) {
-              
               this.parseData(response.data.data.items);
-              
+
               this.currentPage = 1;
             } else {
               this.failureToast(response.data.message);
@@ -233,10 +270,15 @@ export default {
           }
         );
     },
-    fetchAllFamilyMembers() {
-      familyMemberService.fetchAllFamilyMembers().then(
+    fetchAllFamilyMembers(status) {
+      let query = "";
+      if (status) {
+        query = "?status=" + status;
+      }
+      familyMemberService.fetchAllFamilyMembers(query).then(
         (response) => {
           if (response.data.status) {
+            this.activeTab = status || "pending";
             this.parseData(response.data.data.items);
             this.currentPage = 1;
           } else {
