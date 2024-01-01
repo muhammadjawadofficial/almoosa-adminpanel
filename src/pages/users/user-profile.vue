@@ -88,14 +88,11 @@
                           {{ $t("profile.loyaltyPoint") }}
                         </div>
                         <div class="value">
-                          {{ getSelectedUser.loyality_points || 0 }} /
-                          <div class="sub-value">
+                          {{ getSelectedUser.loyality_points || 0 }}
+                          {{ loyaltyPointsConfig ? "/" : "" }}
+                          <div class="sub-value" v-if="loyaltyPointsConfig">
                             {{ $t("equal") }}
-                            {{
-                              translateNumber(
-                                (getSelectedUser.loyality_points || 0) / 2
-                              )
-                            }}
+                            {{ translateNumber(calculateLoyaltyPointsAmount) }}
                             {{ $t("sar") }}
                           </div>
                         </div>
@@ -394,6 +391,39 @@
                     :state="mrnNumberState"
                     :placeholder="
                       !isEditing && !isEditingMRN && !mrnNumber
+                        ? 'N/A'
+                        : $t('admin.enterMRN')
+                    "
+                    :disabled="!isEditing && !isEditingMRN"
+                    :formatter="numberOnly"
+                  ></b-form-input>
+                </div>
+              </div>
+              <div class="profile-info-card-option">
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing || isEditingMRN"
+                />
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/MRN.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("profile.loyaltyPoint") }}
+                </div>
+                <div
+                  class="profile-info-card-detail-value"
+                  :class="{ inactive: !isEditing && !isEditingMRN }"
+                >
+                  <b-form-input
+                    v-model="loyaltyPoint"
+                    :state="loyaltyPointState"
+                    :placeholder="
+                      !isEditing && !isEditingMRN && !loyaltyPoint
                         ? 'N/A'
                         : $t('admin.enterMRN')
                     "
@@ -863,7 +893,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import constants from "../../constants/constants";
-import { authService, userService } from "../../services";
+import { authService, systemConfigService, userService } from "../../services";
 export default {
   data() {
     return {
@@ -876,6 +906,8 @@ export default {
       phoneNumberState: null,
       mrnNumber: "",
       mrnNumberState: null,
+      loyaltyPoint: "",
+      loyaltyPointState: null,
       userStatus: null,
       userStatusState: null,
       userStatusOptions: ["verified", "unverified", "blocked"],
@@ -909,6 +941,7 @@ export default {
       backRoute: "",
       activeTab: "english",
       forceDisable: false,
+      loyaltyPointsConfig: null,
     };
   },
   mounted() {
@@ -934,11 +967,17 @@ export default {
       this.isMrnEditingAllowed = true;
       // this.forceDisable = true;
     }
+    this.fetchLoyalityPointsFactor();
     this.initializeData();
     this.checkDropdownValues();
   },
   computed: {
     ...mapGetters("user", ["getSelectedUser"]),
+    calculateLoyaltyPointsAmount() {
+      return (
+        this.getSelectedUser.loyality_points * this.loyaltyPointsConfig.factor
+      ).toFixed(2);
+    },
     validPhoneNumber() {
       let regex = /^[0-9]+$/;
       let result = this.phoneNumber.match(regex);
@@ -955,6 +994,27 @@ export default {
   },
   methods: {
     ...mapActions("user", ["updateUserInfo", "updateSelectedUser"]),
+    fetchLoyalityPointsFactor() {
+      systemConfigService.fetchConfig("?title=LOYALITY_POINTS_FACTOR").then(
+        (response) => {
+          if (response.data.status) {
+            let data = response.data.data.items;
+            let config = JSON.parse(data[0].value);
+            this.loyaltyPointsConfig = config;
+          } else {
+            this.failureToast(response.data.messsage);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
     changeTab(tab) {
       this.activeTab = tab;
     },
@@ -1150,9 +1210,11 @@ export default {
         this.address = this.getSelectedUser.location;
         this.phoneNumber = this.getSelectedUser.phone_number;
         this.mrnNumber = this.getSelectedUser.mrn_number;
+        this.loyaltyPoint = this.getSelectedUser.loyality_points;
         this.userStatus = this.getSelectedUser.status;
         this.phoneNumberState = null;
         this.mrnNumberState = null;
+        this.loyaltyPointState = null;
         this.userStatusState = null;
       }
       this.isEditing = false;
@@ -1185,8 +1247,11 @@ export default {
     },
     validateMrn() {
       this.mrnNumberState = this.mrnNumber != "" && !!this.mrnNumber;
+      this.loyaltyPointState = this.loyaltyPoint != "" && !!this.loyaltyPoint;
       this.userStatusState = this.userStatus != "" && !!this.userStatus;
-      return this.mrnNumberState && this.userStatusState;
+      return (
+        this.mrnNumberState && this.userStatusState && this.loyaltyPointState
+      );
     },
     editProfile() {
       if (this.isEditing) {
@@ -1250,6 +1315,7 @@ export default {
         }
         let updateUserObj = {
           mrn_number: this.mrnNumber,
+          loyality_points: this.loyaltyPoint,
           status: this.userStatus,
         };
         this.updateSelectedUser(updateUserObj);

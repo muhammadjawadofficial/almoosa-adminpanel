@@ -97,8 +97,8 @@
             "permission": "Promotions and Loyalty Points",
             "children": [
                 {
-                    "title": "Promo Groups",
-                    "title_ar": "مجموعات ترويجية",
+                    "title": "Promo Code",
+                    "title_ar": "رمز ترويجي",
                     "type": "sub",
                     "badgeType": "primary",
                     "badgeValue": "",
@@ -109,36 +109,13 @@
                             "title": "List",
                             "title_ar": "قائمة",
                             "type": "link",
-                            "path": "/promotions/groups/list"
+                            "path": "/promotions/code/list"
                         },
                         {
                             "title": "Create",
                             "title_ar": "خلق",
                             "type": "link",
-                            "path": "/promotions/groups/create"
-                        }
-                    ]
-                },
-                {
-                    "title": "Promo Codes",
-                    "title_ar": "الرموز الترويجية",
-                    "type": "sub",
-                    "badgeType": "primary",
-                    "badgeValue": "",
-                    "active": false,
-                    "disabled": false,
-                    "children": [
-                        {
-                            "title": "List",
-                            "title_ar": "قائمة",
-                            "type": "link",
-                            "path": "/promotions/list"
-                        },
-                        {
-                            "title": "Create",
-                            "title_ar": "خلق",
-                            "type": "link",
-                            "path": "/promotions/create"
+                            "path": "/promotions/code/create"
                         }
                     ]
                 },
