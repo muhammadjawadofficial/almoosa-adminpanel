@@ -23,6 +23,7 @@ export const userService = {
     getDoctorProfile,
     getOrCreateDoctorProfile,
     getUsers,
+    searchUsers,
     getDuplicatedUsers,
     getPatients,
     getDoctors,
@@ -157,6 +158,12 @@ function getUsers(query) {
     return axios({
         method: apiPath.user.fetchUsers(query || '').method,
         url: apiPath.user.fetchUsers(query || '').url,
+    })
+}
+function searchUsers(query) {
+    return axios({
+        method: apiPath.user.searchUsers(query || '').method,
+        url: apiPath.user.searchUsers(query || '').url,
     })
 }
 function getDuplicatedUsers(query) {

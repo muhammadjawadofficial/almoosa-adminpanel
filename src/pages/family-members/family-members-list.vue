@@ -19,6 +19,31 @@
         ></b-form-input>
       </div>
     </div>
+    <div class="filter-container" v-if="!this.userId">
+      <div class="toggle-options mb-0">
+        <div
+          class="toggle-options--single"
+          :class="{ active: activeTab == 'pending' }"
+          @click="changeTab('pending')"
+        >
+          {{ $t("admin.pending") }}
+        </div>
+        <div
+          class="toggle-options--single"
+          :class="{ active: activeTab == 'approved' }"
+          @click="changeTab('approved')"
+        >
+          {{ $t("admin.approved") }}
+        </div>
+        <div
+          class="toggle-options--single"
+          :class="{ active: activeTab == 'rejected' }"
+          @click="changeTab('rejected')"
+        >
+          {{ $t("admin.rejected") }}
+        </div>
+      </div>
+    </div>
     <b-table
       show-empty
       responsive
@@ -96,7 +121,8 @@
           v-else-if="
             data.field.key.toLowerCase().includes('updated_at') ||
             data.field.key.toLowerCase().includes('created_at')
-          ">
+          "
+        >
           {{ getLongDateAndTimeFromDate(data.value, true) }}
         </template>
         <template v-else>{{ data.value || "N/A" }}</template>
@@ -106,7 +132,7 @@
       v-model="currentPage"
       :total-rows="totalRows"
       :per-page="getPerPageSelection"
-      @change="fetchAllFamilyMembers"
+      @change="fetchAllFamilyMembers(activeTab, $event)"
       class="my-0 justify-content-end"
       v-if="getPerPageSelection"
     ></b-pagination>
@@ -147,6 +173,7 @@ export default {
       items: [],
       totalItems: [],
       userId: null,
+      activeTab: "",
     };
   },
   computed: {
@@ -163,7 +190,7 @@ export default {
   },
   watch: {
     searchQuery() {
-      this.fetchAllFamilyMembers();
+      this.fetchAllFamilyMembers(this.activeTab, 1);
     },
   },
   methods: {
@@ -171,6 +198,10 @@ export default {
       "setSelectedFamilyMember",
       "setSelectedFamilyMemberRequest",
     ]),
+    changeTab(type) {
+      this.activeTab = type;
+      this.fetchAllFamilyMembers(type, 1);
+    },
     rowClicked(e) {
       this.setSelectedFamilyMember(e.dependent);
       this.setSelectedFamilyMemberRequest(e);
@@ -194,6 +225,9 @@ export default {
               ? this.getYears(x.dependent.dob)
               : "N/A",
           guardian_mrn: (x.guardian && x.guardian.mrn_number) || "N/A",
+          family_member_phone:
+            (x.dependent && x.dependent.phone_number) || "N/A",
+          guardian_phone: (x.guardian && x.guardian.phone_number) || "N/A",
           email: (x.dependent && x.dependent.email_address) || "N/A",
           phone: (x.dependent && x.dependent.phone_number) || "N/A",
           status: x.status || "N/A",
@@ -207,7 +241,7 @@ export default {
       if (this.userId) {
         this.fetchPatientFamilyMembers();
       } else {
-        this.fetchAllFamilyMembers();
+        this.fetchAllFamilyMembers("pending");
       }
     },
     fetchPatientFamilyMembers() {
@@ -216,7 +250,6 @@ export default {
         .then(
           (response) => {
             if (response.data.status) {
-              
               this.parseData(response.data.data.items);
 
               this.currentPage = 1;
@@ -235,7 +268,7 @@ export default {
           }
         );
     },
-    fetchAllFamilyMembers(pageNumber = 1) {
+    fetchAllFamilyMembers(status = "", pageNumber = 1) {
       this.items = [];
       let query = "?query=" + this.searchQuery;
       if (this.sortKey) {
@@ -249,9 +282,18 @@ export default {
       if (pageNumber) {
         query += "&page=" + pageNumber;
       }
+      if (status) {
+        query += "&status=" + status;
+      } else if (this.activeTab) {
+        query += "&status=" + this.activeTab;
+      } else {
+        query += "&status=pending";
+      }
+
       familyMemberService.fetchAllFamilyMembers(query).then(
         (response) => {
           if (response.data.status) {
+            this.activeTab = status || "pending";
             this.parseData(response.data.data.items);
             this.currentPage = pageNumber;
             this.totalRows = response.data.data.total_records;
