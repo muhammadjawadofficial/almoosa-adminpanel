@@ -83,27 +83,27 @@
         </template>
         <template v-else-if="data.field.key == 'family_member_name'">
           <div class="user-name-with-image">
-            <div class="image">
+            <!-- <div class="image">
               <img
                 :src="
                   getImageUrl(data.item.dependent && data.item.dependent.photo)
                 "
                 alt="user"
               />
-            </div>
+            </div> -->
             <span class="text">{{ getFullName(data.item.dependent) }}</span>
           </div>
         </template>
         <template v-else-if="data.field.key == 'guardian_name'">
           <div class="user-name-with-image">
-            <div class="image">
+            <!-- <div class="image">
               <img
                 :src="
                   getImageUrl(data.item.guardian && data.item.guardian.photo)
                 "
                 alt="user"
               />
-            </div>
+            </div> -->
             <span class="text">{{ getFullName(data.item.guardian) }}</span>
           </div>
         </template>
