@@ -747,6 +747,7 @@
     "sp_request": "طلب إجراء المتجر",
     "sp_response": "استجابة إجراء المتجر",
     "searchFamilyMemberByNameMrn": "البحث عن أفراد الأسرة حسب الاسم أو رقم السجل الطبي",
+    "searchFamilyMemberByMrn": "البحث عن أفراد العائلة بواسطة رقم السجل الطبي",
     "familyMemberName": "اسم فرد الأسرة",
     "guardianName": "اسم الوصي",
     "familyMemberMrn": "رقم السجل الطبي لفرد الأسرة",

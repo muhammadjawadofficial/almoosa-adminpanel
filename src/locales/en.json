@@ -755,6 +755,7 @@
     "sp_request": "SP Request",
     "sp_response": "SP Response",
     "searchFamilyMemberByNameMrn": "Search Family Member by Name/MRN",
+    "searchFamilyMemberByMrn": "Search Family Member by MRN",
     "familyMemberName": "Family Member Name",
     "guardianName": "Guardian Name",
     "familyMemberMrn": "Family Member MRN",
