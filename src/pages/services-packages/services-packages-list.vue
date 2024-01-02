@@ -56,7 +56,6 @@
         </div>
       </div>
     </div>
-
     <b-table
       show-empty
       stacked="md"
@@ -67,6 +66,7 @@
       :per-page="5"
       class="ash-data-table clickable"
       @row-clicked="rowClicked"
+      :responsive="true"
     >
       <template #empty>
         <div class="text-center my-2">{{ $t("noRecordToShow") }}</div>
@@ -134,10 +134,14 @@ export default {
         { key: "photo", label: "photo", sortable: true },
         { key: "title", label: "title", sortable: true },
         { key: "description", label: "description", sortable: true },
-        { key: "services", label: "services", sortable: true },
+        { key: "servicesName", label: "services", sortable: true },
+        { key: "servicesCount", label: "count", sortable: true },
         { key: "noOfServices", label: "noOfServices", sortable: true },
         { key: "price", label: "price", sortable: true },
+        { key: "amount", label: "amount", sortable: true },
+        { key: "vat", label: "vat", sortable: true },
         { key: "createdAt", label: "createdAt", sortable: true },
+        { key: "action", label: "action" },
       ],
       items: [],
       showDatePicker: true,
@@ -212,8 +216,9 @@ export default {
       data.forEach((x) => {
         this.items.push({
           createdAt: this.formatDate(x.created_at),
-          services: Object.keys(x.service_details).join(", "),
-          noOfServices: Object.keys(x.service_details).length,
+          servicesName: x.services.map((item) => item.name).join(","),
+          servicesCount: x.services.map((item) => item.count).join(","),
+          noOfServices: x.services.length,
           ...x,
         });
       });

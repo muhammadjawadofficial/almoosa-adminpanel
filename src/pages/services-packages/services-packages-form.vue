@@ -6,7 +6,7 @@
     />
     <div class="row mt-3">
       <div class="col-md-5">
-        <b-input-group class="custom-login-input-groups">
+        <b-input-group class="custom-login-input-groups forceLtr">
           <b-form-input
             v-model="packageForm.title"
             :state="formSubmitted ? packageForm.title != '' : null"
@@ -15,40 +15,69 @@
         </b-input-group>
       </div>
       <div class="col-md-5">
-        <b-input-group class="custom-login-input-groups">
+        <b-input-group class="custom-login-input-groups forceRtl">
           <b-form-input
-            type="number"
-            v-model="packageForm.price"
-            :state="formSubmitted ? packageForm.price != '' : null"
-            :placeholder="$t('admin.price')"
+            v-model="packageForm.title"
+            :state="formSubmitted ? packageForm.title != '' : null"
+            :placeholder="$t('admin.titleAr')"
           ></b-form-input>
         </b-input-group>
       </div>
     </div>
+    <!-- services name and description -->
     <div
       class="row"
-      v-for="(service, index) in packageForm.service_details"
+      v-for="(service, index) in packageForm.services"
       :key="'service-' + index"
     >
       <div class="col-md-5">
-        <b-input-group class="custom-login-input-groups">
+        <b-input-group class="custom-login-input-groups forceLtr">
           <b-form-input
-            v-model="service.key"
-            :state="formSubmitted ? service.key != '' : null"
+            v-model="service.name"
+            :state="formSubmitted ? service.name != '' : null"
             :placeholder="$t('admin.serviceName')"
           ></b-form-input>
         </b-input-group>
       </div>
       <div class="col-md-5">
-        <b-input-group class="custom-login-input-groups">
+        <b-input-group class="custom-login-input-groups forceRtl">
           <b-form-input
-            v-model="service.value"
-            :state="formSubmitted ? service.value != '' : null"
+            v-model="service.name"
+            :state="formSubmitted ? service.name != '' : null"
+            :placeholder="$t('admin.serviceNameAr')"
+          ></b-form-input>
+        </b-input-group>
+      </div>
+      <div class="col-md-5">
+        <b-input-group class="custom-login-input-groups forceLtr">
+          <b-form-input
+            v-model="service.description"
+            :state="formSubmitted ? service.description != '' : null"
             :placeholder="$t('admin.serviceDescription')"
           ></b-form-input>
         </b-input-group>
       </div>
-      <div class="col-md-1">
+      <div class="col-md-5">
+        <b-input-group class="custom-login-input-groups forceRtl">
+          <b-form-input
+            v-model="service.name"
+            :state="formSubmitted ? service.name != '' : null"
+            :placeholder="$t('admin.serviceDescriptionAr')"
+          ></b-form-input>
+        </b-input-group>
+      </div>
+      <div class="col-md-9">
+        <b-input-group class="custom-login-input-groups">
+          <b-form-input
+            type="number"
+            v-model="service.count"
+            :state="formSubmitted ? service.count != '' : null"
+            :placeholder="$t('servicesPackages.count')"
+          ></b-form-input>
+        </b-input-group>
+      </div>
+
+      <div class="col-md-2">
         <div class="add-new-insurance h-100 d-flex align-items-center pointer">
           <div class="icon" v-if="index == 0" @click="addService">
             <img src="../../assets/images/add.svg" alt="add" />
@@ -59,13 +88,81 @@
         </div>
       </div>
     </div>
+    <!-- amount price and vat -->
+    <div class="row">
+      <div class="col-md-3">
+        <b-input-group class="custom-login-input-groups">
+          <b-form-input
+            type="number"
+            v-model="packageForm.price"
+            :state="formSubmitted ? packageForm.price != '' : null"
+            :placeholder="$t('admin.price')"
+            :disabled="true"
+          ></b-form-input>
+        </b-input-group>
+      </div>
+      <div class="col-md-3">
+        <b-input-group class="custom-login-input-groups">
+          <b-form-input
+            type="number"
+            v-model="packageForm.amount"
+            :state="formSubmitted ? packageForm.amount != '' : null"
+            :placeholder="$t('servicesPackages.amount')"
+            @change="updatePrice"
+          ></b-form-input>
+        </b-input-group>
+      </div>
+      
+      <div class="col-md-3">
+        <b-input-group class="custom-login-input-groups">
+          <b-form-input
+            type="number"
+            v-model="packageForm.vat"
+            :state="formSubmitted ? packageForm.vat != '' : null"
+            :placeholder="$t('servicesPackages.vat')"
+            @change="updatePrice"
+          ></b-form-input>
+        </b-input-group>
+      </div>
+    </div>
+   
     <div class="row">
       <div class="col-md-10">
         <b-input-group class="custom-login-input-groups">
+          <multiselect
+            v-model="packageForm.term_condition_id"
+            :options="cmsPages"
+            :placeholder="$t('servicesPackages.selectTerm&Conditions')"
+            track-by="id"
+            label="page_title"
+          ></multiselect>
+          <div
+            class="custom-state-invalid icon"
+            :class="{
+              'is-invalid': packageForm.term_condition_id == false,
+            }"
+          ></div>
+        </b-input-group>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-5">
+        <b-input-group class="custom-login-input-groups forceLtr">
           <b-form-textarea
             v-model="packageForm.description"
             :state="formSubmitted ? packageForm.description != '' : null"
             :placeholder="$t('admin.description')"
+            rows="4"
+            max-rows="8"
+          ></b-form-textarea>
+        </b-input-group>
+      </div>
+      <div class="col-md-5">
+        <b-input-group class="custom-login-input-groups forceRtl">
+          <b-form-textarea
+            v-model="packageForm.description"
+            :state="formSubmitted ? packageForm.description != '' : null"
+            :placeholder="$t('admin.descriptionAr')"
             rows="4"
             max-rows="8"
           ></b-form-textarea>
@@ -122,20 +219,30 @@
 
 <script>
 import { authService, servicesPackagesService } from "../../services";
+import { cmsPagesService } from "../../services";
 import { mapGetters } from "vuex";
 export default {
   data() {
     return {
       showUpload: true,
+      cmsPages: [],
       packageForm: {
         title: "",
-        price: "",
+        title_ar:"",
         description: "",
-        thumbnail_id: "",
-        service_details: [
+        description_ar: "",
+        thumbnail_id: null,
+        price: "",
+        amount: "",
+        vat: "",
+        term_condition_id: "",
+        services: [
           {
-            key: "",
-            value: "",
+            name: "",
+            name_ar: "",
+            description: "",
+            description_ar: "",
+            count: "",
           },
         ],
       },
@@ -158,10 +265,14 @@ export default {
   watch: {
     $route: function () {
       this.checkAccess();
+      this.fetchArticles();
     },
+    "packageForm.amount": "updatePrice",
+    "packageForm.vat": "updatePrice",
   },
   mounted() {
     this.checkAccess();
+    this.fetchArticles();
   },
   methods: {
     checkAccess() {
@@ -177,19 +288,16 @@ export default {
 
       this.$refs.fileUpload.removeAllFiles();
       this.fileToUpload = [];
-
+      // console.log("checker",this.getSelectedPackage.term_condition_id)
       if (this.editable) {
         this.packageForm.title = this.getSelectedPackage.title;
         this.packageForm.price = this.getSelectedPackage.price;
         this.packageForm.description = this.getSelectedPackage.description;
-        this.packageForm.service_details = [
-          ...Object.keys(this.getSelectedPackage.service_details).map((x) => {
-            return {
-              key: x,
-              value: this.getSelectedPackage.service_details[x],
-            };
-          }),
-        ];
+        this.packageForm.amount = this.getSelectedPackage.amount;
+        this.packageForm.vat = this.getSelectedPackage.vat;
+        this.packageForm.term_condition_id =
+          this.getSelectedPackage.term_condition_id;
+        this.packageForm.services = this.getSelectedPackage.services;
         if (this.getSelectedPackage.thumbnail) {
           this.packageForm.thumbnail_id = this.getSelectedPackage.thumbnail_id;
           let image = this.getSelectedPackage.thumbnail;
@@ -209,13 +317,25 @@ export default {
       }
     },
     removeService(index) {
-      if (this.packageForm.service_details.length > 0) {
-        this.packageForm.service_details =
-          this.packageForm.service_details.filter((x, i) => i != index);
+      if (this.packageForm.services.length > 0) {
+        this.packageForm.services = this.packageForm.services.filter(
+          (x, i) => i != index
+        );
       }
     },
+    updatePrice() {
+      if (this.packageForm.amount && !this.packageForm.vat) {
+        this.packageForm.price = this.packageForm.amount;
+        return;
+      }
+      this.packageForm.price = +this.packageForm.amount + +this.packageForm.vat;
+    },
     addService() {
-      this.packageForm.service_details.push({ key: "", value: "" });
+      this.packageForm.services.push({
+        name: "",
+        description: "",
+        count: "",
+      });
     },
     removeFile() {
       if (this.fileToUpload.length > 1) {
@@ -261,12 +381,15 @@ export default {
       let state = {};
       state.title = form.title != "";
       state.price = form.price != "";
+      state.amount = form.amount != "";
+      state.vat = form.vat != "";
+      state.term_condition_id = form.term_condition_id != "";
       state.description = form.description != "";
-      state.service_details =
-        form.service_details && form.service_details.length > 0;
-      form.service_details.forEach((item) => {
-        if (state.service_details) {
-          state.service_details = item.key != "" && item.value != "";
+      state.services = form.services && form.services.length > 0;
+      form.services.forEach((item) => {
+        if (state.services) {
+          state.services =
+            item.name != "" && item.description != "" && item.count != "";
         }
       });
       state.thumbnail_id = form.thumbnail_id != "";
@@ -279,8 +402,8 @@ export default {
         return;
       }
       let parsedDetails = {};
-      this.packageForm.service_details.forEach((item) => {
-        if (item.key != "" && item.value != "")
+      this.packageForm.services.forEach((item) => {
+        if (item.name != "" && item.description != "" && item.count != "")
           parsedDetails[item.key] = item.value;
       });
       let newPackage = {
@@ -288,7 +411,10 @@ export default {
         price: this.packageForm.price,
         description: this.packageForm.description,
         thumbnail_id: this.packageForm.thumbnail_id,
-        service_details: JSON.stringify(parsedDetails),
+        term_condition_id: this.packageForm.term_condition_id,
+        amount: this.packageForm.amount,
+        vat: this.packageForm.vat,
+        services: this.packageForm.services,
       };
       servicesPackagesService.addNewPackage(newPackage).then(
         (response) => {
@@ -311,12 +437,13 @@ export default {
     },
     editPackage() {
       this.formSubmitted = true;
-      if (!this.validateForm()) {
-        return;
-      }
+      // if (!this.validateForm()) {
+      //   return;
+      // }
       let parsedDetails = {};
-      this.packageForm.service_details.forEach((item) => {
-        if (item.key != "" && item.value != "")
+      this.packageForm.services.forEach((item) => {
+        console.log("data", item);
+        if (item.name != "" && item.description != "" && item.count != "")
           parsedDetails[item.key] = item.value;
       });
       let newPackage = {
@@ -324,8 +451,12 @@ export default {
         price: this.packageForm.price,
         description: this.packageForm.description,
         thumbnail_id: this.packageForm.thumbnail_id,
-        service_details: JSON.stringify(parsedDetails),
+        term_condition_id: this.packageForm.term_condition_id,
+        amount: this.packageForm.amount,
+        vat: this.packageForm.vat,
+        services: this.packageForm.services,
       };
+      console.log("newPackage", newPackage);
       servicesPackagesService
         .updatePackage(this.getSelectedPackage.id, newPackage)
         .then(
@@ -356,16 +487,42 @@ export default {
         price: "",
         description: "",
         thumbnail_id: "",
-        service_details: [
+        services: [
           {
-            key: "",
-            value: "",
+            name: "",
+            description: "",
+            count: "",
           },
         ],
       };
       this.fileToUpload = [];
       this.$refs.fileUpload.removeAllFiles();
       this.formSubmitted = false;
+    },
+    fetchArticles() {
+      console.log("id", this.packageForm.term_condition_id);
+      cmsPagesService.fetchCmsPages().then(
+        (response) => {
+          if (response.data.status) {
+            this.cmsPages = response.data.data.items;
+            console.log("id", this.packageForm.term_condition_id);
+            this.packageForm.term_condition_id = this.cmsPages.find(
+              (el) => el.id === this.getSelectedPackage.term_condition_id
+            );
+            console.log("cms", this.packageForm.term_condition_id);
+          } else {
+            this.failureToast(response.data.messsage);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
     },
   },
 };
