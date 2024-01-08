@@ -1905,6 +1905,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: fit-content;
     margin-block: 1rem;
     background-color: $tertiary-color;
+    flex-wrap: wrap;
+    @media (max-width: 992px) {
+        background-color: $transparent-color;
+        gap: 0.5rem;
+    }
     & &--single {
         padding: 0.6rem;
         width: 13rem;
@@ -1914,10 +1919,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         color: $black;
         font-size: 1rem;
         cursor: pointer;
+        border-radius: 50vw;
+        @media (max-width: 992px) {
+            padding: 0.5rem 0.25rem;
+            width: 10.75rem;
+            background-color: $tertiary-color;
+        }
         &.active {
             background-color: $secondary-color;
             color: $white;
-            border-radius: 50vw;
         }
     }
 }
@@ -2098,13 +2108,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    overflow: auto;
+    // overflow: auto;
     margin-block: 1rem;
-
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 .filters-dropdown {
     cursor: pointer;
     position: relative;
+    margin-inline-start: auto;
     &:before {
         content: "";
         position: absolute;
