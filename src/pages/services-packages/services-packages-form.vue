@@ -17,7 +17,7 @@
       <div class="col-md-5">
         <b-input-group class="custom-login-input-groups forceRtl">
           <b-form-input
-            v-model="packageForm.title"
+            v-model="packageForm.title_ar"
             :state="formSubmitted ? packageForm.title != '' : null"
             :placeholder="$t('admin.titleAr')"
           ></b-form-input>
@@ -25,69 +25,161 @@
       </div>
     </div>
     <!-- services name and description -->
-    <div
-      class="row"
-      v-for="(service, index) in packageForm.services"
-      :key="'service-' + index"
-    >
-      <div class="col-md-5">
-        <b-input-group class="custom-login-input-groups forceLtr">
-          <b-form-input
-            v-model="service.name"
-            :state="formSubmitted ? service.name != '' : null"
-            :placeholder="$t('admin.serviceName')"
-          ></b-form-input>
-        </b-input-group>
-      </div>
-      <div class="col-md-5">
-        <b-input-group class="custom-login-input-groups forceRtl">
-          <b-form-input
-            v-model="service.name"
-            :state="formSubmitted ? service.name != '' : null"
-            :placeholder="$t('admin.serviceNameAr')"
-          ></b-form-input>
-        </b-input-group>
-      </div>
-      <div class="col-md-5">
-        <b-input-group class="custom-login-input-groups forceLtr">
-          <b-form-input
-            v-model="service.description"
-            :state="formSubmitted ? service.description != '' : null"
-            :placeholder="$t('admin.serviceDescription')"
-          ></b-form-input>
-        </b-input-group>
-      </div>
-      <div class="col-md-5">
-        <b-input-group class="custom-login-input-groups forceRtl">
-          <b-form-input
-            v-model="service.name"
-            :state="formSubmitted ? service.name != '' : null"
-            :placeholder="$t('admin.serviceDescriptionAr')"
-          ></b-form-input>
-        </b-input-group>
-      </div>
-      <div class="col-md-9">
-        <b-input-group class="custom-login-input-groups">
-          <b-form-input
-            type="number"
-            v-model="service.count"
-            :state="formSubmitted ? service.count != '' : null"
-            :placeholder="$t('servicesPackages.count')"
-          ></b-form-input>
-        </b-input-group>
-      </div>
-
-      <div class="col-md-2">
-        <div class="add-new-insurance h-100 d-flex align-items-center pointer">
-          <div class="icon" v-if="index == 0" @click="addService">
-            <img src="../../assets/images/add.svg" alt="add" />
+    <div class="">
+      <div
+        class="row"
+        v-for="(service, index) in packageForm.services"
+        :key="'service-' + index"
+      >
+        <div class="col-md-5">
+          <b-input-group class="custom-login-input-groups forceLtr">
+            <b-form-input
+              v-model="service.name"
+              :state="formSubmitted ? service.name != '' : null"
+              :placeholder="$t('admin.serviceName')"
+            ></b-form-input>
+          </b-input-group>
+        </div>
+        <div class="col-md-5">
+          <b-input-group class="custom-login-input-groups forceRtl">
+            <b-form-input
+              v-model="service.name_ar"
+              :state="formSubmitted ? service.name != '' : null"
+              :placeholder="$t('admin.serviceNameAr')"
+            ></b-form-input>
+          </b-input-group>
+        </div>
+        <div class="col-md-5">
+          <b-input-group class="custom-login-input-groups forceLtr">
+            <b-form-input
+              v-model="service.description"
+              :state="formSubmitted ? service.description != '' : null"
+              :placeholder="$t('admin.serviceDescription')"
+            ></b-form-input>
+          </b-input-group>
+        </div>
+        <div class="col-md-5">
+          <b-input-group class="custom-login-input-groups forceRtl">
+            <b-form-input
+              v-model="service.description_ar"
+              :state="formSubmitted ? service.name != '' : null"
+              :placeholder="$t('admin.serviceDescriptionAr')"
+            ></b-form-input>
+          </b-input-group>
+        </div>
+        <div class="col-md-1">
+          <div
+            class="add-new-insurance h-100 d-flex align-items-center pointer"
+          >
+            <div
+              class="icon"
+              v-if="index == packageForm.services.length - 1"
+              @click="addService"
+            >
+              <img src="../../assets/images/add.svg" alt="add" />
+            </div>
+            <div class="text" v-else @click="removeService(index)">
+              {{ $t("admin.remove") }}
+            </div>
+            <div
+              @click="toggle(service)"
+              class=""
+              :style="
+                'transform: rotate(' +
+                (service.toggleSubServices ? 0 : 180) +
+                'deg); transition: 0.3s all;margin:0 10px'
+              "
+            >
+              <img
+                src="../../assets/images/angle.svg"
+                alt=""
+                srcset=""
+                style="width: 30px"
+              />
+            </div>
           </div>
-          <div class="text" v-else @click="removeService(index)">
-            {{ $t("admin.remove") }}
+        </div>
+
+        <!-- sub-service -->
+        <div v-if="service.toggleSubServices" class="sub_service col-md-12">
+          <h1>{{ $t("servicesPackages.subServices") }}</h1>
+          <div class="sub-service" v-if="service.sub_services">
+            <div
+              class="row"
+              v-for="(subService, subIndex) in service.sub_services"
+              :key="'service-' + subIndex"
+            >
+              <div class="col-md-5">
+                <b-input-group class="custom-login-input-groups forceLtr">
+                  <b-form-input
+                    v-model="subService.name"
+                    :state="formSubmitted ? subService.name != '' : null"
+                    :placeholder="$t('admin.serviceName')"
+                  ></b-form-input>
+                </b-input-group>
+              </div>
+              <div class="col-md-5">
+                <b-input-group class="custom-login-input-groups forceRtl">
+                  <b-form-input
+                    v-model="subService.name_ar"
+                    :state="formSubmitted ? subService.name != '' : null"
+                    :placeholder="$t('admin.serviceNameAr')"
+                  ></b-form-input>
+                </b-input-group>
+              </div>
+              <div class="col-md-5">
+                <b-input-group class="custom-login-input-groups forceLtr">
+                  <b-form-input
+                    v-model="subService.description"
+                    :state="formSubmitted ? subService.description != '' : null"
+                    :placeholder="$t('admin.serviceDescription')"
+                  ></b-form-input>
+                </b-input-group>
+              </div>
+              <div class="col-md-5">
+                <b-input-group class="custom-login-input-groups forceRtl">
+                  <b-form-input
+                    v-model="subService.description_ar"
+                    :state="formSubmitted ? subService.name != '' : null"
+                    :placeholder="$t('admin.serviceDescriptionAr')"
+                  ></b-form-input>
+                </b-input-group>
+              </div>
+              <div class="col-md-7">
+                <b-input-group class="custom-login-input-groups">
+                  <b-form-input
+                    type="number"
+                    v-model="subService.count"
+                    :state="formSubmitted ? subService.count != '' : null"
+                    :placeholder="$t('servicesPackages.count')"
+                  ></b-form-input>
+                </b-input-group>
+              </div>
+              <div class="col-md-1">
+                <div
+                  class="add-new-insurance h-100 d-flex align-items-center pointer"
+                >
+                  <div
+                    v-if="subIndex == service.sub_services.length - 1"
+                    @click="addSubService(service)"
+                  >
+                    <img src="../../assets/images/add.svg" alt="add" />
+                  </div>
+                  <div
+                    class="text"
+                    v-else
+                    @click="removeSubService(service, subIndex)"
+                  >
+                    {{ $t("admin.remove") }}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
     <!-- amount price and vat -->
     <div class="row">
       <div class="col-md-3">
@@ -112,7 +204,7 @@
           ></b-form-input>
         </b-input-group>
       </div>
-      
+
       <div class="col-md-3">
         <b-input-group class="custom-login-input-groups">
           <b-form-input
@@ -125,7 +217,7 @@
         </b-input-group>
       </div>
     </div>
-   
+
     <div class="row">
       <div class="col-md-10">
         <b-input-group class="custom-login-input-groups">
@@ -160,7 +252,7 @@
       <div class="col-md-5">
         <b-input-group class="custom-login-input-groups forceRtl">
           <b-form-textarea
-            v-model="packageForm.description"
+            v-model="packageForm.description_ar"
             :state="formSubmitted ? packageForm.description != '' : null"
             :placeholder="$t('admin.descriptionAr')"
             rows="4"
@@ -228,21 +320,30 @@ export default {
       cmsPages: [],
       packageForm: {
         title: "",
-        title_ar:"",
+        title_ar: "",
         description: "",
         description_ar: "",
         thumbnail_id: null,
         price: "",
         amount: "",
         vat: "",
-        term_condition_id: "",
+        term_condition_id: "11",
         services: [
           {
             name: "",
             name_ar: "",
             description: "",
             description_ar: "",
-            count: "",
+            toggleSubServices: true,
+            sub_services: [
+              {
+                name: "",
+                name_ar: "",
+                description: "",
+                description_ar: "",
+                count: null,
+              },
+            ],
           },
         ],
       },
@@ -286,18 +387,24 @@ export default {
         this.editable = false;
       }
 
-      this.$refs.fileUpload.removeAllFiles();
+      // this.$refs.fileUpload.removeAllFiles();
       this.fileToUpload = [];
-      // console.log("checker",this.getSelectedPackage.term_condition_id)
       if (this.editable) {
         this.packageForm.title = this.getSelectedPackage.title;
+        this.packageForm.title_ar = this.getSelectedPackage.title_ar;
         this.packageForm.price = this.getSelectedPackage.price;
         this.packageForm.description = this.getSelectedPackage.description;
+        this.packageForm.description_ar =
+          this.getSelectedPackage.description_ar;
         this.packageForm.amount = this.getSelectedPackage.amount;
         this.packageForm.vat = this.getSelectedPackage.vat;
         this.packageForm.term_condition_id =
           this.getSelectedPackage.term_condition_id;
-        this.packageForm.services = this.getSelectedPackage.services;
+        this.packageForm.services = [
+          ...this.getSelectedPackage.services.map((x) => {
+            return { ...x, toggleSubServices: true };
+          }),
+        ];
         if (this.getSelectedPackage.thumbnail) {
           this.packageForm.thumbnail_id = this.getSelectedPackage.thumbnail_id;
           let image = this.getSelectedPackage.thumbnail;
@@ -316,6 +423,10 @@ export default {
         this.resetForm();
       }
     },
+    toggle(service) {
+      console.log("service...", service);
+      service.toggleSubServices = !service.toggleSubServices;
+    },
     removeService(index) {
       if (this.packageForm.services.length > 0) {
         this.packageForm.services = this.packageForm.services.filter(
@@ -333,9 +444,40 @@ export default {
     addService() {
       this.packageForm.services.push({
         name: "",
+        name_ar: "",
         description: "",
-        count: "",
+        description_ar: "",
+        toggleSubServices: true,
+        sub_services: [
+          {
+            name: "",
+            name_ar: "",
+            description: "",
+            description_ar: "",
+            count: null,
+          },
+        ],
       });
+    },
+    addSubService(service) {
+      let newSubService = {
+        name: "",
+        name_ar: "",
+        description: "",
+        description_ar: "",
+        count: null,
+      };
+      if (service.sub_services && service.sub_services.length) {
+        service.sub_services.push({ ...newSubService });
+      } else {
+        service.sub_services = [{ ...newSubService }];
+      }
+    },
+    removeSubService(service, index) {
+      if (service.sub_services && service.sub_services.length)
+        service.sub_services = service.sub_services.filter(
+          (x, i) => i != index
+        );
     },
     removeFile() {
       if (this.fileToUpload.length > 1) {
@@ -388,8 +530,8 @@ export default {
       state.services = form.services && form.services.length > 0;
       form.services.forEach((item) => {
         if (state.services) {
-          state.services =
-            item.name != "" && item.description != "" && item.count != "";
+          delete item.toggleSubServices;
+          state.services = item.name != "" && item.description != "";
         }
       });
       state.thumbnail_id = form.thumbnail_id != "";
@@ -403,15 +545,18 @@ export default {
       }
       let parsedDetails = {};
       this.packageForm.services.forEach((item) => {
-        if (item.name != "" && item.description != "" && item.count != "")
+        delete item.toggleSubServices;
+        if (item.name != "" && item.description != "")
           parsedDetails[item.key] = item.value;
       });
       let newPackage = {
         title: this.packageForm.title,
+        title_ar: this.packageForm.title_ar,
         price: this.packageForm.price,
         description: this.packageForm.description,
+        description_ar: this.packageForm.description_ar,
         thumbnail_id: this.packageForm.thumbnail_id,
-        term_condition_id: this.packageForm.term_condition_id,
+        term_condition_id: this.packageForm.term_condition_id.id,
         amount: this.packageForm.amount,
         vat: this.packageForm.vat,
         services: this.packageForm.services,
@@ -437,26 +582,27 @@ export default {
     },
     editPackage() {
       this.formSubmitted = true;
-      // if (!this.validateForm()) {
-      //   return;
-      // }
+      if (!this.validateForm()) {
+        return;
+      }
       let parsedDetails = {};
       this.packageForm.services.forEach((item) => {
-        console.log("data", item);
-        if (item.name != "" && item.description != "" && item.count != "")
+        delete item.toggleSubServices;
+        if (item.name != "" && item.description != "")
           parsedDetails[item.key] = item.value;
       });
       let newPackage = {
         title: this.packageForm.title,
+        title_ar: this.packageForm.title_ar,
         price: this.packageForm.price,
         description: this.packageForm.description,
+        description_ar: this.packageForm.description_ar,
         thumbnail_id: this.packageForm.thumbnail_id,
-        term_condition_id: this.packageForm.term_condition_id,
+        term_condition_id: this.packageForm.term_condition_id.id,
         amount: this.packageForm.amount,
         vat: this.packageForm.vat,
         services: this.packageForm.services,
       };
-      console.log("newPackage", newPackage);
       servicesPackagesService
         .updatePackage(this.getSelectedPackage.id, newPackage)
         .then(
@@ -464,6 +610,7 @@ export default {
             if (response.data.status) {
               this.formSubmitted = false;
               this.successToast(this.$t("admin.packageCreateSuccessMessage"));
+              this.navigateTo("Services Packages List");
             } else {
               this.failureToast(response.data.message);
             }
@@ -490,8 +637,19 @@ export default {
         services: [
           {
             name: "",
+            name_ar: "",
             description: "",
-            count: "",
+            description_ar: "",
+            toggleSubServices: true,
+            sub_services: [
+              {
+                name: "",
+                name_ar: "",
+                description: "",
+                description_ar: "",
+                count: null,
+              },
+            ],
           },
         ],
       };
@@ -500,16 +658,16 @@ export default {
       this.formSubmitted = false;
     },
     fetchArticles() {
-      console.log("id", this.packageForm.term_condition_id);
       cmsPagesService.fetchCmsPages().then(
         (response) => {
           if (response.data.status) {
             this.cmsPages = response.data.data.items;
-            console.log("id", this.packageForm.term_condition_id);
-            this.packageForm.term_condition_id = this.cmsPages.find(
-              (el) => el.id === this.getSelectedPackage.term_condition_id
-            );
-            console.log("cms", this.packageForm.term_condition_id);
+            if (this.editable) {
+              this.packageForm.term_condition_id = this.cmsPages.find(
+                (el) => el.id === this.getSelectedPackage.term_condition_id
+              );
+              console.log("cms", this.packageForm.term_condition_id);
+            }
           } else {
             this.failureToast(response.data.messsage);
           }
@@ -549,5 +707,13 @@ export default {
 }
 .sign-up-link {
   text-align: right;
+}
+.sub_service {
+  padding-inline: 5rem;
+}
+@media screen and (max-width: 768px) {
+  .sub_service {
+    padding-inline: 1.8rem;
+  }
 }
 </style>

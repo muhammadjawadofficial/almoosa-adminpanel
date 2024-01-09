@@ -432,7 +432,10 @@
     "selectTerm&Conditions": "شرائط و ضوابط کو منتخب کریں۔",
     "count":"عدد",
     "amount":"كمية",
-    "vat":"ضريبة القيمة المضافة"
+    "vat":"ضريبة القيمة المضافة",
+    "addSubService":"إضافة خدمة فرعية",
+    "removeSubService":"إزالة الخدمة الفرعية",
+    "subServices":"الخدمات الفرعية"
   },
   "familyMembers": {
     "title": "أفراد عائلتك",

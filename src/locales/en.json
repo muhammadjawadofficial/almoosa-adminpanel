@@ -436,7 +436,11 @@
     "selectTerm&Conditions": "Select Terms and Conditions",
     "count":"Count",
     "amount":"Amount",
-    "vat":"Vat"
+    "vat":"Vat",
+    "addSubService":"Add Sub Service",
+    "removeSubService":"Remove Sub Service",
+    "subServices":"Sub Services"
+    
   },
   "familyMembers": {
     "title": "Family Members List",
