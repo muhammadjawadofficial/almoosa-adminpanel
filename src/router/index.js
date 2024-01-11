@@ -112,6 +112,8 @@ const notificationsLists = () => import('../pages/notifications/notifications-ma
 const notificationsDetail = () => import('../pages/notifications/notifications-management-details')
 const notificationsUsersDetail = () => import('../pages/notifications/notifications-users')
 
+const LoyaltyPoints = () => import('../pages/reports/loyalty-points')
+
 import { userService } from '../services';
 
 // component
@@ -919,9 +921,17 @@ const routes = [
               title: 'Medication Refills | Almoosa Specialist Hospital',
             },
           },
+          {
+            path: "loyalty-points",
+            name: 'Loyalty Pointns',
+            component: LoyaltyPoints,
+            meta: {
+              title: 'Loyalty Pointns | Almoosa Specialist Hospital',
+            },
+          },
         ]
       },
-       // notificationsLists
+      // notificationsLists
       {
         path: 'notifications',
         component: RouterViewModule,
@@ -951,7 +961,7 @@ const routes = [
               title: 'Notifications Users Details | Almoosa Specialist Hospital',
             },
           },
-          
+
         ]
       },
       {
