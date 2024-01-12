@@ -23,6 +23,7 @@ export const userService = {
     getDoctorProfile,
     getOrCreateDoctorProfile,
     getUsers,
+    searchUsers,
     getDuplicatedUsers,
     getPatients,
     getDoctors,
@@ -34,7 +35,8 @@ export const userService = {
     logout,
     fetchNotifications,
     markAllAsRead,
-    updateDoctorProfile
+    updateDoctorProfile,
+    fetchAllLoyaltyPoints
 };
 
 import axios from "axios";
@@ -159,6 +161,12 @@ function getUsers(query) {
         url: apiPath.user.fetchUsers(query || '').url,
     })
 }
+function searchUsers(query) {
+    return axios({
+        method: apiPath.user.searchUsers(query || '').method,
+        url: apiPath.user.searchUsers(query || '').url,
+    })
+}
 function getDuplicatedUsers(query) {
     return axios({
         method: apiPath.user.fetchDuplicatedUsers(query || '').method,
@@ -218,5 +226,11 @@ function markAllAsRead(data) {
         method: apiPath.user.markAllAsRead.method,
         url: apiPath.user.markAllAsRead.url,
         data
+    })
+}
+function fetchAllLoyaltyPoints(query) {
+    return axios({
+        method: apiPath.loyaltyPoints.fetchAll(query || '').method,
+        url: apiPath.loyaltyPoints.fetchAll(query || '').url,
     })
 }

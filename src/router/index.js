@@ -94,6 +94,8 @@ const promotionsGroups = () => import('../pages/promotions/promo-groups-list')
 const promotionsGroupsCreate = () => import('../pages/promotions/promo-groups-form')
 const promotionsDetails = () => import('../pages/promotions/promotions-details')
 const promotionsForm = () => import('../pages/promotions/promotions-form')
+const promotionListCode = () => import('../pages/promotions/promotion-list-code')
+const promotionCreateCode = () => import('../pages/promotions/promotion-create-code')
 const firstFreeAppointmentReport = () => import('../pages/promotions/first-free-appointment-list')
 
 const TransactionsList = () => import('../pages/transactions/transactions-list')
@@ -109,6 +111,8 @@ const seeAllNotifications = () => import('../pages/see-all-notifications')
 const notificationsLists = () => import('../pages/notifications/notifications-management-list')
 const notificationsDetail = () => import('../pages/notifications/notifications-management-details')
 const notificationsUsersDetail = () => import('../pages/notifications/notifications-users')
+
+const LoyaltyPoints = () => import('../pages/reports/loyalty-points')
 
 import { userService } from '../services';
 
@@ -677,6 +681,30 @@ const routes = [
               title: 'First Free Appointment Report | Almoosa Specialist Hospital',
             },
           },
+          {
+            path: "code/list",
+            name: 'Promotion List',
+            component: promotionListCode,
+            meta: {
+              title: 'Promotions Details | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "code/create",
+            name: 'Promotions Code Create',
+            component: promotionCreateCode,
+            meta: {
+              title: 'Promotions Create | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "code/list/edit",
+            name: 'Promotions Code Edit',
+            component: promotionCreateCode,
+            meta: {
+              title: 'Promotions Edit | Almoosa Specialist Hospital',
+            },
+          },
         ]
       },
       {
@@ -893,9 +921,17 @@ const routes = [
               title: 'Medication Refills | Almoosa Specialist Hospital',
             },
           },
+          {
+            path: "loyalty-points",
+            name: 'Loyalty Pointns',
+            component: LoyaltyPoints,
+            meta: {
+              title: 'Loyalty Pointns | Almoosa Specialist Hospital',
+            },
+          },
         ]
       },
-       // notificationsLists
+      // notificationsLists
       {
         path: 'notifications',
         component: RouterViewModule,
@@ -925,7 +961,7 @@ const routes = [
               title: 'Notifications Users Details | Almoosa Specialist Hospital',
             },
           },
-          
+
         ]
       },
       {

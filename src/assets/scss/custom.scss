@@ -124,9 +124,26 @@
     }
 }
 .multiselect {
+    &.small-tags{
+        .multiselect {
+            &__tag {
+                width: 27rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+    &.tags-spacing{
+        .multiselect {
+            &__tag {
+                display: inline-block;
+                margin-inline: 0.5rem;
+            }
+        }
+    }
     &__tag {
         margin: 0;
-        display: flex;
+        display: inline-flex;
         align-items: center;
         padding-inline-end: 26px;
         padding-inline-start: 10px;
@@ -201,7 +218,7 @@ svg text {
         position: absolute;
         inset: 0;
         z-index: 0;
-        border-radius: 50vw;
+        border-radius: 1rem;
     }
     .custom-select,
     .form-control,

@@ -17,6 +17,7 @@ import specialitiesManagement from './modules/specialities-management'
 import bannerManagement from './modules/banner-management'
 import cmsPages from './modules/cms-pages'
 import notificationManagement from './modules/notification-management'
+import promotionCode from './modules/promotion-code'
 
 Vue.use(Vuex);
 
@@ -44,7 +45,8 @@ export const store = new Vuex.Store({
     specialitiesManagement,
     bannerManagement,
     cmsPages,
-    notificationManagement
+    notificationManagement,
+    promotionCode
   }
 });
 
