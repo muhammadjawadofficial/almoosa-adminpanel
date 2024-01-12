@@ -35,7 +35,8 @@ export const userService = {
     logout,
     fetchNotifications,
     markAllAsRead,
-    updateDoctorProfile
+    updateDoctorProfile,
+    fetchAllLoyaltyPoints
 };
 
 import axios from "axios";
@@ -225,5 +226,11 @@ function markAllAsRead(data) {
         method: apiPath.user.markAllAsRead.method,
         url: apiPath.user.markAllAsRead.url,
         data
+    })
+}
+function fetchAllLoyaltyPoints(query) {
+    return axios({
+        method: apiPath.loyaltyPoints.fetchAll(query || '').method,
+        url: apiPath.loyaltyPoints.fetchAll(query || '').url,
     })
 }

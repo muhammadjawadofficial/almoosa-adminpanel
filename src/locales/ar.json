@@ -788,6 +788,11 @@
     "cancelled": "ألغيت",
     "searchByStatusAppointmentIdMRNPromoCode": "البحث حسب حالة الموعد أو معرف الموعد أو رقم السجل الطبي أو رمز الترويج",
     "yes": "نعم",
-    "no": "لا"
+    "no": "لا",
+    "redeemed": "تم استردادها",
+    "rewarded": "مكافأة",
+    "manual": "كتيب",
+    "loyaltyPoints": "نقاط الولاء",
+    "searchLoyaltyPointsByNameOrMRN": "البحث عن نقاط الولاء حسب الاسم أو رقم السجل الطبي"
   }
 }

@@ -175,4 +175,8 @@ export const apiPath = {
     systemConfig: {
         fetchSystemConfig: (query) => getApiObject("get", "system-settings" + query),
     },
+
+    loyaltyPoints: {
+        fetchAll: (query) => getApiObject("get", "loyalty-points-logs/get/all" + query, "v2"),
+    }
 };

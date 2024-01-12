@@ -799,6 +799,11 @@
     "cancelled": "Cancelled",
     "searchByStatusAppointmentIdMRNPromoCode": "Search by Status / Appointment ID / MRN / Promo Code",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "redeemed": "Redeemed",
+    "rewarded": "Rewarded",
+    "manual": "Manual",
+    "loyaltyPoints": "Loyalty Points",
+    "searchLoyaltyPointsByNameOrMRN": "Search Loyalty Points by Name / MRN"
   }
 }
