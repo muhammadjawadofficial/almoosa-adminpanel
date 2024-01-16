@@ -421,7 +421,6 @@
                 >
                   <b-form-input
                     v-model="loyaltyPoint"
-                    :state="loyaltyPointState"
                     :placeholder="
                       !isEditing && !isEditingMRN && !loyaltyPoint
                         ? 'N/A'
@@ -907,7 +906,6 @@ export default {
       mrnNumber: "",
       mrnNumberState: null,
       loyaltyPoint: "",
-      loyaltyPointState: null,
       userStatus: null,
       userStatusState: null,
       userStatusOptions: ["verified", "unverified", "blocked"],
@@ -1214,7 +1212,6 @@ export default {
         this.userStatus = this.getSelectedUser.status;
         this.phoneNumberState = null;
         this.mrnNumberState = null;
-        this.loyaltyPointState = null;
         this.userStatusState = null;
       }
       this.isEditing = false;
@@ -1247,11 +1244,8 @@ export default {
     },
     validateMrn() {
       this.mrnNumberState = this.mrnNumber != "" && !!this.mrnNumber;
-      this.loyaltyPointState = this.loyaltyPoint != "" && !!this.loyaltyPoint;
       this.userStatusState = this.userStatus != "" && !!this.userStatus;
-      return (
-        this.mrnNumberState && this.userStatusState && this.loyaltyPointState
-      );
+      return this.mrnNumberState && this.userStatusState;
     },
     editProfile() {
       if (this.isEditing) {
@@ -1315,9 +1309,14 @@ export default {
         }
         let updateUserObj = {
           mrn_number: this.mrnNumber,
-          loyality_points: this.loyaltyPoint,
           status: this.userStatus,
         };
+        if (+this.loyaltyPoint) {
+          updateUserObj = {
+            ...updateUserObj,
+            loyality_points: +this.loyaltyPoint,
+          };
+        }
         this.updateSelectedUser(updateUserObj);
         this.updateProfileInfo(updateUserObj);
       } else {
