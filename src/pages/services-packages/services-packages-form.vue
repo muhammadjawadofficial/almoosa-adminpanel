@@ -526,12 +526,11 @@ export default {
       state.amount = form.amount != "";
       state.vat = form.vat != "";
       state.term_condition_id = form.term_condition_id != "";
-      state.description = form.description != "";
       state.services = form.services && form.services.length > 0;
       form.services.forEach((item) => {
         if (state.services) {
           delete item.toggleSubServices;
-          state.services = item.name != "" && item.description != "";
+          state.services = item.name != "";
         }
       });
       state.thumbnail_id = form.thumbnail_id != "";
