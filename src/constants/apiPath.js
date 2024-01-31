@@ -135,6 +135,13 @@ export const apiPath = {
         delete: (id) => getApiObject("delete", "packages/" + id),
     },
 
+    symptomChecker: {
+        fetch: getApiObject("get", "symptoms"),
+        details: (id) => getApiObject("get", "symptoms/" + id),
+        add: getApiObject("post", "symptoms"),
+        update: (id) => getApiObject("patch", "symptoms/" + id),
+        delete: (id) => getApiObject("delete", "symptoms/" + id),
+    },
     familyMembers: {
         fetchRelations: getApiObject("get", "family-member-relation/get/all", "v2"),
         addRelation: getApiObject("post", "family-member-relation/add", "v2"),

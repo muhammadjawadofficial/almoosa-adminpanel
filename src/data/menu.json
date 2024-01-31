@@ -251,6 +251,31 @@
             "path": "/services-packages/list"
         },
         {
+            "title": "Sypmtom Checker",
+            "title_ar": "مدقق الأعراض",
+            "type": "link",
+            "icon": "briefcase-fill-svg",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "permission": "Symptom Checker",
+            "children": [
+                {
+                    "title": "List",
+                    "title_ar": "قائمة",
+                    "type": "link",
+                    "path": "/symptom-checker/list"
+                },
+                {
+                    "title": "Create",
+                    "title_ar": "خلق",
+                    "type": "link",
+                    "path": "/symptom-checker/create"
+                }
+            ]
+        },
+        {
             "title": "Family Members",
             "title_ar": "أفراد الأسرة",
             "icon": "family-fill-svg",

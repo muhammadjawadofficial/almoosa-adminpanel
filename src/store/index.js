@@ -18,6 +18,7 @@ import bannerManagement from './modules/banner-management'
 import cmsPages from './modules/cms-pages'
 import notificationManagement from './modules/notification-management'
 import promotionCode from './modules/promotion-code'
+import symptomChecker from './modules/symptom-checker'
 
 Vue.use(Vuex);
 
@@ -46,7 +47,8 @@ export const store = new Vuex.Store({
     bannerManagement,
     cmsPages,
     notificationManagement,
-    promotionCode
+    promotionCode,
+    symptomChecker
   }
 });
 
