@@ -6,7 +6,7 @@
       </div>
       <div class="search-input">
         <b-form-input
-          :placeholder="$t('servicesPackages.searchPlaceholder')"
+          :placeholder="$t('symptoms.searchPlaceholder')"
           id="type-search"
           type="search"
           v-model="searchQuery"
@@ -92,12 +92,6 @@
             ></feather>
           </div>
         </template>
-        <template v-else-if="data.field.key == 'description'">
-          <div class="max-width">{{ data.value }}</div>
-        </template>
-        <template v-else-if="data.field.key == 'options'">
-          <div class="max-width border">{{ data.value }}</div>
-        </template>
         <template v-else-if="data.field.translate">{{
           data.item[getLocaleKey(data.field.key)]
         }}</template>
@@ -148,7 +142,7 @@ export default {
   },
   watch: {
     searchQuery(query) {
-      this.fetchPackages();
+      this.fetchSymptoms();
     },
   },
   methods: {
@@ -209,20 +203,18 @@ export default {
       this.items = [];
       data.forEach((x) => {
         this.items.push({
-          // createdAt: this.formatDate(x.created_at),
+          createdAt: this.formatDate(x.created_at),
           // options: Object.keys(x.options).join(", "),
           // noOfServices: Object.keys(x.service_details).length,
-          options_el: x.options.map(option => option.title).join(", "),
+          options_el: x.options.length,
           ...x,
         });
-      console.log("data from foreach",this.items)
       });
     },
     fetchSymptoms() {
       symptomChecker.fetchSymptoms().then(
         (response) => {
           if (response.data.status) {
-            console.log("data come from response", response.data.data.items);
             this.parseData(response.data.data.items);
             this.currentPage = 1;
             this.totalRows = this.items.length;

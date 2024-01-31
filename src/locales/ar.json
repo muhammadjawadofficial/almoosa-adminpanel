@@ -436,12 +436,14 @@
     "title_ar": "العنوان آر",
     "description": "وصف",
     "description_ar": "الوصف آر",
+    "recommendation": "توصية",
+    "recommendation_ar": "توصية عربية",
     "details": "Symptom Details",
     "viewDetails": "View Details",
-    "searchPlaceholder": "Search Service",
-    "sypmtomTitle": "Symptom Title",
+    "searchPlaceholder": "أعراض البحث",
+    "sypmtomTitle": "عنوان الأعراض",
     "price": "Price",
-    "symptomDetails": "Options",
+    "symptomDetails": "خيارات",
     "bookPackage": "Book Package",
     "packageList": "Package List",
     "bookedPackages": "Booked Packages"
@@ -658,6 +660,9 @@
     "addPackage": "أضف الحزمة",
     "createPackage": "إنشاء الحزمة",
     "editPackage": "تحرير الحزمة",
+    "addSymptom": "أضف الأعراض",
+    "createSymptom": "إنشاء الأعراض",
+    "editSymptom": "تحرير الأعراض",
     "packageCreateSuccessMessage": "تم إنشاء حزمة جديدة بنجاح",
     "symptomCreateSuccessMessage": "تم إنشاء العرَض الجديد بنجاح",
     "photo": "صورة",
@@ -812,6 +817,7 @@
     "rewarded": "مكافأة",
     "manual": "كتيب",
     "loyaltyPoints": "نقاط الولاء",
-    "searchLoyaltyPointsByNameOrMRN": "البحث عن نقاط الولاء حسب الاسم أو رقم السجل الطبي"
+    "searchLoyaltyPointsByNameOrMRN": "البحث عن نقاط الولاء حسب الاسم أو رقم السجل الطبي",
+    "options_el": "خيارات"
   }
 }
