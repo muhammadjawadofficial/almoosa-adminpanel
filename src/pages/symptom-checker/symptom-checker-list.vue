@@ -14,48 +14,6 @@
         ></b-form-input>
       </div>
     </div>
-    <div class="filter-container">
-      <div class="toggle-options"></div>
-      <div class="filters-dropdown">
-        {{ $t("admin.date") }}
-        <img src="../../assets/images/filter.svg" alt="" />
-        <div class="filters-dropdown-menu">
-          <template v-if="true">
-            <div style="display: flex">
-              <div class="date-container" @click="showCalendar = !showCalendar">
-                {{ $t("admin.from") }}:
-                {{ fromDate || $t("admin.selectDate") }}
-              </div>
-              <div class="date-container" @click="showCalendar = !showCalendar">
-                {{ $t("admin.to") }}:
-                {{ toDate || $t("admin.selectDate") }}
-              </div>
-            </div>
-            <date-picker
-              :append-to-body="false"
-              format="DD-MM-YYYY"
-              v-model="dateRange"
-              :popup-style="{ top: 'calc(100% - 5px)', left: 0, right: 0 }"
-              popup-class="hideSecondCalendar"
-              value-type="format"
-              class="ash-datepicker"
-              range
-              :open="showCalendar"
-              :lang="getCurrentLang()"
-              @input="dateChange"
-            >
-              <template #icon-calendar>
-                <img
-                  src="../../assets/images/calendar.svg"
-                  alt=""
-                  style="width: 1rem; height: 1rem; object-fit: contain"
-                />
-              </template>
-            </date-picker>
-          </template>
-        </div>
-      </div>
-    </div>
 
     <b-table
       show-empty
@@ -65,7 +23,7 @@
       :fields="tablefields"
       :current-page="currentPage"
       :per-page="5"
-      class="ash-data-table clickable"
+      class="ash-data-table clickable mt-4"
       @row-clicked="rowClicked"
     >
       <template #empty>
@@ -122,16 +80,17 @@ export default {
       fromDate: null,
       toDate: null,
       dateRange: null,
-      // sortable: true
+      sortable: true,
       tablefields: [
         { key: "id", label: "id" },
         { key: "title", label: "title", translate: true },
         { key: "description", label: "description", translate: true },
-        { key: "options_el", label: "options_el", translate: true },
+        { key: "options_el", label: "options_el" },
         { key: "createdAt", label: "createdAt" },
         { key: "action", label: "action" },
       ],
       items: [],
+      originalItems: null,
       showDatePicker: true,
       showCalendar: false,
       locale: "",
@@ -142,7 +101,10 @@ export default {
   },
   watch: {
     searchQuery(query) {
-      this.fetchSymptoms();
+      this.items = this.originalItems.filter((x) =>
+        query ? x.title.toLowerCase().includes(query.toLowerCase()) : true
+      );
+      this.totalRows = this.items.length;
     },
   },
   methods: {
@@ -204,12 +166,11 @@ export default {
       data.forEach((x) => {
         this.items.push({
           createdAt: this.formatDate(x.created_at),
-          // options: Object.keys(x.options).join(", "),
-          // noOfServices: Object.keys(x.service_details).length,
-          options_el: x.options.length,
+          options_el: Object.keys(x.options).length,
           ...x,
         });
       });
+      this.originalItems = [...this.items];
     },
     fetchSymptoms() {
       symptomChecker.fetchSymptoms().then(

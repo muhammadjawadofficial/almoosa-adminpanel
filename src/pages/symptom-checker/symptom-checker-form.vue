@@ -9,8 +9,8 @@
       <div class="col-md-5">
         <b-input-group class="custom-login-input-groups forceLtr">
           <b-form-input
-            v-model="packageForm.title"
-            :state="formSubmitted ? packageForm.title != '' : null"
+            v-model="symptomForm.title"
+            :state="formSubmitted ? symptomForm.title != '' : null"
             :placeholder="$t('symptoms.title')"
           ></b-form-input>
         </b-input-group>
@@ -18,8 +18,8 @@
       <div class="col-md-5">
         <b-input-group class="custom-login-input-groups forceRtl">
           <b-form-input
-            v-model="packageForm.title_ar"
-            :state="formSubmitted ? packageForm.title_ar != '' : null"
+            v-model="symptomForm.title_ar"
+            :state="formSubmitted ? symptomForm.title_ar != '' : null"
             :placeholder="$t('symptoms.title_ar')"
           ></b-form-input>
         </b-input-group>
@@ -30,8 +30,8 @@
       <div class="col-md-5">
         <b-input-group class="custom-login-input-groups forceLtr">
           <b-form-textarea
-            v-model="packageForm.description"
-            :state="formSubmitted ? packageForm.description != '' : null"
+            v-model="symptomForm.description"
+            :state="formSubmitted ? symptomForm.description != '' : null"
             :placeholder="$t('symptoms.description')"
             rows="4"
             max-rows="8"
@@ -41,8 +41,8 @@
       <div class="col-md-5">
         <b-input-group class="custom-login-input-groups forceRtl">
           <b-form-textarea
-            v-model="packageForm.description_ar"
-            :state="formSubmitted ? packageForm.description_ar != '' : null"
+            v-model="symptomForm.description_ar"
+            :state="formSubmitted ? symptomForm.description_ar != '' : null"
             :placeholder="$t('symptoms.description_ar')"
             rows="4"
             max-rows="8"
@@ -55,12 +55,20 @@
       <div class="col-md-10">
         <b-input-group class="custom-login-input-groups">
           <multiselect
-            v-model="packageForm.speciality_id"
+            v-model="symptomForm.speciality_id"
             :options="Specialities"
             :placeholder="$t('profile.speciality')"
             track-by="id"
             label="title"
-          ></multiselect>
+          >
+            <template slot="singleLabel" slot-scope="props">
+              {{ props.option[getLocaleKey("title")] }}
+            </template>
+
+            <template slot="option" slot-scope="props">
+              {{ props.option[getLocaleKey("title")] }}
+            </template>
+          </multiselect>
           <div class="custom-state-invalid icon"></div>
         </b-input-group>
         <!-- :class="{
@@ -72,7 +80,7 @@
     <div class="">
       <h1 class="m-0">{{ $t("admin.options_el") }}</h1>
       <div
-        v-for="(option, index) in packageForm.options"
+        v-for="(option, index) in symptomForm.options"
         :key="'option-' + index"
       >
         <!-- title -->
@@ -147,7 +155,7 @@
             >
               <div
                 class="icon"
-                v-if="index == packageForm.options.length - 1"
+                v-if="index == symptomForm.options.length - 1"
                 @click="addSymptomItem"
               >
                 <img src="../../assets/images/add.svg" alt="add" />
@@ -155,22 +163,6 @@
               <div class="text" v-else @click="removeSymptom(index)">
                 {{ $t("admin.remove") }}
               </div>
-              <!-- <div
-              @click="toggle(service)"
-              class=""
-              :style="
-                'transform: rotate(' +
-                (service.toggleSubServices ? 0 : 180) +
-                'deg); transition: 0.3s all;margin:0 10px'
-              "
-            >
-              <img
-                src="../../assets/images/angle.svg"
-                alt=""
-                srcset=""
-                style="width: 30px"
-              />
-            </div> -->
             </div>
           </div>
         </div>
@@ -207,7 +199,7 @@ export default {
   data() {
     return {
       showUpload: true,
-      packageForm: {
+      symptomForm: {
         title: "",
         title_ar: "",
         description: "",
@@ -241,7 +233,6 @@ export default {
     },
   },
   mounted() {
-    
     this.fetchSpecialities();
   },
   methods: {
@@ -251,7 +242,7 @@ export default {
           if (response.data.status) {
             let data = response.data.data.items;
             this.Specialities = data;
-            this.dataSP =  this.Specialities
+            this.dataSP = this.Specialities;
             this.checkAccess();
           } else {
             this.failureToast(response.data.messsage);
@@ -278,30 +269,30 @@ export default {
         this.editable = false;
       }
       if (this.editable) {
-        this.packageForm.title = this.getSelectedSymptom.title;
-        this.packageForm.title_ar = this.getSelectedSymptom.title_ar;
-        this.packageForm.description = this.getSelectedSymptom.description;
-        this.packageForm.description_ar =
+        this.symptomForm.title = this.getSelectedSymptom.title;
+        this.symptomForm.title_ar = this.getSelectedSymptom.title_ar;
+        this.symptomForm.description = this.getSelectedSymptom.description;
+        this.symptomForm.description_ar =
           this.getSelectedSymptom.description_ar;
         if (this.Specialities && this.Specialities.length) {
-          this.packageForm.speciality_id = this.Specialities.find(
+          this.symptomForm.speciality_id = this.Specialities.find(
             (el) => el.id == this.getSelectedSymptom.speciality_id
           );
         }
-        this.packageForm.options = this.getSelectedSymptom.options;
+        this.symptomForm.options = this.getSelectedSymptom.options;
       } else {
         this.resetForm();
       }
     },
     removeSymptom(index) {
-      if (this.packageForm.options.length > 0) {
-        this.packageForm.options = this.packageForm.options.filter(
+      if (this.symptomForm.options.length > 0) {
+        this.symptomForm.options = this.symptomForm.options.filter(
           (x, i) => i != index
         );
       }
     },
     addSymptomItem() {
-      this.packageForm.options.push({
+      this.symptomForm.options.push({
         title: "",
         title_ar: "",
         description: "",
@@ -311,7 +302,7 @@ export default {
       });
     },
     validateForm() {
-      let form = this.packageForm;
+      let form = this.symptomForm;
       let state = {};
       state.title = form.title != "";
       state.title_ar = form.title_ar != "";
@@ -338,13 +329,13 @@ export default {
         return;
       }
       let newPackage = {
-        title: this.packageForm.title,
-        title_ar: this.packageForm.title_ar,
-        description: this.packageForm.description,
-        description_ar: this.packageForm.description_ar,
+        title: this.symptomForm.title,
+        title_ar: this.symptomForm.title_ar,
+        description: this.symptomForm.description,
+        description_ar: this.symptomForm.description_ar,
         type: "radio",
-        speciality_id: this.packageForm.speciality_id.id,
-        options: this.packageForm.options,
+        speciality_id: this.symptomForm.speciality_id.id,
+        options: this.symptomForm.options,
       };
       symptomChecker.addNewSymptom(newPackage).then(
         (response) => {
@@ -371,13 +362,13 @@ export default {
         return;
       }
       let newPackage = {
-        title: this.packageForm.title,
-        title_ar: this.packageForm.title_ar,
-        description: this.packageForm.description,
-        description_ar: this.packageForm.description_ar,
+        title: this.symptomForm.title,
+        title_ar: this.symptomForm.title_ar,
+        description: this.symptomForm.description,
+        description_ar: this.symptomForm.description_ar,
         type: "radio",
-        speciality_id: this.packageForm.speciality_id,
-        options: this.packageForm.options,
+        speciality_id: this.symptomForm.speciality_id,
+        options: this.symptomForm.options,
       };
       symptomChecker.updateSymptom(this.getSelectedSymptom.id, newPackage).then(
         (response) => {
@@ -385,7 +376,7 @@ export default {
             this.formSubmitted = false;
             this.successToast(this.$t("admin.symptomCreateSuccessMessage"));
             this.resetForm();
-            this.navigateTo("Symptom Checker List")
+            this.navigateTo("Symptom Checker List");
           } else {
             this.failureToast(response.data.message);
           }
@@ -404,7 +395,7 @@ export default {
       this.selectedItem = item;
     },
     resetForm() {
-      this.packageForm = {
+      this.symptomForm = {
         title: "",
         title_ar: "",
         description: "",
