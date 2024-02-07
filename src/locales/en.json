@@ -432,7 +432,15 @@
     "serviceDetails": "Service Details",
     "bookPackage": "Book Package",
     "packageList": "Package List",
-    "bookedPackages": "Booked Packages"
+    "bookedPackages": "Booked Packages",
+    "selectTerm&Conditions": "Select Terms and Conditions",
+    "count":"Count",
+    "amount":"Amount",
+    "vat":"Vat",
+    "addSubService":"Add Sub Service",
+    "removeSubService":"Remove Sub Service",
+    "subServices":"Sub Services"
+    
   },
   "symptoms": {
     "titleTop":"Symptom",
@@ -549,6 +557,8 @@
     "onsite": "On-site",
     "online": "Virtual",
     "id": "ID",
+    "vat":"Vat",
+    "count":"Count",
     "patientName": "Patient Name",
     "physicianName": "Physician Name",
     "staffName": "Staff Name",
@@ -639,6 +649,7 @@
     "noOfUsers": "No. Of Users",
     "variation": "Variation",
     "description": "Description",
+    "descriptionAr": "Description Arabic",
     "refillRequest": "Refill Request",
     "requested": "Requested",
     "notRequested": "Not Requested",
@@ -661,7 +672,9 @@
     "event": "Event",
     "message": "Message",
     "serviceName": "Service Name",
+    "serviceNameAr": "Service Name Arabic",
     "serviceDescription": "Service Description",
+    "serviceDescriptionAr": "Service Description Arabic",
     "uploadThumbnail": "Upload Thumbnail",
     "remove": "Remove",
     "addPackage": "Add Package",
