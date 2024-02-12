@@ -372,8 +372,8 @@ export default {
     "packageForm.vat": "updatePrice",
   },
   mounted() {
-    this.checkAccess();
     this.fetchArticles();
+    this.checkAccess();
   },
   methods: {
     checkAccess() {
@@ -653,7 +653,7 @@ export default {
         ],
       };
       this.fileToUpload = [];
-      this.$refs.fileUpload.removeAllFiles();
+      if (this.$refs.fileUpload) this.$refs.fileUpload.removeAllFiles();
       this.formSubmitted = false;
     },
     fetchArticles() {
