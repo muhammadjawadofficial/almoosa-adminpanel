@@ -289,6 +289,31 @@
             ]
         },
         {
+            "title": "Sypmtom Checker Age",
+            "title_ar": "مدقق الأعراض",
+            "type": "link",
+            "icon": "briefcase-fill-svg",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "permission": "Symptom Checker",
+            "children": [
+                {
+                    "title": "List",
+                    "title_ar": "قائمة",
+                    "type": "link",
+                    "path": "/symptom-checker/age-condition/list"
+                },
+                {
+                    "title": "Create",
+                    "title_ar": "خلق",
+                    "type": "link",
+                    "path": "/symptom-checker/age-condition/create"
+                }
+            ]
+        },
+        {
             "title": "Family Members",
             "title_ar": "أفراد الأسرة",
             "icon": "family-fill-svg",

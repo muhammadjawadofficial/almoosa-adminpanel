@@ -76,6 +76,8 @@ const symptomCheckerModule = () => import('../pages/symptom-checker')
 const symptomCheckerList = () => import('../pages/symptom-checker/symptom-checker-list')
 const symptomCheckerDetails = () => import('../pages/symptom-checker/symptom-checker-details')
 const symptomCheckerForm = () => import('../pages/symptom-checker/symptom-checker-form')
+const symptomCheckerAgeConditionForm = () => import('../pages/symptom-checker/symptom-checker-age-condition-form')
+const symptomCheckerAgeConditionList = () => import('../pages/symptom-checker/symptom-checker-age-condition-list')
 
 const familyMembersList = () => import('../pages/family-members/family-members-list')
 const familyMembersProfile = () => import('../pages/family-members/family-members-profile')
@@ -319,6 +321,30 @@ const routes = [
             component: symptomCheckerDetails,
             meta: {
               title: 'Symptom Checker Details | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "age-condition/list",
+            name: 'Symptom Checker Age Condition List',
+            component: symptomCheckerAgeConditionList,
+            meta: {
+              title: 'Symptom Checker Age Condition List | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "age-condition/list/edit",
+            name: 'Symptom Checker Age Condition Edit',
+            component: symptomCheckerAgeConditionForm,
+            meta: {
+              title: 'Symptom Checker Age Condition Edit | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "age-condition/create",
+            name: 'Symptom Checker Age Condition Create',
+            component: symptomCheckerAgeConditionForm,
+            meta: {
+              title: 'Symptom Checker Age Condition Create | Almoosa Specialist Hospital',
             },
           },
         ]

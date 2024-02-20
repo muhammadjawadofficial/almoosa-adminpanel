@@ -842,6 +842,12 @@
     "manual": "Manual",
     "loyaltyPoints": "Loyalty Points",
     "searchLoyaltyPointsByNameOrMRN": "Search Loyalty Points by Name / MRN",
-    "options_el": "Options"
+    "options_el": "Options",
+    "recommendation": "Recommendation",
+    "condition": "Condition",
+    "symptomAgeConditionCreateSuccessMessage": "Symptom Age Condition has been created successfully",
+    "symptomAgeConditionUpdateSuccessMessage": "Symptom Age Condition has been updated successfully",
+    "symptomAgeConditionDeleteConfirm": "Are you sure you want to delete this symptom age condition?",
+    "symptomAgeConditionDeleteSuccess": "Symptom Age Condition has been deleted successfully"
   }
 }

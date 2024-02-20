@@ -137,10 +137,14 @@ export const apiPath = {
 
     symptomChecker: {
         fetch: getApiObject("get", "symptoms"),
+        fetchAgeConditions: getApiObject("get", "symptom-options-age"),
         details: (id) => getApiObject("get", "symptoms/" + id),
         add: getApiObject("post", "symptoms"),
+        addAgeCondition: getApiObject("post", "symptom-options-age"),
         update: (id) => getApiObject("patch", "symptoms/" + id),
+        updateAgeCondition: (id) => getApiObject("patch", "symptom-options-age/" + id),
         delete: (id) => getApiObject("delete", "symptoms/" + id),
+        deleteAgeCondition: (id) => getApiObject("delete", "symptom-options-age/" + id),
     },
     familyMembers: {
         fetchRelations: getApiObject("get", "family-member-relation/get/all", "v2"),

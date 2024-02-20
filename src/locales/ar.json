@@ -830,6 +830,12 @@
     "manual": "كتيب",
     "loyaltyPoints": "نقاط الولاء",
     "searchLoyaltyPointsByNameOrMRN": "البحث عن نقاط الولاء حسب الاسم أو رقم السجل الطبي",
-    "options_el": "خيارات"
+    "options_el": "خيارات",
+    "recommendation": "توصية",
+    "condition": "حالة",
+    "symptomAgeConditionCreateSuccessMessage": "تم إنشاء حالة عمر الأعراض بنجاح",
+    "symptomAgeConditionUpdateSuccessMessage": "تم تحديث حالة عمر الأعراض بنجاح",
+    "symptomAgeConditionDeleteConfirm": "هل أنت متأكد أنك تريد حذف حالة عمر الأعراض؟",
+    "symptomAgeConditionDeleteSuccess": "تم حذف حالة عمر الأعراض بنجاح"
   }
 }

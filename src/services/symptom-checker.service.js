@@ -7,6 +7,10 @@ export const symptomChecker = {
   addNewSymptom,
   updateSymptom,
   deleteSymptom,
+  fetchAgeConditions,
+  addAgeCondition,
+  updateAgeCondition,
+  deleteAgeCondition,
 };
 
 function fetchSymptoms() {
@@ -39,5 +43,31 @@ function deleteSymptom(id) {
   return axios({
     method: apiPath.symptomChecker.delete(id).method,
     url: apiPath.symptomChecker.delete(id).url,
+  });
+}
+function fetchAgeConditions() {
+  return axios({
+    method: apiPath.symptomChecker.fetchAgeConditions.method,
+    url: apiPath.symptomChecker.fetchAgeConditions.url,
+  });
+}
+function addAgeCondition(data) {
+  return axios({
+    method: apiPath.symptomChecker.addAgeCondition.method,
+    url: apiPath.symptomChecker.addAgeCondition.url,
+    data,
+  });
+}
+function updateAgeCondition(id, data) {
+  return axios({
+    method: apiPath.symptomChecker.updateAgeCondition(id).method,
+    url: apiPath.symptomChecker.updateAgeCondition(id).url,
+    data,
+  });
+}
+function deleteAgeCondition(id) {
+  return axios({
+    method: apiPath.symptomChecker.deleteAgeCondition(id).method,
+    url: apiPath.symptomChecker.deleteAgeCondition(id).url,
   });
 }
