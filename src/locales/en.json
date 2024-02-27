@@ -532,6 +532,11 @@
   "dr": "Dr.",
   "noRecordToShow": "There are no records to show",
   "admin": {
+    "inputen":"Input Title Eng",
+    "inputar":"Input Title Arabic",
+    "inputAndTextArea":"Select Input Type",
+    "input":"input",
+    "textBox":"textBox",
     "searchPatientMrn": "Search Patient by Name / MRN",
     "searchPhysician": "Search Physician by Name / ID",
     "searchStaff": "Search Staff by Name",
