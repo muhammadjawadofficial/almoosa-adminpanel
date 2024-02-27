@@ -27,6 +27,8 @@ export const apiPath = {
         fetchUpcomingAppointments: getApiObject("get", "appointments/upcoming"),
         fetchAppointmentHistory: getApiObject("get", "appointments/history"),
         fetchPatientAppointmentHistory: (id) => getApiObject("get", "appointments/history?patient_id=" + id),
+        getPaymentsTypes: (query) =>
+            getApiObject("get", "payments/tamara/options" + query, "v1"),
     },
 
     promotions: {
@@ -185,6 +187,7 @@ export const apiPath = {
 
     systemConfig: {
         fetchSystemConfig: (query) => getApiObject("get", "system-settings" + query),
+        updateSystemConfig: (id) => getApiObject("patch", "system-settings/" + id),
     },
 
     loyaltyPoints: {

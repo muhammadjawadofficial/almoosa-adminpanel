@@ -260,6 +260,12 @@
                     "title_ar": "خلق",
                     "type": "link",
                     "path": "/services-packages/create"
+                },
+                {
+                    "title": "Tamara Limit",
+                    "title_ar": "حد تمارا",
+                    "type": "link",
+                    "path": "/services-packages/tamara-limits"
                 }
             ]
         },

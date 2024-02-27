@@ -836,6 +836,13 @@
     "symptomAgeConditionCreateSuccessMessage": "تم إنشاء حالة عمر الأعراض بنجاح",
     "symptomAgeConditionUpdateSuccessMessage": "تم تحديث حالة عمر الأعراض بنجاح",
     "symptomAgeConditionDeleteConfirm": "هل أنت متأكد أنك تريد حذف حالة عمر الأعراض؟",
-    "symptomAgeConditionDeleteSuccess": "تم حذف حالة عمر الأعراض بنجاح"
+    "symptomAgeConditionDeleteSuccess": "تم حذف حالة عمر الأعراض بنجاح",
+    "tamaraLimits": "حدود تمارا",
+    "min": "دقيقة",
+    "max": "ماكس",
+    "minMaxError": "يجب أن يكون الحد الأدنى أقل من الحد الأقصى",
+    "maxMinError": "يجب أن يكون الحد الأقصى أكبر من الحد الأدنى",
+    "minErrorTamara": "تمارا تقيد أقل من {min} ريال سعودي",
+    "maxErrorTamara": "تمارا تقيد أكثر من {max} ريال سعودي"
   }
 }
