@@ -104,6 +104,72 @@
         </b-input-group>
       </div>
     </div>
+  <div class="">
+    <div>
+      <h4 >Input Label</h4>
+    </div>
+    <div v-for="(item,index) in cmsPageForm.cms_content_fields" :key="'cms-' + index" class="row">
+        <div class="col-md-6">
+        <b-input-group class="custom-login-input-groups forceLtr">
+          <b-form-input
+            v-model="item.field_title"
+            :placeholder="$t('admin.inputen')"
+          ></b-form-input>
+        </b-input-group>
+      </div>
+          <div class="col-md-6">
+        <b-input-group class="custom-login-input-groups forceRtl">
+          <b-form-input
+            v-model="item.field_title_ar"
+            :placeholder="$t('admin.inputar')"
+          ></b-form-input>
+        </b-input-group>
+      </div>
+      <div class="col-md-6">
+        <div class="custom-login-input-groups same-height">
+          <multiselect
+            v-model="item.type"
+            :options="typeOptionsForInputAndTextArea"
+            :placeholder="$t('admin.inputAndTextArea')"
+            :selectLabel="$t('selectLabel')"
+            :selectedLabel="$t('selectedLabel')"
+            :deselectLabel="$t('deselectLabel')"
+          >
+            <template slot="singleLabel" slot-scope="props">
+              {{ $t("admin." + props.option) }}
+            </template>
+            <template slot="option" slot-scope="props">
+              {{ $t("admin." + props.option) }}
+            </template>
+          </multiselect>
+          <div
+            class="custom-state-invalid icon"
+            :class="{
+              // 'is-invalid': cmsPageForm.typeState == false,
+            }"
+          ></div>
+        </div>
+      </div>
+      
+       <div class="col-md-1">
+          <div
+            class="add-new-insurance h-100 d-flex align-items-center pointer"
+          >
+            <div
+              class="icon"
+              v-if="index == cmsPageForm.cms_content_fields.length - 1"
+              @click="addInputAndTextArea"
+            >
+              <img src="../../assets/images/add.svg" alt="add" />
+            </div>
+            <div class="text" v-else @click="removeInputAndTextArea(index)">
+              {{ $t("admin.remove") }}
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+
     <div class="row mt-5">
       <div class="register-navigation col-md-12">
         <div class="button-group">
@@ -141,6 +207,15 @@ export default {
         long_title_ar: "",
         long_text_ar: "",
         type: "",
+        cms_content_fields: [
+          {
+            field_title: "",
+            field_title_ar: "",
+            type: "",
+            value: "",
+            value_ar: "",
+          },
+        ]
       },
       cmsPageFormState: {
         page_title: null,
@@ -150,7 +225,17 @@ export default {
         long_title_ar: null,
         long_text_ar: null,
         type: null,
+        cms_content_fields: [
+          {
+            field_title: "",
+            field_title_ar: "",
+            type: "",
+            value: "",
+            value_ar: "",
+          },
+        ]
       },
+      typeOptionsForInputAndTextArea:["input","textBox"],
       cmsPageId: null,
       typeOptions: ["terms_and_conditions"],
     };
@@ -195,6 +280,7 @@ export default {
             this.cmsPageForm.long_title_ar = data.long_title_ar;
             this.cmsPageForm.long_text_ar = data.long_text_ar;
             this.cmsPageForm.type = data.type;
+            this.cmsPageForm.cms_content_fields= data.cms_content_fields
           } else {
             this.failureToast(response.data.messsage);
           }
@@ -254,12 +340,21 @@ export default {
         return;
       }
       let cmsPageArticle = {
-        ...this.cmsPageForm,
+        
+        long_title : this.cmsPageForm.long_title,
+        page_title : this.cmsPageForm.page_title,
+        long_text : this.cmsPageForm.long_text,
+        page_title_ar : this.cmsPageForm.page_title_ar,
+        long_title_ar : this.cmsPageForm.long_title_ar,
+        long_text_ar : this.cmsPageForm.long_text_ar,
+        type : this.cmsPageForm.type,
+        cms_content_fields: this.cmsPageForm.cms_content_fields,
       };
       cmsPagesService.updateCmsPage(this.cmsPageId, cmsPageArticle).then(
         (response) => {
           if (response.data.status) {
             this.successToast(this.$t("admin.articleUpdatedSuccess"));
+            this.navigateTo("CMS Pages List")
           } else {
             this.failureToast(response.data.message);
           }
@@ -277,6 +372,26 @@ export default {
     itemSelected(item) {
       this.selectedItem = item;
     },
+    addInputAndTextArea() {
+   if (!this.cmsPageForm.cms_content_fields) {
+    this.cmsPageForm.cms_content_fields = [];
+  }
+
+  this.cmsPageForm.cms_content_fields.push({
+    field_title: "",
+    field_title_ar: "",
+    type: "",
+    value: "",
+    value_ar: "",
+  });
+},
+  removeInputAndTextArea(id) {
+  if (this.cmsPageForm.cms_content_fields && this.cmsPageForm.cms_content_fields.length > 0) {
+    this.cmsPageForm.cms_content_fields = this.cmsPageForm.cms_content_fields.filter(
+      (x,i) => i !== id
+    );
+  }
+},
     resetForm() {
       this.cmsPageForm = {
         long_title: "",
