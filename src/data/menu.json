@@ -260,7 +260,20 @@
                     "title_ar": "خلق",
                     "type": "link",
                     "path": "/services-packages/create"
-                },
+                }
+            ]
+        },
+        {
+            "title": "System Preferences",
+            "title_ar": "تفضيلات النظام",
+            "icon": "lock-svg",
+            "type": "sub",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "permission": "System Preferences",
+            "children": [
                 {
                     "title": "Tamara Limit",
                     "title_ar": "حد تمارا",
@@ -272,7 +285,7 @@
         {
             "title": "Sypmtom Checker",
             "title_ar": "مدقق الأعراض",
-            "type": "link",
+            "type": "sub",
             "icon": "briefcase-fill-svg",
             "badgeType": "primary",
             "badgeValue": "",
