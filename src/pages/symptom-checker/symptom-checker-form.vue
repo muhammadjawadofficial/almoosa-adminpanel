@@ -397,6 +397,7 @@ export default {
               (x) =>
                 x.title == item.recommendation &&
                 x.title_ar == item.recommendation_ar &&
+                x.speciality &&
                 x.speciality.id == item.speciality_id
             );
             if (!recommendation) {
