@@ -77,7 +77,7 @@
       </div>
     </div>
     <!-- options-area -->
-    <div class="">
+    <div class="mt-5">
       <h1 class="m-0">{{ $t("admin.options_el") }}</h1>
       <div
         v-for="(option, index) in symptomForm.options"
@@ -130,7 +130,7 @@
           </div>
         </div>
         <!-- recommendation -->
-        <div class="row recommendation">
+        <!-- <div class="row recommendation">
           <div class="col-md-5">
             <b-input-group class="custom-login-input-groups forceLtr">
               <b-form-input
@@ -149,6 +149,31 @@
               ></b-form-input>
             </b-input-group>
           </div>
+        </div> -->
+        <div class="row speciality_id">
+          <div class="col-md-10">
+            <b-input-group class="custom-login-input-groups">
+              <multiselect
+                v-model="option.selectedRecommendation"
+                :options="getComputedRecommendations"
+                :placeholder="$t('admin.recommendation')"
+                track-by="id"
+                label="title"
+              >
+                <template slot="singleLabel" slot-scope="props">
+                  {{ props.option[getLocaleKey("title")] }}
+                </template>
+
+                <template slot="option" slot-scope="props">
+                  {{ props.option[getLocaleKey("title")] }}
+                </template>
+              </multiselect>
+              <div class="custom-state-invalid icon"></div>
+            </b-input-group>
+            <!-- :class="{
+              'is-invalid': promotionFormState.promo_group_id == false,
+            }" -->
+          </div>
           <div class="col-md-1">
             <div
               class="add-new-insurance h-100 d-flex align-items-center pointer"
@@ -161,6 +186,77 @@
                 <img src="../../assets/images/add.svg" alt="add" />
               </div>
               <div class="text" v-else @click="removeSymptom(index)">
+                {{ $t("admin.remove") }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-5">
+      <h1 class="m-0">{{ $t("admin.recommendation") }}</h1>
+      <div
+        v-for="(recommendation, r_index) in recommendations"
+        :key="'option-' + r_index"
+      >
+        <!-- title -->
+        <div class="row mt-3 title">
+          <div class="col-md-5">
+            <b-input-group class="custom-login-input-groups forceLtr">
+              <b-form-input
+                v-model="recommendation.title"
+                :state="formSubmitted ? recommendation.title != '' : null"
+                :placeholder="$t('symptoms.title')"
+              ></b-form-input>
+            </b-input-group>
+          </div>
+          <div class="col-md-5">
+            <b-input-group class="custom-login-input-groups forceRtl">
+              <b-form-input
+                v-model="recommendation.title_ar"
+                :state="formSubmitted ? recommendation.title_ar != '' : null"
+                :placeholder="$t('symptoms.title_ar')"
+              ></b-form-input>
+            </b-input-group>
+          </div>
+        </div>
+        <!-- speciality_id -->
+        <div class="row speciality_id">
+          <div class="col-md-10">
+            <b-input-group class="custom-login-input-groups">
+              <multiselect
+                v-model="recommendation.speciality"
+                :options="Specialities"
+                :placeholder="$t('profile.speciality')"
+                track-by="id"
+                label="title"
+              >
+                <template slot="singleLabel" slot-scope="props">
+                  {{ props.option[getLocaleKey("title")] }}
+                </template>
+
+                <template slot="option" slot-scope="props">
+                  {{ props.option[getLocaleKey("title")] }}
+                </template>
+              </multiselect>
+              <div class="custom-state-invalid icon"></div>
+            </b-input-group>
+            <!-- :class="{
+              'is-invalid': promotionFormState.promo_group_id == false,
+            }" -->
+          </div>
+          <div class="col-md-1">
+            <div
+              class="add-new-insurance h-100 d-flex align-items-center pointer"
+            >
+              <div
+                class="icon"
+                v-if="r_index == recommendations.length - 1"
+                @click="addRecommendation"
+              >
+                <img src="../../assets/images/add.svg" alt="add" />
+              </div>
+              <div class="text" v-else @click="removeRecommendation(r_index)">
                 {{ $t("admin.remove") }}
               </div>
             </div>
@@ -214,9 +310,18 @@ export default {
             description_ar: "",
             recommendation: "",
             recommendation_ar: "",
+            speciality: "",
           },
         ],
       },
+      recommendations: [
+        {
+          id: 1,
+          title: null,
+          title_ar: null,
+          speciality: null,
+        },
+      ],
       Specialities: [],
       dataSP: null,
       formSubmitted: false,
@@ -226,6 +331,9 @@ export default {
   computed: {
     ...mapGetters("user", ["getUserInfo"]),
     ...mapGetters("symptomChecker", ["getSelectedSymptom"]),
+    getComputedRecommendations() {
+      return this.recommendations.filter((x) => x.title || x.title_ar);
+    },
   },
   watch: {
     $route: function () {
@@ -279,7 +387,33 @@ export default {
             (el) => el.id == this.getSelectedSymptom.speciality_id
           );
         }
-        this.symptomForm.options = this.getSelectedSymptom.options;
+        if (
+          this.getSelectedSymptom.options &&
+          this.getSelectedSymptom.options.length
+        ) {
+          this.recommendations = [];
+          this.getSelectedSymptom.options.forEach((item) => {
+            let recommendation = this.recommendations.find(
+              (x) =>
+                x.title == item.recommendation &&
+                x.title_ar == item.recommendation_ar &&
+                x.speciality.id == item.speciality_id
+            );
+            if (!recommendation) {
+              recommendation = {
+                id: this.recommendations.length + 1,
+                title: item.recommendation,
+                title_ar: item.recommendation_ar,
+                speciality: this.Specialities.find(
+                  (x) => x.id == item.speciality_id
+                ),
+              };
+              this.recommendations.push(recommendation);
+            }
+            item.selectedRecommendation = recommendation;
+          });
+          this.symptomForm.options = [...this.getSelectedSymptom.options];
+        }
       } else {
         this.resetForm();
       }
@@ -287,6 +421,13 @@ export default {
     removeSymptom(index) {
       if (this.symptomForm.options.length > 0) {
         this.symptomForm.options = this.symptomForm.options.filter(
+          (x, i) => i != index
+        );
+      }
+    },
+    removeRecommendation(index) {
+      if (this.recommendations.length > 0) {
+        this.recommendations = this.recommendations.filter(
           (x, i) => i != index
         );
       }
@@ -299,6 +440,14 @@ export default {
         description_ar: "",
         recommendation: "",
         recommendation_ar: "",
+      });
+    },
+    addRecommendation() {
+      this.recommendations.push({
+        id: this.recommendations.length + 1,
+        title: null,
+        title_ar: null,
+        speciality: null,
       });
     },
     validateForm() {
@@ -325,6 +474,19 @@ export default {
     },
     addSymptom() {
       this.formSubmitted = true;
+      this.symptomForm.options = [
+        ...this.symptomForm.options.map((x) => {
+          return {
+            title: x.title,
+            title_ar: x.title_ar,
+            description: x.description,
+            description_ar: x.description_ar,
+            recommendation: x.selectedRecommendation.title,
+            recommendation_ar: x.selectedRecommendation.title_ar,
+            speciality_id: x.selectedRecommendation.speciality.id,
+          };
+        }),
+      ];
       if (!this.validateForm()) {
         return;
       }
@@ -337,6 +499,7 @@ export default {
         speciality_id: this.symptomForm.speciality_id.id,
         options: this.symptomForm.options,
       };
+
       symptomChecker.addNewSymptom(newPackage).then(
         (response) => {
           if (response.data.status) {
@@ -358,6 +521,19 @@ export default {
     },
     editSymptom() {
       this.formSubmitted = true;
+      this.symptomForm.options = [
+        ...this.symptomForm.options.map((x) => {
+          return {
+            title: x.title,
+            title_ar: x.title_ar,
+            description: x.description,
+            description_ar: x.description_ar,
+            recommendation: x.selectedRecommendation.title,
+            recommendation_ar: x.selectedRecommendation.title_ar,
+            speciality_id: x.selectedRecommendation.speciality.id,
+          };
+        }),
+      ];
       if (!this.validateForm()) {
         return;
       }
@@ -412,6 +588,14 @@ export default {
           },
         ],
       };
+      this.recommendations = [
+        {
+          id: 1,
+          title: null,
+          title_ar: null,
+          speciality: null,
+        },
+      ];
       this.formSubmitted = false;
     },
   },

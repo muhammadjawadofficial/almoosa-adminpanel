@@ -5,27 +5,7 @@
       :showBack="false"
     />
     <!-- title -->
-    <div class="row mt-3">
-      <div class="col-md-5">
-        <b-input-group class="custom-login-input-groups forceLtr">
-          <b-form-input
-            v-model="symptomForm.recommendation"
-            :state="formSubmitted ? symptomForm.recommendation != '' : null"
-            :placeholder="$t('symptoms.recommendation')"
-          ></b-form-input>
-        </b-input-group>
-      </div>
-      <div class="col-md-5">
-        <b-input-group class="custom-login-input-groups forceRtl">
-          <b-form-input
-            v-model="symptomForm.recommendation_ar"
-            :state="formSubmitted ? symptomForm.recommendation_ar != '' : null"
-            :placeholder="$t('symptoms.recommendation_ar')"
-          ></b-form-input>
-        </b-input-group>
-      </div>
-    </div>
-    <div class="row speciality_id">
+    <div class="row mt-3 speciality_id">
       <div class="col-md-5">
         <b-input-group class="custom-login-input-groups">
           <multiselect
@@ -46,12 +26,12 @@
           <div
             class="custom-state-invalid icon"
             :class="{
-              'is-invalid': formSubmitted ? symptomForm.speciality_id : null,
+              'is-invalid': formSubmitted ? !symptomForm.speciality_id : null,
             }"
           ></div>
         </b-input-group>
       </div>
-      <div class="col-md-5">
+      <div class="col-md-3">
         <b-input-group class="custom-login-input-groups">
           <multiselect
             v-model="symptomForm.condition"
@@ -62,14 +42,12 @@
           <div
             class="custom-state-invalid icon"
             :class="{
-              'is-invalid': formSubmitted ? symptomForm.condition : null,
+              'is-invalid': formSubmitted ? !symptomForm.condition : null,
             }"
           ></div>
         </b-input-group>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-5">
+      <div class="col-md-2">
         <b-input-group class="custom-login-input-groups">
           <b-form-input
             v-model="symptomForm.age"
@@ -77,6 +55,58 @@
             :placeholder="$t('admin.age')"
           ></b-form-input>
         </b-input-group>
+      </div>
+    </div>
+    <div class="mt-5">
+      <h1 class="m-0">{{ $t("admin.recommendation") }}</h1>
+      <div class="row mt-3">
+        <div class="col-md-5">
+          <b-input-group class="custom-login-input-groups forceLtr">
+            <b-form-input
+              v-model="symptomForm.recommendation"
+              :state="formSubmitted ? symptomForm.recommendation != '' : null"
+              :placeholder="$t('symptoms.recommendation')"
+            ></b-form-input>
+          </b-input-group>
+        </div>
+        <div class="col-md-5">
+          <b-input-group class="custom-login-input-groups forceRtl">
+            <b-form-input
+              v-model="symptomForm.recommendation_ar"
+              :state="
+                formSubmitted ? symptomForm.recommendation_ar != '' : null
+              "
+              :placeholder="$t('symptoms.recommendation_ar')"
+            ></b-form-input>
+          </b-input-group>
+        </div>
+        <div class="col-md-5">
+          <b-input-group class="custom-login-input-groups">
+            <multiselect
+              v-model="symptomForm.recommendation_speciality"
+              :options="specialities"
+              :placeholder="$t('profile.speciality')"
+              track-by="id"
+              label="title"
+            >
+              <template slot="singleLabel" slot-scope="props">
+                {{ props.option[getLocaleKey("title")] }}
+              </template>
+
+              <template slot="option" slot-scope="props">
+                {{ props.option[getLocaleKey("title")] }}
+              </template>
+            </multiselect>
+            <div
+              class="custom-state-invalid icon"
+              :class="{
+                'is-invalid': formSubmitted
+                  ? !symptomForm.recommendation_speciality
+                  : null,
+              }"
+            ></div>
+          </b-input-group>
+        </div>
       </div>
     </div>
     <div class="row">
@@ -114,6 +144,7 @@ export default {
         recommendation_ar: "",
         age: "",
         speciality_id: null,
+        recommendation_speciality: null,
         condition: "",
       },
       specialities: [],
@@ -178,6 +209,10 @@ export default {
           this.symptomForm.speciality_id = this.specialities.find(
             (el) => el.id == this.getSelectedSymptom.speciality_id
           );
+          this.symptomForm.recommendation_speciality = this.specialities.find(
+            (el) =>
+              el.id == this.getSelectedSymptom.recommendation_speciality_id
+          );
         }
         this.symptomForm.condition = this.getSelectedSymptom.condition;
       } else {
@@ -202,6 +237,9 @@ export default {
       let newPackage = {
         recommendation: this.symptomForm.recommendation,
         recommendation_ar: this.symptomForm.recommendation_ar,
+        recommendation_speciality_id: this.symptomForm.recommendation_speciality
+          ? this.symptomForm.recommendation_speciality.id
+          : null,
         condition: this.symptomForm.condition,
         age: this.symptomForm.age,
         speciality_id: this.symptomForm.speciality_id.id,
@@ -236,6 +274,9 @@ export default {
       let newPackage = {
         recommendation: this.symptomForm.recommendation,
         recommendation_ar: this.symptomForm.recommendation_ar,
+        recommendation_speciality_id: this.symptomForm.recommendation_speciality
+          ? this.symptomForm.recommendation_speciality.id
+          : null,
         condition: this.symptomForm.condition,
         age: this.symptomForm.age,
         speciality_id: this.symptomForm.speciality_id.id,
@@ -272,6 +313,7 @@ export default {
       this.symptomForm = {
         recommendation: "",
         recommendation_ar: "",
+        recommendation_speciality: null,
         condition: "",
         age: "",
         speciality_id: null,
