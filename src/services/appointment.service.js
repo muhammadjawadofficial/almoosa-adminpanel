@@ -6,7 +6,8 @@ export const appointmentService = {
     fetchAppointmentInstructions,
     updateAppointmentInstructions,
     fetchAppointmentHistory,
-    fetchAllAppointments
+    fetchAllAppointments,
+    fetchPaymentsTypes
 }
 
 
@@ -43,4 +44,10 @@ function fetchAppointmentHistory(type) {
         method: obj.method,
         url: obj.url,
     })
+}
+function fetchPaymentsTypes(query) {
+    return axios({
+        method: apiPath.appointment.getPaymentsTypes(query).method,
+        url: apiPath.appointment.getPaymentsTypes(query).url,
+    });
 }

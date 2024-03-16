@@ -27,6 +27,8 @@ export const apiPath = {
         fetchUpcomingAppointments: getApiObject("get", "appointments/upcoming"),
         fetchAppointmentHistory: getApiObject("get", "appointments/history"),
         fetchPatientAppointmentHistory: (id) => getApiObject("get", "appointments/history?patient_id=" + id),
+        getPaymentsTypes: (query) =>
+            getApiObject("get", "payments/tamara/options" + query, "v1"),
     },
 
     promotions: {
@@ -135,6 +137,17 @@ export const apiPath = {
         delete: (id) => getApiObject("delete", "packages/" + id),
     },
 
+    symptomChecker: {
+        fetch: getApiObject("get", "symptoms"),
+        fetchAgeConditions: getApiObject("get", "symptom-options-age"),
+        details: (id) => getApiObject("get", "symptoms/" + id),
+        add: getApiObject("post", "symptoms"),
+        addAgeCondition: getApiObject("post", "symptom-options-age"),
+        update: (id) => getApiObject("patch", "symptoms/" + id),
+        updateAgeCondition: (id) => getApiObject("patch", "symptom-options-age/" + id),
+        delete: (id) => getApiObject("delete", "symptoms/" + id),
+        deleteAgeCondition: (id) => getApiObject("delete", "symptom-options-age/" + id),
+    },
     familyMembers: {
         fetchRelations: getApiObject("get", "family-member-relation/get/all", "v2"),
         addRelation: getApiObject("post", "family-member-relation/add", "v2"),
@@ -174,6 +187,7 @@ export const apiPath = {
 
     systemConfig: {
         fetchSystemConfig: (query) => getApiObject("get", "system-settings" + query),
+        updateSystemConfig: (id) => getApiObject("patch", "system-settings/" + id),
     },
 
     loyaltyPoints: {

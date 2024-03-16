@@ -71,6 +71,14 @@ const servicesPackagesModule = () => import('../pages/services-packages')
 const servicesPackagesList = () => import('../pages/services-packages/services-packages-list')
 const servicesPackagesDetails = () => import('../pages/services-packages/services-packages-details')
 const servicesPackagesForm = () => import('../pages/services-packages/services-packages-form')
+const tamaraLimitsForm = () => import('../pages/services-packages/tamara-limits')
+
+const symptomCheckerModule = () => import('../pages/symptom-checker')
+const symptomCheckerList = () => import('../pages/symptom-checker/symptom-checker-list')
+const symptomCheckerDetails = () => import('../pages/symptom-checker/symptom-checker-details')
+const symptomCheckerForm = () => import('../pages/symptom-checker/symptom-checker-form')
+const symptomCheckerAgeConditionForm = () => import('../pages/symptom-checker/symptom-checker-age-condition-form')
+const symptomCheckerAgeConditionList = () => import('../pages/symptom-checker/symptom-checker-age-condition-list')
 
 const familyMembersList = () => import('../pages/family-members/family-members-list')
 const familyMembersProfile = () => import('../pages/family-members/family-members-profile')
@@ -276,6 +284,76 @@ const routes = [
             component: servicesPackagesDetails,
             meta: {
               title: 'Services Packages Details | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "tamara-limits",
+            name: 'Services Packages Tamara Limits',
+            component: tamaraLimitsForm,
+            meta: {
+              title: 'Services Packages Tamara Limits | Almoosa Specialist Hospital',
+            },
+          },
+        ]
+      },
+      {
+        path: 'symptom-checker',
+        component: symptomCheckerModule,
+        children: [
+          {
+            path: "create",
+            name: 'Symptom Checker Create',
+            component: symptomCheckerForm,
+            meta: {
+              title: 'Symptom Checker Create | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "list/edit",
+            name: 'Symptom Checker Edit',
+            component: symptomCheckerForm,
+            meta: {
+              title: 'Symptom Checker Edit | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "list",
+            name: 'Symptom Checker List',
+            component: symptomCheckerList,
+            meta: {
+              title: 'Symptom Checker List | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "list/details",
+            name: 'Symptom Checker Details',
+            component: symptomCheckerDetails,
+            meta: {
+              title: 'Symptom Checker Details | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "age-condition/list",
+            name: 'Symptom Checker Age Condition List',
+            component: symptomCheckerAgeConditionList,
+            meta: {
+              title: 'Symptom Checker Age Condition List | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "age-condition/list/edit",
+            name: 'Symptom Checker Age Condition Edit',
+            component: symptomCheckerAgeConditionForm,
+            meta: {
+              title: 'Symptom Checker Age Condition Edit | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "age-condition/create",
+            name: 'Symptom Checker Age Condition Create',
+            component: symptomCheckerAgeConditionForm,
+            meta: {
+              title: 'Symptom Checker Age Condition Create | Almoosa Specialist Hospital',
             },
           },
         ]

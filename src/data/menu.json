@@ -241,14 +241,96 @@
         {
             "title": "Services & Packages",
             "title_ar": "الخدمات والحزم",
+            "type": "sub",
+            "icon": "briefcase-fill-svg",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "permission": "CMS Pages",
+            "children": [
+                {
+                    "title": "List",
+                    "title_ar": "قائمة",
+                    "type": "link",
+                    "path": "/services-packages/list"
+                },
+                {
+                    "title": "Create",
+                    "title_ar": "خلق",
+                    "type": "link",
+                    "path": "/services-packages/create"
+                }
+            ]
+        },
+        {
+            "title": "System Preferences",
+            "title_ar": "تفضيلات النظام",
+            "icon": "lock-svg",
+            "type": "sub",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "permission": "System Preferences",
+            "children": [
+                {
+                    "title": "Tamara Limit",
+                    "title_ar": "حد تمارا",
+                    "type": "link",
+                    "path": "/services-packages/tamara-limits"
+                }
+            ]
+        },
+        {
+            "title": "Sypmtom Checker",
+            "title_ar": "مدقق الأعراض",
+            "type": "sub",
+            "icon": "briefcase-fill-svg",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "permission": "Symptom Checker",
+            "children": [
+                {
+                    "title": "List",
+                    "title_ar": "قائمة",
+                    "type": "link",
+                    "path": "/symptom-checker/list"
+                },
+                {
+                    "title": "Create",
+                    "title_ar": "خلق",
+                    "type": "link",
+                    "path": "/symptom-checker/create"
+                }
+            ]
+        },
+        {
+            "title": "Sypmtom Checker Age",
+            "title_ar": "مدقق الأعراض",
             "type": "link",
             "icon": "briefcase-fill-svg",
             "badgeType": "primary",
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "permission": "Services & Packages",
-            "path": "/services-packages/list"
+            "permission": "Symptom Checker",
+            "children": [
+                {
+                    "title": "List",
+                    "title_ar": "قائمة",
+                    "type": "link",
+                    "path": "/symptom-checker/age-condition/list"
+                },
+                {
+                    "title": "Create",
+                    "title_ar": "خلق",
+                    "type": "link",
+                    "path": "/symptom-checker/age-condition/create"
+                }
+            ]
         },
         {
             "title": "Family Members",

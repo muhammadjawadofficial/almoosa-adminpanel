@@ -18,3 +18,4 @@ export * from './cms-pages.service';
 export * from './notifications.service';
 export * from './promotion-code.service';
 export * from './system-config.service';
+export * from './symptom-checker.service';

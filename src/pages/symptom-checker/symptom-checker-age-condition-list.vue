@@ -6,7 +6,7 @@
       </div>
       <div class="search-input">
         <b-form-input
-          :placeholder="$t('servicesPackages.searchPlaceholder')"
+          :placeholder="$t('symptoms.searchPlaceholder')"
           id="type-search"
           type="search"
           v-model="searchQuery"
@@ -14,48 +14,7 @@
         ></b-form-input>
       </div>
     </div>
-    <div class="filter-container">
-      <div class="toggle-options"></div>
-      <div class="filters-dropdown">
-        {{ $t("admin.date") }}
-        <img src="../../assets/images/filter.svg" alt="" />
-        <div class="filters-dropdown-menu">
-          <template v-if="true">
-            <div style="display: flex">
-              <div class="date-container" @click="showCalendar = !showCalendar">
-                {{ $t("admin.from") }}:
-                {{ fromDate || $t("admin.selectDate") }}
-              </div>
-              <div class="date-container" @click="showCalendar = !showCalendar">
-                {{ $t("admin.to") }}:
-                {{ toDate || $t("admin.selectDate") }}
-              </div>
-            </div>
-            <date-picker
-              :append-to-body="false"
-              format="DD-MM-YYYY"
-              v-model="dateRange"
-              :popup-style="{ top: 'calc(100% - 5px)', left: 0, right: 0 }"
-              popup-class="hideSecondCalendar"
-              value-type="format"
-              class="ash-datepicker"
-              range
-              :open="showCalendar"
-              :lang="getCurrentLang()"
-              @input="dateChange"
-            >
-              <template #icon-calendar>
-                <img
-                  src="../../assets/images/calendar.svg"
-                  alt=""
-                  style="width: 1rem; height: 1rem; object-fit: contain"
-                />
-              </template>
-            </date-picker>
-          </template>
-        </div>
-      </div>
-    </div>
+
     <b-table
       show-empty
       stacked="md"
@@ -64,9 +23,7 @@
       :fields="tablefields"
       :current-page="currentPage"
       :per-page="5"
-      class="ash-data-table clickable"
-      @row-clicked="rowClicked"
-      :responsive="true"
+      class="ash-data-table mt-4"
     >
       <template #empty>
         <div class="text-center my-2">{{ $t("noRecordToShow") }}</div>
@@ -83,25 +40,18 @@
             <feather
               class="pointer"
               type="edit"
-              @click.stop="editPackage(data.item)"
+              @click.stop="editSymptom(data.item)"
             ></feather>
             <feather
               class="pointer"
               type="trash"
-              @click.stop="deletePackage(data.item)"
+              @click.stop="deleteSymptom(data.item)"
             ></feather>
           </div>
         </template>
-        <template v-else-if="data.field.key == 'photo'">
-          <div class="user-name-with-image">
-            <div class="image">
-              <img :src="getImageUrl(data.item.thumbnail)" alt="user" />
-            </div>
-          </div>
-        </template>
-        <template v-else-if="data.field.key == 'description'">
-          <div class="max-width">{{ data.value }}</div>
-        </template>
+        <template v-else-if="data.field.translate">{{
+          data.item[getLocaleKey(data.field.key)]
+        }}</template>
         <template v-else>{{ data.value }}</template>
       </template>
     </b-table>
@@ -115,10 +65,10 @@
     <b-pagination v-else class="my-0"> </b-pagination>
   </div>
 </template>
-
-<script>
+  
+  <script>
 import { mapActions } from "vuex";
-import { servicesPackagesService } from "../../services";
+import { symptomChecker } from "../../services";
 export default {
   data() {
     return {
@@ -129,61 +79,56 @@ export default {
       fromDate: null,
       toDate: null,
       dateRange: null,
+      sortable: true,
       tablefields: [
-        { key: "id", label: "id", sortable: true },
-        { key: "photo", label: "photo", sortable: true },
-        { key: "title", label: "title", sortable: true },
-        { key: "description", label: "description", sortable: true },
-        { key: "servicesName", label: "services", sortable: true },
-        { key: "servicesCount", label: "count", sortable: true },
-        { key: "noOfServices", label: "noOfServices", sortable: true },
-        { key: "price", label: "price", sortable: true },
-        { key: "amount", label: "amount", sortable: true },
-        { key: "vat", label: "vat", sortable: true },
-        { key: "createdAt", label: "createdAt", sortable: true },
+        { key: "id", label: "id" },
+        { key: "speciality_id", label: "speciality", translate: true },
+        { key: "condition", label: "condition", translate: true },
+        { key: "age", label: "age", translate: true },
+        { key: "recommendation", label: "recommendation" },
         { key: "action", label: "action" },
       ],
       items: [],
+      originalItems: null,
       showDatePicker: true,
       showCalendar: false,
       locale: "",
     };
   },
   mounted() {
-    this.fetchPackages();
+    this.fetchSymptoms();
   },
   watch: {
     searchQuery(query) {
-      this.fetchPackages();
+      this.items = this.originalItems.filter((x) =>
+        query ? x.title.toLowerCase().includes(query.toLowerCase()) : true
+      );
+      this.totalRows = this.items.length;
     },
   },
   methods: {
     ...mapActions("myMedication", ["setSelectedMedication"]),
-    ...mapActions("servicesPackages", ["setSelectedPackage"]),
-    rowClicked(e) {
-      this.setSelectedPackage(e);
-      this.navigateTo("Services Packages Details");
+    ...mapActions("symptomChecker", ["setSelectedSymptom"]),
+    editSymptom(e) {
+      this.setSelectedSymptom(e);
+      this.navigateTo("Symptom Checker Age Condition Edit");
     },
-    editPackage(e) {
-      this.setSelectedPackage(e);
-      this.navigateTo("Services Packages Edit");
-    },
-    deletePackage(item) {
+    deleteSymptom(item) {
       this.confirmIconModal(
         this.$t("areYouSure"),
-        this.$t("admin.packageDeleteConfirm"),
+        this.$t("admin.symptomAgeConditionDeleteConfirm"),
         "m-check",
         this.$t("admin.delete")
       ).then((res) => {
         if (res.value) {
-          servicesPackagesService.deletePackage(item.id).then(
+          symptomChecker.deleteAgeCondition(item.id).then(
             (response) => {
               if (response.data.status) {
                 this.items = [...this.items.filter((x) => x.id != item.id)];
                 this.totalRows = this.items.length;
                 this.successIconModal(
                   this.$t("changesDone"),
-                  this.$t("admin.packageDeleteSuccess")
+                  this.$t("admin.symptomAgeConditionDeleteSuccess")
                 );
               } else {
                 this.failureToast(response.data.messsage);
@@ -203,28 +148,18 @@ export default {
         }
       });
     },
-    dateChange(val) {
-      this.fromDate = val[0];
-      this.toDate = val[1];
-      if (!this.fromDate || this.toDate) {
-        this.showCalendar = false;
-      }
-      this.fetchPackages();
-    },
     parseData(data) {
       this.items = [];
       data.forEach((x) => {
         this.items.push({
           createdAt: this.formatDate(x.created_at),
-          servicesName: x.services.map((item) => item.name).join(","),
-          servicesCount: x.services.map((item) => item.count).join(","),
-          noOfServices: x.services.length,
           ...x,
         });
       });
+      this.originalItems = [...this.items];
     },
-    fetchPackages() {
-      servicesPackagesService.fetchPackages().then(
+    fetchSymptoms() {
+      symptomChecker.fetchAgeConditions().then(
         (response) => {
           if (response.data.status) {
             this.parseData(response.data.data.items);
@@ -249,8 +184,8 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
+  
+  <style lang="scss" scoped>
 .max-width {
   display: -webkit-box;
   -webkit-line-clamp: 2;
