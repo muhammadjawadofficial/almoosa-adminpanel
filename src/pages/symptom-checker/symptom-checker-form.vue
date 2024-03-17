@@ -499,7 +499,9 @@ export default {
         description: this.symptomForm.description,
         description_ar: this.symptomForm.description_ar,
         type: "radio",
-        speciality_id: this.symptomForm.speciality_id.id,
+        speciality_id: this.symptomForm.speciality_id
+          ? this.symptomForm.speciality_id.id
+          : null,
         options: this.symptomForm.options,
       };
 
@@ -533,7 +535,9 @@ export default {
             description_ar: x.description_ar,
             recommendation: x.selectedRecommendation.title,
             recommendation_ar: x.selectedRecommendation.title_ar,
-            speciality_id: x.selectedRecommendation.speciality.id,
+            speciality_id: x.selectedRecommendation.speciality
+              ? x.selectedRecommendation.speciality.id
+              : null,
           };
         }),
       ];
@@ -546,7 +550,9 @@ export default {
         description: this.symptomForm.description,
         description_ar: this.symptomForm.description_ar,
         type: "radio",
-        speciality_id: this.symptomForm.speciality_id,
+        speciality_id: this.symptomForm.speciality_id
+          ? this.symptomForm.speciality_id.id
+          : null,
         options: this.symptomForm.options,
       };
       symptomChecker.updateSymptom(this.getSelectedSymptom.id, newPackage).then(
