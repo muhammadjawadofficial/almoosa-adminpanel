@@ -64,8 +64,7 @@
       :fields="tablefields"
       :current-page="currentPage"
       :per-page="5"
-      class="ash-data-table clickable"
-      @row-clicked="rowClicked"
+      class="ash-data-table"
       :responsive="true"
     >
       <template #empty>
@@ -160,10 +159,6 @@ export default {
   methods: {
     ...mapActions("myMedication", ["setSelectedMedication"]),
     ...mapActions("servicesPackages", ["setSelectedPackage"]),
-    rowClicked(e) {
-      this.setSelectedPackage(e);
-      this.navigateTo("Services Packages Details");
-    },
     editPackage(e) {
       this.setSelectedPackage(e);
       this.navigateTo("Services Packages Edit");

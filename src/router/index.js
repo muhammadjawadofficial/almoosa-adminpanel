@@ -69,13 +69,11 @@ const cmsPagesEdit = () => import('../pages/cms-pages/cms-pages-edit')
 
 const servicesPackagesModule = () => import('../pages/services-packages')
 const servicesPackagesList = () => import('../pages/services-packages/services-packages-list')
-const servicesPackagesDetails = () => import('../pages/services-packages/services-packages-details')
 const servicesPackagesForm = () => import('../pages/services-packages/services-packages-form')
 const tamaraLimitsForm = () => import('../pages/services-packages/tamara-limits')
 
 const symptomCheckerModule = () => import('../pages/symptom-checker')
 const symptomCheckerList = () => import('../pages/symptom-checker/symptom-checker-list')
-const symptomCheckerDetails = () => import('../pages/symptom-checker/symptom-checker-details')
 const symptomCheckerForm = () => import('../pages/symptom-checker/symptom-checker-form')
 const symptomCheckerAgeConditionForm = () => import('../pages/symptom-checker/symptom-checker-age-condition-form')
 const symptomCheckerAgeConditionList = () => import('../pages/symptom-checker/symptom-checker-age-condition-list')
@@ -279,14 +277,6 @@ const routes = [
             },
           },
           {
-            path: "list/details",
-            name: 'Services Packages Details',
-            component: servicesPackagesDetails,
-            meta: {
-              title: 'Services Packages Details | Almoosa Specialist Hospital',
-            },
-          },
-          {
             path: "tamara-limits",
             name: 'Services Packages Tamara Limits',
             component: tamaraLimitsForm,
@@ -322,14 +312,6 @@ const routes = [
             component: symptomCheckerList,
             meta: {
               title: 'Symptom Checker List | Almoosa Specialist Hospital',
-            },
-          },
-          {
-            path: "list/details",
-            name: 'Symptom Checker Details',
-            component: symptomCheckerDetails,
-            meta: {
-              title: 'Symptom Checker Details | Almoosa Specialist Hospital',
             },
           },
           {
