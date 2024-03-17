@@ -23,8 +23,7 @@
       :fields="tablefields"
       :current-page="currentPage"
       :per-page="5"
-      class="ash-data-table clickable mt-4"
-      @row-clicked="rowClicked"
+      class="ash-data-table mt-4"
     >
       <template #empty>
         <div class="text-center my-2">{{ $t("noRecordToShow") }}</div>
@@ -110,10 +109,6 @@ export default {
   methods: {
     ...mapActions("myMedication", ["setSelectedMedication"]),
     ...mapActions("symptomChecker", ["setSelectedSymptom"]),
-    rowClicked(e) {
-      this.setSelectedSymptom(e);
-      this.navigateTo("Symptom Checker Details");
-    },
     editSymptom(e) {
       this.setSelectedSymptom(e);
       this.navigateTo("Symptom Checker Edit");
