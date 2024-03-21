@@ -211,7 +211,7 @@
             type="number"
             v-model="packageForm.vat"
             :state="formSubmitted ? packageForm.vat != '' : null"
-            :placeholder="$t('servicesPackages.vat')"
+            :placeholder="$t('servicesPackages.vat') + ' %'"
             @change="updatePrice"
           ></b-form-input>
         </b-input-group>
@@ -397,7 +397,8 @@ export default {
         this.packageForm.description_ar =
           this.getSelectedPackage.description_ar;
         this.packageForm.amount = this.getSelectedPackage.amount;
-        this.packageForm.vat = this.getSelectedPackage.vat;
+        this.packageForm.vat =
+          (this.getSelectedPackage.vat * 100) / this.getSelectedPackage.amount;
         this.packageForm.term_condition_id =
           this.getSelectedPackage.term_condition_id;
         this.packageForm.services = [
@@ -439,7 +440,9 @@ export default {
         this.packageForm.price = this.packageForm.amount;
         return;
       }
-      this.packageForm.price = +this.packageForm.amount + +this.packageForm.vat;
+      this.packageForm.price =
+        +this.packageForm.amount +
+        (+this.packageForm.vat * +this.packageForm.amount) / 100;
     },
     addService() {
       this.packageForm.services.push({
@@ -557,7 +560,7 @@ export default {
         thumbnail_id: this.packageForm.thumbnail_id,
         term_condition_id: this.packageForm.term_condition_id.id,
         amount: this.packageForm.amount,
-        vat: this.packageForm.vat,
+        vat: (this.packageForm.amount * this.packageForm.vat) / 100,
         services: this.packageForm.services,
       };
       servicesPackagesService.addNewPackage(newPackage).then(
@@ -599,7 +602,7 @@ export default {
         thumbnail_id: this.packageForm.thumbnail_id,
         term_condition_id: this.packageForm.term_condition_id.id,
         amount: this.packageForm.amount,
-        vat: this.packageForm.vat,
+        vat: (this.packageForm.amount * this.packageForm.vat) / 100,
         services: this.packageForm.services,
       };
       servicesPackagesService
@@ -660,7 +663,9 @@ export default {
       cmsPagesService.fetchCmsPages().then(
         (response) => {
           if (response.data.status) {
-            this.cmsPages = response.data.data.items;
+            this.cmsPages = response.data.data.items.filter(
+              (x) => x.type == "package_contract"
+            );
             if (this.editable) {
               this.packageForm.term_condition_id = this.cmsPages.find(
                 (el) => el.id === this.getSelectedPackage.term_condition_id
