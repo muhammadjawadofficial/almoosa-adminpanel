@@ -241,7 +241,7 @@ export default {
       },
       typeOptionsForInputAndTextArea: ["input", "textBox"],
       cmsPageId: null,
-      typeOptions: ["terms_and_conditions"],
+      typeOptions: ["terms_and_conditions", "package_contract"],
     };
   },
   computed: {
