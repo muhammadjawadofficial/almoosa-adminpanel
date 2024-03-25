@@ -130,7 +130,7 @@ export const apiPath = {
     },
 
     servicesPackages: {
-        fetch: getApiObject("get", "packages"),
+        fetch: getApiObject("get", "packages?skip_vat_check=true"),
         details: (id) => getApiObject("get", "health-education/" + id),
         add: getApiObject("post", "packages"),
         update: (id) => getApiObject("patch", "packages/" + id),
