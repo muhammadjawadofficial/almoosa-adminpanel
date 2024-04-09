@@ -109,6 +109,12 @@ export default {
           sortPre: "payments.amount",
         },
         {
+          key: "wallet_amount",
+          label: "wallet_amount",
+          sortable: true,
+          sortPre: "payments.amount",
+        },
+        {
           key: "appointment_id",
           label: "appointmentId",
           sortable: true,
