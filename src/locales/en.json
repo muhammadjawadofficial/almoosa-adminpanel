@@ -864,6 +864,10 @@
     "contactInformation": "Contact Information",
     "whatsapp": "WhatsApp Number",
     "enterWhatsapp": "Enter WhatsApp Number",
-    "enterValidPhone": "Enter a valid phone number"
+    "enterValidPhone": "Enter a valid phone number",
+    "wallet_amount": "Wallet Amount",
+    "deliveryName": "Delivery Name",
+    "deliveryAddress": "Delivery Address",
+    "deliveryPhone": "Delivery Phone"
   }
 }
