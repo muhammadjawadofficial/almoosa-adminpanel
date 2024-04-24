@@ -273,6 +273,7 @@
             "active": false,
             "disabled": false,
             "permission": "System Preferences",
+            "super": true,
             "children": [
                 {
                     "title": "Tamara Limit",
@@ -285,6 +286,12 @@
                     "title_ar": "معلومات الاتصال",
                     "type": "link",
                     "path": "/services-packages/contact-information"
+                },
+                {
+                    "title": "Config URL",
+                    "title_ar": "تكوين URL",
+                    "type": "link",
+                    "path": "/services-packages/config-url"
                 }
             ]
         },

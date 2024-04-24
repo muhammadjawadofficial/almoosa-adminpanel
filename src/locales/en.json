@@ -868,6 +868,10 @@
     "wallet_amount": "Wallet Amount",
     "deliveryName": "Delivery Name",
     "deliveryAddress": "Delivery Address",
-    "deliveryPhone": "Delivery Phone"
+    "deliveryPhone": "Delivery Phone",
+    "configUrl": "Config URL",
+    "enterSmsUrl": "Enter SMS URL",
+    "smsUrl": "SMS URL",
+    "enterValidUrl": "Enter a valid URL"
   }
 }

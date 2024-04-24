@@ -852,6 +852,10 @@
     "wallet_amount": "مبلغ المحفظة",
     "deliveryName": "اسم التسليم",
     "deliveryAddress": "عنوان التسليم",
-    "deliveryPhone": "هاتف التسليم"
+    "deliveryPhone": "هاتف التسليم",
+    "configUrl": "عنوان URL",
+    "enterSmsUrl": "أدخل عنوان URL",
+    "smsUrl": "عنوان URL",
+    "enterValidUrl": "أدخل عنوان URL صالح"
   }
 }
