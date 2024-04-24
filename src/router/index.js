@@ -71,6 +71,7 @@ const servicesPackagesModule = () => import('../pages/services-packages')
 const servicesPackagesList = () => import('../pages/services-packages/services-packages-list')
 const servicesPackagesForm = () => import('../pages/services-packages/services-packages-form')
 const tamaraLimitsForm = () => import('../pages/services-packages/tamara-limits')
+const contactInformationForm = () => import('../pages/system-preference/contact-information')
 
 const symptomCheckerModule = () => import('../pages/symptom-checker')
 const symptomCheckerList = () => import('../pages/symptom-checker/symptom-checker-list')
@@ -282,6 +283,14 @@ const routes = [
             component: tamaraLimitsForm,
             meta: {
               title: 'Services Packages Tamara Limits | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "contact-information",
+            name: 'Contact Information',
+            component: contactInformationForm,
+            meta: {
+              title: 'Contact Information | Almoosa Specialist Hospital',
             },
           },
         ]

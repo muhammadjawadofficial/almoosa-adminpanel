@@ -279,6 +279,12 @@
                     "title_ar": "حد تمارا",
                     "type": "link",
                     "path": "/services-packages/tamara-limits"
+                },
+                {
+                    "title": "Contact Information",
+                    "title_ar": "معلومات الاتصال",
+                    "type": "link",
+                    "path": "/services-packages/contact-information"
                 }
             ]
         },
