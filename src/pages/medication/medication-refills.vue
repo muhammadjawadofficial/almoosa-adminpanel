@@ -18,7 +18,7 @@
         ref="export_to_excel"
         class="export-button"
         :data="totalItems"
-        :columns="fields"
+        :columns="getReportFields"
         :file-name="'medication-refills'"
         :file-type="'xlsx'"
         :sheet-name="'medication-refills-sheet'"
@@ -83,7 +83,7 @@
       stacked="md"
       borderless
       :items="items"
-      :fields="tablefields"
+      :fields="getTableFields"
       :current-page="currentPage"
       :per-page="5"
       class="ash-data-table"
@@ -161,10 +161,21 @@ export default {
       tablefields: [
         { key: "id", label: "id", sortable: true },
         {
+          key: "mrn_number",
+          label: "mrn",
+          sortable: true,
+        },
+        {
           key: "patient_name",
           label: "patientName",
           sortable: true,
           translate: true,
+        },
+        { key: "phone_number", label: "phoneNumber", sortable: true },
+        {
+          key: "doctor_id",
+          label: "doctorId",
+          sortable: true,
         },
         {
           key: "doctor_name",
@@ -172,12 +183,37 @@ export default {
           sortable: true,
           translate: true,
         },
-        { key: "phone_number", label: "phoneNumber", sortable: true },
+        {
+          key: "insurance_corp_name",
+          label: "companyName",
+          sortable: true,
+        },
         {
           key: "speciality",
           label: "speciality",
           sortable: true,
           translate: true,
+        },
+        {
+          key: "delivery_name",
+          label: "deliveryName",
+          sortable: true,
+          translate: true,
+          delivery: true,
+        },
+        {
+          key: "delivery_phone",
+          label: "deliveryPhone",
+          sortable: true,
+          translate: true,
+          delivery: true,
+        },
+        {
+          key: "delivery_address",
+          label: "deliveryAddress",
+          sortable: true,
+          translate: true,
+          delivery: true,
         },
         {
           key: "medicationRefillRequested",
@@ -206,22 +242,33 @@ export default {
           field: "patient_name",
           label: "Patient Name",
         },
-        {
-          field: "patient_name_ar",
-          label: "Patient Name Ar",
-        },
+        { field: "phone_number", label: "Phone Number" },
         {
           field: "doctor_name",
           label: "Physician Name",
         },
         {
-          field: "doctor_name_ar",
-          label: "Physician Name Ar",
-        },
-        { field: "phone_number", label: "Phone Number" },
-        {
           field: "speciality",
           label: "Speciality",
+        },
+        {
+          field: "insurance_corp_name",
+          label: "Insurance Corp Name",
+        },
+        {
+          key: "delivery_name",
+          label: "Delivery Name",
+          delivery: true,
+        },
+        {
+          key: "delivery_phone",
+          label: "Delivery Phone",
+          delivery: true,
+        },
+        {
+          key: "delivery_address",
+          label: "Delivery Address",
+          delivery: true,
         },
         {
           field: "medicationRefillRequested",
@@ -246,6 +293,19 @@ export default {
   watch: {
     searchQuery(query) {
       this.filterList(query);
+    },
+  },
+  computed: {
+    getTableFields() {
+      if (this.activeTab != "deliveryRequest") {
+        return this.tablefields.filter((x) => !x.delivery);
+      }
+      return this.tablefields;
+    },
+    getReportFields() {
+      if (this.activeTab != "deliveryRequest") {
+        return this.fields.filter((x) => !x.delivery);
+      }
     },
   },
   methods: {
@@ -273,12 +333,12 @@ export default {
       this.fetchMedications();
     },
     changeTab(type) {
-      this.activeTab = type;
       this.fetchMedications();
+      this.activeTab = type;
     },
     changeSubTab(type) {
-      this.subTab = type;
       this.fetchMedications();
+      this.subTab = type;
     },
     parseData(data) {
       this.items = [];
@@ -287,6 +347,19 @@ export default {
         if (this.activeTab == "deliveryRequest" && !x.is_delivery) return;
         this.items.push({
           ...x,
+          patient_name: x.patient
+            ? this.getFullName(x.patient, null, "en")
+            : x.patient_name,
+          patient_name_ar: x.patient
+            ? this.getFullName(x.patient, null, "ar")
+            : x.patient_name_ar,
+          doctor_name: x.doctor
+            ? this.getFullName(x.doctor, null, "en")
+            : x.doctor_name,
+          doctor_name_ar: x.doctor
+            ? this.getFullName(x.doctor, null, "ar")
+            : x.doctor_name_ar,
+          phone_number: x.patient ? x.patient.phone_number : x.phone_number,
           medicationRefillRequested: x.status,
           speciality: x.clinic ? x.clinic.title : "",
           speciality_ar: x.clinic ? x.clinic.title_ar : "",
@@ -310,7 +383,6 @@ export default {
       medicationService.getMedicationRefills("?status=" + this.subTab).then(
         (response) => {
           if (response.data.status) {
-            console.log(response.data.data.items);
             this.parseData(response.data.data.items);
             this.currentPage = 1;
             this.totalRows = this.items.length;

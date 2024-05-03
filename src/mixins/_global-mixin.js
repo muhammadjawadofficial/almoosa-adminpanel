@@ -523,7 +523,7 @@ export default {
             let fullName = parseName(user[translatedFirstNameKey]) + parseName(user[translatedMiddleNameKey]) + parseName(user[translatedFamilyNameKey]);
 
             if (!fullName) {
-                fullName = parseName(user.first_name) + parseName(user.middle_name) + parseName(user.family_name)
+                fullName =  (user.first_name) + parseName(user.middle_name) + parseName(user.family_name)
             }
             if (prepend) {
                 fullName = prepend + " " + fullName.trim();
