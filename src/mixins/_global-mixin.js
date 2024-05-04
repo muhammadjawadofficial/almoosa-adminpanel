@@ -523,7 +523,7 @@ export default {
             let fullName = parseName(user[translatedFirstNameKey]) + parseName(user[translatedMiddleNameKey]) + parseName(user[translatedFamilyNameKey]);
 
             if (!fullName) {
-                fullName = parseName(user.first_name) + parseName(user.middle_name) + parseName(user.family_name)
+                fullName =  (user.first_name) + parseName(user.middle_name) + parseName(user.family_name)
             }
             if (prepend) {
                 fullName = prepend + " " + fullName.trim();
@@ -550,11 +550,11 @@ export default {
             try {
                 await this.$messaging.deleteToken({
                     vapidKey:
-                        "BNLgxwZ2Lmx4lq30n9wEMDap0N7geVOFe9Rq3FTGxm5bQ-TPP3tnabS2mmO_xkcbCslllkKusQiJUBeX3r0ecSk",
+                        process.env.VUE_APP_FIREBASE_VAPID_KEY,
                 });
                 let currentToken = await this.$messaging.getToken({
                     vapidKey:
-                        "BNLgxwZ2Lmx4lq30n9wEMDap0N7geVOFe9Rq3FTGxm5bQ-TPP3tnabS2mmO_xkcbCslllkKusQiJUBeX3r0ecSk",
+                        process.env.VUE_APP_FIREBASE_VAPID_KEY,
                 });
                 if (currentToken) {
                     userService.setFCMToken(currentToken);

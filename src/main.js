@@ -19,7 +19,7 @@ import VueAnalytics from 'vue-analytics';
 
 // Configuration VueAnalytics
 Vue.use(VueAnalytics, {
-  id: 'G-TVYDCJG6GS',
+  id: process.env.VUE_APP_FIREBASE_MEASUREMENT_ID,
   router,
   autoTracking: {
     screenview: true

@@ -860,6 +860,18 @@
     "minMaxError": "Min should be less than Max",
     "maxMinError": "Max should be greater than Min",
     "minErrorTamara": "Tamara restricts less than {min} SAR",
-    "maxErrorTamara": "Tamara restricts more than {max} SAR"
+    "maxErrorTamara": "Tamara restricts more than {max} SAR",
+    "contactInformation": "Contact Information",
+    "whatsapp": "WhatsApp Number",
+    "enterWhatsapp": "Enter WhatsApp Number",
+    "enterValidPhone": "Enter a valid phone number",
+    "wallet_amount": "Wallet Amount",
+    "deliveryName": "Delivery Name",
+    "deliveryAddress": "Delivery Address",
+    "deliveryPhone": "Delivery Phone",
+    "configUrl": "Config URL",
+    "enterSmsUrl": "Enter SMS URL",
+    "smsUrl": "SMS URL",
+    "enterValidUrl": "Enter a valid URL"
   }
 }

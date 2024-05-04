@@ -430,15 +430,15 @@
     "packageList": "جميع الباقات",
     "bookedPackages": "باقاتي و خدماتي",
     "selectTerm&Conditions": "شرائط و ضوابط کو منتخب کریں۔",
-    "count":"عدد",
-    "amount":"كمية",
-    "vat":"ضريبة القيمة المضافة",
-    "addSubService":"إضافة خدمة فرعية",
-    "removeSubService":"إزالة الخدمة الفرعية",
-    "subServices":"الخدمات الفرعية"
+    "count": "عدد",
+    "amount": "كمية",
+    "vat": "ضريبة القيمة المضافة",
+    "addSubService": "إضافة خدمة فرعية",
+    "removeSubService": "إزالة الخدمة الفرعية",
+    "subServices": "الخدمات الفرعية"
   },
   "symptoms": {
-    "titleTop":"علامة مرض",
+    "titleTop": "علامة مرض",
     "title": "عنوان",
     "title_ar": "العنوان آر",
     "description": "وصف",
@@ -550,8 +550,8 @@
     "onsite": "بالموقع",
     "online": "متصل",
     "id": "بطاقة تعريف",
-    "count":"عدد",
-    "vat":"ضريبة القيمة المضافة",
+    "count": "عدد",
+    "vat": "ضريبة القيمة المضافة",
     "patientName": "اسم المريض",
     "physicianName": "اسم الطبيب",
     "staffName": "اسم الموظف",
@@ -844,6 +844,18 @@
     "minMaxError": "يجب أن يكون الحد الأدنى أقل من الحد الأقصى",
     "maxMinError": "يجب أن يكون الحد الأقصى أكبر من الحد الأدنى",
     "minErrorTamara": "تمارا تقيد أقل من {min} ريال سعودي",
-    "maxErrorTamara": "تمارا تقيد أكثر من {max} ريال سعودي"
+    "maxErrorTamara": "تمارا تقيد أكثر من {max} ريال سعودي",
+    "contactInformation": "معلومات الاتصال",
+    "whatsapp": "واتساب رقم",
+    "enterWhatsapp": "أدخل رقم الواتساب",
+    "enterValidPhone": "أدخل رقم هاتف صالح",
+    "wallet_amount": "مبلغ المحفظة",
+    "deliveryName": "اسم التسليم",
+    "deliveryAddress": "عنوان التسليم",
+    "deliveryPhone": "هاتف التسليم",
+    "configUrl": "عنوان URL",
+    "enterSmsUrl": "أدخل عنوان URL",
+    "smsUrl": "عنوان URL",
+    "enterValidUrl": "أدخل عنوان URL صالح"
   }
 }
