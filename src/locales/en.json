@@ -549,11 +549,11 @@
   "dr": "Dr.",
   "noRecordToShow": "There are no records to show",
   "admin": {
-    "inputen":"Input Title Eng",
-    "inputar":"Input Title Arabic",
-    "inputAndTextArea":"Select Input Type",
-    "input":"input",
-    "textBox":"textBox",
+    "inputen": "Input Title Eng",
+    "inputar": "Input Title Arabic",
+    "inputAndTextArea": "Select Input Type",
+    "input": "input",
+    "textBox": "textBox",
     "searchPatientMrn": "Search Patient by Name / MRN",
     "searchPhysician": "Search Physician by Name / ID",
     "searchStaff": "Search Staff by Name",
@@ -675,6 +675,7 @@
     "createdBy": "Created By",
     "event": "Event",
     "message": "Message",
+    "messageAr": "Message Arabic",
     "serviceName": "Service Name",
     "serviceNameAr": "Service Name Arabic",
     "serviceDescription": "Service Description",
@@ -872,6 +873,14 @@
     "configUrl": "Config URL",
     "enterSmsUrl": "Enter SMS URL",
     "smsUrl": "SMS URL",
-    "enterValidUrl": "Enter a valid URL"
+    "enterValidUrl": "Enter a valid URL",
+    "send": "Send",
+    "broadcastNotification": "Broadcast Notification",
+    "notificationSent": "Notification Sent",
+    "notificationFailed": "Notification Failed",
+    "sendIn": "Send In",
+    "notificationInput": "Notification",
+    "searchNotification": "Search Notification",
+    "areYouSureSendNotification": "Are you sure you want to send this notification?"
   }
 }
