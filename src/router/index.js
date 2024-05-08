@@ -119,6 +119,7 @@ const seeAllNotifications = () => import('../pages/see-all-notifications')
 const notificationsLists = () => import('../pages/notifications/notifications-management-list')
 const notificationsDetail = () => import('../pages/notifications/notifications-management-details')
 const notificationsUsersDetail = () => import('../pages/notifications/notifications-users')
+const broadcastNotfication = () => import('../pages/notifications/broadcast')
 
 const LoyaltyPoints = () => import('../pages/reports/loyalty-points')
 
@@ -1041,6 +1042,14 @@ const routes = [
           },
 
         ]
+      },
+      {
+        path: 'broadcast-notification',
+        name: 'Broadcast Notification',
+        component: broadcastNotfication,
+        meta: {
+          title: 'Broadcast Notification | Almoosa Specialist Hospital',
+        },
       },
       {
         path: "see-all-notifications",

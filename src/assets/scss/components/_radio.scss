@@ -14,7 +14,11 @@
     box-shadow: none;
 }
 .custom-radio .custom-control-input:checked ~ .custom-control-label::after{
-    background-image: none;
+    // background-image: none;
+}
+.custom-control-input:checked ~ .custom-control-label::before {
+    border-color: var(--theme-default);
+    background-color: var(--theme-default);
 }
 .checkbox_animated {
     cursor: pointer;

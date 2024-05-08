@@ -183,6 +183,8 @@ export const apiPath = {
         fetchAll: () => getApiObject("get", "notification-msg"),
         fetchAllUsersNotifications: (query) => getApiObject("get", "notifications" + query),
         update: (id) => getApiObject("patch", "notification-msg/" + id),
+        fetchBroadcast: (query) => getApiObject("get", "notifications/broadcast" + query),
+        sendBroadcast: getApiObject("post", "notifications/send-broadcast"),
     },
 
     systemConfig: {

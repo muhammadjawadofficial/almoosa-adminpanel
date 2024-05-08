@@ -296,6 +296,18 @@
             ]
         },
         {
+            "title": "Broadcast Notification",
+            "title_ar": "إشعار البث",
+            "icon": "bell-fill-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "super": true,
+            "path": "/broadcast-notification"
+        },
+        {
             "title": "Sypmtom Checker",
             "title_ar": "مدقق الأعراض",
             "type": "sub",

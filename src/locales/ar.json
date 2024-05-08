@@ -543,6 +543,11 @@
   "dr": "د.",
   "noRecordToShow": "لا توجد سجلات لعرضها",
   "admin": {
+    "inputen": "Input Title Eng",
+    "inputar": "Input Title Arabic",
+    "inputAndTextArea": "Select Input Type",
+    "input": "input",
+    "textBox": "textBox",
     "searchPatientMrn": "ابحث عن المريض بالاسم / رقم السجل الطبي",
     "searchPhysician": "ابحث عن الطبيب بالاسم/ رقم الهوية",
     "searchStaff": "ابحث عن الموظف بالاسم",
@@ -634,6 +639,7 @@
     "update": "تحديث",
     "event": "حدث",
     "message": "رسالة",
+    "messageAr": "الرسالة عربي",
     "searchPromoGroup": "بحث في مجموعة الترويجي",
     "promotionAdded": "تم إنشاء الترويج",
     "promoGroupAdded": "تم إنشاء مجموعة الترويج",
@@ -856,6 +862,14 @@
     "configUrl": "عنوان URL",
     "enterSmsUrl": "أدخل عنوان URL",
     "smsUrl": "عنوان URL",
-    "enterValidUrl": "أدخل عنوان URL صالح"
+    "enterValidUrl": "أدخل عنوان URL صالح",
+    "send": "يرسل",
+    "broadcastNotification": "إشعار البث",
+    "notificationSent": "تم إرسال الإخطار",
+    "notificationFailed": "فشل الإخطار",
+    "sendIn": "بعث",
+    "notificationInput": "إشعار",
+    "searchNotification": "البحث في الإخطار",
+    "areYouSureSendNotification": "هل أنت متأكد أنك تريد إرسال هذا الإخطار؟"
   }
 }
