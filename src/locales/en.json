@@ -881,6 +881,7 @@
     "sendIn": "Send In",
     "notificationInput": "Notification",
     "searchNotification": "Search Notification",
-    "areYouSureSendNotification": "Are you sure you want to send this notification?"
+    "areYouSureSendNotification": "Are you sure you want to send this notification?",
+    "method": "Method"
   }
 }

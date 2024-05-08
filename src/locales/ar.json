@@ -870,6 +870,7 @@
     "sendIn": "بعث",
     "notificationInput": "إشعار",
     "searchNotification": "البحث في الإخطار",
-    "areYouSureSendNotification": "هل أنت متأكد أنك تريد إرسال هذا الإخطار؟"
+    "areYouSureSendNotification": "هل أنت متأكد أنك تريد إرسال هذا الإخطار؟",
+    "method": "طريقة"
   }
 }
