@@ -45,6 +45,14 @@
         <template v-else-if="data.field.key == 'sent'">
           {{ $t(data.value ? "success" : "failed") }}
         </template>
+        <template v-else-if="data.field.key == 'lang' && data.value">
+          {{ $t("admin." + data.value) }}
+        </template>
+        <template v-else-if="data.field.key == 'action'">
+          <div class="action-buttons" @click="resendNotification(data)">
+            <feather class="pointer" type="refresh-cw"></feather>
+          </div>
+        </template>
         <template v-else>{{ data.value || "N/A" }}</template>
       </template>
     </b-table>
@@ -78,8 +86,10 @@ export default {
         { key: "title_ar", label: "titleAr" },
         { key: "message_en", label: "message" },
         { key: "message_ar", label: "messageAr" },
+        { key: "lang", label: "lang" },
         { key: "sent", label: "status", sortable: true },
         { key: "created_at", label: "createdAt", sortable: true },
+        { key: "action", label: "action", sortable: true },
       ],
       items: [],
       totalItems: [],
@@ -94,6 +104,10 @@ export default {
     },
   },
   methods: {
+    resendNotification(data) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      this.$emit("resend", data.item);
+    },
     sortUsers(filter) {
       this.sortDesc = filter.sortDesc;
       this.sortBy = filter.sortBy;
@@ -115,7 +129,7 @@ export default {
       let query = "?query=" + this.searchQuery;
       if (this.sortKey) {
         query +=
-          "&sort=" +
+          "&orderType=" +
           (this.sortDesc ? "DESC" : "ASC") +
           "&orderBy=" +
           this.sortKey;
@@ -151,4 +165,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.doctor-list-container {
+  scroll-behavior: smooth;
+}
+</style>

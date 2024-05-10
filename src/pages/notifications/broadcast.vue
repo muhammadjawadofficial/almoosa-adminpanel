@@ -85,7 +85,10 @@
     <div class="mt-5">
       <hr />
     </div>
-    <broadcast-list :key="'broad-cast-list-' + refreshCount" />
+    <broadcast-list
+      :key="'broad-cast-list-' + refreshCount"
+      @resend="loadNotification"
+    />
   </div>
 </template>
 
@@ -128,6 +131,13 @@ export default {
 
       return !Object.values(this.formState).includes(false);
     },
+    loadNotification(notification) {
+      this.form.title = notification.title_en;
+      this.form.title_ar = notification.title_ar;
+      this.form.message = notification.message_en;
+      this.form.message_ar = notification.message_ar;
+      this.form.lang = notification.lang || "en";
+    },
     sendBroadcastNotification() {
       this.formSubmitted = true;
       if (!this.validateForm()) {
@@ -146,6 +156,7 @@ export default {
         title_ar: this.form.title_ar,
         message_en: this.form.message,
         message_ar: this.form.message_ar,
+        lang: this.form.lang,
       };
 
       this.confirmIconModal(
@@ -172,6 +183,7 @@ export default {
     },
     refreshList() {
       this.refreshCount++;
+      this.resetForm();
     },
     getBroadcastNotifications() {
       notificationService.getBroadcastNotifications().then(
@@ -190,6 +202,7 @@ export default {
     },
     resetForm() {
       this.form = {
+        title: "",
         title_ar: "",
         message: "",
         message_ar: "",
