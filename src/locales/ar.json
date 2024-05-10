@@ -871,6 +871,9 @@
     "notificationInput": "إشعار",
     "searchNotification": "البحث في الإخطار",
     "areYouSureSendNotification": "هل أنت متأكد أنك تريد إرسال هذا الإخطار؟",
-    "method": "طريقة"
+    "method": "طريقة",
+    "lang": "لغة",
+    "en": "إنجليزي",
+    "ar": "عربي"
   }
 }

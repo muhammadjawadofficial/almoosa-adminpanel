@@ -882,6 +882,9 @@
     "notificationInput": "Notification",
     "searchNotification": "Search Notification",
     "areYouSureSendNotification": "Are you sure you want to send this notification?",
-    "method": "Method"
+    "method": "Method",
+    "lang": "Language",
+    "en": "English",
+    "ar": "Arabic"
   }
 }
