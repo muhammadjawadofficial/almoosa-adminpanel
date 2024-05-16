@@ -5,6 +5,8 @@ export const notificationService = {
     fetchAllNotifications,
     fetchAllUsersNotifications,
     updateNotification,
+    sendBroadcastNotification,
+    getBroadcastNotifications
 }
 
 function fetchAllNotifications(query) {
@@ -25,5 +27,18 @@ function updateNotification(id, data) {
         method: apiPath.noticationsManagement.update(id).method,
         url: apiPath.noticationsManagement.update(id).url,
         data
+    })
+}
+function sendBroadcastNotification(data) {
+    return axios({
+        method: apiPath.noticationsManagement.sendBroadcast.method,
+        url: apiPath.noticationsManagement.sendBroadcast.url,
+        data
+    })
+}
+function getBroadcastNotifications(query) {
+    return axios({
+        method: apiPath.noticationsManagement.fetchBroadcast(query || "").method,
+        url: apiPath.noticationsManagement.fetchBroadcast(query || "").url,
     })
 }

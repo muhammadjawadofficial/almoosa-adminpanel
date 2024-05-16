@@ -45,6 +45,9 @@
         <template v-else-if="data.field.key == 'amount'">
           {{ data.value + " " + data.item.currency }}
         </template>
+        <template v-else-if="data.field.key == 'method' && data.value">
+          {{ data.value.toUpperCase() }}
+        </template>
         <template
           v-else-if="
             data.field.key.toLowerCase().includes('updated') ||
@@ -101,6 +104,12 @@ export default {
           label: "gatewayId",
           sortable: true,
           sortPre: "payments.gateway_id",
+        },
+        {
+          key: "method",
+          label: "method",
+          sortable: true,
+          sortPre: "payments.method",
         },
         {
           key: "amount",
@@ -184,7 +193,7 @@ export default {
       this.sortBy = filter.sortBy;
       this.fetchUsers();
     },
-    
+
     parseData(data) {
       this.items = [];
       data.forEach((x) => {
