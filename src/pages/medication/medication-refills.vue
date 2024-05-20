@@ -337,8 +337,8 @@ export default {
       this.activeTab = type;
     },
     changeSubTab(type) {
-      this.fetchMedications();
       this.subTab = type;
+      this.fetchMedications();
     },
     parseData(data) {
       this.items = [];
