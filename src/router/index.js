@@ -71,8 +71,10 @@ const servicesPackagesModule = () => import('../pages/services-packages')
 const servicesPackagesList = () => import('../pages/services-packages/services-packages-list')
 const servicesPackagesForm = () => import('../pages/services-packages/services-packages-form')
 const tamaraLimitsForm = () => import('../pages/services-packages/tamara-limits')
+
 const contactInformationForm = () => import('../pages/system-preference/contact-information')
 const configURLForm = () => import('../pages/system-preference/config-url')
+const appointmentConfigForm = () => import('../pages/system-preference/appointment-config')
 
 const symptomCheckerModule = () => import('../pages/symptom-checker')
 const symptomCheckerList = () => import('../pages/symptom-checker/symptom-checker-list')
@@ -107,6 +109,9 @@ const promotionCreateCode = () => import('../pages/promotions/promotion-create-c
 const firstFreeAppointmentReport = () => import('../pages/promotions/first-free-appointment-list')
 
 const TransactionsList = () => import('../pages/transactions/transactions-list')
+
+const TeleConsultationList = () => import('../pages/tele-consultation/tele-consultation-list')
+const TeleConsultationSessions = () => import('../pages/tele-consultation/tele-consultation-session-list')
 
 const RolesList = () => import('../pages/roles-permissions/roles-list')
 
@@ -278,7 +283,13 @@ const routes = [
             meta: {
               title: 'Services Packages List | Almoosa Specialist Hospital',
             },
-          },
+          }
+        ]
+      },
+      {
+        path: 'system-preferences',
+        component: RouterViewModule,
+        children: [
           {
             path: "tamara-limits",
             name: 'Services Packages Tamara Limits',
@@ -301,6 +312,14 @@ const routes = [
             component: configURLForm,
             meta: {
               title: 'Config URL | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "appointment-config",
+            name: 'Appointment Config',
+            component: appointmentConfigForm,
+            meta: {
+              title: 'Appointment Config | Almoosa Specialist Hospital',
             },
           },
         ]
@@ -936,6 +955,29 @@ const routes = [
             component: TransactionsList,
             meta: {
               title: 'Transactions List | Almoosa Specialist Hospital',
+            },
+          },
+        ]
+      },
+      {
+        path: 'tele-consultation',
+        component: RouterViewModule,
+        children: [
+          { path: '', name: "TeleConsultation", redirect: { name: 'Tele Consultation List' } },
+          {
+            path: "list",
+            name: 'Tele Consultation List',
+            component: TeleConsultationList,
+            meta: {
+              title: 'Tele Consultation List | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "list/item",
+            name: 'Tele Consultation Sessions',
+            component: TeleConsultationSessions,
+            meta: {
+              title: 'Tele Consultation Sessions | Almoosa Specialist Hospital',
             },
           },
         ]

@@ -194,5 +194,10 @@ export const apiPath = {
 
     loyaltyPoints: {
         fetchAll: (query) => getApiObject("get", "loyalty-points-logs/get/all" + query, "v2"),
+    },
+
+    teleConsultation: {
+        fetchAll: (query) => getApiObject("get", "tele-consultation" + query),
+        fetchAllSessions: (query) => getApiObject("get", "tele-consultation/sessions" + query),
     }
 };

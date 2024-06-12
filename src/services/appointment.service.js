@@ -7,7 +7,9 @@ export const appointmentService = {
     updateAppointmentInstructions,
     fetchAppointmentHistory,
     fetchAllAppointments,
-    fetchPaymentsTypes
+    fetchPaymentsTypes,
+    fetchTeleConsultation,
+    fetchTeleConsultationSessions
 }
 
 
@@ -49,5 +51,17 @@ function fetchPaymentsTypes(query) {
     return axios({
         method: apiPath.appointment.getPaymentsTypes(query).method,
         url: apiPath.appointment.getPaymentsTypes(query).url,
+    });
+}
+function fetchTeleConsultation(query) {
+    return axios({
+        method: apiPath.teleConsultation.fetchAll(query).method,
+        url: apiPath.teleConsultation.fetchAll(query).url,
+    });
+}
+function fetchTeleConsultationSessions(query) {
+    return axios({
+        method: apiPath.teleConsultation.fetchAllSessions(query).method,
+        url: apiPath.teleConsultation.fetchAllSessions(query).url,
     });
 }
