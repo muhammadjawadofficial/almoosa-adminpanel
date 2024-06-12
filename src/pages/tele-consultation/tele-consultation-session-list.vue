@@ -188,7 +188,7 @@ export default {
 
     fetchTeleConsultations(pageNumber = 1) {
       this.items = [];
-      let query = "?query=" + this.searchQuery;
+      let query = "?query=" + this.getSelectedTeleconsultation.id;
       if (this.sortKey) {
         query +=
           "&orderType=" +
