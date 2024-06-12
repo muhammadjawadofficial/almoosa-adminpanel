@@ -279,19 +279,25 @@
                     "title": "Tamara Limit",
                     "title_ar": "حد تمارا",
                     "type": "link",
-                    "path": "/services-packages/tamara-limits"
+                    "path": "/system-preferences/tamara-limits"
                 },
                 {
                     "title": "Contact Information",
                     "title_ar": "معلومات الاتصال",
                     "type": "link",
-                    "path": "/services-packages/contact-information"
+                    "path": "/system-preferences/contact-information"
                 },
                 {
                     "title": "Config URL",
                     "title_ar": "تكوين URL",
                     "type": "link",
-                    "path": "/services-packages/config-url"
+                    "path": "/system-preferences/config-url"
+                },
+                {
+                    "title": "Appointment Config",
+                    "title_ar": "تكوين الموعد",
+                    "type": "link",
+                    "path": "/system-preferences/appointment-config"
                 }
             ]
         },
@@ -404,6 +410,17 @@
             "active": false,
             "disabled": false,
             "path": "/transactions"
+        },
+        {
+            "title": "Tele Consultation",
+            "title_ar": "المعاملات",
+            "icon": "cash-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "path": "/tele-consultation"
         },
         {
             "title": "Roles & Permissions",

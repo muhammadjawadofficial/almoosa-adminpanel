@@ -874,6 +874,16 @@
     "method": "طريقة",
     "lang": "لغة",
     "en": "إنجليزي",
-    "ar": "عربي"
+    "ar": "عربي",
+    "searchById": "البحث عن طريق الهوية",
+    "sessionName": "اسم الجلسة",
+    "teleConsultationSessions": "جلسات التشاور عن بعد",
+    "username": "اسم المستخدم",
+    "participant": "مشارك",
+    "host": "يستضيف",
+    "userId": "معرف المستخدم",
+    "appointmentConfig": "تكوين الموعد",
+    "virtualCallAllowedLimit": "الحد الأقصى المسموح به للمكالمات الافتراضية (الحد الأدنى)",
+    "enterInMin": "أدخل الدقائق"
   }
 }

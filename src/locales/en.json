@@ -885,6 +885,16 @@
     "method": "Method",
     "lang": "Language",
     "en": "English",
-    "ar": "Arabic"
+    "ar": "Arabic",
+    "searchById": "Search By ID",
+    "sessionName": "Session Name",
+    "teleConsultationSessions": "Tele Consultation Sessions",
+    "username": "Username",
+    "participant": "Participant",
+    "host": "Host",
+    "userId": "User ID",
+    "appointmentConfig": "Appointment Config",
+    "virtualCallAllowedLimit": "Virtual Call Allowed Limit (Min)",
+    "enterInMin": "Enter minutes"
   }
 }
