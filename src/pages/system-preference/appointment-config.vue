@@ -58,8 +58,7 @@ export default {
             this.systemConfig = { ...data[0] };
             let config = JSON.parse(this.systemConfig.value);
             if (config) {
-              this.config.allowed_duration =
-                config.virtual.allowed_duration;
+              this.config.allowed_duration = config.virtual.allowed_duration;
             }
           } else {
             this.failureToast(response.data.messsage);
@@ -80,8 +79,8 @@ export default {
       if (this.validateForm()) {
         systemConfigService
           .updateConfig(this.systemConfig.id, {
-            title: "CONTACT_NUMBER",
-            value: JSON.stringify(this.config),
+            title: "APPOINTMENT_CONFIG",
+            value: JSON.stringify({ virtual: this.config }),
           })
           .then(
             (response) => {
@@ -104,8 +103,7 @@ export default {
       }
     },
     validateForm() {
-      this.configState.allowed_duration =
-        this.config.allowed_duration !== "";
+      this.configState.allowed_duration = this.config.allowed_duration !== "";
 
       if (!this.configState.allowed_duration) {
         this.failureToast(this.$t("admin.enterValidPhone"));
