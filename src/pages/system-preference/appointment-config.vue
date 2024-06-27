@@ -11,8 +11,10 @@
             <b-form-input
               id="virtual-call-duration-contact"
               type="text"
-              v-model="config.allowed_duration"
-              :state="configState.allowed_duration"
+              v-model="config.virtual.allowed_duration"
+              :state="
+                formSubmitted ? config.virtual.allowed_duration !== '' : null
+              "
               :placeholder="$t('admin.enterInMin')"
             ></b-form-input>
           </b-input-group>
@@ -30,15 +32,12 @@
 </template>
 
 <script>
-import { appointmentService, systemConfigService } from "../../services";
+import { systemConfigService } from "../../services";
 export default {
   data() {
     return {
       config: {
-        allowed_duration: "",
-      },
-      configState: {
-        allowed_duration: null,
+        virtual: {},
       },
       systemConfig: {},
       allTamaraInstallmentsTypes: [],
@@ -56,10 +55,7 @@ export default {
           if (response.data.status) {
             let data = response.data.data.items;
             this.systemConfig = { ...data[0] };
-            let config = JSON.parse(this.systemConfig.value);
-            if (config) {
-              this.config.allowed_duration = config.virtual.allowed_duration;
-            }
+            this.config = JSON.parse(this.systemConfig.value);
           } else {
             this.failureToast(response.data.messsage);
           }
@@ -80,13 +76,13 @@ export default {
         systemConfigService
           .updateConfig(this.systemConfig.id, {
             title: "APPOINTMENT_CONFIG",
-            value: JSON.stringify({ virtual: this.config }),
+            value: JSON.stringify(this.config),
           })
           .then(
             (response) => {
               if (response.data.status) {
                 this.successToast(response.data.message);
-                this.configState.allowed_duration = null;
+                this.formSubmitted = false;
               } else {
                 this.failureToast(response.data.message);
               }
@@ -103,13 +99,11 @@ export default {
       }
     },
     validateForm() {
-      this.configState.allowed_duration = this.config.allowed_duration !== "";
-
-      if (!this.configState.allowed_duration) {
+      if (this.config.virtual.allowed_duration == "") {
         this.failureToast(this.$t("admin.enterValidPhone"));
       }
 
-      return this.configState.allowed_duration;
+      return this.config.virtual.allowed_duration !== "";
     },
   },
 };
