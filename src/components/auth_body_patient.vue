@@ -13,7 +13,11 @@
         <div class="login-dashboard-left">
           <div class="login-dashboard-left--top-section">
             <div class="login-dashboard-left--top-section--logo">
-              <img src="../assets/images/logo/ash-logo-xl.svg" alt="" />
+              <img src="../assets/images/login/ashlogo.svg" alt="" />
+            </div>
+            <div class="login-dashboard-left--top-section--logo-content">
+              <div class="welcome-text">{{ $t("login.welcomeTo") }}</div>
+              <div>{{ $t("ash") }}</div>
             </div>
           </div>
         </div>
@@ -117,7 +121,7 @@ export default {
   &--top-section {
     &--logo {
       img {
-        width: 100%;
+        width: 5.406rem;
       }
     }
     &--logo-content {
@@ -129,7 +133,7 @@ export default {
       font-weight: 500;
       margin-top: 0.75rem;
     }
-  }
+  } 
   &--bottom-section {
     display: flex;
     gap: 2rem;
@@ -167,9 +171,6 @@ export default {
     .login-dashboard-left {
       justify-content: flex-start;
       padding-block: 8rem;
-      &--top-section {
-        padding-block-start: 5rem;
-      }
     }
     @media (max-width: 991px) {
       align-content: flex-start;
