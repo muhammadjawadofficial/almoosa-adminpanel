@@ -873,6 +873,8 @@
     "configUrl": "Config URL",
     "enterSmsUrl": "Enter SMS URL",
     "smsUrl": "SMS URL",
+    "enterFeedbackUrl": "Enter Feedback URL",
+    "feedbackUrl": "Feedback URL",
     "enterValidUrl": "Enter a valid URL",
     "send": "Send",
     "broadcastNotification": "Broadcast Notification",

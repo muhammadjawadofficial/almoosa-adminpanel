@@ -17,6 +17,20 @@
             ></b-form-input>
           </b-input-group>
         </div>
+        <div class="col-xl-4 col-md-6">
+          <label for="sms-link">
+            {{ $t("admin.feedbackUrl") }}
+          </label>
+          <b-input-group class="custom-login-input-groups same-height">
+            <b-form-input
+              id="sms-link"
+              type="text"
+              v-model="config.feedback_link"
+              :state="configState.feedback_link"
+              :placeholder="$t('admin.enterFeedbackUrl')"
+            ></b-form-input>
+          </b-input-group>
+        </div>
       </div>
       <div class="register-navigation">
         <div class="button-group">
@@ -36,10 +50,12 @@ export default {
     return {
       config: {
         sms_link: "",
+        feedback_link: "",
         virtual_tour: "",
       },
       configState: {
         sms_link: null,
+        feedback_link: null,
       },
       systemConfig: {},
       allTamaraInstallmentsTypes: [],
@@ -60,6 +76,7 @@ export default {
             let config = JSON.parse(this.systemConfig.value);
             if (config) {
               this.config.sms_link = config.sms_link;
+              this.config.feedback_link = config.feedback_link;
               this.config.virtual_tour = config.virtual_tour;
             }
           } else {
@@ -89,6 +106,7 @@ export default {
               if (response.data.status) {
                 this.successToast(response.data.message);
                 this.configState.sms_link = null;
+                this.configState.feedback_link = null;
               } else {
                 this.failureToast(response.data.message);
               }
@@ -106,12 +124,13 @@ export default {
     },
     validateForm() {
       this.configState.sms_link = this.config.sms_link !== "";
+      this.configState.feedback_link = this.config.feedback_link !== "";
 
-      if (!this.configState.sms_link) {
+      if (!this.configState.sms_link || !this.configState.feedback_link) {
         this.failureToast(this.$t("admin.enterValidUrl"));
       }
 
-      return this.configState.sms_link;
+      return this.configState.sms_link && this.configState.feedback_link;
     },
   },
 };
