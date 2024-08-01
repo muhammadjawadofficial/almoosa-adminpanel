@@ -862,6 +862,8 @@
     "configUrl": "عنوان URL",
     "enterSmsUrl": "أدخل عنوان URL",
     "smsUrl": "عنوان URL",
+    "enterFeedbackUrl": "أدخل ملاحظـــــــــاتك URL",
+    "feedbackUrl": "ملاحظـــــــــاتك URL",
     "enterValidUrl": "أدخل عنوان URL صالح",
     "send": "يرسل",
     "broadcastNotification": "إشعار البث",
