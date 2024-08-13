@@ -128,6 +128,8 @@ const broadcastNotfication = () => import('../pages/notifications/broadcast')
 
 const LoyaltyPoints = () => import('../pages/reports/loyalty-points')
 
+const detailMedicalReportRequest = () => import('../pages/detail-medical-report/request-list')
+
 import { userService } from '../services';
 
 // component
@@ -179,6 +181,20 @@ const routes = [
         meta: {
           title: 'Medication Details | Almoosa Specialist Hospital',
         }
+      },
+      {
+        path: 'detail-medical-report',
+        component: RouterViewModule,
+        children: [
+          {
+            path: 'request-list',
+            name: 'Detail Medical Report Request List',
+            component: detailMedicalReportRequest,
+            meta: {
+              title: 'Detail Medical Report Request List | Almoosa Specialist Hospital',
+            },
+          },
+        ]
       },
       {
         path: 'health-education',

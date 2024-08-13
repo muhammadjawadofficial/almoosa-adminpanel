@@ -897,6 +897,10 @@
     "userId": "User ID",
     "appointmentConfig": "Appointment Config",
     "virtualCallAllowedLimit": "Virtual Call Allowed Limit (Min)",
-    "enterInMin": "Enter minutes"
+    "enterInMin": "Enter minutes",
+    "visitNo": "Visit No.",
+    "searchByAppointmentIdVisitNo": "Search by Appointment ID & Visit No.",
+    "editRequest": "Edit Request",
+    "editRequestDescription": "How do you want to update this request?"
   }
 }

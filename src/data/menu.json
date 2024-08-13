@@ -140,6 +140,18 @@
             "path": "/medication-refills"
         },
         {
+            "title": "Detail Medical Report Requests",
+            "title_ar": "طلبات تقارير طبية مفصلة",
+            "icon": "clipboard-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "permission": "Detail Medical Report Requests",
+            "path": "/detail-medical-report/request-list"
+        },
+        {
             "title": "Insurance Management",
             "title_ar": "إدارة التأمين",
             "icon": "shield-svg",

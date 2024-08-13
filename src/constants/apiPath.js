@@ -199,5 +199,11 @@ export const apiPath = {
     teleConsultation: {
         fetchAll: (query) => getApiObject("get", "tele-consultation" + query),
         fetchAllSessions: (query) => getApiObject("get", "tele-consultation/sessions" + query),
+    },
+
+    medicalReports: {
+        fetchAllRequests: (query) => getApiObject("get", "detail-medical-report-request" + query),
+        updateRequest: (id) => getApiObject("patch", "detail-medical-report-request/" + id),
+        deleteRequest: (id) => getApiObject("delete", "detail-medical-report-request/" + id),
     }
 };
