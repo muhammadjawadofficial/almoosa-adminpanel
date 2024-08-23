@@ -54,7 +54,15 @@
         <template v-else-if="data.field.key == 'status'">
           {{ $t("admin." + data.value.toLowerCase()) }}
         </template>
-        <template v-else>{{ data.value }}</template>
+        <template v-else-if="data.field.key == 'childSpecialities'">
+          {{ data.value.length }}
+        </template>
+        <template
+          v-else-if="data.field.key == 'parentSpeciality' && data.value"
+        >
+          {{ data.value[getLocaleKey("title")] }}
+        </template>
+        <template v-else>{{ data.value || "N/A" }}</template>
       </template>
     </b-table>
     <b-pagination
@@ -82,6 +90,14 @@ export default {
         { key: "id", label: "id", sortable: true },
         { key: "icon", label: "icon" },
         { key: "title", label: "title", sortable: true, translate: true },
+        {
+          key: "childSpecialities",
+          label: "childSpecialities",
+        },
+        {
+          key: "parentSpeciality",
+          label: "parentSpeciality",
+        },
         { key: "action", label: "action" },
       ],
       items: [],
