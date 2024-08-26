@@ -239,12 +239,9 @@ export default {
       );
     },
     updateSpeciality() {
-      // this.formSubmitted = true;
-      // if (!this.iconId) return;
       specialityService
         .updateSpeciality(this.getSelectedSpecialitiesManagement.id, {
           ...this.getSelectedSpecialitiesManagement,
-          // icon: "" + this.iconId,
           icon: this.iconId ? this.iconId : null,
           childSpecialities: this.selectedSubSpecialities,
         })
