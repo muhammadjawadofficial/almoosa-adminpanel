@@ -886,6 +886,11 @@
     "userId": "معرف المستخدم",
     "appointmentConfig": "تكوين الموعد",
     "virtualCallAllowedLimit": "الحد الأقصى المسموح به للمكالمات الافتراضية (الحد الأدنى)",
-    "enterInMin": "أدخل الدقائق"
+    "enterInMin": "أدخل الدقائق",
+    "childSpecialities": "تخصصات فرعية",
+    "parentSpeciality": "التخصص الرئيسي",
+    "selectSpecialities": "اختر التخصصات",
+    "removeParent": "إزالة التخصص الرئيسي",
+    "parentRemovedSuccess": "تمت إزالة التخصص الرئيسي بنجاح"
   }
 }

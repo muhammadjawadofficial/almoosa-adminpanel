@@ -21,6 +21,30 @@
                 </div>
               </div>
             </div>
+            <div class="appointment-detail">
+              <div class="appointment-detail--type">
+                <div class="appointment-detail--label">
+                  {{ $t("admin.parentSpeciality") }}
+                </div>
+                <div class="appointment-detail--value">
+                  {{
+                    getSelectedSpecialitiesManagement.parentSpeciality
+                      ? getSelectedSpecialitiesManagement.parentSpeciality[
+                          getLocaleKey("title")
+                        ]
+                      : "N/A"
+                  }}
+                  <span
+                    class="mx-3 font-secondary pointer"
+                    v-if="getSelectedSpecialitiesManagement.parentSpeciality"
+                    @click="removeParent"
+                  >
+                    {{ $t("admin.removeParent") }}
+                    <i class="fa fa-times danger" />
+                  </span>
+                </div>
+              </div>
+            </div>
             <div class="appointment-detail mt-5">
               <div class="row">
                 <div class="col-sm-6">
@@ -46,6 +70,31 @@
                         'dropzone is-invalid': formSubmitted ? !iconId : null,
                       }"
                     ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="appointment-detail mt-5" v-if="items.length">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="custom-login-input-groups">
+                    <label>{{ $t("admin.childSpecialities") }}</label>
+                    <multiselect
+                      v-model="selectedSubSpecialities"
+                      :options="items"
+                      :placeholder="$t('admin.selectSpecialities')"
+                      :close-on-select="false"
+                      multiple
+                      track-by="id"
+                      label="title"
+                    >
+                      <template slot="singleLabel" slot-scope="props">
+                        {{ props.option[getLocaleKey("title")] }}
+                      </template>
+                      <template slot="option" slot-scope="props">
+                        {{ props.option[getLocaleKey("title")] }}
+                      </template>
+                    </multiselect>
                   </div>
                 </div>
               </div>
@@ -80,6 +129,8 @@ export default {
       showUpload: true,
       formSubmitted: false,
       iconToUpload: [],
+      items: [],
+      selectedSubSpecialities: [],
     };
   },
   computed: {
@@ -90,11 +141,15 @@ export default {
   mounted() {
     if (!this.getSelectedSpecialitiesManagement) {
       this.navigateTo(this.backRoute);
+      return;
     }
     this.initalizeData();
   },
   methods: {
     initalizeData() {
+      this.selectedSubSpecialities =
+        this.getSelectedSpecialitiesManagement.childSpecialities;
+      this.fetchSpecialities();
       let icon = this.getSelectedSpecialitiesManagement.icon;
       if (icon) {
         this.iconId = this.getSelectedSpecialitiesManagement.icon.id;
@@ -107,6 +162,47 @@ export default {
         this.$refs.iconFileUpload.manuallyAddFile(file, this.getImageUrl(icon));
         this.iconToUpload = [file];
       }
+    },
+    fetchSpecialities() {
+      authService.getSpecialitiesV1().then(
+        (response) => {
+          if (response.data.status) {
+            this.items = response.data.data.items;
+          } else {
+            this.failureToast(response.data.messsage);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
+    removeParent() {
+      specialityService
+        .assignParent(this.getSelectedSpecialitiesManagement.id, {})
+        .then(
+          (response) => {
+            if (response.data.status) {
+              this.successToast(this.$t("admin.parentRemovedSuccess"));
+              this.getSelectedSpecialitiesManagement.parentSpeciality = null;
+            } else {
+              this.failureToast(response.data.messsage);
+            }
+          },
+          (error) => {
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
+          }
+        );
     },
     removeFile() {
       if (this.iconToUpload.length > 1) {
@@ -143,12 +239,11 @@ export default {
       );
     },
     updateSpeciality() {
-      this.formSubmitted = true;
-      if (!this.iconId) return;
       specialityService
         .updateSpeciality(this.getSelectedSpecialitiesManagement.id, {
           ...this.getSelectedSpecialitiesManagement,
-          icon: "" + this.iconId,
+          icon: this.iconId ? this.iconId : null,
+          childSpecialities: this.selectedSubSpecialities,
         })
         .then(
           (response) => {

@@ -897,6 +897,11 @@
     "userId": "User ID",
     "appointmentConfig": "Appointment Config",
     "virtualCallAllowedLimit": "Virtual Call Allowed Limit (Min)",
-    "enterInMin": "Enter minutes"
+    "enterInMin": "Enter minutes",
+    "childSpecialities": "Child Specialities",
+    "parentSpeciality": "Parent Speciality",
+    "selectSpecialities": "Select Specialities",
+    "removeParent": "Remove Parent",
+    "parentRemovedSuccess": "Parent removed successfully"
   }
 }
