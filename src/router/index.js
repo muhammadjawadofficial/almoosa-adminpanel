@@ -10,6 +10,7 @@ const OTP = () => import('../pages/authentication/otp')
 const ForgotPassword = () => import('../pages/authentication/forgot_password')
 
 const Dashboard = () => import('../pages/dashboard')
+const OnSpotConsultation = () => import('../pages/onspot-consultation')
 
 const PharmacistDashboard = () => import('../pages/pharmacist/dashboard')
 const PharmacistMedicationDetails = () => import('../pages/pharmacist/refill-request-details')
@@ -146,6 +147,14 @@ const routes = [
         component: Dashboard,
         meta: {
           title: 'Dashboard | Almoosa Specialist Hospital',
+        }
+      },
+      {
+        path: 'onspot-consultation',
+        name: 'OnSpot Consultation',
+        component: OnSpotConsultation,
+        meta: {
+          title: 'OnSpot Consultation | Almoosa Specialist Hospital',
         }
       },
       {
