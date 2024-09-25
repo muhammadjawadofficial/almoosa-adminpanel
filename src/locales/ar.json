@@ -590,6 +590,7 @@
     "rejected": "مرفوض",
     "success": "النجاح",
     "approved": "وافق",
+    "inProgress":"في تَقَدم",
     "unverified": "لم يتم التحقق منه",
     "verified": "تم التحقق",
     "blocked": "ممنوع",
@@ -669,6 +670,7 @@
     "createdAt": "أنشئت في",
     "updatedAt": "تم التحديث في",
     "updatedBy": "تم التحديث بواسطة",
+    "createdBy": "تم الإنشاء بواسطة",
     "serviceName": "اسم الخدمة",
     "serviceNameAr": "اسم الخدمة عربي",
     "serviceDescription": "وصف الخدمة",
@@ -888,8 +890,11 @@
     "virtualCallAllowedLimit": "الحد الأقصى المسموح به للمكالمات الافتراضية (الحد الأدنى)",
     "enterInMin": "أدخل الدقائق",
     "visitNo": "رقم الزيارة",
+    "mrnNumber": "رقم السيد",
     "searchByAppointmentIdVisitNo": "البحث بواسطة معرف الموعد ورقم الزيارة",
     "editRequest": "تعديل الطلب",
+    "updateEditRequest": "تحديث طلب التحرير",
+    "selectReportStatus":"حدد حالة التقرير:",
     "editRequestDescription": "كيف تريد تحديث هذا الطلب؟"
   }
 }

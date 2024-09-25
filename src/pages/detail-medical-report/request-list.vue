@@ -41,7 +41,14 @@
           :class="{ active: subTab == 'pending' }"
           @click="changeSubTab('pending')"
         >
-          {{ $t("admin.pending") }}
+          {{ $t("admin.requested") }}
+        </div>
+        <div
+          class="toggle-options--single"
+          :class="{ active: subTab == 'in-progress' }"
+          @click="changeSubTab('in-progress')"
+        >
+          {{ $t("admin.inProgress") }}
         </div>
         <div
           class="toggle-options--single"
@@ -122,15 +129,22 @@
       v-if="getPerPageSelection"
     ></b-pagination>
     <b-pagination v-else class="my-0"> </b-pagination>
+    <new-request-modal
+      :active-tab="subTab"
+      :existing-comments="selectedItemComments"
+      @set-update-request="handleUpdateRequest"
+    />
   </div>
 </template>
 
 <script>
 import { medicalReportsService } from "../../services";
+import newRequestModal from "./new-request-modal.vue";
 export default {
   data() {
     return {
       searchQuery: "",
+      itemId: null,
       totalRows: 1,
       currentPage: 1,
       getPerPageSelection: 5,
@@ -139,6 +153,7 @@ export default {
       dateRange: null,
       tablefields: [
         { key: "id", label: "id", sortable: true },
+        { key: "mrn_number", label: "mrnNumber" },
         {
           key: "appointment_id",
           label: "appointmentId",
@@ -176,6 +191,7 @@ export default {
       ],
       fields: [
         { field: "id", label: "ID" },
+        { field: "mrn_number", label: "MRN Number" },
         { field: "appointment_id", label: "Appointment ID" },
         { field: "visit_no", label: "Visit No" },
         { field: "status", label: "Status" },
@@ -187,13 +203,17 @@ export default {
         { field: "updated_by_user_name_ar", label: "Updated By (Arabic)" },
       ],
       items: [],
+      selectedItemComments: [],
       totalItems: [],
       showDatePicker: true,
       showCalendar: false,
       locale: "",
       subTab: "pending",
-      availableOptions: ["pending", "approved", "rejected"],
+      availableOptions: ["pending", "in-progress", "approved", "rejected"],
     };
+  },
+  components: {
+    "new-request-modal": newRequestModal,
   },
   mounted() {
     this.fetchRequests();
@@ -232,7 +252,15 @@ export default {
       if (!this.totalItems.length) return;
       this.$refs.export_to_excel.exportExcel();
     },
+    openNewReportRequestModal() {
+      this.$bvModal.show("newRequestCustomModal");
+    },
+
+    hideNewReportRequestModal() {
+      this.$bvModal.hide("newRequestCustomModal");
+    },
     parseData(data) {
+      console.log("Data is :", data)
       this.items = [];
       data.forEach((x) => {
         this.items.push({
@@ -279,26 +307,56 @@ export default {
                 "ar"
               )}`
             : "",
+          mrn_number: x.created_by_user ? x.created_by_user.mrn_number : "N/A",
         });
       });
       this.totalItems = [...this.items];
       this.filterList(this.searchQuery);
     },
     rowClicked(e) {
-      this.confirmIconModal(
-        this.$t("admin.editRequest"),
-        this.$t("admin.editRequestDescription"),
-        "m-info",
-        this.$t("admin." + this.getFirstOption),
-        this.$t("admin." + this.getSecondOption)
-      ).then((res) => {
-        if (res.value) {
-          this.updateRequest(e.id, this.getFirstOption);
-        } else if (res.dismiss == "cancel") {
-          this.updateRequest(e.id, this.getSecondOption);
-        }
-      });
+      this.itemId = e.id;
+      this.selectedItemComments = e.comments || [];
+      this.openNewReportRequestModal();
     },
+    handleUpdateRequest(payload) {
+      // console.log("New payload is:", payload);
+      medicalReportsService
+        .updateRequest(this.itemId, payload)
+        .then((response) => {
+          if (response.data.status) {
+            this.fetchRequests();
+          } else {
+            this.failureToast(response.data.messsage);
+          }
+        })
+        .catch((error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        });
+    },
+    // rowClicked(e) {
+    //   this.openNewReportRequestModal();
+    //   console.log("Id is: ", e.id);
+
+    //   return;
+    //   this.confirmIconModal(
+    //     this.$t("admin.editRequest"),
+    //     this.$t("admin.editRequestDescription"),
+    //     "m-info",
+    //     this.$t("admin." + this.getFirstOption),
+    //     this.$t("admin." + this.getSecondOption)
+    //   ).then((res) => {
+    //     if (res.value) {
+    //       this.updateRequest(e.id, this.getFirstOption);
+    //     } else if (res.dismiss == "cancel") {
+    //       this.updateRequest(e.id, this.getSecondOption);
+    //     }
+    //   });
+    // },
     fetchRequests() {
       let query = `?status=${this.subTab}`;
       medicalReportsService

@@ -658,6 +658,7 @@
     "requested": "Requested",
     "notRequested": "Not Requested",
     "pending": "Pending",
+    "inProgress":"In Progress",
     "failure": "Failed",
     "completed": "Completed",
     "selectStatus": "Select Status",
@@ -717,6 +718,7 @@
     "percentage": "Percentage",
     "amount": "Amount",
     "appointmentId": "Appointment ID",
+    "mrnNumber": "Mrn Number",
     "doctor": "Doctor",
     "appointmentDate": "Appointment Date",
     "thumbnail": "Thumbnail",
@@ -901,6 +903,8 @@
     "visitNo": "Visit No.",
     "searchByAppointmentIdVisitNo": "Search by Appointment ID & Visit No.",
     "editRequest": "Edit Request",
+    "updateEditRequest": "Update Edit Request",
+    "selectReportStatus":"Select Report Status:",
     "editRequestDescription": "How do you want to update this request?"
   }
 }
