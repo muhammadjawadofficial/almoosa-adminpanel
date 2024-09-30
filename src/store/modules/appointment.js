@@ -5,6 +5,7 @@ export default {
     state: {
         selectedAppointment: null,
         selectedTeleconsultation: null,
+        selectedOnspotConsultation: null
     },
     actions: {
         setSelectedAppointment({ commit }, data) {
@@ -21,9 +22,13 @@ export default {
         SET_SELECTED_TELECONSULTATION(state, selectedTeleconsultation) {
             Vue.set(state, 'selectedTeleconsultation', selectedTeleconsultation)
         },
+        SET_SELECTED_ONSPOTCONSULTATION(state, selectedOnspotConsultation) {
+            Vue.set(state, 'selectedOnspotConsultation', selectedOnspotConsultation)
+        },
     },
     getters: {
         getSelectedAppointment: (state) => state.selectedAppointment,
         getSelectedTeleconsultation: (state) => state.selectedTeleconsultation,
+        getOnspotConsultation: (state) => state.selectedOnspotConsultation,
     }
 };

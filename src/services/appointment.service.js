@@ -9,10 +9,18 @@ export const appointmentService = {
     fetchAllAppointments,
     fetchPaymentsTypes,
     fetchTeleConsultation,
-    fetchTeleConsultationSessions
+    fetchTeleConsultationSessions,
+    ringPatient
+
 }
 
-
+function ringPatient(data) {
+    return axios({
+        method: apiPath.appointment.ringPatient.method,
+        url: apiPath.appointment.ringPatient.url,
+        data
+    })
+}
 function fetchAppointments(type) {
     return axios({
         method: apiPath.appointment.view(type).method,
