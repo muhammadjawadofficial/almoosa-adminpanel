@@ -14,6 +14,9 @@ export default {
         setSelectedTeleconsultation({ commit }, data) {
             commit('SET_SELECTED_TELECONSULTATION', data)
         },
+        setSelectedOnspotConsultation({ commit }, data) {
+            commit('SET_SELECTED_ONSPOTCONSULTATION', data)
+        },
     },
     mutations: {
         SET_SELECTED_APPOINTMENT(state, selectedAppointment) {
