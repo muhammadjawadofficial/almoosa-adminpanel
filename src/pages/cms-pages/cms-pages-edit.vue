@@ -412,6 +412,7 @@ export default {
       }
     },
     resetForm() {
+      this.cmsPageId = null;
       this.cmsPageForm = {
         long_title: "",
         page_title: "",
