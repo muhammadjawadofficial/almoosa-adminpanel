@@ -4,6 +4,12 @@
       Set Available
     </button>
     <!-- Existing b-cards for patient list -->
+    <div
+      class="no-data justify-content-center d-flex h-100"
+      v-if="requests.length === 0"
+    >
+      <h2>No patient requests available at the moment.</h2>
+    </div>
     <b-row>
       <b-col
         v-for="(request, index) in requests"
@@ -49,6 +55,7 @@
         "
         class="text-center"
       >
+        <img :src="ringerGif" alt="Ringer GIF" />
         <b-card-text>
           <strong>Status:</strong> {{ currentRequest.status }}
         </b-card-text>
@@ -75,6 +82,7 @@ export default {
       currentRequest: null,
       isAvailable: false,
       ringtone: null,
+      ringerGif: require("@/assets/ringer.gif"),
     };
   },
   mounted() {
@@ -95,11 +103,9 @@ export default {
     ...mapGetters("appointment", ["getOnspotConsultation"]),
   },
   methods: {
-    ...mapActions("appointment", [
-      "setSelectedOnspotConsultation",
-      "setSelectedCall",
-    ]),
+    ...mapActions("appointment", ["setSelectedOnspotConsultation"]),
     initializeSocket() {
+      console.log("Socket is:", this.$socket);
       if (this.$socket && this.$socket.connected) {
         this.updateAvailability();
       } else {
@@ -173,7 +179,6 @@ export default {
       try {
         this.stopRingtone();
         let response = await data;
-        this.setSelectedCall(response);
         this.setSelectedOnspotConsultation(response);
         this.navigateTo("Connect Zoom Native");
       } catch (error) {
@@ -196,6 +201,8 @@ export default {
 .btn-container {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 0.5rem;
 }
+
 </style>
