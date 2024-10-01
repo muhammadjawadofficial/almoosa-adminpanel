@@ -1,14 +1,16 @@
 <template>
-  <div class="doctor-list-container page-body-container standard-width">
+  <div class="onspot-lobby-container page-body-container standard-width">
     <button @click="updateAvailability(true)" class="btn btn-secondary">
-      Set Available
+      {{ $t("onspotConsultation.setAvailable") }}
     </button>
     <!-- Existing b-cards for patient list -->
     <div
       class="no-data justify-content-center d-flex h-100"
       v-if="requests.length === 0"
     >
-      <h2>No patient requests available at the moment.</h2>
+      <h2>
+        {{ $t("onspotConsultation.noPatient") }}
+      </h2>
     </div>
     <b-row>
       <b-col
@@ -20,22 +22,19 @@
         class="mb-4 mt-4"
       >
         <b-card
-          :title="'Patient Id: ' + request.user.mrn_number"
+          :title="$t('onspotConsultation.patientMrn') + translateNumber(request.user.mrn_number)"
           :sub-title="
-            'Patient Name: ' +
-            request.user.first_name +
-            ' ' +
-            request.user.middle_name +
-            ' ' +
-            request.user.family_name
+            $t('onspotConsultation.patientName') 
+            + getFullName(request.user)
           "
           class="text-center"
         >
           <b-card-text>
-            <strong>Status:</strong> {{ request.status }}
+            <strong>{{ $t("onspotConsultation.patientStatus") }}</strong>
+            {{ $t(`onspotConsultation.status.${request.status}`) }}
           </b-card-text>
           <b-button @click="acceptConsultation(request)" variant="success">
-            Accept
+            {{ $t("accept") }}
           </b-button>
         </b-card>
       </b-col>
@@ -44,28 +43,27 @@
     <!-- New b-card for top-right fixed position -->
     <div v-if="currentRequest" class="fixed-top-right-card">
       <b-card
-        :title="'Patient Id: ' + currentRequest.user.mrn_number"
-        :sub-title="
-          'Patient Name: ' +
-          currentRequest.user.first_name +
-          ' ' +
-          currentRequest.user.middle_name +
-          ' ' +
-          currentRequest.user.family_name
+        :title="
+          $t('onspotConsultation.patientMrn') + translateNumber(currentRequest.user.mrn_number)
         "
-        class="text-center"
+        :sub-title="
+          $t('onspotConsultation.patientName') + getFullName(currentRequest.user)
+        "
+        class="text-center animate-border"
       >
         <img :src="ringerGif" alt="Ringer GIF" />
         <b-card-text>
-          <strong>Status:</strong> {{ currentRequest.status }}
+          <strong>{{ $t("onspotConsultation.patientStatus") }}</strong>
+          {{ $t(`onspotConsultation.status.${currentRequest.status}`) }}
         </b-card-text>
         <div class="btn-container">
-          <b-button
+          <img
+          class="skip-call"
             @click="acceptConsultation(currentRequest)"
-            variant="primary"
-            >Accept</b-button
-          >
-          <b-button @click="skipRequest" variant="danger">Skip</b-button>
+            src="@/assets/accept-call.png"
+            alt=""
+          />
+          <img @click="skipRequest" class="skip-call" src="@/assets/skip-call.png" alt="" />
         </div>
       </b-card>
     </div>
@@ -77,7 +75,7 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   data() {
     return {
-      patientId: null,
+    Mrn: null,
       requests: [],
       currentRequest: null,
       isAvailable: false,
@@ -120,6 +118,7 @@ export default {
     },
     handleRequestUpdate(data) {
       this.requests = data;
+      console.log("Data is:", this.requests);
       if (data.length > 0) {
         this.currentRequest = data[0];
         this.playRingtone();
@@ -176,6 +175,8 @@ export default {
       this.setLoadingState(false);
     },
     async handleCallConnect(data) {
+      console.error("Data is:", data);
+
       try {
         this.stopRingtone();
         let response = await data;
@@ -189,7 +190,16 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
+img.skip-call {
+  transition: transform 0.3s ease-in-out;
+}
+
+img.skip-call:hover {
+  transform: scale(1.2); /* Scales the image by 20% on hover */
+}
+
 .fixed-top-right-card {
   position: fixed;
   top: calc(var(--header-height) + 20px);
@@ -200,9 +210,56 @@ export default {
 
 .btn-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  gap: 0.5rem;
 }
 
+.btn-container > img {
+  cursor: pointer;
+  height: 50px;
+}
+
+.animate-border {
+  .card-body {
+    background-color: #fff !important;
+    border-radius: 10px;
+    text-align: center;
+    .card-title,
+    .card-text {
+      margin-bottom: 2rem;
+    }
+  }
+  padding: 0.5rem;
+  > * {
+    z-index: 1;
+  }
+  &:before {
+    content: "";
+    background: linear-gradient(
+      -45deg,
+      var(--theme-default),
+      var(--theme-tertiary),
+      var(--theme-default)
+    );
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: 15px;
+    display: block;
+    background-size: 400%; /* Stretch the background to create more movement */
+    animation: 3s infinite border-rotate linear; /* Smooth, continuous animation */
+  }
+}
+
+@keyframes border-rotate {
+  0% {
+    background-position: 0% 50%; /* Initial gradient position */
+  }
+  50% {
+    background-position: 100% 50%; /* Midpoint of the rotation */
+  }
+  100% {
+    background-position: 0% 50%; /* End of rotation */
+  }
+}
 </style>

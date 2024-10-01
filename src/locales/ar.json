@@ -500,6 +500,16 @@
     "text": "هذه الخاصية قادمة قريبا",
     "buttonText": "الرئيسة"
   },
+  "onspotConsultation": {
+    "setAvailable": "مجموعة متاحة",
+    "noPatient":"لا توجد طلبات للمرضى متاحة في الوقت الراهن.",
+    "patientMrn": "السيد المريض :",
+    "patientName": "اسم المريض :",
+    "patientStatus": "حالة :",
+    "status": {
+      "INQUEUE": "قيد الانتظار" 
+    }
+    },
   "noData": "لا يوجد بيانات",
   "cantJoinCall": "غير مسموح له بالانضمام إلى المكالمة",
   "cantJoinCallPaymetPending": "الدفع معلق لهذا الموعد. لا يمكن الانضمام إلى المكالمة",
@@ -512,6 +522,8 @@
   "failure": "باءت بالفشل",
   "areYouSure": "هل أنت واثق؟",
   "ok": "موافق",
+  "accept": "يقبل",
+  "skip": "يتخطى",
   "cancel": "أَلغَى",
   "changesDone": "التغييرات التي تم حفظها بنجاح",
   "changesReverted": "تم التراجع عن التغييرات",
@@ -761,6 +773,7 @@
     "selectTypeOfCms": "حدد نوع إدارة المحتوى",
     "terms_and_conditions": "الشروط والأحكام",
     "package_contract": "عقد الحزمة",
+    "onspot_policy": "السياسة الفورية",
     "searchArticleTitle": "البحث في عنوان المقال",
     "pageTitle": "عنوان الصفحة",
     "searchCmsByTitle": "البحث في عنوان إدارة المحتوى",

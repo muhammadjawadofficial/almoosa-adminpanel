@@ -504,6 +504,16 @@
     "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "buttonText": "Back to Dashboard"
   },
+  "onspotConsultation": {
+  "setAvailable": "Set Available",
+  "noPatient":"No patient requests available at the moment.",
+  "patientMrn": "Patient Mrn: ",
+  "patientName": "Patient Name: ",
+  "patientStatus": "Status: ",
+  "status": {
+    "INQUEUE": "Inqueue"
+  }
+  },
   "noData": "No Data To Show",
   "cantJoinCall": "Not allowed to join call",
   "cantJoinCallPaymetPending": "Payment is pending for this appointment. Cannot Join Call",
@@ -515,6 +525,8 @@
   "success": "Success",
   "failure": "Failed",
   "areYouSure": "Are you sure?",
+  "accept": "Accept",
+  "skip": "Skip",
   "ok": "Ok",
   "cancel": "Cancel",
   "changesDone": "Changes saved successfully",
@@ -769,6 +781,7 @@
     "selectTypeOfCms": "Select type of CMS Page",
     "terms_and_conditions": "Terms and Conditions",
     "package_contract": "Package Contract",
+    "onspot_policy": "Onspot Policy",
     "searchArticleTitle": "Search Article By Title",
     "pageTitle": "Page Title",
     "searchCmsByTitle": "Search CMS Page By Title",
