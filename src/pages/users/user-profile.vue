@@ -1463,4 +1463,7 @@ export default {
     left: 0;
   }
 }
+.rtl .rating-filled {
+  flex-direction: row-reverse;
+}
 </style>

@@ -163,13 +163,12 @@ export default {
       }
     },
     updateAvailability() {
-      this.$socket.emit("register-admin-availability", {
-        request_id: this.$socket.id,
-        user_id: this.getUserInfo.id,
-        role_id: this.getUserInfo.role_id,
-      });
-      console.log("adminsAvailability emitted");
-    },
+    this.$socket.emit("register-admin-availability", {
+      request_id: this.$socket.id,
+      user_id: this.getUserInfo.id,
+      role_id: this.getUserInfo.role_id,
+    });
+  },
     handleErrorConnecting(data) {
       console.log("Error connecting data is", data);
       this.setLoadingState(false);
