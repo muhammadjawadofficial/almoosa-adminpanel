@@ -501,7 +501,7 @@
     "buttonText": "الرئيسة"
   },
   "onspotConsultation": {
-    "setAvailable": "مجموعة متاحة",
+    "setAvailable": "تحديث التوفر",
     "noPatient":"لا توجد طلبات للمرضى متاحة في الوقت الراهن.",
     "patientMrn": "السيد المريض :",
     "patientName": "اسم المريض :",

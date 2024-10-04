@@ -1,6 +1,7 @@
 <template>
   <div class="onspot-lobby-container page-body-container standard-width">
-    <button @click="updateAvailability(true)" class="btn btn-secondary">
+    <button @click="updateAvailability(true)" class="btn btn-primary availability-btn">
+      <i class="fa fa-spinner"></i>
       {{ $t("onspotConsultation.setAvailable") }}
     </button>
     <!-- Existing b-cards for patient list -->
@@ -24,7 +25,7 @@
         <b-card
           :title="$t('onspotConsultation.patientMrn') + translateNumber(request.user.mrn_number)"
           :sub-title="
-            $t('onspotConsultation.patientName') 
+            $t('onspotConsultation.patientName')
             + getFullName(request.user)
           "
           class="text-center"
@@ -58,12 +59,12 @@
         </b-card-text>
         <div class="btn-container">
           <img
-          class="skip-call"
+            class="skip-call"
             @click="acceptConsultation(currentRequest)"
             src="@/assets/accept-call.png"
             alt=""
           />
-          <img @click="skipRequest" class="skip-call" src="@/assets/skip-call.png" alt="" />
+          <img @click="skipRequest" class="skip-call" src="@/assets/skip-call.png" alt=""/>
         </div>
       </b-card>
     </div>
@@ -75,7 +76,7 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   data() {
     return {
-    Mrn: null,
+      Mrn: null,
       requests: [],
       currentRequest: null,
       isAvailable: false,
@@ -163,12 +164,12 @@ export default {
       }
     },
     updateAvailability() {
-    this.$socket.emit("register-admin-availability", {
-      request_id: this.$socket.id,
-      user_id: this.getUserInfo.id,
-      role_id: this.getUserInfo.role_id,
-    });
-  },
+      this.$socket.emit("register-admin-availability", {
+        request_id: this.$socket.id,
+        user_id: this.getUserInfo.id,
+        role_id: this.getUserInfo.role_id,
+      });
+    },
     handleErrorConnecting(data) {
       console.log("Error connecting data is", data);
       this.setLoadingState(false);
@@ -190,7 +191,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 img.skip-call {
   transition: transform 0.3s ease-in-out;
 }
@@ -260,5 +260,9 @@ img.skip-call:hover {
   100% {
     background-position: 0% 50%; /* End of rotation */
   }
+}
+.availability-btn:hover {
+  background-color: var(--theme-secondary) !important;
+  border-color: var(--theme-secondary) !important;
 }
 </style>

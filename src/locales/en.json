@@ -505,7 +505,7 @@
     "buttonText": "Back to Dashboard"
   },
   "onspotConsultation": {
-  "setAvailable": "Set Available",
+  "setAvailable": "Update Availability",
   "noPatient":"No patient requests available at the moment.",
   "patientMrn": "Patient Mrn: ",
   "patientName": "Patient Name: ",
