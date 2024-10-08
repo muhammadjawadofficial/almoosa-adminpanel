@@ -1,6 +1,9 @@
 <template>
   <div class="onspot-lobby-container page-body-container standard-width">
-    <button @click="updateAvailability(true)" class="btn btn-primary availability-btn">
+    <button
+      @click="updateAvailability(true)"
+      class="btn btn-primary availability-btn"
+    >
       <i class="fa fa-spinner"></i>
       {{ $t("onspotConsultation.setAvailable") }}
     </button>
@@ -23,10 +26,12 @@
         class="mb-4 mt-4"
       >
         <b-card
-          :title="$t('onspotConsultation.patientMrn') + translateNumber(request.user.mrn_number)"
+          :title="
+            $t('onspotConsultation.patientMrn') +
+            translateNumber(request.user.mrn_number)
+          "
           :sub-title="
-            $t('onspotConsultation.patientName')
-            + getFullName(request.user)
+            $t('onspotConsultation.patientName') + getFullName(request.user)
           "
           class="text-center"
         >
@@ -45,10 +50,12 @@
     <div v-if="currentRequest" class="fixed-top-right-card">
       <b-card
         :title="
-          $t('onspotConsultation.patientMrn') + translateNumber(currentRequest.user.mrn_number)
+          $t('onspotConsultation.patientMrn') +
+          translateNumber(currentRequest.user.mrn_number)
         "
         :sub-title="
-          $t('onspotConsultation.patientName') + getFullName(currentRequest.user)
+          $t('onspotConsultation.patientName') +
+          getFullName(currentRequest.user)
         "
         class="text-center animate-border"
       >
@@ -64,7 +71,12 @@
             src="@/assets/accept-call.png"
             alt=""
           />
-          <img @click="skipRequest" class="skip-call" src="@/assets/skip-call.png" alt=""/>
+          <img
+            @click="skipRequest"
+            class="skip-call"
+            src="@/assets/skip-call.png"
+            alt=""
+          />
         </div>
       </b-card>
     </div>
@@ -119,7 +131,6 @@ export default {
     },
     handleRequestUpdate(data) {
       this.requests = data;
-      console.log("Data is:", this.requests);
       if (data.length > 0) {
         this.currentRequest = data[0];
         this.playRingtone();

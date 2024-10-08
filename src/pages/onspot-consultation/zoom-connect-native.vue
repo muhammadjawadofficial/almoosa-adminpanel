@@ -204,6 +204,7 @@ export default {
         pos4: 0,
       },
       systemConfig: null,
+      requests: [],
     };
   },
   computed: {
@@ -235,6 +236,7 @@ export default {
     },
   },
   async beforeRouteLeave(to, from, next) {
+    this.$socket.off("request-list-updated");
     this.client.off("peer-video-state-change", () => {});
     this.client.off("media-sdk-change", () => {});
     this.client.off("active-speaker", () => {});
@@ -253,6 +255,12 @@ export default {
       this.navigateTo("OnSpot Lobby");
       return;
     }
+
+    this.$socket.emit("fetch-requests");
+    this.$socket.on("request-list-updated", (data) => {
+      this.requests = data;
+    });
+
     try {
       this.fetchContactConfig();
       this.setLoadingState(true);
@@ -410,7 +418,6 @@ export default {
       this.navigateTo("OnSpot Lobby");
     }
   },
-  beforeDestroy() {},
   methods: {
     ...mapActions("appointment", ["setSelectedOnspotConsultation"]),
     fetchContactConfig() {
