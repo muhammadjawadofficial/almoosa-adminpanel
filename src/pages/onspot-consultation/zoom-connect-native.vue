@@ -234,10 +234,23 @@ export default {
       return `${minutes}:${seconds}`;
     },
   },
+  async beforeRouteLeave(to, from, next) {
+    this.client.off("peer-video-state-change", () => {});
+    this.client.off("media-sdk-change", () => {});
+    this.client.off("active-speaker", () => {});
+    this.client.off("video-active-change", () => {});
+    this.client.off("passively-stop-share", () => {});
+    this.client.off("active-share-change", () => {});
+    this.client.off("chat-on-message", () => {});
+    this.client.off("user-removed", () => {});
+    await this.client.leave(true);
+    ZoomVideo.destroyClient();
+
+    next();
+  },
   async mounted() {
-    console.log("WebSocket connected in zoom native:", this.$socket);
     if (!this.getOnspotConsultation) {
-      this.navigateTo("default");
+      this.navigateTo("OnSpot Lobby");
       return;
     }
     try {
@@ -394,7 +407,7 @@ export default {
       this.setLoadingState(false);
       console.log("error", error);
       this.failureToast(error.reason);
-      this.navigateTo("default");
+      this.navigateTo("OnSpot Lobby");
     }
   },
   beforeDestroy() {},
@@ -528,7 +541,6 @@ export default {
       div.scrollTop = div.scrollHeight;
     },
     async leaveSession() {
-      await this.client.leave(true);
       this.destroySession();
     },
     async ringPatient() {
@@ -567,15 +579,6 @@ export default {
       this.$socket.emit("end-consultation", {
         id: this.getOnspotConsultation.session.id,
       });
-      this.client.off("peer-video-state-change", () => {});
-      this.client.off("media-sdk-change", () => {});
-      this.client.off("active-speaker", () => {});
-      this.client.off("video-active-change", () => {});
-      this.client.off("passively-stop-share", () => {});
-      this.client.off("active-share-change", () => {});
-      this.client.off("chat-on-message", () => {});
-      this.client.off("user-removed", () => {});
-      ZoomVideo.destroyClient();
 
       this.setLoadingState(true);
       setTimeout(() => {
