@@ -504,7 +504,21 @@
     "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "buttonText": "Back to Dashboard"
   },
+  "onspotConsultation": {
+  "setAvailable": "Update Availability",
+  "noPatient":"No patient requests available at the moment.",
+  "patientMrn": "Patient Mrn: ",
+  "patientName": "Patient Name: ",
+  "patientStatus": "Status: ",
+  "status": {
+    "INQUEUE": "Inqueue"
+  }
+  },
   "noData": "No Data To Show",
+  "noOneJoined": "No one joined",
+  "chat": "Chat",
+  "noChatMessages": "No Chat Messages",
+  "enterMessage": "Enter Message",
   "cantJoinCall": "Not allowed to join call",
   "cantJoinCallPaymetPending": "Payment is pending for this appointment. Cannot Join Call",
   "cantJoinCallEarly": "Meeting can only be joined before 15 minutes of the scheduled start time",
@@ -515,6 +529,8 @@
   "success": "Success",
   "failure": "Failed",
   "areYouSure": "Are you sure?",
+  "accept": "Accept",
+  "skip": "Skip",
   "ok": "Ok",
   "cancel": "Cancel",
   "changesDone": "Changes saved successfully",
@@ -771,6 +787,7 @@
     "selectTypeOfCms": "Select type of CMS Page",
     "terms_and_conditions": "Terms and Conditions",
     "package_contract": "Package Contract",
+    "onspot_policy": "Onspot Policy",
     "searchArticleTitle": "Search Article By Title",
     "pageTitle": "Page Title",
     "searchCmsByTitle": "Search CMS Page By Title",
@@ -905,6 +922,11 @@
     "editRequest": "Edit Request",
     "updateEditRequest": "Update Edit Request",
     "selectReportStatus":"Select Report Status:",
-    "editRequestDescription": "How do you want to update this request?"
+    "editRequestDescription": "How do you want to update this request?",
+    "childSpecialities": "Child Specialities",
+    "parentSpeciality": "Parent Speciality",
+    "selectSpecialities": "Select Specialities",
+    "removeParent": "Remove Parent",
+    "parentRemovedSuccess": "Parent removed successfully"
   }
 }

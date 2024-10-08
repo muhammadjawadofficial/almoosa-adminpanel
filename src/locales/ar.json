@@ -500,7 +500,21 @@
     "text": "هذه الخاصية قادمة قريبا",
     "buttonText": "الرئيسة"
   },
+  "onspotConsultation": {
+    "setAvailable": "تحديث التوفر",
+    "noPatient":"لا توجد طلبات للمرضى متاحة في الوقت الراهن.",
+    "patientMrn": "السيد المريض :",
+    "patientName": "اسم المريض :",
+    "patientStatus": "حالة :",
+    "status": {
+      "INQUEUE": "قيد الانتظار" 
+    }
+    },
   "noData": "لا يوجد بيانات",
+  "noOneJoined": "لم ينضم أحد",
+  "chat": "محادثة",
+  "noChatMessages": "لا توجد رسائل دردشة",
+  "enterMessage": "أدخل رسالة",
   "cantJoinCall": "غير مسموح له بالانضمام إلى المكالمة",
   "cantJoinCallPaymetPending": "الدفع معلق لهذا الموعد. لا يمكن الانضمام إلى المكالمة",
   "cantJoinCallEarly": "يمكن فقط الانضمام إلى الاجتماع قبل 15 دقيقة من وقت البدء المجدول",
@@ -512,6 +526,8 @@
   "failure": "باءت بالفشل",
   "areYouSure": "هل أنت واثق؟",
   "ok": "موافق",
+  "accept": "يقبل",
+  "skip": "يتخطى",
   "cancel": "أَلغَى",
   "changesDone": "التغييرات التي تم حفظها بنجاح",
   "changesReverted": "تم التراجع عن التغييرات",
@@ -763,6 +779,7 @@
     "selectTypeOfCms": "حدد نوع إدارة المحتوى",
     "terms_and_conditions": "الشروط والأحكام",
     "package_contract": "عقد الحزمة",
+    "onspot_policy": "السياسة الفورية",
     "searchArticleTitle": "البحث في عنوان المقال",
     "pageTitle": "عنوان الصفحة",
     "searchCmsByTitle": "البحث في عنوان إدارة المحتوى",
@@ -895,6 +912,11 @@
     "editRequest": "تعديل الطلب",
     "updateEditRequest": "تحديث طلب التحرير",
     "selectReportStatus":"حدد حالة التقرير:",
-    "editRequestDescription": "كيف تريد تحديث هذا الطلب؟"
+    "editRequestDescription": "كيف تريد تحديث هذا الطلب؟",
+    "childSpecialities": "تخصصات فرعية",
+    "parentSpeciality": "التخصص الرئيسي",
+    "selectSpecialities": "اختر التخصصات",
+    "removeParent": "إزالة التخصص الرئيسي",
+    "parentRemovedSuccess": "تمت إزالة التخصص الرئيسي بنجاح"
   }
 }

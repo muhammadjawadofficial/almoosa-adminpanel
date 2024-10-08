@@ -13,6 +13,18 @@
             "super": true
         },
         {
+            "title": "OnSpot Consultation",
+            "title_ar": "المشاورات على الفور",
+            "icon": "dashboard-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "permission": "Onspot Consultation",
+            "path": "/on-spot-consultation"
+        },
+        {
             "title": "Appointments",
             "title_ar": "المواعيد",
             "icon": "clipboard-svg",

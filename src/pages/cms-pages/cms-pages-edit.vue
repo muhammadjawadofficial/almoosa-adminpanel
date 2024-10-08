@@ -241,7 +241,7 @@ export default {
       },
       typeOptionsForInputAndTextArea: ["input", "textBox"],
       cmsPageId: null,
-      typeOptions: ["terms_and_conditions", "package_contract"],
+      typeOptions: ["terms_and_conditions", "package_contract", "onspot_policy"],
     };
   },
   computed: {
@@ -412,6 +412,7 @@ export default {
       }
     },
     resetForm() {
+      this.cmsPageId = null;
       this.cmsPageForm = {
         long_title: "",
         page_title: "",

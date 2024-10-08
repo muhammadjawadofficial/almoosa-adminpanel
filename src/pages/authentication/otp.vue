@@ -153,11 +153,7 @@ export default {
                   if (data.user && data.user.id) {
                     userService.storeLoginInfo(data.user, data.access_token);
                     this.setUserInfo(data.user);
-                    if (data.user.is_privacy_agreed) {
-                      this.navigateTo("default");
-                    } else {
-                      this.navigateTo("Terms and Condition");
-                    }
+                    this.navigateTo("default");
                   } else {
                     this.failureToast();
                   }
@@ -177,7 +173,7 @@ export default {
         (response) => {
           if (response.data.status) {
             let data = response.data.data;
-            if (process.env.NODE_ENV != "Production") this.setOtp(data);
+            if (process.env.NODE_ENV != "production") this.setOtp(data);
             this.processData();
           } else {
             this.failureToast(response.data.message);

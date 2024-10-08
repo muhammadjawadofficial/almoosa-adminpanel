@@ -57,6 +57,12 @@ const myMedicationDetails = () => import('../pages/medication/medication-detail'
 const medicationRefills = () => import('../pages/medication/medication-refills')
 const editMedicationDetails = () => import('../pages/medication/edit-medication-detail')
 
+
+const myOnspotModule = () => import('../pages/onspot-consultation')
+const OnSpotConsultation = () => import('../pages/onspot-consultation/onspot-consultation')
+const ZoomConnectNative  = () => import('../pages/onspot-consultation/zoom-connect-native');
+
+
 const healthEducationModule = () => import('../pages/health-education')
 const healthEducationList = () => import('../pages/health-education/health-education-list')
 const healthEducationDetails = () => import('../pages/health-education/health-education-details')
@@ -520,6 +526,29 @@ const routes = [
                 },
               },
             ]
+          },
+        ]
+      },
+      {
+        path: 'on-spot-consultation',
+        component: myOnspotModule,
+        children: [
+          { path: '', name: "OnSpot Consultation", redirect: { name: 'OnSpot Lobby' } },
+          {
+            path: "lobby",
+            name: 'OnSpot Lobby',
+            component: OnSpotConsultation,
+            meta: {
+              title: 'OnSpot Consultation | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "connect",
+            name: 'Connect Zoom Native',
+            component: ZoomConnectNative,
+            meta: {
+              title: 'Connect | Almoosa Specialist Hospital',
+            },
           },
         ]
       },

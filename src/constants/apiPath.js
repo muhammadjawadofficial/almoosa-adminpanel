@@ -106,6 +106,8 @@ export const apiPath = {
 
     speciality: {
         update: (id) => getApiObject("patch", "specialities/" + id),
+        assignParent: (id) => getApiObject("patch", "specialities/assign-parent/" + id),
+        assignChild: (id) => getApiObject("patch", "specialities/assign-child/" + id),
     },
 
     healthEducation: {

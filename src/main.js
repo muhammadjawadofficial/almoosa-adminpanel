@@ -14,6 +14,8 @@ import 'vue2-datepicker/index.css';
 import 'vue2-datepicker/locale/ar';
 import 'vue2-datepicker/locale/en';
 import "@lottiefiles/lottie-player";
+import socket from './plugins/socket';
+socket.install(Vue)
 
 import VueAnalytics from 'vue-analytics';
 

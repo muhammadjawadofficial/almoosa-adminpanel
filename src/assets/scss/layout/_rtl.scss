@@ -5086,6 +5086,19 @@
     right: unset !important;
     left: 0;
   }
+  .zoom-connect {
+    .zoom-chat-container {
+      right: unset;
+      left: 0;
+    }
+  }
+
+  .onspot-lobby-container {
+    .fixed-top-right-card {
+      right: auto;
+      left: 20px;
+    }  
+  }
 }
 
 /**=====================
