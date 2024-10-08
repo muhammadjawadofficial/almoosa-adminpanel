@@ -95,7 +95,7 @@ export default {
       this.userId = this.getUserId;
       this.otp = this.getOtp.otp_code;
       this.isResetPassword = this.getUserId.resetPassword || false;
-      this.setUserId("");
+      // this.setUserId("");
     }
   },
   computed: {
