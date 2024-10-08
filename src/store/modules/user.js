@@ -62,7 +62,7 @@ export default {
             state.loading = loading;
         },
         SET_OTP(state, otp) {
-            state.otp = otp;
+            Vue.set(state, "otp", otp);
         },
         SET_USER_ID(state, userId) {
             state.userId = userId;
