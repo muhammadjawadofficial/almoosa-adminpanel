@@ -21,6 +21,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
+            "permission": "Onspot Consultation",
             "path": "/on-spot-consultation"
         },
         {

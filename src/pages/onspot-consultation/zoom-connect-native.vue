@@ -530,8 +530,6 @@ export default {
     async leaveSession() {
       await this.client.leave(true);
       this.destroySession();
-      this.navigateTo("OnSpot Lobby");
-      // else this.navigateTo("default");
     },
     async ringPatient() {
       if (this.timer > 0 || this.ringing || this.isParticipantJoined) return;
@@ -566,6 +564,9 @@ export default {
       }
     },
     destroySession() {
+      this.$socket.emit("end-consultation", {
+        id: this.getOnspotConsultation.session.id,
+      });
       this.client.off("peer-video-state-change", () => {});
       this.client.off("media-sdk-change", () => {});
       this.client.off("active-speaker", () => {});
@@ -575,10 +576,13 @@ export default {
       this.client.off("chat-on-message", () => {});
       this.client.off("user-removed", () => {});
       ZoomVideo.destroyClient();
-      this.$socket.emit("end-consultation", {
-        id: this.getOnspotConsultation.session.id,
-      });
-      this.setSelectedOnspotConsultation(null);
+
+      this.setLoadingState(true);
+      setTimeout(() => {
+        this.setSelectedOnspotConsultation(null);
+        this.setLoadingState(false);
+        this.navigateTo("OnSpot Lobby");
+      }, 3000);
     },
   },
 };
