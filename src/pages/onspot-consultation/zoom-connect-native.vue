@@ -591,7 +591,7 @@ export default {
 
       this.setLoadingState(true);
       setTimeout(() => {
-        this.setSelectedOnspotConsultation(null);
+        this.setSelectedOnspotConsultation({});
         this.setLoadingState(false);
         this.navigateTo("OnSpot Lobby");
       }, 3000);
