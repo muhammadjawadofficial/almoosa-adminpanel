@@ -503,6 +503,7 @@
   "onspotConsultation": {
     "setAvailable": "تحديث التوفر",
     "noPatient":"لا توجد طلبات للمرضى متاحة في الوقت الراهن.",
+    "viewQueue": "عرض قائمة المرضى",
     "patientMrn": "السيد المريض :",
     "patientName": "اسم المريض :",
     "patientStatus": "حالة :",

@@ -19,9 +19,9 @@
     </div>
     <div class="zoom-call-container" :class="chatOpened ? 'show' : 'hide'">
       <div class="fixed-top-right-container">
-        <b-button v-b-toggle.patient-queue class="m-1"
-          >View Patient Queue</b-button
-        >
+        <b-button v-b-toggle.patient-queue class="m-1">
+          {{ $t("onspotConsultation.viewQueue") }}
+        </b-button>
         <b-collapse
           id="patient-queue"
           :visible="requests && requests.length > 0"
@@ -45,8 +45,8 @@
           <div v-else>
             <b-card>
               <i class="fa fa-ban"></i>
-              No Patient is in the queue</b-card
-            >
+              {{ $t("onspotConsultation.noPatient") }}
+            </b-card>
           </div>
         </b-collapse>
       </div>
