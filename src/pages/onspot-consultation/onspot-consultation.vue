@@ -97,7 +97,6 @@ export default {
     };
   },
   mounted() {
-    console.log("component mounted");
     this.initializeSocket();
     this.ringtone = new Audio(require("@/assets/muzee.mp3"));
     this.ringtone.addEventListener("ended", this.playRingtone);
@@ -116,7 +115,6 @@ export default {
   methods: {
     ...mapActions("appointment", ["setSelectedOnspotConsultation"]),
     initializeSocket() {
-      console.log("Socket is:", this.$socket);
       if (this.$socket && this.$socket.connected) {
         this.updateAvailability();
       } else {
@@ -154,11 +152,6 @@ export default {
     acceptConsultation(request) {
       this.$socket.emit("accept-consultation", {
         patient_id: request.user_id,
-        doctor_id: this.getUserInfo.id,
-      });
-      console.log("Accepted consultation for:", {
-        patient_id: request.user_id,
-        request_id: request.request_id,
         doctor_id: this.getUserInfo.id,
       });
       this.setLoadingState(true);

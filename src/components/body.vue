@@ -20,7 +20,6 @@
           v-if="!withoutSideBar"
         >
           <Sidebar @clicked="sidebar_toggle" />
-          {{ withoutSideBar }}
         </div>
         <div
           class="page-body"
