@@ -236,7 +236,6 @@ export default {
     },
   },
   async beforeRouteLeave(to, from, next) {
-    this.$socket.off("request-list-updated");
     if (this.client) {
       this.client.off("peer-video-state-change", () => {});
       this.client.off("media-sdk-change", () => {});
@@ -249,7 +248,8 @@ export default {
       await this.client.leave(true);
     }
     ZoomVideo.destroyClient();
-
+    this.$socket.off("request-list-updated");
+    this.setSelectedOnspotConsultation({});
     next();
   },
   async mounted() {
@@ -401,7 +401,10 @@ export default {
 
       this.client.on("user-removed", (payload) => {
         if (this.users && this.users.length) {
-          let filterList = this.users.filter((x) => x.userId != payload.userId);
+          const userRemovedList = payload.map((x) => x.userId);
+          let filterList = this.users.filter(
+            (x) => !userRemovedList.includes(x.userId)
+          );
           this.$set(this, "users", [...filterList]);
         }
       });
@@ -591,7 +594,6 @@ export default {
 
       this.setLoadingState(true);
       setTimeout(() => {
-        this.setSelectedOnspotConsultation({});
         this.setLoadingState(false);
         this.navigateTo("OnSpot Lobby");
       }, 3000);
