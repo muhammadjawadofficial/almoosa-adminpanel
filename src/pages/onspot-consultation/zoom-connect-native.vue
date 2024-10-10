@@ -18,6 +18,38 @@
         </div> -->
     </div>
     <div class="zoom-call-container" :class="chatOpened ? 'show' : 'hide'">
+      <div class="fixed-top-right-container">
+        <b-button v-b-toggle.patient-queue class="m-1">
+          {{ $t("onspotConsultation.viewQueue") }}
+        </b-button>
+        <b-collapse
+          id="patient-queue"
+          :visible="requests && requests.length > 0"
+        >
+          <div v-if="requests && requests.length > 0">
+            <div v-for="(request, index) in requests" :key="index">
+              <b-card
+                :title="
+                  $t('onspotConsultation.patientMrn') +
+                  translateNumber(request.user.mrn_number)
+                "
+                :sub-title="
+                  $t('onspotConsultation.patientName') +
+                  getFullName(request.user)
+                "
+                class="text-center animate-border incoming-user"
+              >
+              </b-card>
+            </div>
+          </div>
+          <div v-else>
+            <b-card>
+              <i class="fa fa-ban"></i>
+              {{ $t("onspotConsultation.noPatient") }}
+            </b-card>
+          </div>
+        </b-collapse>
+      </div>
       <div class="host-video">
         <video
           id="my-self-view-video"
@@ -205,6 +237,7 @@ export default {
       },
       systemConfig: null,
       requests: [],
+      // currentRequest: null,
     };
   },
   computed: {
@@ -236,18 +269,20 @@ export default {
     },
   },
   async beforeRouteLeave(to, from, next) {
-    this.$socket.off("request-list-updated");
-    this.client.off("peer-video-state-change", () => {});
-    this.client.off("media-sdk-change", () => {});
-    this.client.off("active-speaker", () => {});
-    this.client.off("video-active-change", () => {});
-    this.client.off("passively-stop-share", () => {});
-    this.client.off("active-share-change", () => {});
-    this.client.off("chat-on-message", () => {});
-    this.client.off("user-removed", () => {});
-    await this.client.leave(true);
+    if (this.client) {
+      this.client.off("peer-video-state-change", () => {});
+      this.client.off("media-sdk-change", () => {});
+      this.client.off("active-speaker", () => {});
+      this.client.off("video-active-change", () => {});
+      this.client.off("passively-stop-share", () => {});
+      this.client.off("active-share-change", () => {});
+      this.client.off("chat-on-message", () => {});
+      this.client.off("user-removed", () => {});
+      await this.client.leave(true);
+    }
     ZoomVideo.destroyClient();
-
+    this.$socket.off("request-list-updated");
+    this.setSelectedOnspotConsultation({});
     next();
   },
   async mounted() {
@@ -257,9 +292,7 @@ export default {
     }
 
     this.$socket.emit("fetch-requests");
-    this.$socket.on("request-list-updated", (data) => {
-      this.requests = data;
-    });
+    this.$socket.on("request-list-updated", this.handleRequestUpdate);
 
     try {
       this.fetchContactConfig();
@@ -399,7 +432,10 @@ export default {
 
       this.client.on("user-removed", (payload) => {
         if (this.users && this.users.length) {
-          let filterList = this.users.filter((x) => x.userId != payload.userId);
+          const userRemovedList = payload.map((x) => x.userId);
+          let filterList = this.users.filter(
+            (x) => !userRemovedList.includes(x.userId)
+          );
           this.$set(this, "users", [...filterList]);
         }
       });
@@ -420,6 +456,19 @@ export default {
   },
   methods: {
     ...mapActions("appointment", ["setSelectedOnspotConsultation"]),
+
+    handleRequestUpdate(data) {
+      console.log("Incoming User Data in Zoom Native is ", data);
+      this.requests = data;
+      // if (data && data.length > 0) {
+      //   console.log("data data")
+      //   data.forEach((request) => {
+      //     this.currentRequest = request;
+      //   });
+      // } else {
+      //   this.currentRequest = null;
+      // }
+    },
     fetchContactConfig() {
       systemConfigService.fetchConfig("?title=APPOINTMENT_CONFIG").then(
         (response) => {
@@ -589,7 +638,6 @@ export default {
 
       this.setLoadingState(true);
       setTimeout(() => {
-        this.setSelectedOnspotConsultation(null);
         this.setLoadingState(false);
         this.navigateTo("OnSpot Lobby");
       }, 3000);
@@ -601,5 +649,35 @@ export default {
 <style lang="scss">
 .loader-wrapper.loderhide {
   display: none;
+}
+
+.fixed-top-right-container {
+  position: fixed;
+  // top: calc(var(--header-height) + 20px);
+  right: 1rem;
+  z-index: 10;
+  width: 300px;
+  max-height: 175px;
+  overflow: auto;
+}
+.fa-ban {
+  color: #e8163c;
+}
+.animate-border {
+  margin-bottom: 1rem;
+  .card-body {
+    background-color: #fff !important;
+    border-radius: 10px;
+    text-align: start;
+    .card-title {
+      font-size: 1rem;
+    }
+    .card-text {
+      margin-bottom: 1rem;
+    }
+  }
+  > * {
+    z-index: 1;
+  }
 }
 </style>
