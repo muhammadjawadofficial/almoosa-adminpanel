@@ -506,7 +506,7 @@
   },
   "onspotConsultation": {
   "setAvailable": "Update Availability",
-  "viewQueue": "View Patient Queue",
+  "viewQueue": "Patient Queue ",
   "noPatient":"No patient requests available at the moment.",
   "patientMrn": "Patient Mrn: ",
   "patientName": "Patient Name: ",
