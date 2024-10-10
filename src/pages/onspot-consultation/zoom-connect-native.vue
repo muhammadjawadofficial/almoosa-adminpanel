@@ -19,13 +19,17 @@
     </div>
     <div class="zoom-call-container" :class="chatOpened ? 'show' : 'hide'">
       <div class="fixed-top-right-container">
-        <b-button v-b-toggle.patient-queue class="m-1">
-          {{ $t("onspotConsultation.viewQueue") }}
-        </b-button>
-        <b-collapse
-          id="patient-queue"
-          :visible="requests && requests.length > 0"
+        <b-button
+          v-b-toggle.patient-queue
+          class="m-1 view-btn"
+          @click="isRotated = !isRotated"
         >
+          {{ $t("onspotConsultation.viewQueue") }}
+
+          {{ '- ' + "(" + this.requests.length + ")" }}
+          <i class="fa fa-arrow-up" :class="{ 'rotate-180': isRotated }"></i>
+        </b-button>
+        <b-collapse id="patient-queue">
           <div v-if="requests && requests.length > 0">
             <div v-for="(request, index) in requests" :key="index">
               <b-card
@@ -43,7 +47,7 @@
             </div>
           </div>
           <div v-else>
-            <b-card>
+            <b-card class="no-patient">
               <i class="fa fa-ban"></i>
               {{ $t("onspotConsultation.noPatient") }}
             </b-card>
@@ -237,6 +241,7 @@ export default {
       },
       systemConfig: null,
       requests: [],
+      isRotated: false,
       // currentRequest: null,
     };
   },
@@ -657,14 +662,38 @@ export default {
   right: 1rem;
   z-index: 10;
   width: 300px;
-  max-height: 175px;
-  overflow: auto;
+  // max-height: 175px;
+  // overflow: auto;
+}
+.rotate-180 {
+  transform: rotate(180deg);
+}
+.view-btn {
+  width: 100%;
+  margin-bottom: 0 !important;
+  margin-inline: 0 !important;
+  border-radius: 5px !important;
+  .fa {
+    transition: transform 0.4s ease-in-out;
+  }
+}
+#patient-queue {
+  background: #2b4e6640;
+  border-radius: 5px;
+  max-height: 380px;
+  max-width: 300px !important;
+  position: fixed;
+  overflow-y: auto;
 }
 .fa-ban {
   color: #e8163c;
 }
+
+.no-patient {
+  margin: .5rem;
+}
 .animate-border {
-  margin-bottom: 1rem;
+  margin: .5rem;
   .card-body {
     background-color: #fff !important;
     border-radius: 10px;
